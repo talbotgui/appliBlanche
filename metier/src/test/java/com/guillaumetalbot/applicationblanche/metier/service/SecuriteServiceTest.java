@@ -26,8 +26,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.guillaumetalbot.applicationblanche.exception.BusinessException;
 import com.guillaumetalbot.applicationblanche.metier.application.SpringApplicationForTests;
-import com.guillaumetalbot.applicationblanche.metier.entite.Role;
-import com.guillaumetalbot.applicationblanche.metier.entite.Utilisateur;
+import com.guillaumetalbot.applicationblanche.metier.entite.securite.Role;
+import com.guillaumetalbot.applicationblanche.metier.entite.securite.Utilisateur;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = SpringApplicationForTests.class)

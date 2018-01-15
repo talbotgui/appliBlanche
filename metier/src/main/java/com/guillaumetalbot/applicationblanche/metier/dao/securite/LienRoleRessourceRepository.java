@@ -1,10 +1,10 @@
-package com.guillaumetalbot.applicationblanche.metier.dao;
+package com.guillaumetalbot.applicationblanche.metier.dao.securite;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-import com.guillaumetalbot.applicationblanche.metier.entite.LienRoleRessource;
+import com.guillaumetalbot.applicationblanche.metier.entite.securite.LienRoleRessource;
 
 public interface LienRoleRessourceRepository extends CrudRepository<LienRoleRessource, Long> {
 

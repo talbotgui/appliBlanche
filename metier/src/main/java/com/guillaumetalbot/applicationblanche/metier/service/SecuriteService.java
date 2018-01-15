@@ -2,9 +2,9 @@ package com.guillaumetalbot.applicationblanche.metier.service;
 
 import java.util.Collection;
 
-import com.guillaumetalbot.applicationblanche.metier.entite.Ressource;
-import com.guillaumetalbot.applicationblanche.metier.entite.Role;
-import com.guillaumetalbot.applicationblanche.metier.entite.Utilisateur;
+import com.guillaumetalbot.applicationblanche.metier.entite.securite.Ressource;
+import com.guillaumetalbot.applicationblanche.metier.entite.securite.Role;
+import com.guillaumetalbot.applicationblanche.metier.entite.securite.Utilisateur;
 
 public interface SecuriteService {
 

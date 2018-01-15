@@ -1,4 +1,4 @@
-package com.guillaumetalbot.applicationblanche.metier.entite;
+package com.guillaumetalbot.applicationblanche.metier.entite.securite;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

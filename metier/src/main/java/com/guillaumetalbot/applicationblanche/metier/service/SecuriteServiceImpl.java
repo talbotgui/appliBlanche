@@ -14,16 +14,16 @@ import org.springframework.stereotype.Service;
 
 import com.guillaumetalbot.applicationblanche.exception.BusinessException;
 import com.guillaumetalbot.applicationblanche.exception.BusinessExceptionSansRollback;
-import com.guillaumetalbot.applicationblanche.metier.dao.LienRoleRessourceRepository;
-import com.guillaumetalbot.applicationblanche.metier.dao.LienUtilisateurRoleRepository;
-import com.guillaumetalbot.applicationblanche.metier.dao.RessourceRepository;
-import com.guillaumetalbot.applicationblanche.metier.dao.RoleRepository;
-import com.guillaumetalbot.applicationblanche.metier.dao.UtilisateurRepository;
-import com.guillaumetalbot.applicationblanche.metier.entite.LienRoleRessource;
-import com.guillaumetalbot.applicationblanche.metier.entite.LienUtilisateurRole;
-import com.guillaumetalbot.applicationblanche.metier.entite.Ressource;
-import com.guillaumetalbot.applicationblanche.metier.entite.Role;
-import com.guillaumetalbot.applicationblanche.metier.entite.Utilisateur;
+import com.guillaumetalbot.applicationblanche.metier.dao.securite.LienRoleRessourceRepository;
+import com.guillaumetalbot.applicationblanche.metier.dao.securite.LienUtilisateurRoleRepository;
+import com.guillaumetalbot.applicationblanche.metier.dao.securite.RessourceRepository;
+import com.guillaumetalbot.applicationblanche.metier.dao.securite.RoleRepository;
+import com.guillaumetalbot.applicationblanche.metier.dao.securite.UtilisateurRepository;
+import com.guillaumetalbot.applicationblanche.metier.entite.securite.LienRoleRessource;
+import com.guillaumetalbot.applicationblanche.metier.entite.securite.LienUtilisateurRole;
+import com.guillaumetalbot.applicationblanche.metier.entite.securite.Ressource;
+import com.guillaumetalbot.applicationblanche.metier.entite.securite.Role;
+import com.guillaumetalbot.applicationblanche.metier.entite.securite.Utilisateur;
 
 @Service
 @Transactional
