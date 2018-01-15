@@ -6,6 +6,8 @@ Tous les accesseurs doivent gérer la mutabilité des membres. Autrement dit, si
 
 Toutes les associations doivent êtes LAZY (les xxToMany le sont par défaut mais pas les xxToOne).
 
+Ne jamais implémenter le setter de l'identifiant unique. Au mieux, prévoir un constructeur comprenant l'identifiant. Ceci pour éviter les tentatives malheureuses de modification manuelle de l'identifiant d'une entité déjà persistée.
+
 ## @ManyToMany
 Tous les @ManyToMany doivent être en lecture seule (insertable=false et updatable=false). 
 Il est plus simple de créer une entité mappée sur la table de jointure pour modifier les liens de cette associations.

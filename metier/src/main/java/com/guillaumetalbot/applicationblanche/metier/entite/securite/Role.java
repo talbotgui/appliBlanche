@@ -1,6 +1,5 @@
 package com.guillaumetalbot.applicationblanche.metier.entite.securite;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -8,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+
+import com.guillaumetalbot.applicationblanche.metier.entite.MutableUtil;
 
 @Entity
 public class Role {
@@ -36,10 +37,7 @@ public class Role {
 	}
 
 	public Set<Ressource> getRessourcesAutorisees() {
-		if (this.ressourcesAutorisees == null) {
-			return new HashSet<>();
-		}
-		return new HashSet<>(this.ressourcesAutorisees);
+		return MutableUtil.getMutable(this.ressourcesAutorisees);
 	}
 
 	public void setNom(final String nom) {
@@ -47,7 +45,7 @@ public class Role {
 	}
 
 	public void setRessourcesAutorisees(final Set<Ressource> ressourcesAutorisees) {
-		this.ressourcesAutorisees = new HashSet<>(ressourcesAutorisees);
+		this.ressourcesAutorisees = MutableUtil.getMutable(ressourcesAutorisees);
 	}
 
 }

@@ -6,12 +6,6 @@ import com.guillaumetalbot.applicationblanche.exception.ExceptionId.ExceptionLev
 
 public class BusinessException extends BaseException {
 
-	public static final ExceptionId ERREUR_COURRIER_LIE_A_ETAPE = new ExceptionId("ERREUR_COURRIER_LIE_A_ETAPE",
-			"Impossible de supprimer l'étape car un courrier y est lié", ExceptionLevel.ERROR, 400);
-
-	public static final ExceptionId ERREUR_ID_MARIAGE = new ExceptionId("ERREUR_ID_MARIAGE", "Identifiant de mariage invalide (valeur={0})",
-			ExceptionLevel.ERROR, 400);
-
 	public static final ExceptionId ERREUR_LOGIN = new ExceptionId("ERREUR_LOGIN", "Erreur de connexion", ExceptionLevel.ERROR, 403);
 
 	public static final ExceptionId ERREUR_LOGIN_MDP = new ExceptionId("ERREUR_LOGIN_MDP",
@@ -25,8 +19,8 @@ public class BusinessException extends BaseException {
 
 	public static final ExceptionId ERREUR_SHA = new ExceptionId("ERREUR_SHA", "Erreur de cryptage", ExceptionLevel.ERROR, 500);
 
-	public static final ExceptionId ERREUR_TRANSFORMATION_MODEL = new ExceptionId("ERREUR_TRANSFORMATION_MODEL",
-			"Erreur durant la tranformation de modele.", ExceptionLevel.ERROR, 500);
+	public static final ExceptionId OBJET_NON_EXISTANT = new ExceptionId("OBJET_NON_EXISTANT", "Objet de type {1} avec l'identifiant {2} inexistant",
+			ExceptionLevel.ERROR, 404);
 
 	/** Default UID. */
 	private static final long serialVersionUID = 1L;

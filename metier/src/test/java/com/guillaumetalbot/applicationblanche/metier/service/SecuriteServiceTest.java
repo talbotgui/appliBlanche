@@ -47,10 +47,9 @@ public class SecuriteServiceTest {
 
 		// Destruction des données
 		final Collection<String> strings = Files.readAllLines(Paths.get(ClassLoader.getSystemResource("db/dataPurge.sql").toURI()));
-		final String[] requetes = strings.toArray(new String[strings.size()]);
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
-		LOG.info("Execute SQL : {}", (Object[]) requetes);
-		jdbc.batchUpdate(requetes);
+		LOG.info("Execute SQL : {}", strings);
+		jdbc.batchUpdate(strings.toArray(new String[strings.size()]));
 
 	}
 

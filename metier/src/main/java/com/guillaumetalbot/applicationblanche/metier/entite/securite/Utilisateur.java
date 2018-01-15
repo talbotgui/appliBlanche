@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -16,6 +15,8 @@ import javax.persistence.ManyToMany;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.guillaumetalbot.applicationblanche.metier.entite.MutableUtil;
 
 @Entity
 public class Utilisateur implements Serializable {
@@ -90,31 +91,19 @@ public class Utilisateur implements Serializable {
 	}
 
 	public Date getPremierEchec() {
-		if (this.premierEchec != null) {
-			return new Date(this.premierEchec.getTime());
-		}
-		return null;
+		return MutableUtil.getMutable(this.premierEchec);
 	}
 
 	public Set<Role> getRoles() {
-		if (this.roles == null) {
-			return new HashSet<>();
-		}
-		return new HashSet<>(this.roles);
+		return MutableUtil.getMutable(this.roles);
 	}
 
 	public Date getSecondEchec() {
-		if (this.secondEchec != null) {
-			return new Date(this.secondEchec.getTime());
-		}
-		return null;
+		return MutableUtil.getMutable(this.secondEchec);
 	}
 
 	public Date getTroisiemeEchec() {
-		if (this.troisiemeEchec != null) {
-			return new Date(this.troisiemeEchec.getTime());
-		}
-		return null;
+		return MutableUtil.getMutable(this.troisiemeEchec);
 	}
 
 	public boolean isVerrouille() {
@@ -141,25 +130,19 @@ public class Utilisateur implements Serializable {
 	}
 
 	public void setPremierEchec(final Date premierEchec) {
-		if (premierEchec != null) {
-			this.premierEchec = new Date(premierEchec.getTime());
-		}
+		this.premierEchec = MutableUtil.getMutable(premierEchec);
 	}
 
 	public void setRoles(final Set<Role> roles) {
-		this.roles = new HashSet<>(roles);
+		this.roles = MutableUtil.getMutable(roles);
 	}
 
 	public void setSecondEchec(final Date secondEchec) {
-		if (secondEchec != null) {
-			this.secondEchec = new Date(secondEchec.getTime());
-		}
+		this.secondEchec = MutableUtil.getMutable(secondEchec);
 	}
 
 	public void setTroisiemeEchec(final Date troisiemeEchec) {
-		if (troisiemeEchec != null) {
-			this.troisiemeEchec = new Date(troisiemeEchec.getTime());
-		}
+		this.troisiemeEchec = MutableUtil.getMutable(troisiemeEchec);
 	}
 
 	@Override

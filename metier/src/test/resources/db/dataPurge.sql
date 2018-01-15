@@ -3,3 +3,7 @@ delete from LIEN_UTILISATEUR_ROLE;
 delete from RESSOURCE;
 delete from ROLE;
 delete from UTILISATEUR;
+delete from DEMANDE;
+delete from DOSSIER;
+delete from CLIENT;
+delete from ADRESSE;
