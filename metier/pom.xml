@@ -13,22 +13,89 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+
+		<version.jia>1.2.1</version.jia>
+		<version.assertJ>3.9.0</version.assertJ>
+		<version.hsqldb>2.4.0</version.hsqldb>
+		<version.flyway>5.0.5</version.flyway>
+		<version.lang3>3.7</version.lang3>
+		<version.jamon>2.81</version.jamon>
 	</properties>
 
 	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.9</source>
-					<target>1.9</target>
-				</configuration>
-			</plugin>
-		</plugins>
 	</build>
 
 	<dependencies>
+
+		<!-- Dependence ajoutée pour la génération de la Javadoc -->
+		<dependency>
+			<groupId>javax.interceptor</groupId>
+			<artifactId>javax.interceptor-api</artifactId>
+			<version>${version.jia}</version>
+		</dependency>
+
+		<!-- Spring Data JPA -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- Utility classes -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${version.lang3}</version>
+		</dependency>
+
+		<!-- Log4J -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-log4j2</artifactId>
+		</dependency>
+
+		<!-- Testing starter -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+		</dependency>
+
+		<!-- Performance monitoring -->
+		<dependency>
+			<groupId>com.jamonapi</groupId>
+			<artifactId>jamon</artifactId>
+			<version>${version.jamon}</version>
+		</dependency>
+
+		<!-- In-memory database -->
+		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>${version.hsqldb}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Utilitaire pour tester des exceptions dans les TU -->
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<version>${version.assertJ}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Utilitaire pour la mise à jour du modèle de base de données -->
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+			<version>${version.flyway}</version>
+		</dependency>
 	</dependencies>
 
 </project>
