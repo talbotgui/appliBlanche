@@ -9,5 +9,5 @@ import com.guillaumetalbot.applicationblanche.metier.entite.securite.LienRoleRes
 public interface LienRoleRessourceRepository extends CrudRepository<LienRoleRessource, Long> {
 
 	@Query("select l from LienRoleRessource l where l.id.role.nom = :nomRole and l.id.ressource.clef = :clefRessource")
-	LienRoleRessource chargerLien(@Param("clefRessource") String clefRessource, @Param("nomRole") String nomRole);
+	LienRoleRessource chargerLien(@Param("nomRole") String nomRole, @Param("clefRessource") String clefRessource);
 }
