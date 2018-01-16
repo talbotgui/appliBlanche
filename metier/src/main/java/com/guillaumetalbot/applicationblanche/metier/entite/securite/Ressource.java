@@ -33,12 +33,4 @@ public class Ressource {
 	public String getDescription() {
 		return this.description;
 	}
-
-	public void setClef(final String clef) {
-		this.clef = clef;
-	}
-
-	public void setDescription(final String description) {
-		this.description = description;
-	}
 }

@@ -69,10 +69,6 @@ public class Client {
 		this.dateCreation = MutableUtil.getMutable(dateCreation);
 	}
 
-	public void setDossiers(final Set<Dossier> dossiers) {
-		this.dossiers = MutableUtil.getMutable(dossiers);
-	}
-
 	public void setNom(final String nom) {
 		this.nom = nom;
 	}

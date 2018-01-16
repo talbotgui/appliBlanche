@@ -64,13 +64,4 @@ public class LienRoleRessourceId implements Serializable {
 		}
 		return hcb.toHashCode();
 	}
-
-	public void setRessource(final Ressource ressource) {
-		this.ressource = ressource;
-	}
-
-	public void setRole(final Role role) {
-		this.role = role;
-	}
-
 }

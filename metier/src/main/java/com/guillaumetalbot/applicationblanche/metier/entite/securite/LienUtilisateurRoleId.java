@@ -64,13 +64,4 @@ public class LienUtilisateurRoleId implements Serializable {
 		}
 		return hcb.toHashCode();
 	}
-
-	public void setRole(final Role role) {
-		this.role = role;
-	}
-
-	public void setUtilisateur(final Utilisateur utilisateur) {
-		this.utilisateur = utilisateur;
-	}
-
 }

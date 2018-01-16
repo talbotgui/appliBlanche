@@ -39,13 +39,4 @@ public class Role {
 	public Set<Ressource> getRessourcesAutorisees() {
 		return MutableUtil.getMutable(this.ressourcesAutorisees);
 	}
-
-	public void setNom(final String nom) {
-		this.nom = nom;
-	}
-
-	public void setRessourcesAutorisees(final Set<Ressource> ressourcesAutorisees) {
-		this.ressourcesAutorisees = MutableUtil.getMutable(ressourcesAutorisees);
-	}
-
 }

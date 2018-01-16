@@ -1,12 +1,25 @@
 # Règles de développement Java
 
-Tous les accesseurs doivent gérer la mutabilité des membres. Autrement dit, si le membre est de type Date ou Collection, il doit être cloné dans les deux accesseurs.
 
 # Règles de développement Hibernate
 
-Toutes les associations doivent êtes LAZY (les xxToMany le sont par défaut mais pas les xxToOne).
+## Lazy loading
+Toutes les associations doivent êtes LAZY. Les xxToMany le sont par défaut donc il est inutile de le coder. 
 
+Mais pas les xxToOne sont EAGER par défaut. Il faut donc ajouter *fetch=LAZY*
+
+## Accesseurs
+
+### Identifiant mono-colonne
 Ne jamais implémenter le setter de l'identifiant unique. Au mieux, prévoir un constructeur comprenant l'identifiant. Ceci pour éviter les tentatives malheureuses de modification manuelle de l'identifiant d'une entité déjà persistée.
+
+### Identifiant multi-colonne
+Dans les classes définissant un identifiant unique (marquée @Embeddable et utilisée avec un @Id dans un @Entity), aucun setter ne doit exister. Seul le constructeur doit permettre d'initialiser les valeurs.
+
+### Mutabilité
+Tous les accesseurs doivent gérer la mutabilité des membres. Autrement dit, si le membre est de type Date ou Collection, il doit être cloné dans les deux accesseurs en utilisant MutableUtils.getMutable. La gestion des objets mutables n'empêche pas le chargement à la volée. 
+
+Pour permettre d'ajouter ou de retirer un élément à une collection qui n'est pas en lecture seule (mappedBy="" ou updatable=false), il faut ajouter des méthodes addXxx et removeXxx.
 
 ## @ManyToMany
 Tous les @ManyToMany doivent être en lecture seule (insertable=false et updatable=false). 
@@ -20,7 +33,7 @@ Pour les détails d'un mapping ManyToMany en lecture seule, se référer aux sup
 Tout test de l'application *métier* doit être basé sur JUnit et utiliser l'intégration avec Spring (annotations @RunWith et @SpringBootTest).
 De plus, il doit utiliser le scope *test* (avec l'annotaiton @Scope) pour bien utiliser le fichier application-test.properties.
 
-## Nommage
+## Nommage des classes et méthodes de test
 Une classe de test ne contient que des tests d'un même composant.
 Mais il est possible de créer plusieurs classes de test pour un même composant si le nombre de cas de tests est important. Il faut alors séparer les cas de test de manière logique.
 

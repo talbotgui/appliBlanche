@@ -55,12 +55,11 @@ public class Utilisateur implements Serializable {
 
 	public Utilisateur(final String login) {
 		super();
-		this.setLogin(login);
+		this.login = login;
 	}
 
 	public Utilisateur(final String login, final String mdp) {
-		super();
-		this.setLogin(login);
+		this(login);
 		this.setMdp(mdp);
 	}
 
@@ -121,20 +120,12 @@ public class Utilisateur implements Serializable {
 		return (this.premierEchec != null) && (this.secondEchec != null) && (this.troisiemeEchec != null);
 	}
 
-	public void setLogin(final String login) {
-		this.login = login;
-	}
-
 	public void setMdp(final String mdp) {
 		this.mdp = mdp;
 	}
 
 	public void setPremierEchec(final Date premierEchec) {
 		this.premierEchec = MutableUtil.getMutable(premierEchec);
-	}
-
-	public void setRoles(final Set<Role> roles) {
-		this.roles = MutableUtil.getMutable(roles);
 	}
 
 	public void setSecondEchec(final Date secondEchec) {

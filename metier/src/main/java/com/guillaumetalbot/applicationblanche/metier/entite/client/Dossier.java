@@ -66,10 +66,6 @@ public class Dossier {
 		this.dateCreation = MutableUtil.getMutable(dateCreation);
 	}
 
-	public void setDemandes(final Set<Demande> demandes) {
-		this.demandes = MutableUtil.getMutable(demandes);
-	}
-
 	public void setNom(final String nom) {
 		this.nom = nom;
 	}
