@@ -1,0 +1,15 @@
+# Règles de développement Java
+
+## Nommage des classes et des variables
+
+### Entites
+Les entités métiers doivent porter un nom explicite pour le métier. 
+Il faut, au maximum, éviter les synonymes pour limiter les risques de confusion tant dans les noms de classe que dans les noms de variable.
+
+### Repository et service
+Les repository sont tous suffixés par *Repository* et placés dans un répertoire (ou un sous répertoire) nommé *dao*.
+
+Les services sont tous suffixés par *Service* et placés dans un répertoire (ou un sous répertoire) nommé *service*.
+
+Les implémentations sont toutes suffixée par *Impl*.
+
