@@ -1,5 +1,7 @@
 package com.guillaumetalbot.applicationblanche.metier.service;
 
+import java.util.Date;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +43,7 @@ public class ClientServiceImpl implements ClientService {
 		if (client == null) {
 			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Client", idClient);
 		}
-		if ((client.getAdresse() != null) && !client.getAdresse().getId().equals(adresse.getId())) {
+		if ((adresse.getId() != null) && ((client.getAdresse() == null) || !client.getAdresse().getId().equals(adresse.getId()))) {
 			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Adresse", adresse.getId());
 		}
 
@@ -79,7 +81,30 @@ public class ClientServiceImpl implements ClientService {
 
 	@Override
 	public Long sauvegarderDossier(final Long idClient, final Dossier dossier) {
-		// TODO Auto-generated method stub
-		return null;
+
+		// Validation existance du client
+		final Client client = this.clientRepo.findOne(idClient);
+		if (client == null) {
+			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Client", idClient);
+		}
+
+		// Création du dossier
+		if (dossier.getId() == null) {
+			dossier.setDateCreation(new Date());
+			dossier.setClient(client);
+		}
+
+		// mAj
+		else {
+			final Dossier dossierExistant = this.dossierRepo.chargerDossierAvecClient(dossier.getId());
+			if ((dossierExistant == null) || (dossierExistant.getClient() == null) || !dossierExistant.getClient().getId().equals(idClient)) {
+				throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Dossier", dossier.getId());
+			}
+		}
+
+		// Sauvegardes
+		this.dossierRepo.save(dossier);
+
+		return dossier.getId();
 	}
 }

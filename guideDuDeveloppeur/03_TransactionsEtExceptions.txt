@@ -1,0 +1,17 @@
+# Règles de gestion des exceptions et des transactions
+
+## Type d'exception
+
+Toutes les exceptions métiers sont des BusinessException utilisant le bon ExceptionId. Si il est nécessaire de créer un nouvel ExceptionId, il doit être placé dans la classe BusinessException.
+
+## Transaction
+
+Toutes les classes de service sont annotées avec @Transactionnal. Donc toutes les méthodes des services sont transactionnelles.
+
+### Création de transaction
+La création de la transaction se fait au premier appel d'une méthode de service par une méthode non transactionnelle. Par exemple : un test appelant un service ou une méthode de contrôleur appelant un service.
+
+### Commit ou rollback
+Le commit est automatique à la sortie de la méthode ayant donné lieu à la création de la transaction.
+
+Le rollback est automatique si une exception héritant de RuntimeException sort de la méthode ayant donné lieu à la création de la transaction.

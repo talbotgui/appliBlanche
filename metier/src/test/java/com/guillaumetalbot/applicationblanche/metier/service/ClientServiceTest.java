@@ -25,6 +25,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.guillaumetalbot.applicationblanche.exception.BusinessException;
 import com.guillaumetalbot.applicationblanche.metier.application.SpringApplicationForTests;
 import com.guillaumetalbot.applicationblanche.metier.entite.client.Adresse;
+import com.guillaumetalbot.applicationblanche.metier.entite.client.Dossier;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = SpringApplicationForTests.class)
@@ -142,7 +143,7 @@ public class ClientServiceTest {
 	}
 
 	@Test
-	public void test02Adresse03ClientNonLie() {
+	public void test02Adresse04ClientNonLie() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		final Long idClient = this.clientService.sauvegarderClient(null, "nomClient");
@@ -157,6 +158,108 @@ public class ClientServiceTest {
 		Assert.assertNotNull(thrown);
 		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_NON_EXISTANT));
 		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from ADRESSE", Long.class));
+	}
+
+	@Test
+	public void test02Adresse05AdresseInexistante() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final Long idClient = this.clientService.sauvegarderClient(null, "nomClient");
+
+		//
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.clientService.sauvegarderAdresse(idClient, new Adresse(1L, "rue2", "codePostal2", "ville2"));
+		});
+
+		//
+		Assert.assertNotNull(thrown);
+		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_NON_EXISTANT));
+		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from ADRESSE", Long.class));
+	}
+
+	@Test
+	public void test03Dossier01CreationOk() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final Long idClient = this.clientService.sauvegarderClient(null, "nomClient");
+		final String nomDossier = "nomDossier";
+
+		//
+		final Long idDossier = this.clientService.sauvegarderDossier(idClient, new Dossier(nomDossier));
+
+		//
+		Assert.assertNotNull(idDossier);
+		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from DOSSIER where NOM=? and DATE_CREATION is not null",
+				new Object[] { nomDossier }, Long.class));
+	}
+
+	@Test
+	public void test03Dossier02ModificationOk() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final Long idClient = this.clientService.sauvegarderClient(null, "nomClient");
+		final String nomDossier = "nomDossier";
+		Long idDossier = this.clientService.sauvegarderDossier(idClient, new Dossier(nomDossier));
+		final String nomDossier2 = "nomDossier2";
+
+		//
+		idDossier = this.clientService.sauvegarderDossier(idClient, new Dossier(idDossier, nomDossier2));
+
+		//
+		Assert.assertNotNull(idDossier);
+		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from DOSSIER", Long.class));
+		Assert.assertEquals(nomDossier2, jdbc.queryForObject("select NOM from DOSSIER", String.class));
+	}
+
+	@Test
+	public void test03Dossier03ClientInexistant() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+
+		//
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.clientService.sauvegarderDossier(1L, new Dossier("nomDossier"));
+		});
+
+		//
+		Assert.assertNotNull(thrown);
+		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_NON_EXISTANT));
+		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from Dossier", Long.class));
+	}
+
+	@Test
+	public void test03Dossier04ClientNonLie() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final Long idClient = this.clientService.sauvegarderClient(null, "nomClient");
+		final Long idDossier = this.clientService.sauvegarderDossier(idClient, new Dossier("nomDossier"));
+
+		//
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.clientService.sauvegarderDossier(idClient, new Dossier(idDossier + 1, "nomDossier2"));
+		});
+
+		//
+		Assert.assertNotNull(thrown);
+		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_NON_EXISTANT));
+		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from DOSSIER", Long.class));
+	}
+
+	@Test
+	public void test03Dossier05DossierInexistant() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final Long idClient = this.clientService.sauvegarderClient(null, "nomClient");
+
+		//
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.clientService.sauvegarderDossier(idClient, new Dossier(1L, "nomDossier2"));
+		});
+
+		//
+		Assert.assertNotNull(thrown);
+		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_NON_EXISTANT));
+		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from DOSSIER", Long.class));
 	}
 
 }

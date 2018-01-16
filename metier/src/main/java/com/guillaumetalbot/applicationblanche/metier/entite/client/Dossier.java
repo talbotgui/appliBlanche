@@ -33,6 +33,12 @@ public class Dossier {
 		super();
 	}
 
+	public Dossier(final Long id, final String nom) {
+		super();
+		this.id = id;
+		this.nom = nom;
+	}
+
 	public Dossier(final String nom) {
 		super();
 		this.nom = nom;

@@ -1,6 +1,6 @@
 # Règles de développement Java
 
-## Nommage des classes et des variables
+## Nommage des méthodes, classes et variables
 
 ### Entites
 Les entités métiers doivent porter un nom explicite pour le métier. 
@@ -13,3 +13,6 @@ Les services sont tous suffixés par *Service* et placés dans un répertoire (o
 
 Les implémentations sont toutes suffixée par *Impl*.
 
+### Méthodes
+
+Les méthodes présentes dans une interface sont toujours publiques. Il est inutile de le préciser dans le code (le mot-clef *public* ne doit apparaitre qu'une seule fois dans une interface).
