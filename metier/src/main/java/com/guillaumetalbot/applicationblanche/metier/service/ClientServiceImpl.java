@@ -1,5 +1,6 @@
 package com.guillaumetalbot.applicationblanche.metier.service;
 
+import java.util.Collection;
 import java.util.Date;
 
 import javax.transaction.Transactional;
@@ -32,6 +33,21 @@ public class ClientServiceImpl implements ClientService {
 
 	@Autowired
 	private DossierRepository dossierRepo;
+
+	@Override
+	public Client chargerClientAvecAdresseEtDossiersReadonly(final Long idClient) {
+		return this.clientRepo.chargerClientAvecAdresseEtDossiersReadonly(idClient);
+	}
+
+	@Override
+	public Client chargerClientReadonly(final Long idClient) {
+		return this.clientRepo.chargerClientReadonly(idClient);
+	}
+
+	@Override
+	public Collection<Client> listerClients() {
+		return this.clientRepo.listerClients();
+	}
 
 	@Override
 	public Long sauvegarderAdresse(final Long idClient, final Adresse adresse) {
