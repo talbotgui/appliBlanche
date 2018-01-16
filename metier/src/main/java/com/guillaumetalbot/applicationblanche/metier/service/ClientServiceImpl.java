@@ -75,8 +75,28 @@ public class ClientServiceImpl implements ClientService {
 
 	@Override
 	public Long sauvegarderDemande(final Long idDossier, final Demande demande) {
-		// TODO Auto-generated method stub
-		return null;
+		// Validation existance du dossier
+		final Dossier dossier = this.dossierRepo.findOne(idDossier);
+		if (dossier == null) {
+			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Dossier", idDossier);
+		}
+
+		// Création de la demande
+		if (demande.getId() == null) {
+			demande.setDossier(dossier);
+		}
+
+		// mAj
+		else {
+			final Demande demandeExistante = this.demandeRepo.chargerDemandeAvecDossier(demande.getId());
+			if ((demandeExistante == null) || (demandeExistante.getDossier() == null) || !demandeExistante.getDossier().getId().equals(idDossier)) {
+				throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Demande", demande.getId());
+			}
+		}
+
+		// Sauvegarde
+		this.demandeRepo.save(demande);
+		return demande.getId();
 	}
 
 	@Override
@@ -102,9 +122,8 @@ public class ClientServiceImpl implements ClientService {
 			}
 		}
 
-		// Sauvegardes
+		// Sauvegarde
 		this.dossierRepo.save(dossier);
-
 		return dossier.getId();
 	}
 }

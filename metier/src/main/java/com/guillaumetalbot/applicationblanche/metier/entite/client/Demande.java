@@ -25,6 +25,13 @@ public class Demande {
 		super();
 	}
 
+	public Demande(final Long id, final String descriptionCourte, final String descriptionLongue) {
+		super();
+		this.id = id;
+		this.descriptionCourte = descriptionCourte;
+		this.descriptionLongue = descriptionLongue;
+	}
+
 	public Demande(final String descriptionCourte, final String descriptionLongue) {
 		super();
 		this.descriptionCourte = descriptionCourte;
@@ -39,6 +46,10 @@ public class Demande {
 		return this.descriptionLongue;
 	}
 
+	public Dossier getDossier() {
+		return this.dossier;
+	}
+
 	public Long getId() {
 		return this.id;
 	}
@@ -49,6 +60,10 @@ public class Demande {
 
 	public void setDescriptionLongue(final String descriptionLongue) {
 		this.descriptionLongue = descriptionLongue;
+	}
+
+	public void setDossier(final Dossier dossier) {
+		this.dossier = dossier;
 	}
 
 }
