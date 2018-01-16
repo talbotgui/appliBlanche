@@ -150,7 +150,6 @@ public class SecuriteServiceTest {
 	@Test
 	public void test01Utilisateur07Charger() {
 		//
-		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		final String login = "monLogin";
 		final String mdp = "unBonMdp";
 		this.securiteService.sauvegarderUtilisateur(login, mdp);
