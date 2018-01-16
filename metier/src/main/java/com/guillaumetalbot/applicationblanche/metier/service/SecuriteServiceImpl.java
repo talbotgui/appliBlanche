@@ -51,7 +51,7 @@ public class SecuriteServiceImpl implements SecuriteService {
 
 	@Override
 	public void associerRoleEtRessource(final String nomRole, final String clefRessource) {
-		final LienRoleRessource lien = this.lienRoleRessourceRepo.chargerLien(clefRessource, nomRole);
+		final LienRoleRessource lien = this.lienRoleRessourceRepo.chargerLien(nomRole, clefRessource);
 		if (lien == null) {
 			this.lienRoleRessourceRepo.save(new LienRoleRessource(new Role(nomRole), new Ressource(clefRessource)));
 		} else {
@@ -70,13 +70,13 @@ public class SecuriteServiceImpl implements SecuriteService {
 	}
 
 	@Override
-	public Utilisateur chargerUtilisateurReadOnly(final String login) {
-		return this.utilisateurRepo.chargerUtilisateurReadOnly(login);
+	public Utilisateur chargerUtilisateurAvecRolesEtRessourcesAutoriseesReadOnly(final String login) {
+		return this.utilisateurRepo.chargerUtilisateurAvecRolesEtRessourcesAutoriseesReadOnly(login);
 	}
 
 	@Override
-	public Utilisateur chargerUtilisateurAvecRolesEtRessourcesAutoriseesReadOnly(final String login) {
-		return this.utilisateurRepo.chargerUtilisateurAvecRolesEtRessourcesAutoriseesReadOnly(login);
+	public Utilisateur chargerUtilisateurReadOnly(final String login) {
+		return this.utilisateurRepo.chargerUtilisateurReadOnly(login);
 	}
 
 	@Override
