@@ -70,13 +70,13 @@ public class SecuriteServiceImpl implements SecuriteService {
 	}
 
 	@Override
-	public Utilisateur chargerUtilisateur(final String login) {
-		return this.utilisateurRepo.findOne(login);
+	public Utilisateur chargerUtilisateurReadOnly(final String login) {
+		return this.utilisateurRepo.chargerUtilisateurReadOnly(login);
 	}
 
 	@Override
-	public Utilisateur chargerUtilisateurAvecRolesEtRessourcesAutorisees(final String login) {
-		return this.utilisateurRepo.chargerUtilisateurAvecRolesEtRessourcesAutorisees(login);
+	public Utilisateur chargerUtilisateurAvecRolesEtRessourcesAutoriseesReadOnly(final String login) {
+		return this.utilisateurRepo.chargerUtilisateurAvecRolesEtRessourcesAutoriseesReadOnly(login);
 	}
 
 	@Override
@@ -143,7 +143,7 @@ public class SecuriteServiceImpl implements SecuriteService {
 		if (this.roleRepo.findOne(nomRole) == null) {
 			this.roleRepo.save(new Role(nomRole));
 		} else {
-			throw new BusinessException(BusinessException.ERREUR_ROLE_DEJA_EXISTANT, nomRole);
+			throw new BusinessException(BusinessException.OBJET_DEJA_EXISTANT, "Role", nomRole);
 		}
 	}
 

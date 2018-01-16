@@ -14,10 +14,10 @@ public class BusinessException extends BaseException {
 	public static final ExceptionId ERREUR_LOGIN_VEROUILLE = new ExceptionId("ERREUR_LOGIN_VEROUILLE",
 			"Erreur de connexion - le compte est verrouillé", ExceptionLevel.ERROR, 403);
 
-	public static final ExceptionId ERREUR_ROLE_DEJA_EXISTANT = new ExceptionId("ERREUR_ROLE_DEJA_EXISTANT", "Le role {0} existe déjà",
-			ExceptionLevel.ERROR, 400);
-
 	public static final ExceptionId ERREUR_SHA = new ExceptionId("ERREUR_SHA", "Erreur de cryptage", ExceptionLevel.ERROR, 500);
+
+	public static final ExceptionId OBJET_DEJA_EXISTANT = new ExceptionId("OBJET_DEJA_EXISTANT",
+			"Objet de type {0} avec l'identifiant {1} déjà existant", ExceptionLevel.ERROR, 400);
 
 	public static final ExceptionId OBJET_NON_EXISTANT = new ExceptionId("OBJET_NON_EXISTANT", "Objet de type {0} avec l'identifiant {1} inexistant",
 			ExceptionLevel.ERROR, 404);

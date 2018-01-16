@@ -12,9 +12,9 @@ public interface SecuriteService {
 
 	void associerUtilisateurEtRole(String login, String nomRole);
 
-	Utilisateur chargerUtilisateur(String login);
+	Utilisateur chargerUtilisateurReadOnly(String login);
 
-	Utilisateur chargerUtilisateurAvecRolesEtRessourcesAutorisees(String login);
+	Utilisateur chargerUtilisateurAvecRolesEtRessourcesAutoriseesReadOnly(String login);
 
 	void desassocierRoleEtRessource(String nomRole, String clefRessource);
 

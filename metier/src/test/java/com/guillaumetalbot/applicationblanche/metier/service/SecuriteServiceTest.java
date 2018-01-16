@@ -25,6 +25,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.guillaumetalbot.applicationblanche.exception.BusinessException;
 import com.guillaumetalbot.applicationblanche.metier.application.SpringApplicationForTests;
+import com.guillaumetalbot.applicationblanche.metier.entite.securite.Ressource;
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.Role;
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.Utilisateur;
 
@@ -147,7 +148,23 @@ public class SecuriteServiceTest {
 	}
 
 	@Test
-	public void test01Utilisateur07ChargerCompletement() {
+	public void test01Utilisateur07Charger() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final String login = "monLogin";
+		final String mdp = "unBonMdp";
+		this.securiteService.sauvegarderUtilisateur(login, mdp);
+
+		//
+		final Utilisateur u = this.securiteService.chargerUtilisateurReadOnly(login);
+
+		//
+		Assert.assertEquals(login, u.getLogin());
+		Assert.assertNotEquals(mdp, u.getMdp());
+	}
+
+	@Test
+	public void test01Utilisateur08ChargerCompletement() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		final String login = "monLogin";
@@ -169,11 +186,7 @@ public class SecuriteServiceTest {
 		this.securiteService.associerRoleEtRessource(nomRole2, clefRessource2);
 
 		//
-		final Utilisateur u = this.securiteService.chargerUtilisateurAvecRolesEtRessourcesAutorisees(login);
-
-		System.err.println(jdbc.queryForList("select * from Utilisateur", new Object[] {}));
-		System.err.println(jdbc.queryForList("select * from ROLE", new Object[] {}));
-		System.err.println(jdbc.queryForList("select * from LIEN_UTILISATEUR_ROLE", new Object[] {}));
+		final Utilisateur u = this.securiteService.chargerUtilisateurAvecRolesEtRessourcesAutoriseesReadOnly(login);
 
 		//
 		Assert.assertEquals(login, u.getLogin());
@@ -209,6 +222,24 @@ public class SecuriteServiceTest {
 		this.securiteService.sauvegarderRole(nomRole);
 
 		//
+		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from ROLE", new Object[] {}, Long.class));
+	}
+
+	@Test
+	public void test02Role02CreerDejaExistant() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final String nomRole = "nomRole";
+		this.securiteService.sauvegarderRole(nomRole);
+
+		//
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.securiteService.sauvegarderRole(nomRole);
+		});
+
+		//
+		Assert.assertNotNull(thrown);
+		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_DEJA_EXISTANT));
 		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from ROLE", new Object[] {}, Long.class));
 	}
 
@@ -485,6 +516,22 @@ public class SecuriteServiceTest {
 
 		//
 		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from LIEN_ROLE_RESSOURCE", new Object[] {}, Long.class));
+	}
+
+	@Test
+	public void test07Ressource01Lister() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		jdbc.update("insert into RESSOURCE (CLEF, DESCRIPTION) values (?,?)", "clefRessource1", "description1");
+		jdbc.update("insert into RESSOURCE (CLEF, DESCRIPTION) values (?,?)", "clefRessource2", "description2");
+		jdbc.update("insert into RESSOURCE (CLEF, DESCRIPTION) values (?,?)", "clefRessource3", "description3");
+		jdbc.update("insert into RESSOURCE (CLEF, DESCRIPTION) values (?,?)", "clefRessource4", "description4");
+
+		//
+		final Collection<Ressource> ressources = this.securiteService.listerRessources();
+
+		//
+		Assert.assertEquals(4, ressources.size());
 	}
 
 }
