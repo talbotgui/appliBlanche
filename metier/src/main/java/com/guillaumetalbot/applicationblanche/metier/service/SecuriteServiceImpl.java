@@ -85,7 +85,7 @@ public class SecuriteServiceImpl implements SecuriteService {
 		if (lien != null) {
 			this.lienRoleRessourceRepo.delete(lien);
 		} else {
-			LOG.warn("Tentative de suppression d'un lien inexistant entre le role '{}' et la ressource '{}'", nomRole, clefRessource);
+			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, "LienRoleRessource", nomRole + "-" + clefRessource);
 		}
 	}
 
@@ -95,7 +95,7 @@ public class SecuriteServiceImpl implements SecuriteService {
 		if (lien != null) {
 			this.lienUtilisateurRoleRepo.delete(lien);
 		} else {
-			LOG.warn("Tentative de suppression d'un lien inexistant entre l'utilisateur '{}' et le role '{}'", login, nomRole);
+			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, "LienUtilisateurRole", login + "-" + nomRole);
 		}
 	}
 
@@ -143,7 +143,7 @@ public class SecuriteServiceImpl implements SecuriteService {
 		if (this.roleRepo.findOne(nomRole) == null) {
 			this.roleRepo.save(new Role(nomRole));
 		} else {
-			throw new BusinessException(BusinessException.ERREUR_ROLE_DEJA_EXISTANT, new Object[] { nomRole });
+			throw new BusinessException(BusinessException.ERREUR_ROLE_DEJA_EXISTANT, nomRole);
 		}
 	}
 
@@ -180,7 +180,7 @@ public class SecuriteServiceImpl implements SecuriteService {
 
 	private void valideLoginOuMotDePasse(final String loginOuMdp) {
 		if ((loginOuMdp == null) || (loginOuMdp.length() < LOGIN_MDP_MIN)) {
-			throw new BusinessException(BusinessException.ERREUR_LOGIN_MDP, new Object[] { LOGIN_MDP_MIN });
+			throw new BusinessException(BusinessException.ERREUR_LOGIN_MDP, LOGIN_MDP_MIN);
 		}
 	}
 

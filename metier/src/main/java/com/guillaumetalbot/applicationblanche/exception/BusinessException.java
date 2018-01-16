@@ -19,7 +19,7 @@ public class BusinessException extends BaseException {
 
 	public static final ExceptionId ERREUR_SHA = new ExceptionId("ERREUR_SHA", "Erreur de cryptage", ExceptionLevel.ERROR, 500);
 
-	public static final ExceptionId OBJET_NON_EXISTANT = new ExceptionId("OBJET_NON_EXISTANT", "Objet de type {1} avec l'identifiant {2} inexistant",
+	public static final ExceptionId OBJET_NON_EXISTANT = new ExceptionId("OBJET_NON_EXISTANT", "Objet de type {0} avec l'identifiant {1} inexistant",
 			ExceptionLevel.ERROR, 404);
 
 	/** Default UID. */

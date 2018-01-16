@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.text.ParseException;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -118,7 +117,7 @@ public class SecuriteServiceTest {
 	}
 
 	@Test
-	public void test01Utilisateur05Supprimer() throws ParseException {
+	public void test01Utilisateur05Supprimer() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		final String login = "monLogin";
@@ -186,7 +185,22 @@ public class SecuriteServiceTest {
 	}
 
 	@Test
-	public void test02Role01Creer() throws ParseException {
+	public void test01Utilisateur08ReinitialiserPassword() {
+		//
+		final String login = "monLoginToReset";
+		final String mdp = "unBonMdp";
+		this.securiteService.sauvegarderUtilisateur(login, mdp);
+		this.securiteService.verifierUtilisateur(login, mdp);
+
+		//
+		this.securiteService.reinitialiserMotDePasse(login);
+
+		//
+		this.securiteService.verifierUtilisateur(login, login);
+	}
+
+	@Test
+	public void test02Role01Creer() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		final String nomRole = "nomRole";
@@ -214,7 +228,7 @@ public class SecuriteServiceTest {
 	}
 
 	@Test
-	public void test03LienRoleUtilisateur01Creer() throws ParseException {
+	public void test03LienRoleUtilisateur01Creer() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		final String login = "monLogin";
@@ -231,7 +245,7 @@ public class SecuriteServiceTest {
 	}
 
 	@Test
-	public void test03LienRoleUtilisateur02CreerDeuxFois() throws ParseException {
+	public void test03LienRoleUtilisateur02CreerDeuxFois() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		final String login = "monLogin";
@@ -249,7 +263,7 @@ public class SecuriteServiceTest {
 	}
 
 	@Test
-	public void test03LienRoleUtilisateur03SupprimerNonExistant() throws ParseException {
+	public void test03LienRoleUtilisateur03SupprimerNonExistant() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		final String login = "monLogin";
@@ -259,14 +273,18 @@ public class SecuriteServiceTest {
 		this.securiteService.sauvegarderRole(nomRole);
 
 		//
-		this.securiteService.desassocierUtilisateurEtRole(login, nomRole);
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.securiteService.desassocierUtilisateurEtRole(login, nomRole);
+		});
 
 		//
+		Assert.assertNotNull(thrown);
+		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_NON_EXISTANT));
 		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from LIEN_UTILISATEUR_ROLE", new Object[] {}, Long.class));
 	}
 
 	@Test
-	public void test03LienRoleUtilisateur04SupprimerExistant() throws ParseException {
+	public void test03LienRoleUtilisateur04SupprimerExistant() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		final String login = "monLogin";
@@ -400,18 +418,73 @@ public class SecuriteServiceTest {
 	}
 
 	@Test
-	public void test12ResetPassword() {
+	public void test06LienRoleRessource01Creer() {
 		//
-		final String login = "monLoginToReset";
-		final String mdp = "unBonMdp";
-		this.securiteService.sauvegarderUtilisateur(login, mdp);
-		this.securiteService.verifierUtilisateur(login, mdp);
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final String nomRole = "nomRole";
+		this.securiteService.sauvegarderRole(nomRole);
+		final String clefRessource1 = "clefRessource1";
+		jdbc.update("insert into RESSOURCE (CLEF, DESCRIPTION) values (?,?)", clefRessource1, "description");
 
 		//
-		this.securiteService.reinitialiserMotDePasse(login);
+		this.securiteService.associerRoleEtRessource(nomRole, clefRessource1);
 
 		//
-		this.securiteService.verifierUtilisateur(login, login);
+		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from LIEN_ROLE_RESSOURCE", new Object[] {}, Long.class));
+	}
+
+	@Test
+	public void test06LienRoleRessource02CreerDeuxFois() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final String nomRole = "nomRole";
+		this.securiteService.sauvegarderRole(nomRole);
+		final String clefRessource1 = "clefRessource1";
+		jdbc.update("insert into RESSOURCE (CLEF, DESCRIPTION) values (?,?)", clefRessource1, "description");
+		this.securiteService.associerRoleEtRessource(nomRole, clefRessource1);
+
+		//
+		this.securiteService.associerRoleEtRessource(nomRole, clefRessource1);
+
+		//
+		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from LIEN_ROLE_RESSOURCE", new Object[] {}, Long.class));
+	}
+
+	@Test
+	public void test06LienRoleRessource03SupprimerNonExistant() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final String nomRole = "nomRole";
+		this.securiteService.sauvegarderRole(nomRole);
+		final String clefRessource1 = "clefRessource1";
+		jdbc.update("insert into RESSOURCE (CLEF, DESCRIPTION) values (?,?)", clefRessource1, "description");
+
+		//
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.securiteService.desassocierRoleEtRessource(nomRole, clefRessource1);
+		});
+
+		//
+		Assert.assertNotNull(thrown);
+		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_NON_EXISTANT));
+		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from LIEN_ROLE_RESSOURCE", new Object[] {}, Long.class));
+	}
+
+	@Test
+	public void test06LienRoleRessource04SupprimerExistant() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final String nomRole = "nomRole";
+		this.securiteService.sauvegarderRole(nomRole);
+		final String clefRessource1 = "clefRessource1";
+		jdbc.update("insert into RESSOURCE (CLEF, DESCRIPTION) values (?,?)", clefRessource1, "description");
+		this.securiteService.associerRoleEtRessource(nomRole, clefRessource1);
+
+		//
+		this.securiteService.desassocierRoleEtRessource(nomRole, clefRessource1);
+
+		//
+		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from LIEN_ROLE_RESSOURCE", new Object[] {}, Long.class));
 	}
 
 }

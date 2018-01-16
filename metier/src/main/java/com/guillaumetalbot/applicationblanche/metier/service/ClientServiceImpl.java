@@ -39,10 +39,10 @@ public class ClientServiceImpl implements ClientService {
 
 		// Validation des données
 		if (client == null) {
-			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, new Object[] { "Client", idClient });
+			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Client", idClient);
 		}
 		if ((client.getAdresse() != null) && !client.getAdresse().getId().equals(adresse.getId())) {
-			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, new Object[] { "Adresse", adresse.getId() });
+			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Adresse", adresse.getId());
 		}
 
 		// Modification des données
@@ -63,7 +63,7 @@ public class ClientServiceImpl implements ClientService {
 		} else {
 			client = this.clientRepo.findOne(id);
 			if (client == null) {
-				throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, new Object[] { "Client", id });
+				throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Client", id);
 			}
 			client.setNom(nom);
 		}
