@@ -8,6 +8,9 @@ Pour conserver une bonne qualité de code, le formattage automatique est actif �
 ## Développement
 Pour démarrer l'application en développement, il suffit d'exécuter la commande ``` npm run dev ```.
 
+## Import de fichiers CSS
+Pour faire s'importer automatiquement une feuille de style CSS, il suffit d'importer les CSS depuis *src/main.js*.
+
 ## Appel ajax
 Les appels ajax utilisent *vuejs-resource*.
 
