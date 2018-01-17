@@ -7,3 +7,38 @@ Pour conserver une bonne qualité de code, le formattage automatique est actif �
 
 ## Développement
 Pour démarrer l'application en développement, il suffit d'exécuter la commande ``` npm run dev ```.
+
+## Appel ajax
+Les appels ajax utilisent *vuejs-resource*.
+
+Un appel *GET* ressemble à ceci :
+```
+export default {
+  name: 'MonComposant',
+  data () { return { monTableauDeDonnees: [] } },
+  methods: {
+    rechercher (event) {
+      const URL = 'http://localhost:9090/applicationBlanche/utilisateur'
+      this.$http.get(URL).then(
+	    response => { this.utilisateurs = response.body },
+		response => { this.messageErreur = response.body }
+      )
+    }
+  }
+}
+```
+
+## Exécution de code dès l'affichage de la page
+```
+export default {
+  name: 'MonComposant',
+  data () { return { } },
+  mounted: function () {
+    this.rechercher()
+  },
+  methods: {
+    rechercher (event) {
+    }
+  }
+}
+```

@@ -1,0 +1,9 @@
+# Règles de développement des écrans WEB
+
+## Positionnement
+L'application embarque jQuery et Bootstrap. Le positionnement des éléments ne doit pas se faire à base de *<TABLE>* ou de règles CSS trop complexes.
+
+Il est préférable d'utiliser les mécaniques de CSS décrites dans Bootstrap (https://getbootstrap.com/docs/3.3/css/#grid).
+
+## Boutons
+Tous les boutons doivent être personnalisés avec les classes Bootstrap *btn-outline-primary* (https://getbootstrap.com/docs/3.3/css/#buttons).
