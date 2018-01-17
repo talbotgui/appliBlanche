@@ -3,5 +3,5 @@
 **/.settings
 **/.classpath
 **/.project
-web/test-output
-web/database
+**/test-output
+**/database
