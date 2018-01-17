@@ -1,0 +1,9 @@
+# Règles de développement des écrans avec Vue.JS
+
+## Editeur
+L'éditeur à utiliser est Microsoft VS Code.
+
+Pour conserver une bonne qualité de code, le formattage automatique est actif à la sauvegarde et le client VueJS exécute ESLint à chaque modification de code durant le mode *développement* (pour des raisons de compatibilité entre les options du module Prettier de VSCode et les règles ESLint par défaut de VueJS, ce module n'est pas utilisé).
+
+## Développement
+Pour démarrer l'application en développement, il suffit d'exécuter la commande ``` npm run dev ```.

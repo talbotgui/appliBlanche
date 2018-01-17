@@ -1,7 +1,14 @@
-**/*.log
-**/target
-**/.settings
 **/.classpath
 **/.project
+**/.settings
+**/target
 **/test-output
+
+**/node_modules
+**/dist
+**/test/unit/coverage/
+**/test/e2e/reports/
+
+**/*.log
+
 **/database

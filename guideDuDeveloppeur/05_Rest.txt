@@ -1,0 +1,7 @@
+# Règles de développement des controleurs REST
+
+## Code HTTP et exception
+TODO
+
+## DTO et négociation de contenu
+TODO
