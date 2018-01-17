@@ -1,14 +1,24 @@
 <template>
-  <div class="hello">
+  <div class="container-fluid">
 
     <div class="erreur">{{ msgErreur }}</div>
 
     <h2>Connexion</h2>
+
     <form v-on:submit.prevent="connexion">
-      <label for="login">Identifiant</label><input id="login" v-model.trim="login" />
-      <label for="mdp">Mot de passe</label><input type="password" id="mdp" v-model="mdp" />
-      <button v-on:click="connexion">Connexion</button>
+      <div class="col-lg-5 col-md-6 col-xs-12">
+        <span>Identifiant</span>
+        <input id="login" v-model.trim="login" />
+      </div>
+      <div class="col-lg-5 col-md-6 col-xs-12">
+        <span>Mot de passe</span>
+        <input type="password" id="mdp" v-model="mdp" />
+      </div>
+      <div class="col-lg-2 col-md-12 col-xs-12">
+        <button class="btn btn-outline-primary" v-on:click="connexion">Connexion</button>
+      </div>
     </form>
+
   </div>
 </template>
 
@@ -24,11 +34,7 @@ export default {
   },
   methods: {
     connexion (event) {
-      this.$http.get('http://localhost:9090/applicationBlanche/utilisateur').then(response => {
-        console.debug(response)
-      }, response => {
-        console.error(response)
-      })
+      console.debug('connexion')
     }
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="hello">
+  <div class="container-fluid">
 
     <div class="erreur">{{ messageErreur }}</div>
 
