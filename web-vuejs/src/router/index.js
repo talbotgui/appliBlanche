@@ -5,7 +5,7 @@ import VueResource from 'vue-resource'
 
 // Import des composants de l'application
 import Connexion from '@/components/connexion/Connexion'
-import Utilisateur from '@/components/utilisateur/Utilisateur'
+import Administration from '@/components/administration/Administration'
 
 // Déclaration des modules de VueJS
 Vue.use(Router)
@@ -16,6 +16,6 @@ export default new Router({
   routes: [
     { path: '/', name: 'Connexion', component: Connexion },
     { path: '/login', name: 'Connexion', component: Connexion },
-    { path: '/utilisateur', name: 'Utilisateur', component: Utilisateur }
+    { path: '/utilisateur', name: 'Utilisateur', component: Administration }
   ]
 })

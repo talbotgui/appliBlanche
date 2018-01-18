@@ -46,7 +46,7 @@
 
 <script>
 export default {
-  name: 'Utilisateur',
+  name: 'Administration',
   data () {
     return {
       messageErreur: '',
