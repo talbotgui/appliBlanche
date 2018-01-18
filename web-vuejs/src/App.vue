@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <div class="entete">Application blanche avec Vue.JS</div>
     <router-view/>
   </div>
 </template>

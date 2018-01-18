@@ -45,3 +45,7 @@ export default {
   }
 }
 ```
+
+## Passage de paramètre CXREF
+@see https://laracasts.com/discuss/channels/vue/sending-values-with-vue-resource?page=1
+``` Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#token').getAttribute('content'); ```

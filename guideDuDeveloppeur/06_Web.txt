@@ -7,3 +7,6 @@ Il est préférable d'utiliser les mécaniques de CSS décrites dans Bootstrap (
 
 ## Boutons
 Tous les boutons doivent être personnalisés avec les classes Bootstrap *btn-outline-primary* (https://getbootstrap.com/docs/3.3/css/#buttons).
+
+## Configuration Maven
+@see https://github.com/jonashackt/spring-boot-vuejs

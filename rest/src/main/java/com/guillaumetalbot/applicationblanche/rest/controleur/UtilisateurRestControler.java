@@ -81,8 +81,7 @@ public class UtilisateurRestControler {
 	@RequestMapping(value = "/utilisateur", method = POST)
 	public void sauvegarderUtilisateur(//
 			@RequestParam(value = "login") final String login, //
-			@RequestParam(value = "mdp", required = false) final String mdp, //
-			@RequestParam(value = "role", required = false) final String role) {
+			@RequestParam(value = "mdp", required = false) final String mdp) {
 		// Validation coté WEB car elle est nécessaire à cause d'un problème WEB
 		// (au delete avec un . dans le parametre)
 		if (login.contains(".")) {

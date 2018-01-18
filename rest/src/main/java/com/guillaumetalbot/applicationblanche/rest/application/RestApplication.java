@@ -14,6 +14,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import com.guillaumetalbot.applicationblanche.application.PackageForApplication;
 import com.guillaumetalbot.applicationblanche.metier.service.SecuriteService;
@@ -82,6 +85,16 @@ public class RestApplication {
 		};
 	}
 
+	@Bean
+	public WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurerAdapter() {
+			@Override
+			public void addCorsMappings(final CorsRegistry registry) {
+				registry.addMapping("/**");
+			}
+		};
+	}
+
 	/**
 	 * Bean fo SpringFox.
 	 *
@@ -100,5 +113,4 @@ public class RestApplication {
 				.enableUrlTemplating(true)//
 				.tags(new Tag("API MonMariage", "Description de l'API de l'application MonMariage"));
 	}
-
 }
