@@ -18,8 +18,8 @@
 
         <!-- Création d'un utilisateur -->
         <div class="col-lg-12 col-md-12 col-xs-12">
-          <input id="login" v-model.trim="nouvelUtilisateur.login" />
-          <input id="mdp" type="password" v-model.trim="nouvelUtilisateur.mdp" />
+          <input id="login" v-model.trim="nouvelUtilisateur.login" placeholder="nom d'utilisateur" />
+          <input id="mdp" v-model.trim="nouvelUtilisateur.mdp" placeholder="mot de passe" />
           <button class="btn btn-outline-primary" v-on:click="creerUtilisateur">Créer l'utilisateur</button>
         </div>
       </div>
@@ -35,7 +35,7 @@
 
         <!-- Création d'un role -->
         <div class="col-lg-12 col-md-12 col-xs-12">
-          <input id="nouveauRole" v-model.trim="nouveauRole.nom" />
+          <input id="nouveauRole" v-model.trim="nouveauRole.nom" placeholder="nom" />
           <button class="btn btn-outline-primary" v-on:click="creerRole">Créer le role</button>
         </div>
       </div>
@@ -77,21 +77,36 @@ export default {
           this.nouveauRole = { nom: '' }
           this.rechercherLesDonnees()
         },
-        response => { this.messageErreur += '\n' + (response.body && response.body.message !== '') ? response.body.message : response.bodyText }
+        this.traiterErreur
       )
     },
     rechercherLesDonnees (event) {
       this.$http.get('http://localhost:9090/applicationBlanche/utilisateur').then(
         response => { this.utilisateurs = response.body },
-        response => {
-          console.debug(response)
-          this.messageErreur += '\n' + (response.body && response.body.message !== '') ? response.body.message : response.bodyText
-        }
+        this.traiterErreur
       )
       this.$http.get('http://localhost:9090/applicationBlanche/role').then(
         response => { this.roles = response.body },
-        response => { this.messageErreur = '\n' + (response.body && response.body.message !== '') ? response.body.message : response.bodyText }
+        this.traiterErreur
       )
+    },
+    traiterErreur (response) {
+      var messageAajouter = ''
+      if (response) {
+        if (response.body && response.body.message !== '') {
+          messageAajouter = response.body.message
+        } else if (response.bodyText) {
+          messageAajouter = response.bodyText
+        } else if (response.ok === false) {
+          messageAajouter = 'L\'API ne répond pas'
+        } else {
+          console.error(response)
+          messageAajouter = 'Une erreur inconnue est survenue'
+        }
+      } else {
+        messageAajouter = 'Une erreur inconnue est survenue'
+      }
+      this.messageErreur = '\n' + messageAajouter
     }
   }
 }
