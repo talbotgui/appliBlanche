@@ -25,7 +25,7 @@
 		<module>metier</module>
 		<module>batch</module>
 		<module>rest</module>
-		<module>web</module>
+		<module>web-vuejs</module>
 	</modules>
 
 	<profiles>
