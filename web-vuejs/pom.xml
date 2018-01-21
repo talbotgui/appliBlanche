@@ -4,7 +4,7 @@
 
 	<artifactId>web-vuejs</artifactId>
 	<name>Application Web avec VueJS</name>
-	<packaging>pom</packaging>
+	<packaging>war</packaging>
 
 	<parent>
 		<groupId>com.guillaumetalbot.applicationblanche</groupId>
@@ -20,6 +20,7 @@
 
 	<build>
 		<plugins>
+			<!-- Nettoyage des répertoires générés par maven et npm -->
 			<plugin>
 				<artifactId>maven-clean-plugin</artifactId>
 				<version>3.0.0</version>
@@ -36,6 +37,7 @@
 				<artifactId>frontend-maven-plugin</artifactId>
 				<version>1.5</version>
 				<executions>
+					<!-- Installation de Node et Npm -->
 					<execution>
 						<id>install node and npm</id>
 						<goals><goal>install-node-and-npm</goal></goals>
@@ -46,6 +48,7 @@
 							<npmDownloadRoot>http://registry.npmjs.org/npm/-/</npmDownloadRoot>
 						</configuration>
 					</execution>
+					<!-- Initialisation du proxy pour Node -->
 					<!--<execution>
 						<id>npm proxy http</id>
 						<goals><goal>npm</goal></goals>
@@ -56,6 +59,7 @@
 						<goals><goal>npm</goal></goals>
 						<configuration><arguments>config set https-proxy "http://xx:yy"</arguments></configuration>
 					</execution>-->
+					<!-- Initialisation du registry -->
 					<execution>
 						<id>npm set registry</id>
 						<goals><goal>npm</goal></goals>
@@ -63,17 +67,20 @@
 							<arguments>config set registry https://registry.npmjs.org</arguments>
 						</configuration>
 					</execution>
+					<!-- Paramétrage SSL -->
 					<execution>
 						<id>npm set non-strict ssl</id>
 						<goals><goal>npm</goal></goals>
 						<configuration><arguments>config set strict-ssl false</arguments></configuration>
 					</execution>
+					<!-- Téléchargement des dépendances NPM -->
 					<execution>
 						<id>npm install</id>
 						<goals><goal>npm</goal></goals>
 						<phase>generate-resources</phase>
 						<configuration><arguments>install</arguments></configuration>
 					</execution>
+					<!-- Packaging de l'application par NPM -->
 					<execution>
 						<id>npm run build</id>
 						<goals><goal>npm</goal></goals>
@@ -81,6 +88,37 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!-- Génération d'un fichier avec les informations du commit dans le répertoire de destination de la compilation de NPM -->
+			<plugin>
+				<groupId>pl.project13.maven</groupId>
+				<artifactId>git-commit-id-plugin</artifactId>
+				<version>2.2.4</version>
+				<executions>
+					<execution>
+						<id>default</id>
+						<goals><goal>revision</goal></goals>
+						<phase>generate-sources</phase>
+					</execution>
+				</executions>
+				<configuration>
+					<skipPoms>false</skipPoms>
+					<format>json</format>
+					<generateGitPropertiesFile>true</generateGitPropertiesFile>
+					<generateGitPropertiesFilename>${project.basedir}/dist/git.json</generateGitPropertiesFilename>
+				</configuration>
+			</plugin>
+			<!-- Génération d'un war minimal contenant l'application WEB -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.2.0</version>
+				<configuration>
+					<webResources><resource><directory>${project.basedir}/dist</directory></resource></webResources>
+					<webXml>${project.basedir}/web.xml</webXml>
+				</configuration>
+			</plugin>
+			<!-- Création d'un second WAR auto-exécutable embarquant le premier -->
+			<!-- pour exécuter ce WAR, exécuter java -jar web-vuejs-1.0.0-war-exec.jar -resetExtract -->
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
@@ -88,13 +126,13 @@
 				<executions>
 					<execution>
 						<phase>package</phase>
-						<goals><goal>exec-war</goal></goals>
+						<goals><goal>exec-war-only</goal></goals>
 					</execution>
 				</executions>
 				<configuration>
 					<buildDirectory>${project.basedir}/target/</buildDirectory>
-					<enableNaming>true</enableNaming>
-					<path>/toto</path>
+					<charset>utf-8</charset>
+					<path>/</path>
 					<extraResources>
 						<extraResource>
 							<directory>${project.basedir}/dist</directory>
