@@ -9,4 +9,9 @@ Il est préférable d'utiliser les mécaniques de CSS décrites dans Bootstrap (
 Tous les boutons doivent être personnalisés avec les classes Bootstrap *btn-outline-primary* (https://getbootstrap.com/docs/3.3/css/#buttons).
 
 ## Configuration Maven
-@see https://github.com/jonashackt/spring-boot-vuejs
+La configuration Maven des projets web-xxxx est assez riche car elle permet de 
+
+* installer localement et temporairement une version de NODE et de NPM 
+* construire l'application avec cette version de NPM
+* construire un WAR avec un fichier *web.xml* tout simple
+* construire un WAR auto-exécutable avec Tomcat7
