@@ -2,6 +2,8 @@ package com.guillaumetalbot.applicationblanche.rest.application;
 
 import java.time.LocalDate;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -15,6 +17,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -41,6 +44,8 @@ public class RestApplication {
 
 	private static ApplicationContext ac;
 
+	private static final Logger LOG = LoggerFactory.getLogger(RestApplication.class);
+
 	public static final String LOGIN_MDP_ADMIN_PAR_DEFAUT = "adminAsupprimer";
 	public static final String PACKAGE_REST_CONTROLEUR = "com.guillaumetalbot.applicationblanche.rest.controleur";
 	public static final String PACKAGE_REST_ERREUR = "com.guillaumetalbot.applicationblanche.rest.erreur";
@@ -61,6 +66,11 @@ public class RestApplication {
 		if (securiteService.listerUtilisateurs().isEmpty()) {
 			securiteService.sauvegarderUtilisateur(LOGIN_MDP_ADMIN_PAR_DEFAUT, LOGIN_MDP_ADMIN_PAR_DEFAUT);
 		}
+
+		// Log pour afficher l'URL de l'API
+		final String port = ac.getEnvironment().getProperty("server.port");
+		final String context = ac.getEnvironment().getProperty("server.context-path");
+		LOG.info("Application disponible sur http://localhost:{}/{}", port, context);
 	}
 
 	public static void stop() {
@@ -85,6 +95,11 @@ public class RestApplication {
 		};
 	}
 
+	/**
+	 * Configuration pour accepter les appels inter-origines
+	 *
+	 * @return
+	 */
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurerAdapter() {
@@ -96,7 +111,7 @@ public class RestApplication {
 	}
 
 	/**
-	 * Bean fo SpringFox.
+	 * Configuration SpringFox.
 	 *
 	 * @return SpringFox configuration
 	 */
@@ -111,6 +126,21 @@ public class RestApplication {
 				.directModelSubstitute(LocalDate.class, String.class)//
 				.genericModelSubstitutes(ResponseEntity.class)//
 				.enableUrlTemplating(true)//
-				.tags(new Tag("API MonMariage", "Description de l'API de l'application MonMariage"));
+				.tags(new Tag("API Application blanche", "Description de l'API REST"));
+	}
+
+	/**
+	 * Configuration des pages HTML du répertoire src/main/resources/templates.
+	 *
+	 * @return
+	 */
+	@Bean
+	public WebMvcConfigurerAdapter htmlConfigurer() {
+		return new WebMvcConfigurerAdapter() {
+			@Override
+			public void addViewControllers(final ViewControllerRegistry registry) {
+				registry.addViewController("/").setViewName("index");
+			}
+		};
 	}
 }
