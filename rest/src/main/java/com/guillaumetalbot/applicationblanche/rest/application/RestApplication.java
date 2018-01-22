@@ -130,6 +130,7 @@ public class RestApplication {
 						.and().authorizeRequests().antMatchers("/", "/home").permitAll().anyRequest().authenticated()
 
 						// Tout le monde a accès à login
+						// au succès du login, l'utilisateur est renvoyé vers la précédente page sécurisée (ligne juste au dessus)
 						.and().formLogin().loginPage("/login").permitAll()
 
 						// Tout le monde a accès à logout
