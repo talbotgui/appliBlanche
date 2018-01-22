@@ -34,7 +34,10 @@ public class IntegrationWebTest extends AbstractTestNGSpringContextTests {
 		return rest;
 	}
 
-	/** Test URL. */
+	/** 
+	 * Test URL.
+	 * @return URL de l'application démarrée
+	 */
 	protected String getURL() {
 		return "http://localhost:" + this.port + this.contextPath;
 	}

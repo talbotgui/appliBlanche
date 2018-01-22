@@ -41,6 +41,7 @@
 					<execution>
 						<id>install node and npm</id>
 						<goals><goal>install-node-and-npm</goal></goals>
+						<phase>initialize</phase>
 						<configuration>
 							<nodeVersion>v8.9.1</nodeVersion>
 							<npmVersion>5.5.1</npmVersion>
@@ -52,17 +53,20 @@
 					<!--<execution>
 						<id>npm proxy http</id>
 						<goals><goal>npm</goal></goals>
+						<phase>initialize</phase>
 						<configuration><arguments>config set proxy "http://xx:yy"</arguments></configuration>
 					</execution>
 					<execution>
 						<id>npm proxy https</id>
 						<goals><goal>npm</goal></goals>
+						<phase>initialize</phase>
 						<configuration><arguments>config set https-proxy "http://xx:yy"</arguments></configuration>
 					</execution>-->
 					<!-- Initialisation du registry -->
 					<execution>
 						<id>npm set registry</id>
 						<goals><goal>npm</goal></goals>
+						<phase>initialize</phase>
 						<configuration>
 							<arguments>config set registry https://registry.npmjs.org</arguments>
 						</configuration>
@@ -71,6 +75,7 @@
 					<execution>
 						<id>npm set non-strict ssl</id>
 						<goals><goal>npm</goal></goals>
+						<phase>initialize</phase>
 						<configuration><arguments>config set strict-ssl false</arguments></configuration>
 					</execution>
 					<!-- Téléchargement des dépendances NPM -->
@@ -84,6 +89,7 @@
 					<execution>
 						<id>npm run build</id>
 						<goals><goal>npm</goal></goals>
+						<phase>compile</phase>
 						<configuration><arguments>run build</arguments></configuration>
 					</execution>
 				</executions>
