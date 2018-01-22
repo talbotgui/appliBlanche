@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -16,6 +17,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -40,6 +45,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @ComponentScan({ RestApplication.PACKAGE_REST_CONTROLEUR, RestApplication.PACKAGE_REST_ERREUR, PackageForApplication.PACKAGE_METIER_SERVICE,
 		PackageForApplication.PACKAGE_METIER_DAO })
 @EnableJpaRepositories(PackageForApplication.PACKAGE_METIER_DAO)
+@EnableWebSecurity
 public class RestApplication {
 
 	private static ApplicationContext ac;
@@ -106,6 +112,34 @@ public class RestApplication {
 			@Override
 			public void addCorsMappings(final CorsRegistry registry) {
 				registry.addMapping("/**");
+			}
+		};
+	}
+
+	@Bean
+	public WebSecurityConfigurerAdapter creerConfigurationSpringSecurity() {
+		return new WebSecurityConfigurerAdapter() {
+			@Override
+			protected void configure(final HttpSecurity http) throws Exception {
+
+				http
+						// Tout le monde a accès à l'API décrite dans swagger-ui
+						.authorizeRequests().antMatchers("/v2/api-docs").anonymous()
+
+						// Par défaut, tout est protégé par l'authentification
+						.and().authorizeRequests().antMatchers("/", "/home").permitAll().anyRequest().authenticated()
+
+						// Tout le monde a accès à login
+						.and().formLogin().loginPage("/login").permitAll()
+
+						// Tout le monde a accès à logout
+						.and().logout().permitAll();
+
+			}
+
+			@Autowired
+			public void configureGlobal(final AuthenticationManagerBuilder auth) throws Exception {
+				auth.inMemoryAuthentication().withUser("user").password("password").roles("USER");
 			}
 		};
 	}
