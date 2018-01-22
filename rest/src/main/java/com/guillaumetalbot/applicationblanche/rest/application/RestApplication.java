@@ -48,23 +48,25 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableWebSecurity
 public class RestApplication {
 
+	/** Contexte applicatif démarré. */
 	private static ApplicationContext ac;
 
+	/** Logger. */
 	private static final Logger LOG = LoggerFactory.getLogger(RestApplication.class);
 
+	/** Packages utilisés dans la configuration Spring. */
 	public static final String LOGIN_MDP_ADMIN_PAR_DEFAUT = "adminAsupprimer";
 	public static final String PACKAGE_REST_CONTROLEUR = "com.guillaumetalbot.applicationblanche.rest.controleur";
 	public static final String PACKAGE_REST_ERREUR = "com.guillaumetalbot.applicationblanche.rest.erreur";
 
-	public static ApplicationContext getApplicationContext() {
-		return ac;
-	}
+	private static final String[] URI_SWAGGER = { "/swagger-resources/**", "/swagger-ui.html", "/v2/api-docs", "/webjars/**" };
 
+	/**
+	 * Méthode de démarrage de l'application
+	 *
+	 * @param args
+	 */
 	public static void main(final String[] args) {
-		start();
-	}
-
-	public static void start() {
 		ac = SpringApplication.run(RestApplication.class);
 
 		// Si aucun utilisateur au base, on en crée un par défaut
@@ -79,26 +81,32 @@ public class RestApplication {
 		LOG.info("Application disponible sur http://localhost:{}/{}", port, context);
 	}
 
+	/**
+	 * Méthode d'arrêt de l'application
+	 */
 	public static void stop() {
 		if (ac != null) {
 			SpringApplication.exit(ac);
 		}
 	}
 
+	/**
+	 * Configuration SpringFox.
+	 *
+	 * @return SpringFox configuration
+	 */
 	@Bean
-	public EmbeddedServletContainerCustomizer containerCustomizer() {
-		return container -> {
+	public Docket configuerSwagger() {
 
-			// Error pages
-			final ErrorPage error401Page = new ErrorPage(HttpStatus.UNAUTHORIZED, "/401.html");
-			final ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/404.html");
-			final ErrorPage error500Page = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/500.html");
-			container.addErrorPages(error401Page, error404Page, error500Page);
-
-			// Mime types
-			final MimeMappings mappings = new MimeMappings(MimeMappings.DEFAULT);
-			container.setMimeMappings(mappings);
-		};
+		// see
+		// http://springfox.github.io/springfox/docs/current/#springfox-samples
+		return new Docket(DocumentationType.SWAGGER_2)//
+				.select().apis(RequestHandlerSelectors.any())//
+				.paths(PathSelectors.any()).build().pathMapping("/")//
+				.directModelSubstitute(LocalDate.class, String.class)//
+				.genericModelSubstitutes(ResponseEntity.class)//
+				.enableUrlTemplating(true)//
+				.tags(new Tag("API Application blanche", "Description de l'API REST"));
 	}
 
 	/**
@@ -107,7 +115,7 @@ public class RestApplication {
 	 * @return
 	 */
 	@Bean
-	public WebMvcConfigurer corsConfigurer() {
+	public WebMvcConfigurer configurerCors() {
 		return new WebMvcConfigurerAdapter() {
 			@Override
 			public void addCorsMappings(final CorsRegistry registry) {
@@ -116,15 +124,33 @@ public class RestApplication {
 		};
 	}
 
+	/**
+	 * Configuration des pages HTML du répertoire src/main/resources/templates.
+	 *
+	 * @return
+	 */
 	@Bean
-	public WebSecurityConfigurerAdapter creerConfigurationSpringSecurity() {
+	public WebMvcConfigurerAdapter configurerPagesHtml() {
+		return new WebMvcConfigurerAdapter() {
+			@Override
+			public void addViewControllers(final ViewControllerRegistry registry) {
+				registry.addViewController("/").setViewName("index");
+				registry.addViewController("/login").setViewName("login");
+				registry.addViewController("/error").setViewName("error");
+
+			}
+		};
+	}
+
+	@Bean
+	public WebSecurityConfigurerAdapter configurerSpringSecurity() {
 		return new WebSecurityConfigurerAdapter() {
 			@Override
 			protected void configure(final HttpSecurity http) throws Exception {
 
 				http
-						// Tout le monde a accès à l'API décrite dans swagger-ui
-						.authorizeRequests().antMatchers("/v2/api-docs").anonymous()
+						// Tout le monde a accès à l'API décrite dans Swagger
+						.authorizeRequests().antMatchers(URI_SWAGGER).anonymous()
 
 						// Par défaut, tout est protégé par l'authentification
 						.and().authorizeRequests().antMatchers("/", "/home").permitAll().anyRequest().authenticated()
@@ -145,37 +171,21 @@ public class RestApplication {
 		};
 	}
 
-	/**
-	 * Configuration SpringFox.
-	 *
-	 * @return SpringFox configuration
-	 */
 	@Bean
-	public Docket getRestApiDescriptionWithSwagger() {
+	public EmbeddedServletContainerCustomizer creerPagesErreur() {
+		return container -> {
 
-		// see
-		// http://springfox.github.io/springfox/docs/current/#springfox-samples
-		return new Docket(DocumentationType.SWAGGER_2)//
-				.select().apis(RequestHandlerSelectors.any())//
-				.paths(PathSelectors.any()).build().pathMapping("/")//
-				.directModelSubstitute(LocalDate.class, String.class)//
-				.genericModelSubstitutes(ResponseEntity.class)//
-				.enableUrlTemplating(true)//
-				.tags(new Tag("API Application blanche", "Description de l'API REST"));
-	}
+			// Error pages
+			final ErrorPage error401Page = new ErrorPage(HttpStatus.UNAUTHORIZED, "/401.html");
+			final ErrorPage error403Page = new ErrorPage(HttpStatus.FORBIDDEN, "/403.html");
+			final ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/404.html");
+			final ErrorPage error500Page = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/500.html");
+			final ErrorPage errorPage = new ErrorPage("/500.html");
+			container.addErrorPages(error401Page, error403Page, error404Page, error500Page, errorPage);
 
-	/**
-	 * Configuration des pages HTML du répertoire src/main/resources/templates.
-	 *
-	 * @return
-	 */
-	@Bean
-	public WebMvcConfigurerAdapter htmlConfigurer() {
-		return new WebMvcConfigurerAdapter() {
-			@Override
-			public void addViewControllers(final ViewControllerRegistry registry) {
-				registry.addViewController("/").setViewName("index");
-			}
+			// Mime types
+			final MimeMappings mappings = new MimeMappings(MimeMappings.DEFAULT);
+			container.setMimeMappings(mappings);
 		};
 	}
 }

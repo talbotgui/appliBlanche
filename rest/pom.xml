@@ -16,8 +16,7 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 
-		<!-- Il est nécessaire de créer une property car ${maven.build.timestamp}n'est 
-			pas utilisable dans le filtering -->
+		<!-- Il est nécessaire de créer une property car ${maven.build.timestamp} n'est pas utilisable dans le filtering -->
 		<buildTimestamp>${maven.build.timestamp}</buildTimestamp>
 		<maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
 
@@ -28,8 +27,7 @@
 	</properties>
 
 	<build>
-		<!-- Pour remplacer le numero de version de l'application dans le fichier 
-			version.txt -->
+		<!-- Pour remplacer le numero de version de l'application dans le fichier version.txt -->
 		<resources>
 			<resource>
 				<filtering>true</filtering>
@@ -102,14 +100,35 @@
 		
 		<!-- Spring Security -->
 		<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		
+		<!-- Thymeleaf pour faire du template de page simple (page d'erreur et login) -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
 
 		<!-- Testing starter -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
+		</dependency>
+		
+		<!-- Pour s'abstraire de l'authentification durant les tests REST -->
+		<!-- cf. https://docs.spring.io/spring-security/site/docs/current/reference/html/test-method.html -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- cf. https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-devtools.html -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<optional>true</optional>
 		</dependency>
 
 		<!-- Runner de test (meilleur que JUnit avec Mockito) -->

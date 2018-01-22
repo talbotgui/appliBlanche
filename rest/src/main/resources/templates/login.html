@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+	<head>
+		<title>Application blanche</title><meta charset="utf-8"/>
+		<style>
+			h2 { text-align: center; }
+			label { width: }
+			form { width: 150px; margin: 0 auto; }
+			form div { width: 100px; margin-bottom: 15px; }
+			.error { background-color: red; color: white; height: 50px; text-align: center; line-height: 50px; font-size: 20px; margin-bottom: 20px; }
+		</style>
+	</head>
+	<body>
+		<h2>Cette page de connexion n'est pas de raison d'être en dehors de l'accès manuel à l'API pour des besoins de test</h2>
+		
+		<div class="error" th:if="${param.error}">Paramètres de connexion invalides.</div>
+		<div th:if="${param.logout}">Vous êtes déconnextés.</div>
+		<form th:action="@{/login}" method="post">
+			<div><label>Utilisateur : </label><input type="text" name="username" /></div>
+			<div><label>Mot de passe : </label><input type="password" name="password" /></div>
+			<div><input type="submit" value="Connexion" /></div>
+		</form>
+	</body>
+</html>
