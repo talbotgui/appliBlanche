@@ -24,7 +24,7 @@ public class IntegrationWebTest extends AbstractTestNGSpringContextTests {
 	/**
 	 * Reset restTemplate avec les intercepteurs
 	 *
-	 * @see com.github.talbotgui.mariage.rest.controleur.ControlerTestUtil (REST_INTERCEPTORS)
+	 * @see com.guillaumetalbot.applicationblanche.rest.controleur.utils.ControlerTestUtil (REST_INTERCEPTORS)
 	 *
 	 * @return a new RestTemplate
 	 */
