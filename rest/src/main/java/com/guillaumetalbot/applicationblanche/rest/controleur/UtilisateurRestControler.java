@@ -8,7 +8,6 @@ import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,9 +21,6 @@ import com.guillaumetalbot.applicationblanche.metier.service.SecuriteService;
 
 @RestController
 public class UtilisateurRestControler {
-
-	private static final String LOGOUT_REST = "/dologout";
-	private static final String SESSION_KEY_USER_LOGIN = "USER_LOGIN";
 
 	@Autowired
 	private SecuriteService securiteService;
@@ -43,24 +39,7 @@ public class UtilisateurRestControler {
 
 	@RequestMapping(value = "/utilisateur/moi", method = GET)
 	public Utilisateur chargerUtilisateurMoi(final HttpServletRequest request) {
-		final String login = (String) request.getSession().getAttribute(SESSION_KEY_USER_LOGIN);
-		return this.securiteService.chargerUtilisateurReadOnly(login);
-	}
-
-	@RequestMapping(value = "/dologin", method = POST)
-	public void connecter(//
-			@RequestParam(value = "login") final String login, //
-			@RequestParam(value = "mdp") final String mdp, //
-			final HttpServletRequest request, //
-			final HttpServletResponse response) {
-		this.securiteService.verifierUtilisateur(login, mdp);
-		request.getSession().setAttribute(SESSION_KEY_USER_LOGIN, login);
-	}
-
-	@RequestMapping(value = LOGOUT_REST, method = GET)
-	public void deconnecter(final HttpServletRequest request, final HttpServletResponse response) {
-		request.getSession().removeAttribute("USER_LOGIN");
-		request.getSession().invalidate();
+		return this.securiteService.chargerUtilisateurReadOnly(request.getRemoteUser());
 	}
 
 	@RequestMapping(value = "/utilisateur/{login}/deverrouille", method = PUT)

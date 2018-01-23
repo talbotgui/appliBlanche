@@ -136,7 +136,6 @@ public class RestApplication {
 			public void addViewControllers(final ViewControllerRegistry registry) {
 				registry.addViewController("/").setViewName("index");
 				registry.addViewController("/login").setViewName("login");
-				registry.addViewController("/error").setViewName("error");
 
 			}
 		};
@@ -152,21 +151,25 @@ public class RestApplication {
 						// Tout le monde a accès à l'API décrite dans Swagger
 						.authorizeRequests().antMatchers(URI_SWAGGER).anonymous()
 
-						// Par défaut, tout est protégé par l'authentification
-						.and().authorizeRequests().antMatchers("/", "/home").permitAll().anyRequest().authenticated()
+						// Par défaut, tout est protégé par l'authentification sauf '/'
+						.and().authorizeRequests().antMatchers("/").permitAll().anyRequest().authenticated()
 
 						// Tout le monde a accès à login
 						// au succès du login, l'utilisateur est renvoyé vers la précédente page sécurisée (ligne juste au dessus)
 						.and().formLogin().loginPage("/login").permitAll()
 
 						// Tout le monde a accès à logout
-						.and().logout().permitAll();
+						.and().logout().permitAll()
+
+						// Activation de la securite HttpBasic (pour s'authentifier avec un simple HEADER
+						.and().httpBasic();
 
 			}
 
 			@Autowired
 			public void configureGlobal(final AuthenticationManagerBuilder auth) throws Exception {
-				auth.inMemoryAuthentication().withUser("user").password("password").roles("USER");
+				auth.inMemoryAuthentication().withUser(RestApplication.LOGIN_MDP_ADMIN_PAR_DEFAUT)
+						.password(RestApplication.LOGIN_MDP_ADMIN_PAR_DEFAUT).roles("USER");
 			}
 		};
 	}
