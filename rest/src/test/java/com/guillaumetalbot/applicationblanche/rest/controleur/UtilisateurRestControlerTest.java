@@ -15,12 +15,10 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.guillaumetalbot.applicationblanche.exception.BusinessException;
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.Utilisateur;
 import com.guillaumetalbot.applicationblanche.rest.controleur.utils.ControlerTestUtil;
 import com.guillaumetalbot.applicationblanche.rest.controleur.utils.MockedIntegrationWebTest;
@@ -87,63 +85,7 @@ public class UtilisateurRestControlerTest extends MockedIntegrationWebTest {
 	}
 
 	@Test
-	public void test04Login01Ok() {
-		final String login = "monLogin";
-		final String mdp = "monMdp";
-
-		// ARRANGE
-		Mockito.doNothing().when(this.securiteService).verifierUtilisateur(Mockito.anyString(), Mockito.anyString());
-
-		// ACT
-		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("login", login, "mdp", mdp);
-		final HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(requestParam);
-		final ResponseEntity<Void> response = this.getREST().exchange(this.getURL() + "/dologin", HttpMethod.POST, request, Void.class);
-
-		// ASSERT
-		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
-		Mockito.verify(this.securiteService).verifierUtilisateur(login, mdp);
-		Mockito.verifyNoMoreInteractions(this.securiteService);
-	}
-
-	@Test
-	public void test04Login02Ko() {
-		final String login = "monLogin";
-		final String mdp = "monMdp";
-
-		// ARRANGE
-		Mockito.doThrow(new BusinessException(BusinessException.ERREUR_LOGIN)).when(this.securiteService).verifierUtilisateur(Mockito.anyString(),
-				Mockito.anyString());
-
-		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("login", login, "mdp", mdp);
-		final Map<String, Object> uriVars = new HashMap<String, Object>();
-
-		// ACT
-		final Throwable thrown = Assertions.catchThrowable(() -> {
-			this.getREST().postForObject(this.getURL() + "/dologin", requestParam, Void.class, uriVars);
-		});
-
-		// ASSERT
-		Assert.assertNotNull(thrown);
-		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.class);
-		Assert.assertEquals(HttpStatus.FORBIDDEN, ((HttpClientErrorException) thrown).getStatusCode());
-		Mockito.verify(this.securiteService).verifierUtilisateur(login, mdp);
-		Mockito.verifyNoMoreInteractions(this.securiteService);
-	}
-
-	@Test
-	public void test05Logout() {
-
-		// ARRANGE
-
-		// ACT
-		this.getREST().getForObject(this.getURL() + "/dologout", Void.class);
-
-		// ASSERT
-		// Nothing to do
-	}
-
-	@Test
-	public void test06SauvegardeUtilisateurKo() {
+	public void test04SauvegardeUtilisateurKo() {
 		final String login = "mon.Login";
 		final String mdp = "monMdp";
 
@@ -165,7 +107,7 @@ public class UtilisateurRestControlerTest extends MockedIntegrationWebTest {
 	}
 
 	@Test
-	public void test07DeverrouilleUtilisateur() {
+	public void test06DeverrouilleUtilisateur() {
 		final String login = "mon.Login";
 
 		// ARRANGE
@@ -179,7 +121,7 @@ public class UtilisateurRestControlerTest extends MockedIntegrationWebTest {
 	}
 
 	@Test
-	public void test09ResetPassword() {
+	public void test08ResetPassword() {
 		final String loginToReset = "monLoginToReset";
 
 		// ARRANGE
@@ -198,7 +140,7 @@ public class UtilisateurRestControlerTest extends MockedIntegrationWebTest {
 	}
 
 	@Test
-	public void test10ChangementMdp() {
+	public void test09ChangementMdp() {
 		final String login = "monLogin";
 		final String mdp = "monMdp";
 		final Utilisateur utilisateur = new Utilisateur(login, mdp);
@@ -220,7 +162,7 @@ public class UtilisateurRestControlerTest extends MockedIntegrationWebTest {
 	}
 
 	@Test
-	public void test11ChangementMdpUtilisateurInexistant() {
+	public void test10ChangementMdpUtilisateurInexistant() {
 		final String login = "monLogin";
 		final String mdp = "monMdp";
 		final Utilisateur utilisateur = null;

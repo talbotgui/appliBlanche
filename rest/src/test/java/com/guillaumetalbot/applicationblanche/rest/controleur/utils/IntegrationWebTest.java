@@ -7,9 +7,9 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.web.client.RestTemplate;
 
-import com.guillaumetalbot.applicationblanche.rest.application.RestTestApplication;
+import com.guillaumetalbot.applicationblanche.rest.application.RestApplication;
 
-@SpringBootTest(classes = RestTestApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = RestApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations = { "classpath:application-test.properties" })
 public class IntegrationWebTest extends AbstractTestNGSpringContextTests {
 

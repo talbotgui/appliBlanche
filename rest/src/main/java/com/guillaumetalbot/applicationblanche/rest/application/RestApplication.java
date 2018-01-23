@@ -19,7 +19,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -45,7 +44,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @ComponentScan({ RestApplication.PACKAGE_REST_CONTROLEUR, RestApplication.PACKAGE_REST_ERREUR, PackageForApplication.PACKAGE_METIER_SERVICE,
 		PackageForApplication.PACKAGE_METIER_DAO })
 @EnableJpaRepositories(PackageForApplication.PACKAGE_METIER_DAO)
-@EnableWebSecurity
 public class RestApplication {
 
 	/** Contexte applicatif démarré. */
@@ -121,6 +119,7 @@ public class RestApplication {
 			public void addCorsMappings(final CorsRegistry registry) {
 				registry.addMapping("/**");
 			}
+
 		};
 	}
 
@@ -147,22 +146,30 @@ public class RestApplication {
 			@Override
 			protected void configure(final HttpSecurity http) throws Exception {
 
-				http
-						// Tout le monde a accès à l'API décrite dans Swagger
-						.authorizeRequests().antMatchers(URI_SWAGGER).anonymous()
+				// Activation de la securite HttpBasic (pour s'authentifier avec un simple HEADER)
+				http.httpBasic();
 
-						// Par défaut, tout est protégé par l'authentification sauf '/'
-						.and().authorizeRequests().antMatchers("/").permitAll().anyRequest().authenticated()
+				// Protection CORS déjà décrite plus finement dans RestApplication.configurerCors
+				// http.cors();
 
-						// Tout le monde a accès à login
-						// au succès du login, l'utilisateur est renvoyé vers la précédente page sécurisée (ligne juste au dessus)
-						.and().formLogin().loginPage("/login").permitAll()
+				// Protection CSRF activé/désactivé dans les application[-test].properties
+				http.csrf().disable();
 
-						// Tout le monde a accès à logout
-						.and().logout().permitAll()
+				// Tout le monde a accès à l'API décrite dans Swagger
+				http.authorizeRequests().antMatchers(URI_SWAGGER).anonymous();
 
-						// Activation de la securite HttpBasic (pour s'authentifier avec un simple HEADER
-						.and().httpBasic();
+				// '/' est autorisé à tous
+				http.authorizeRequests().antMatchers("/").permitAll();
+
+				// Par défaut, tout est protégé par l'authentification
+				http.authorizeRequests().anyRequest().authenticated();
+
+				// Tout le monde a accès à login
+				// au succès du login, l'utilisateur est renvoyé vers la précédente page sécurisée (ligne juste au dessus)
+				http.formLogin().loginPage("/login").permitAll();
+
+				// Tout le monde a accès à logout
+				http.logout().permitAll();
 
 			}
 
