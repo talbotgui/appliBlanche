@@ -5,3 +5,14 @@ TODO
 
 ## DTO et négociation de contenu
 TODO
+
+## Tests
+Il est possible d'accélérer l'exécution des tests de l'API REST en utilisant l'API MockMvc de Spring. Cette API permet de ne pas démarrer un serveur réel et d'appeler directement les controlleurs.
+Mais l'API, à mon gout, a ses défauts :
+
+* elle nécessite des imports statiques (peu pratiques) ;
+* elle ne permet pas une bonne écriture AAA des tests ;
+* elle s'abstrait des contraintes réelles des appels HTTP (ce qui est son objectif) et donc éloigne le test de la réalité ;
+* elle ne permet que des tests sur le JSON retourné (là où RestTemplate fournit des objets) ;
+
+De plus, RestTemplate est une classe utilitaire de Spring très pratique et son usage dans les tests permet aux développeurs de la découvrir et la prendre en main.
