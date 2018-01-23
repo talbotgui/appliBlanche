@@ -115,14 +115,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 		</dependency>
-		
-		<!-- Pour s'abstraire de l'authentification durant les tests REST -->
-		<!-- cf. https://docs.spring.io/spring-security/site/docs/current/reference/html/test-method.html -->
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-test</artifactId>
-			<scope>test</scope>
-		</dependency>
 
 		<!-- cf. https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-devtools.html -->
 		<dependency>
