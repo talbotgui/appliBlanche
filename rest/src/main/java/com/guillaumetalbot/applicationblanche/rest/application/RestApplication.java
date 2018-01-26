@@ -18,11 +18,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import com.guillaumetalbot.applicationblanche.application.PackageForApplication;
@@ -44,6 +41,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @ComponentScan({ RestApplication.PACKAGE_REST_CONTROLEUR, RestApplication.PACKAGE_REST_ERREUR, PackageForApplication.PACKAGE_METIER_SERVICE,
 		PackageForApplication.PACKAGE_METIER_DAO })
 @EnableJpaRepositories(PackageForApplication.PACKAGE_METIER_DAO)
+@EnableGlobalMethodSecurity
 public class RestApplication {
 
 	/** Contexte applicatif démarré. */
@@ -56,8 +54,6 @@ public class RestApplication {
 	public static final String LOGIN_MDP_ADMIN_PAR_DEFAUT = "adminAsupprimer";
 	public static final String PACKAGE_REST_CONTROLEUR = "com.guillaumetalbot.applicationblanche.rest.controleur";
 	public static final String PACKAGE_REST_ERREUR = "com.guillaumetalbot.applicationblanche.rest.erreur";
-
-	private static final String[] URI_SWAGGER = { "/swagger-resources/**", "/swagger-ui.html", "/v2/api-docs", "/webjars/**" };
 
 	/**
 	 * Méthode de démarrage de l'application
@@ -107,20 +103,10 @@ public class RestApplication {
 				.tags(new Tag("API Application blanche", "Description de l'API REST"));
 	}
 
-	/**
-	 * Configuration pour accepter les appels inter-origines
-	 *
-	 * @return
-	 */
-	@Bean
-	public WebMvcConfigurer configurerCors() {
-		return new WebMvcConfigurerAdapter() {
-			@Override
-			public void addCorsMappings(final CorsRegistry registry) {
-				registry.addMapping("/**");
-			}
-
-		};
+	@Autowired
+	public void configureGlobal(final AuthenticationManagerBuilder auth) throws Exception {
+		auth.inMemoryAuthentication().withUser(RestApplication.LOGIN_MDP_ADMIN_PAR_DEFAUT).password(RestApplication.LOGIN_MDP_ADMIN_PAR_DEFAUT)
+				.roles("USER");
 	}
 
 	/**
@@ -134,49 +120,6 @@ public class RestApplication {
 			@Override
 			public void addViewControllers(final ViewControllerRegistry registry) {
 				registry.addViewController("/").setViewName("index");
-				registry.addViewController("/login").setViewName("login");
-
-			}
-		};
-	}
-
-	@Bean
-	public WebSecurityConfigurerAdapter configurerSpringSecurity() {
-		return new WebSecurityConfigurerAdapter() {
-			@Override
-			protected void configure(final HttpSecurity http) throws Exception {
-
-				// Activation de la securite HttpBasic (pour s'authentifier avec un simple HEADER)
-				http.httpBasic();
-
-				// Protection CORS déjà décrite plus finement dans RestApplication.configurerCors
-				// http.cors();
-
-				// Protection CSRF activé/désactivé dans les application[-test].properties
-				http.csrf().disable();
-
-				// Tout le monde a accès à l'API décrite dans Swagger
-				http.authorizeRequests().antMatchers(URI_SWAGGER).anonymous();
-
-				// '/' est autorisé à tous
-				http.authorizeRequests().antMatchers("/").permitAll();
-
-				// Par défaut, tout est protégé par l'authentification
-				http.authorizeRequests().anyRequest().authenticated();
-
-				// Tout le monde a accès à login
-				// au succès du login, l'utilisateur est renvoyé vers la précédente page sécurisée (ligne juste au dessus)
-				http.formLogin().loginPage("/login").permitAll();
-
-				// Tout le monde a accès à logout
-				http.logout().permitAll();
-
-			}
-
-			@Autowired
-			public void configureGlobal(final AuthenticationManagerBuilder auth) throws Exception {
-				auth.inMemoryAuthentication().withUser(RestApplication.LOGIN_MDP_ADMIN_PAR_DEFAUT)
-						.password(RestApplication.LOGIN_MDP_ADMIN_PAR_DEFAUT).roles("USER");
 			}
 		};
 	}

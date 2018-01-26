@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 import com.guillaumetalbot.applicationblanche.rest.application.RestApplication;
 
 @SpringBootTest(classes = RestApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
-@TestPropertySource(locations = { "classpath:application-test.properties" })
+@TestPropertySource(locations = "classpath:application-test.properties")
 public class IntegrationWebTest extends AbstractTestNGSpringContextTests {
 
 	/** ContextRoot de l'application. */
@@ -30,7 +30,7 @@ public class IntegrationWebTest extends AbstractTestNGSpringContextTests {
 	 */
 	protected RestTemplate getREST() {
 		final RestTemplate rest = new RestTemplate();
-		rest.setInterceptors(ControlerTestUtil.REST_INTERCEPTORS);
+		rest.setInterceptors(ControlerTestUtil.getRestInterceptors());
 		return rest;
 	}
 

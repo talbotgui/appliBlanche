@@ -18,19 +18,14 @@ public class ControlerTestUtil {
 	/** Logger. */
 	private static final Logger LOG = LoggerFactory.getLogger(ControlerTestUtil.class);
 
-	/** Log interceptor for all HTTP requests. */
-	public static final List<ClientHttpRequestInterceptor> REST_INTERCEPTORS = Arrays.asList(
-			// Intercepteur de sécurité
-			new BasicAuthorizationInterceptor(RestApplication.LOGIN_MDP_ADMIN_PAR_DEFAUT, RestApplication.LOGIN_MDP_ADMIN_PAR_DEFAUT),
-
-			// Intercepteur pour logger chaque requête
-			(request, body, execution) -> {
-				LOG.info("Request : {URI={}, method={}, headers={}, body={}}", request.getURI(), request.getMethod().name(), request.getHeaders(),
-						new String(body));
-				final ClientHttpResponse response = execution.execute(request, body);
-				LOG.info("Response : {code={}}", response.getStatusCode());
-				return response;
-			});
+	/** Intercepteur pour logger chaque requête */
+	private static final ClientHttpRequestInterceptor LOG_INTERCEPTOR = (request, body, execution) -> {
+		LOG.info("Request : {URI={}, method={}, headers={}, body={}}", request.getURI(), request.getMethod().name(), request.getHeaders(),
+				new String(body));
+		final ClientHttpResponse response = execution.execute(request, body);
+		LOG.info("Response : {code={}}", response.getStatusCode());
+		return response;
+	};
 
 	public static MultiValueMap<String, Object> creeMapParamRest(final Object... params) {
 		final MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
@@ -46,5 +41,12 @@ public class ControlerTestUtil {
 			}
 		}
 		return requestParam;
+	}
+
+	/** Log interceptor for all HTTP requests. */
+	public static List<ClientHttpRequestInterceptor> getRestInterceptors() {
+		final ClientHttpRequestInterceptor securite = new BasicAuthorizationInterceptor(RestApplication.LOGIN_MDP_ADMIN_PAR_DEFAUT,
+				RestApplication.LOGIN_MDP_ADMIN_PAR_DEFAUT);
+		return Arrays.asList(securite, LOG_INTERCEPTOR);
 	}
 }
