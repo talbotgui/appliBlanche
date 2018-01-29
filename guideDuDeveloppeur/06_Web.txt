@@ -15,3 +15,18 @@ La configuration Maven des projets web-xxxx est assez riche car elle permet de
 * construire l'application avec cette version de NPM
 * construire un WAR avec un fichier *web.xml* tout simple
 * construire un WAR auto-exécutable avec Tomcat7
+
+## Negociation de contenu
+Pour permettre d'exposer, à une même URI, deux représentations de données différentes, il suffit :
+
+* de déclarer que la méthode du controlleur répond à 2 types de contenu (le standard application/json et application/json;details)
+``` @RequestMapping(value = "/xxxx", method = GET, produces = { "application/json", "application/json;details" }) ```
+
+* de vérifier la valeur de l'entête dans le code
+```
+public Collection<?> listerXxxxxx(@RequestHeader("Accept") final String accept) {
+  if (MIME_JSON_DETAILS.equals(accept)) {
+  } else {
+  }
+}
+```
