@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import com.guillaumetalbot.applicationblanche.metier.dto.UtilisateurAvecRolesEtAutorisations;
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.Utilisateur;
 
 public interface UtilisateurRepository extends CrudRepository<Utilisateur, String> {
@@ -23,5 +24,8 @@ public interface UtilisateurRepository extends CrudRepository<Utilisateur, Strin
 
 	@Query("select u from Utilisateur u order by u.login")
 	Collection<Utilisateur> listerUtilisateur();
+
+	@Query("select new com.guillaumetalbot.applicationblanche.metier.dto.UtilisateurAvecRolesEtAutorisations(u.login, concat(ro.nom), concat(re.clef)) from Utilisateur u left join u.roles ro left join ro.ressourcesAutorisees re")
+	Collection<UtilisateurAvecRolesEtAutorisations> listerUtilisateursAvecRolesEtAutorisations();
 
 }

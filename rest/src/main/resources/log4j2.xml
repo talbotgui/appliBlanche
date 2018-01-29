@@ -28,6 +28,7 @@
 		<Logger name="org.thymeleaf" level="warn"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
 
 		<Logger name="org.hibernate" level="warn"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
+		<Logger name="org.hibernate.SQL" level="trace"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
 		<Logger name="org.hibernate.engine.jdbc.spi.SqlExceptionHelper" level="error"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
 
 		<Logger name="springfox" level="warn"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>

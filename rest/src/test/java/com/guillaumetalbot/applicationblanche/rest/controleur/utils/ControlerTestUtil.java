@@ -45,8 +45,8 @@ public class ControlerTestUtil {
 
 	/** Log interceptor for all HTTP requests. */
 	public static List<ClientHttpRequestInterceptor> getRestInterceptors() {
-		final ClientHttpRequestInterceptor securite = new BasicAuthorizationInterceptor(RestApplication.LOGIN_MDP_ADMIN_PAR_DEFAUT,
-				RestApplication.LOGIN_MDP_ADMIN_PAR_DEFAUT);
+		final ClientHttpRequestInterceptor securite = new BasicAuthorizationInterceptor(RestApplication.ADMIN_PAR_DEFAUT_LOGIN_MDP,
+				RestApplication.ADMIN_PAR_DEFAUT_LOGIN_MDP);
 		return Arrays.asList(securite, LOG_INTERCEPTOR);
 	}
 }

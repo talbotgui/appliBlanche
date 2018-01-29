@@ -1,6 +1,10 @@
 package com.guillaumetalbot.applicationblanche.rest.application;
 
+import java.lang.reflect.Method;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +23,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -47,13 +52,37 @@ public class RestApplication {
 	/** Contexte applicatif démarré. */
 	private static ApplicationContext ac;
 
+	/** Configuration de la sécurité par défaut. */
+	public static final String ADMIN_PAR_DEFAUT_LOGIN_MDP = "adminAsupprimer";
+	public static final String ADMIN_PAR_DEFAUT_ROLE = "administrateur";
+
 	/** Logger. */
 	private static final Logger LOG = LoggerFactory.getLogger(RestApplication.class);
 
 	/** Packages utilisés dans la configuration Spring. */
-	public static final String LOGIN_MDP_ADMIN_PAR_DEFAUT = "adminAsupprimer";
 	public static final String PACKAGE_REST_CONTROLEUR = "com.guillaumetalbot.applicationblanche.rest.controleur";
 	public static final String PACKAGE_REST_ERREUR = "com.guillaumetalbot.applicationblanche.rest.erreur";
+
+	/**
+	 * Recherche de tous les controleurs REST et des méthodes qu'ils exposent.
+	 * 
+	 * @return
+	 */
+	private static Collection<String> listerMethodesDeControleurs() {
+		final Map<String, Object> beans = ac.getBeansWithAnnotation(Controller.class);
+		final Collection<String> clefsRessources = new ArrayList<>();
+		for (final Map.Entry<String, Object> entry : beans.entrySet()) {
+			final String nomClasse = entry.getKey() + ".";
+			final Object bean = entry.getValue();
+			if (!PACKAGE_REST_CONTROLEUR.equals(bean.getClass().getPackage().getName())) {
+				continue;
+			}
+			for (final Method methode : entry.getValue().getClass().getDeclaredMethods()) {
+				clefsRessources.add(nomClasse + methode.getName());
+			}
+		}
+		return clefsRessources;
+	}
 
 	/**
 	 * Méthode de démarrage de l'application
@@ -63,11 +92,13 @@ public class RestApplication {
 	public static void main(final String[] args) {
 		ac = SpringApplication.run(RestApplication.class);
 
-		// Si aucun utilisateur au base, on en crée un par défaut
+		// Création/complétion des clefs de ressource en fonction des méthodes exposées par l'API
+		// Si aucun utilisateur au base, on en crée un par défaut associé au role 'administrateur' et ayant tous les droits
 		final SecuriteService securiteService = ac.getBean(SecuriteService.class);
-		if (securiteService.listerUtilisateurs().isEmpty()) {
-			securiteService.sauvegarderUtilisateur(LOGIN_MDP_ADMIN_PAR_DEFAUT, LOGIN_MDP_ADMIN_PAR_DEFAUT);
-		}
+
+		final Collection<String> clefsRessources = listerMethodesDeControleurs();
+		securiteService.initialiserOuCompleterConfigurationSecurite(clefsRessources, ADMIN_PAR_DEFAUT_LOGIN_MDP, ADMIN_PAR_DEFAUT_LOGIN_MDP,
+				ADMIN_PAR_DEFAUT_ROLE);
 
 		// Log pour afficher l'URL de l'API
 		final String port = ac.getEnvironment().getProperty("server.port");
@@ -105,7 +136,7 @@ public class RestApplication {
 
 	@Autowired
 	public void configureGlobal(final AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication().withUser(RestApplication.LOGIN_MDP_ADMIN_PAR_DEFAUT).password(RestApplication.LOGIN_MDP_ADMIN_PAR_DEFAUT)
+		auth.inMemoryAuthentication().withUser(RestApplication.ADMIN_PAR_DEFAUT_LOGIN_MDP).password(RestApplication.ADMIN_PAR_DEFAUT_LOGIN_MDP)
 				.roles("USER");
 	}
 

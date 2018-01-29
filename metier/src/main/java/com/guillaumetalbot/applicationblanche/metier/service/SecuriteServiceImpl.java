@@ -3,6 +3,7 @@ package com.guillaumetalbot.applicationblanche.metier.service;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.transaction.Transactional;
@@ -19,6 +20,7 @@ import com.guillaumetalbot.applicationblanche.metier.dao.securite.LienUtilisateu
 import com.guillaumetalbot.applicationblanche.metier.dao.securite.RessourceRepository;
 import com.guillaumetalbot.applicationblanche.metier.dao.securite.RoleRepository;
 import com.guillaumetalbot.applicationblanche.metier.dao.securite.UtilisateurRepository;
+import com.guillaumetalbot.applicationblanche.metier.dto.UtilisateurAvecRolesEtAutorisations;
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.LienRoleRessource;
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.LienUtilisateurRole;
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.Ressource;
@@ -117,6 +119,26 @@ public class SecuriteServiceImpl implements SecuriteService {
 	}
 
 	@Override
+	public void initialiserOuCompleterConfigurationSecurite(final Collection<String> clefsRessources, final String loginAdmin, final String mdpAdmin,
+			final String roleAdmin) {
+
+		// Initialisation / completion des ressources
+		final Collection<String> clefsExistantes = this.ressourceRepo.listerClefsRessources();
+		final Collection<String> clefsAcreer = new ArrayList<>(clefsRessources);
+		clefsAcreer.removeAll(clefsExistantes);
+		for (final String clef : clefsAcreer) {
+			this.ressourceRepo.save(new Ressource(clef));
+		}
+
+		// Si aucun utilisateur existant, création d'un administrateur avec tous les droits
+		if (this.utilisateurRepo.listerUtilisateur().isEmpty()) {
+			this.sauvegarderUtilisateur(loginAdmin, mdpAdmin);
+			this.sauvegarderRole(roleAdmin);
+			this.lienRoleRessourceRepo.save(this.lienRoleRessourceRepo.listerLiensInexistantsAvecToutesLesRessources(roleAdmin));
+		}
+	}
+
+	@Override
 	public Collection<Ressource> listerRessources() {
 		return this.ressourceRepo.listerRessources();
 	}
@@ -129,6 +151,11 @@ public class SecuriteServiceImpl implements SecuriteService {
 	@Override
 	public Collection<Utilisateur> listerUtilisateurs() {
 		return this.utilisateurRepo.listerUtilisateur();
+	}
+
+	@Override
+	public Collection<UtilisateurAvecRolesEtAutorisations> listerUtilisateursAvecRolesEtAutorisations() {
+		return this.utilisateurRepo.listerUtilisateursAvecRolesEtAutorisations();
 	}
 
 	@Override

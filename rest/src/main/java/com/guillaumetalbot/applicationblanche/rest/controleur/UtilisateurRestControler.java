@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.guillaumetalbot.applicationblanche.exception.RestException;
+import com.guillaumetalbot.applicationblanche.metier.dto.UtilisateurAvecRolesEtAutorisations;
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.Utilisateur;
 import com.guillaumetalbot.applicationblanche.metier.service.SecuriteService;
 
@@ -54,6 +55,11 @@ public class UtilisateurRestControler {
 		return this.securiteService.listerUtilisateurs();
 	}
 
+	@RequestMapping(value = "/utilisateur", method = GET, produces = "application/json;AvecRolesEtAutorisations")
+	public Collection<UtilisateurAvecRolesEtAutorisations> listerUtilisateursAvecRolesEtAutorisations() {
+		return this.securiteService.listerUtilisateursAvecRolesEtAutorisations();
+	}
+
 	@RequestMapping(value = "/utilisateur/{login}/reset", method = PUT)
 	public void resetPassword(@PathVariable(value = "login") final String login, final HttpServletRequest request) {
 		this.securiteService.reinitialiserMotDePasse(login);
@@ -75,4 +81,5 @@ public class UtilisateurRestControler {
 	public void supprimerUtilisateur(@PathVariable(value = "login") final String login) {
 		this.securiteService.supprimerUtilisateur(login);
 	}
+
 }
