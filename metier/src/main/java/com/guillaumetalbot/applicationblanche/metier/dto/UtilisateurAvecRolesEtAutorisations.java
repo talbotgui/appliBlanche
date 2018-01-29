@@ -17,6 +17,10 @@ public class UtilisateurAvecRolesEtAutorisations implements Serializable {
 
 	private Collection<String> roles;
 
+	public UtilisateurAvecRolesEtAutorisations() {
+		super();
+	}
+
 	public UtilisateurAvecRolesEtAutorisations(final Utilisateur u) {
 		super();
 		this.login = u.getLogin();

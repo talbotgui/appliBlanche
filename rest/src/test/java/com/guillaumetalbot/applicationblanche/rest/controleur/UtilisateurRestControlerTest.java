@@ -19,6 +19,7 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import com.guillaumetalbot.applicationblanche.metier.dto.UtilisateurAvecRolesEtAutorisations;
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.Utilisateur;
 import com.guillaumetalbot.applicationblanche.rest.controleur.utils.ControlerTestUtil;
 import com.guillaumetalbot.applicationblanche.rest.controleur.utils.MockedIntegrationWebTest;
@@ -35,15 +36,37 @@ public class UtilisateurRestControlerTest extends MockedIntegrationWebTest {
 		// ACT
 		final ParameterizedTypeReference<Collection<Utilisateur>> typeRetour = new ParameterizedTypeReference<Collection<Utilisateur>>() {
 		};
-		final ResponseEntity<Collection<Utilisateur>> utilisateurs = this.getREST().exchange(this.getURL() + "/utilisateur", HttpMethod.GET, null,
-				typeRetour);
+		final HttpEntity<?> headers = null;// new HttpEntity<>(ControlerTestUtil.creeMapParamRest("Content-type", "text/plain"));
+		final ResponseEntity<Collection<Utilisateur>> utilisateurs = this.getREST().exchange(this.getURL() + "/v1/utilisateur", HttpMethod.GET,
+				headers, typeRetour);
 
 		// ASSERT
+		Mockito.verify(this.securiteService).listerUtilisateurs();
+		Mockito.verifyNoMoreInteractions(this.securiteService);
 		Assert.assertNotNull(utilisateurs.getBody());
 		Assert.assertEquals(utilisateurs.getBody().size(), toReturn.size());
 		Assert.assertEquals(utilisateurs.getBody().iterator().next().getLogin(), toReturn.iterator().next().getLogin());
-		Mockito.verify(this.securiteService).listerUtilisateurs();
+	}
+
+	@Test
+	public void test01GetListeUtilisateur02LaSecondeMethode() {
+
+		// ARRANGE
+		final List<Utilisateur> toReturn = Arrays.asList(new Utilisateur("l1", "m1"), new Utilisateur("l2", "m2"), new Utilisateur("l3", "m3"));
+		Mockito.doReturn(toReturn).when(this.securiteService).listerUtilisateursAvecRolesEtAutorisations();
+
+		// ACT
+		final ParameterizedTypeReference<Collection<UtilisateurAvecRolesEtAutorisations>> typeRetour = new ParameterizedTypeReference<Collection<UtilisateurAvecRolesEtAutorisations>>() {
+		};
+		final HttpEntity<?> headers = null;// new HttpEntity<>(ControlerTestUtil.creeMapParamRest("Content-type", "application/json"));
+		final ResponseEntity<Collection<UtilisateurAvecRolesEtAutorisations>> utilisateurs = this.getREST()
+				.exchange(this.getURL() + "/v1/utilisateurDetails", HttpMethod.GET, headers, typeRetour);
+
+		// ASSERT
+		Mockito.verify(this.securiteService).listerUtilisateursAvecRolesEtAutorisations();
 		Mockito.verifyNoMoreInteractions(this.securiteService);
+		Assert.assertNotNull(utilisateurs.getBody());
+		Assert.assertEquals(utilisateurs.getBody().size(), 3);
 	}
 
 	@Test
@@ -58,7 +81,7 @@ public class UtilisateurRestControlerTest extends MockedIntegrationWebTest {
 		final Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT
-		this.getREST().postForObject(this.getURL() + "/utilisateur", requestParam, Void.class, uriVars);
+		this.getREST().postForObject(this.getURL() + "/v1/utilisateur", requestParam, Void.class, uriVars);
 
 		// ASSERT
 		Mockito.verify(this.securiteService).sauvegarderUtilisateur(login, mdp);
@@ -75,7 +98,8 @@ public class UtilisateurRestControlerTest extends MockedIntegrationWebTest {
 		Mockito.doNothing().when(this.securiteService).supprimerUtilisateur(argumentCaptor.capture());
 
 		// ACT
-		final ResponseEntity<Void> response = this.getREST().exchange(this.getURL() + "/utilisateur/" + login, HttpMethod.DELETE, null, Void.class);
+		final ResponseEntity<Void> response = this.getREST().exchange(this.getURL() + "/v1/utilisateur/" + login, HttpMethod.DELETE, null,
+				Void.class);
 
 		// ASSERT
 		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
@@ -95,7 +119,7 @@ public class UtilisateurRestControlerTest extends MockedIntegrationWebTest {
 
 		// ACT
 		final Throwable thrown = Assertions.catchThrowable(() -> {
-			this.getREST().postForObject(this.getURL() + "/utilisateur", requestParam, Void.class, uriVars);
+			this.getREST().postForObject(this.getURL() + "/v1/utilisateur", requestParam, Void.class, uriVars);
 		});
 
 		// ASSERT
@@ -114,7 +138,7 @@ public class UtilisateurRestControlerTest extends MockedIntegrationWebTest {
 		Mockito.doNothing().when(this.securiteService).deverrouillerUtilisateur(Mockito.anyString());
 
 		// ACT
-		this.getREST().put(this.getURL() + "/utilisateur/" + login + "/deverrouille", null);
+		this.getREST().put(this.getURL() + "/v1/utilisateur/" + login + "/deverrouille", null);
 
 		// ASSERT
 		Mockito.verify(this.securiteService).deverrouillerUtilisateur(login);
@@ -130,7 +154,7 @@ public class UtilisateurRestControlerTest extends MockedIntegrationWebTest {
 		// ACT
 		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("login", loginToReset);
 		final HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(requestParam);
-		final ResponseEntity<Void> response = this.getREST().exchange(this.getURL() + "/utilisateur/" + loginToReset + "/reset", HttpMethod.PUT,
+		final ResponseEntity<Void> response = this.getREST().exchange(this.getURL() + "/v1/utilisateur/" + loginToReset + "/reset", HttpMethod.PUT,
 				request, Void.class);
 
 		// ASSERT
@@ -153,7 +177,7 @@ public class UtilisateurRestControlerTest extends MockedIntegrationWebTest {
 		final Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT
-		this.getREST().postForObject(this.getURL() + "/utilisateur/" + login + "/changeMdp", requestParam, Void.class, uriVars);
+		this.getREST().postForObject(this.getURL() + "/v1/utilisateur/" + login + "/changeMdp", requestParam, Void.class, uriVars);
 
 		// ASSERT
 		Mockito.verify(this.securiteService).sauvegarderUtilisateur(login, mdp);
@@ -176,7 +200,7 @@ public class UtilisateurRestControlerTest extends MockedIntegrationWebTest {
 
 		// ACT
 		final Throwable thrown = Assertions.catchThrowable(() -> {
-			this.getREST().postForObject(this.getURL() + "/utilisateur/" + login + "/changeMdp", requestParam, Void.class, uriVars);
+			this.getREST().postForObject(this.getURL() + "/v1/utilisateur/" + login + "/changeMdp", requestParam, Void.class, uriVars);
 		});
 
 		// ASSERT
@@ -197,7 +221,8 @@ public class UtilisateurRestControlerTest extends MockedIntegrationWebTest {
 		Mockito.doNothing().when(this.securiteService).supprimerUtilisateur(argumentCaptor.capture());
 
 		// ACT
-		final ResponseEntity<Void> response = this.getREST().exchange(this.getURL() + "/utilisateur/" + login, HttpMethod.DELETE, null, Void.class);
+		final ResponseEntity<Void> response = this.getREST().exchange(this.getURL() + "/v1/utilisateur/" + login, HttpMethod.DELETE, null,
+				Void.class);
 
 		// ASSERT
 		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
