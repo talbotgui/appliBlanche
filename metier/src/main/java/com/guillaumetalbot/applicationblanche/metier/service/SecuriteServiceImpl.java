@@ -5,6 +5,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -132,8 +133,9 @@ public class SecuriteServiceImpl implements SecuriteService {
 
 		// Si aucun utilisateur existant, création d'un administrateur avec tous les droits
 		if (this.utilisateurRepo.listerUtilisateur().isEmpty()) {
-			this.sauvegarderUtilisateur(loginAdmin, mdpAdmin);
-			this.sauvegarderRole(roleAdmin);
+			final Utilisateur utilisateur = this.utilisateurRepo.save(new Utilisateur(loginAdmin, mdpAdmin));
+			final Role role = this.roleRepo.save(new Role(roleAdmin));
+			this.lienUtilisateurRoleRepo.save(new LienUtilisateurRole(role, utilisateur));
 			this.lienRoleRessourceRepo.save(this.lienRoleRessourceRepo.listerLiensInexistantsAvecToutesLesRessources(roleAdmin));
 		}
 	}
@@ -155,7 +157,9 @@ public class SecuriteServiceImpl implements SecuriteService {
 
 	@Override
 	public Collection<UtilisateurAvecRolesEtAutorisations> listerUtilisateursAvecRolesEtAutorisations() {
-		return this.utilisateurRepo.listerUtilisateursAvecRolesEtAutorisations();
+		return this.utilisateurRepo.listerUtilisateursAvecRolesEtAutorisations().stream()//
+				.map(u -> new UtilisateurAvecRolesEtAutorisations(u))//
+				.collect(Collectors.toList());
 	}
 
 	@Override

@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.assertj.core.util.Arrays;
+import com.guillaumetalbot.applicationblanche.metier.entite.securite.Ressource;
+import com.guillaumetalbot.applicationblanche.metier.entite.securite.Role;
+import com.guillaumetalbot.applicationblanche.metier.entite.securite.Utilisateur;
 
 public class UtilisateurAvecRolesEtAutorisations implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -15,16 +17,16 @@ public class UtilisateurAvecRolesEtAutorisations implements Serializable {
 
 	private Collection<String> roles;
 
-	// 2 warning normaux car Arrays.asList renvoie List<Object>
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public UtilisateurAvecRolesEtAutorisations(final String login, final String roles, final String ressources) {
+	public UtilisateurAvecRolesEtAutorisations(final Utilisateur u) {
 		super();
-		this.login = login;
-		if (roles != null) {
-			this.roles = new ArrayList(Arrays.asList(roles.split(",")));
-		}
-		if (ressources != null) {
-			this.ressources = new ArrayList(Arrays.asList(ressources.split(",")));
+		this.login = u.getLogin();
+		this.roles = new ArrayList<>();
+		this.ressources = new ArrayList<>();
+		for (final Role r : u.getRoles()) {
+			this.roles.add(r.getNom());
+			for (final Ressource re : r.getRessourcesAutorisees()) {
+				this.ressources.add(re.getClef());
+			}
 		}
 	}
 
