@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.client.support.BasicAuthorizationInterceptor;
@@ -41,6 +43,12 @@ public class ControlerTestUtil {
 			}
 		}
 		return requestParam;
+	}
+
+	public static HttpEntity creerHeaders(final String accept) {
+		final HttpHeaders headers = new HttpHeaders();
+		headers.add(HttpHeaders.ACCEPT, accept);
+		return new HttpEntity<>(headers);
 	}
 
 	/** Log interceptor for all HTTP requests. */

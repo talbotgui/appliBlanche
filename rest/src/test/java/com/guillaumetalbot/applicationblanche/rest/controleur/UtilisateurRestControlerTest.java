@@ -36,9 +36,8 @@ public class UtilisateurRestControlerTest extends MockedIntegrationWebTest {
 		// ACT
 		final ParameterizedTypeReference<Collection<Utilisateur>> typeRetour = new ParameterizedTypeReference<Collection<Utilisateur>>() {
 		};
-		final HttpEntity<?> headers = null;// new HttpEntity<>(ControlerTestUtil.creeMapParamRest("Content-type", "text/plain"));
-		final ResponseEntity<Collection<Utilisateur>> utilisateurs = this.getREST().exchange(this.getURL() + "/v1/utilisateur", HttpMethod.GET,
-				headers, typeRetour);
+		final ResponseEntity<Collection<Utilisateur>> utilisateurs = this.getREST().exchange(this.getURL() + "/v1/utilisateur", HttpMethod.GET, null,
+				typeRetour);
 
 		// ASSERT
 		Mockito.verify(this.securiteService).listerUtilisateurs();
@@ -58,9 +57,9 @@ public class UtilisateurRestControlerTest extends MockedIntegrationWebTest {
 		// ACT
 		final ParameterizedTypeReference<Collection<UtilisateurAvecRolesEtAutorisations>> typeRetour = new ParameterizedTypeReference<Collection<UtilisateurAvecRolesEtAutorisations>>() {
 		};
-		final HttpEntity<?> headers = null;// new HttpEntity<>(ControlerTestUtil.creeMapParamRest("Content-type", "application/json"));
+		final HttpEntity<?> headers = ControlerTestUtil.creerHeaders("application/json;details");
 		final ResponseEntity<Collection<UtilisateurAvecRolesEtAutorisations>> utilisateurs = this.getREST()
-				.exchange(this.getURL() + "/v1/utilisateurDetails", HttpMethod.GET, headers, typeRetour);
+				.exchange(this.getURL() + "/v1/utilisateur", HttpMethod.GET, headers, typeRetour);
 
 		// ASSERT
 		Mockito.verify(this.securiteService).listerUtilisateursAvecRolesEtAutorisations();

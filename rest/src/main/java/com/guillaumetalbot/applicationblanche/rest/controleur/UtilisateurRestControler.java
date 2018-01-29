@@ -12,12 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.guillaumetalbot.applicationblanche.exception.RestException;
-import com.guillaumetalbot.applicationblanche.metier.dto.UtilisateurAvecRolesEtAutorisations;
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.Utilisateur;
 import com.guillaumetalbot.applicationblanche.metier.service.SecuriteService;
 
@@ -25,6 +25,7 @@ import com.guillaumetalbot.applicationblanche.metier.service.SecuriteService;
 @CrossOrigin
 public class UtilisateurRestControler {
 
+	private static final String MIME_JSON_DETAILS = "application/json;details";
 	@Autowired
 	private SecuriteService securiteService;
 
@@ -50,14 +51,13 @@ public class UtilisateurRestControler {
 		this.securiteService.deverrouillerUtilisateur(login);
 	}
 
-	@RequestMapping(value = "/v1/utilisateur", method = GET)
-	public Collection<Utilisateur> listerUtilisateur() {
-		return this.securiteService.listerUtilisateurs();
-	}
-
-	@RequestMapping(value = "/v1/utilisateurDetails", method = GET)
-	public Collection<UtilisateurAvecRolesEtAutorisations> listerUtilisateursAvecRolesEtAutorisations() {
-		return this.securiteService.listerUtilisateursAvecRolesEtAutorisations();
+	@RequestMapping(value = "/v1/utilisateur", method = GET, produces = { "application/json", "application/json;details" })
+	public Collection<?> listerUtilisateur(@RequestHeader("Accept") final String accept) {
+		if (MIME_JSON_DETAILS.equals(accept)) {
+			return this.securiteService.listerUtilisateursAvecRolesEtAutorisations();
+		} else {
+			return this.securiteService.listerUtilisateurs();
+		}
 	}
 
 	@RequestMapping(value = "/v1/utilisateur/{login}/reset", method = PUT)
