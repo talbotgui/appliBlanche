@@ -45,7 +45,7 @@ public class ControlerTestUtil {
 		return requestParam;
 	}
 
-	public static HttpEntity creerHeaders(final String accept) {
+	public static HttpEntity<?> creerHeaders(final String accept) {
 		final HttpHeaders headers = new HttpHeaders();
 		headers.add(HttpHeaders.ACCEPT, accept);
 		return new HttpEntity<>(headers);
