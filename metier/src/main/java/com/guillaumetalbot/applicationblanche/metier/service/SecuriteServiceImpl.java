@@ -133,7 +133,7 @@ public class SecuriteServiceImpl implements SecuriteService {
 
 		// Si aucun utilisateur existant, création d'un administrateur avec tous les droits
 		if (this.utilisateurRepo.listerUtilisateur().isEmpty()) {
-			final Utilisateur utilisateur = this.utilisateurRepo.save(new Utilisateur(loginAdmin, mdpAdmin));
+			final Utilisateur utilisateur = this.sauvegarderUtilisateur(loginAdmin, mdpAdmin);
 			final Role role = this.roleRepo.save(new Role(roleAdmin));
 			this.lienUtilisateurRoleRepo.save(new LienUtilisateurRole(role, utilisateur));
 			this.lienRoleRessourceRepo.save(this.lienRoleRessourceRepo.listerLiensInexistantsAvecToutesLesRessources(roleAdmin));
@@ -179,7 +179,7 @@ public class SecuriteServiceImpl implements SecuriteService {
 	}
 
 	@Override
-	public void sauvegarderUtilisateur(final String login, final String mdp) {
+	public Utilisateur sauvegarderUtilisateur(final String login, final String mdp) {
 
 		this.valideLoginOuMotDePasse(login);
 
@@ -191,7 +191,7 @@ public class SecuriteServiceImpl implements SecuriteService {
 
 			this.valideLoginOuMotDePasse(mdp);
 
-			this.utilisateurRepo.save(new Utilisateur(login, this.encrypt(mdp)));
+			return this.utilisateurRepo.save(new Utilisateur(login, this.encrypt(mdp)));
 		}
 
 		// MaJ
@@ -200,7 +200,7 @@ public class SecuriteServiceImpl implements SecuriteService {
 				this.valideLoginOuMotDePasse(mdp);
 				u.setMdp(this.encrypt(mdp));
 			}
-			this.utilisateurRepo.save(u);
+			return this.utilisateurRepo.save(u);
 		}
 	}
 

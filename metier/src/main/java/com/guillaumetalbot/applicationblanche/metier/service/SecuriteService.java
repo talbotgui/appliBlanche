@@ -37,7 +37,7 @@ public interface SecuriteService {
 
 	void sauvegarderRole(String nomRole);
 
-	void sauvegarderUtilisateur(String login, String mdp);
+	Utilisateur sauvegarderUtilisateur(String login, String mdp);
 
 	void supprimerUtilisateur(String login);
 
