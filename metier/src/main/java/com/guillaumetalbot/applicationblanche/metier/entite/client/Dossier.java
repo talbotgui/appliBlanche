@@ -5,15 +5,15 @@ import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.guillaumetalbot.applicationblanche.metier.entite.Entite;
 import com.guillaumetalbot.applicationblanche.metier.entite.MutableUtil;
 
 @Entity
-public class Dossier {
+public class Dossier extends Entite {
+	private static final long serialVersionUID = 1L;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Client client;
@@ -23,10 +23,6 @@ public class Dossier {
 	@OneToMany(mappedBy = "dossier")
 	private Set<Demande> demandes;
 
-	@Id
-	@GeneratedValue
-	private Long id;
-
 	private String nom;
 
 	public Dossier() {
@@ -34,8 +30,7 @@ public class Dossier {
 	}
 
 	public Dossier(final Long id, final String nom) {
-		super();
-		this.id = id;
+		super(id);
 		this.nom = nom;
 	}
 
@@ -54,10 +49,6 @@ public class Dossier {
 
 	public Set<Demande> getDemandes() {
 		return MutableUtil.getMutable(this.demandes);
-	}
-
-	public Long getId() {
-		return this.id;
 	}
 
 	public String getNom() {

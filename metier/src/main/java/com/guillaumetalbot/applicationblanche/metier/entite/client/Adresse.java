@@ -1,17 +1,14 @@
 package com.guillaumetalbot.applicationblanche.metier.entite.client;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+
+import com.guillaumetalbot.applicationblanche.metier.entite.Entite;
 
 @Entity
-public class Adresse {
+public class Adresse extends Entite {
+	private static final long serialVersionUID = 1L;
 
 	private String codePostal;
-
-	@Id
-	@GeneratedValue
-	private Long id;
 
 	private String rue;
 
@@ -22,8 +19,7 @@ public class Adresse {
 	}
 
 	public Adresse(final Long id, final String rue, final String codePostal, final String ville) {
-		super();
-		this.id = id;
+		super(id);
 		this.rue = rue;
 		this.codePostal = codePostal;
 		this.ville = ville;
@@ -38,10 +34,6 @@ public class Adresse {
 
 	public String getCodePostal() {
 		return this.codePostal;
-	}
-
-	public Long getId() {
-		return this.id;
 	}
 
 	public String getRue() {

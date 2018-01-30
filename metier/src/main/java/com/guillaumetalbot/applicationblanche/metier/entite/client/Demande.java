@@ -2,13 +2,15 @@ package com.guillaumetalbot.applicationblanche.metier.entite.client;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.guillaumetalbot.applicationblanche.metier.entite.Entite;
+
 @Entity
-public class Demande {
+public class Demande extends Entite {
+	private static final long serialVersionUID = 1L;
+
 	private String descriptionCourte;
 
 	private String descriptionLongue;
@@ -17,17 +19,12 @@ public class Demande {
 	@JoinColumn(name = "DOSSIER_ID")
 	private Dossier dossier;
 
-	@Id
-	@GeneratedValue
-	private Long id;
-
 	public Demande() {
 		super();
 	}
 
 	public Demande(final Long id, final String descriptionCourte, final String descriptionLongue) {
-		super();
-		this.id = id;
+		super(id);
 		this.descriptionCourte = descriptionCourte;
 		this.descriptionLongue = descriptionLongue;
 	}
@@ -48,10 +45,6 @@ public class Demande {
 
 	public Dossier getDossier() {
 		return this.dossier;
-	}
-
-	public Long getId() {
-		return this.id;
 	}
 
 	public void setDescriptionCourte(final String descriptionCourte) {

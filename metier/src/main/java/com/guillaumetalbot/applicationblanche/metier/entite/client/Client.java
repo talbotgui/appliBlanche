@@ -6,16 +6,16 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.guillaumetalbot.applicationblanche.metier.entite.Entite;
 import com.guillaumetalbot.applicationblanche.metier.entite.MutableUtil;
 
 @Entity
-public class Client {
+public class Client extends Entite {
+	private static final long serialVersionUID = 1L;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "CLIENT_ID", unique = true)
@@ -25,10 +25,6 @@ public class Client {
 
 	@OneToMany(mappedBy = "client")
 	private Set<Dossier> dossiers;
-
-	@Id
-	@GeneratedValue
-	private Long id;
 
 	private String nom;
 
@@ -51,10 +47,6 @@ public class Client {
 
 	public Set<Dossier> getDossiers() {
 		return MutableUtil.getMutable(this.dossiers);
-	}
-
-	public Long getId() {
-		return this.id;
 	}
 
 	public String getNom() {
