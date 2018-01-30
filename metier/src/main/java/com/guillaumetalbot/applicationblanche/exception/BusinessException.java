@@ -19,7 +19,7 @@ public class BusinessException extends BaseException {
 	public static final ExceptionId OBJET_DEJA_EXISTANT = new ExceptionId("OBJET_DEJA_EXISTANT",
 			"Objet de type {0} avec l'identifiant {1} déjà existant", ExceptionLevel.ERROR, 400);
 
-	public static final ExceptionId OBJET_NON_EXISTANT = new ExceptionId("OBJET_NON_EXISTANT", "Objet de type {0} avec l'identifiant {1} inexistant",
+	public static final ExceptionId OBJET_NON_EXISTANT = new ExceptionId("OBJET_NON_EXISTANT", "Objet de référence {0} inexistant",
 			ExceptionLevel.ERROR, 404);
 
 	/** Default UID. */

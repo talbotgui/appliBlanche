@@ -29,14 +29,15 @@ public class Dossier extends Entite {
 		super();
 	}
 
-	public Dossier(final Long id, final String nom) {
-		super(id);
-		this.nom = nom;
-	}
-
 	public Dossier(final String nom) {
 		super();
 		this.nom = nom;
+	}
+
+	public Dossier(final String reference, final String nom) {
+		super();
+		this.nom = nom;
+		this.setReference(reference);
 	}
 
 	public Client getClient() {

@@ -72,9 +72,10 @@ public class UtilisateurRestControlerTest extends MockedIntegrationWebTest {
 	public void test02SauvegardeUtilisateur() {
 		final String login = "monLogin";
 		final String mdp = "monMdp";
+		final Utilisateur toReturn = new Utilisateur(login, mdp);
 
 		// ARRANGE
-		Mockito.doNothing().when(this.securiteService).sauvegarderUtilisateur(Mockito.anyString(), Mockito.anyString());
+		Mockito.doReturn(toReturn).when(this.securiteService).sauvegarderUtilisateur(Mockito.anyString(), Mockito.anyString());
 
 		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("login", login, "mdp", mdp);
 		final Map<String, Object> uriVars = new HashMap<String, Object>();
@@ -170,7 +171,7 @@ public class UtilisateurRestControlerTest extends MockedIntegrationWebTest {
 
 		// ARRANGE
 		Mockito.doReturn(utilisateur).when(this.securiteService).chargerUtilisateurReadOnly(Mockito.anyString());
-		Mockito.doNothing().when(this.securiteService).sauvegarderUtilisateur(Mockito.anyString(), Mockito.anyString());
+		Mockito.doReturn(utilisateur).when(this.securiteService).sauvegarderUtilisateur(Mockito.anyString(), Mockito.anyString());
 
 		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("mdp", mdp);
 		final Map<String, Object> uriVars = new HashMap<String, Object>();
@@ -192,7 +193,7 @@ public class UtilisateurRestControlerTest extends MockedIntegrationWebTest {
 
 		// ARRANGE
 		Mockito.doReturn(utilisateur).when(this.securiteService).chargerUtilisateurReadOnly(Mockito.anyString());
-		Mockito.doNothing().when(this.securiteService).sauvegarderUtilisateur(Mockito.anyString(), Mockito.anyString());
+		Mockito.doReturn(utilisateur).when(this.securiteService).sauvegarderUtilisateur(Mockito.anyString(), Mockito.anyString());
 
 		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("mdp", mdp);
 		final Map<String, Object> uriVars = new HashMap<String, Object>();

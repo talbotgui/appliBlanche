@@ -24,7 +24,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.guillaumetalbot.applicationblanche.exception.BusinessException;
 import com.guillaumetalbot.applicationblanche.metier.application.SpringApplicationForTests;
+import com.guillaumetalbot.applicationblanche.metier.entite.Entite;
 import com.guillaumetalbot.applicationblanche.metier.entite.client.Adresse;
+import com.guillaumetalbot.applicationblanche.metier.entite.client.Client;
 import com.guillaumetalbot.applicationblanche.metier.entite.client.Demande;
 import com.guillaumetalbot.applicationblanche.metier.entite.client.Dossier;
 
@@ -58,10 +60,11 @@ public class ClientServiceTest {
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 
 		//
-		final Long idClient = this.clientService.sauvegarderClient(null, "nomClient");
+		final String refClient = this.clientService.sauvegarderClient(null, "nomClient");
 
 		//
-		Assert.assertNotNull(idClient);
+		Assert.assertNotNull(refClient);
+		Assert.assertEquals(Entite.genererReference(Client.class, 1L), refClient);
 		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from CLIENT", Long.class));
 	}
 
@@ -69,14 +72,14 @@ public class ClientServiceTest {
 	public void test01Client02tModificationOk() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
-		final Long idClient = this.clientService.sauvegarderClient(null, "nomClient");
+		final String refClient = this.clientService.sauvegarderClient(null, "nomClient");
 		final String nouveauNom = "nomClient2";
 
 		//
-		this.clientService.sauvegarderClient(idClient, nouveauNom);
+		this.clientService.sauvegarderClient(refClient, nouveauNom);
 
 		//
-		Assert.assertNotNull(idClient);
+		Assert.assertNotNull(refClient);
 		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from CLIENT", Long.class));
 		Assert.assertEquals(nouveauNom, jdbc.queryForObject("select NOM from CLIENT", String.class));
 	}
@@ -85,10 +88,11 @@ public class ClientServiceTest {
 	public void test01Client03SauvegardetNonExistant() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final String refClient = Entite.genererReference(Client.class, 1L);
 
 		//
 		final Throwable thrown = Assertions.catchThrowable(() -> {
-			this.clientService.sauvegarderClient(1L, "nom");
+			this.clientService.sauvegarderClient(refClient, "nom");
 		});
 
 		//
@@ -101,13 +105,13 @@ public class ClientServiceTest {
 	public void test02Adresse01CreationOk() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
-		final Long idClient = this.clientService.sauvegarderClient(null, "nomClient");
+		final String refClient = this.clientService.sauvegarderClient(null, "nomClient");
 
 		//
-		final Long idAdresse = this.clientService.sauvegarderAdresse(idClient, new Adresse("rue", "codePostal", "ville"));
+		final String refAdresse = this.clientService.sauvegarderAdresse(refClient, new Adresse("rue", "codePostal", "ville"));
 
 		//
-		Assert.assertNotNull(idAdresse);
+		Assert.assertNotNull(refAdresse);
 		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from ADRESSE", Long.class));
 	}
 
@@ -115,14 +119,14 @@ public class ClientServiceTest {
 	public void test02Adresse02ModificationOk() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
-		final Long idClient = this.clientService.sauvegarderClient(null, "nomClient");
-		Long idAdresse = this.clientService.sauvegarderAdresse(idClient, new Adresse("rue", "codePostal", "ville"));
+		final String refClient = this.clientService.sauvegarderClient(null, "nomClient");
+		String refAdresse = this.clientService.sauvegarderAdresse(refClient, new Adresse("rue", "codePostal", "ville"));
 		final String nouvelleRue = "rue2";
 		//
-		idAdresse = this.clientService.sauvegarderAdresse(idClient, new Adresse(idAdresse, nouvelleRue, "codePostal2", "ville2"));
+		refAdresse = this.clientService.sauvegarderAdresse(refClient, new Adresse(refAdresse, nouvelleRue, "codePostal2", "ville2"));
 
 		//
-		Assert.assertNotNull(idAdresse);
+		Assert.assertNotNull(refAdresse);
 		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from ADRESSE", Long.class));
 		Assert.assertEquals(nouvelleRue, jdbc.queryForObject("select RUE from ADRESSE", String.class));
 	}
@@ -131,10 +135,11 @@ public class ClientServiceTest {
 	public void test02Adresse03ClientInexistant() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final String refAdresse = Entite.genererReference(Adresse.class, 1L);
 
 		//
 		final Throwable thrown = Assertions.catchThrowable(() -> {
-			this.clientService.sauvegarderAdresse(1L, new Adresse("rue", "codePostal", "ville"));
+			this.clientService.sauvegarderAdresse(refAdresse, new Adresse("rue", "codePostal", "ville"));
 		});
 
 		//
@@ -147,13 +152,13 @@ public class ClientServiceTest {
 	public void test02Adresse04ClientNonLie() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
-		final Long idClient = this.clientService.sauvegarderClient(null, "nomClient");
-		final Long idClient2 = this.clientService.sauvegarderClient(null, "nomClient2");
-		final Long idAdresse = this.clientService.sauvegarderAdresse(idClient, new Adresse("rue", "codePostal", "ville"));
+		final String refClient = this.clientService.sauvegarderClient(null, "nomClient");
+		final String refClient2 = this.clientService.sauvegarderClient(null, "nomClient2");
+		final String refAdresse = this.clientService.sauvegarderAdresse(refClient, new Adresse("rue", "codePostal", "ville"));
 
 		//
 		final Throwable thrown = Assertions.catchThrowable(() -> {
-			this.clientService.sauvegarderAdresse(idClient2, new Adresse(idAdresse, "rue2", "codePostal2", "ville2"));
+			this.clientService.sauvegarderAdresse(refClient2, new Adresse(refAdresse, "rue2", "codePostal2", "ville2"));
 		});
 
 		//
@@ -166,11 +171,12 @@ public class ClientServiceTest {
 	public void test02Adresse05AdresseInexistante() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
-		final Long idClient = this.clientService.sauvegarderClient(null, "nomClient");
+		final String refClient = this.clientService.sauvegarderClient(null, "nomClient");
+		final String refAdresse = Entite.genererReference(Adresse.class, 1L);
 
 		//
 		final Throwable thrown = Assertions.catchThrowable(() -> {
-			this.clientService.sauvegarderAdresse(idClient, new Adresse(1L, "rue2", "codePostal2", "ville2"));
+			this.clientService.sauvegarderAdresse(refClient, new Adresse(refAdresse, "rue2", "codePostal2", "ville2"));
 		});
 
 		//
@@ -183,14 +189,14 @@ public class ClientServiceTest {
 	public void test03Dossier01CreationOk() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
-		final Long idClient = this.clientService.sauvegarderClient(null, "nomClient");
+		final String refClient = this.clientService.sauvegarderClient(null, "nomClient");
 		final String nomDossier = "nomDossier";
 
 		//
-		final Long idDossier = this.clientService.sauvegarderDossier(idClient, new Dossier(nomDossier));
+		final String refDossier = this.clientService.sauvegarderDossier(refClient, new Dossier(nomDossier));
 
 		//
-		Assert.assertNotNull(idDossier);
+		Assert.assertNotNull(refDossier);
 		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from DOSSIER where NOM=? and DATE_CREATION is not null",
 				new Object[] { nomDossier }, Long.class));
 	}
@@ -199,16 +205,16 @@ public class ClientServiceTest {
 	public void test03Dossier02ModificationOk() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
-		final Long idClient = this.clientService.sauvegarderClient(null, "nomClient");
+		final String refClient = this.clientService.sauvegarderClient(null, "nomClient");
 		final String nomDossier = "nomDossier";
-		Long idDossier = this.clientService.sauvegarderDossier(idClient, new Dossier(nomDossier));
+		String refDossier = this.clientService.sauvegarderDossier(refClient, new Dossier(nomDossier));
 		final String nomDossier2 = "nomDossier2";
 
 		//
-		idDossier = this.clientService.sauvegarderDossier(idClient, new Dossier(idDossier, nomDossier2));
+		refDossier = this.clientService.sauvegarderDossier(refClient, new Dossier(refDossier, nomDossier2));
 
 		//
-		Assert.assertNotNull(idDossier);
+		Assert.assertNotNull(refDossier);
 		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from DOSSIER", Long.class));
 		Assert.assertEquals(nomDossier2, jdbc.queryForObject("select NOM from DOSSIER", String.class));
 	}
@@ -217,10 +223,11 @@ public class ClientServiceTest {
 	public void test03Dossier03ClientInexistant() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final String refDossier = Entite.genererReference(Dossier.class, 1L);
 
 		//
 		final Throwable thrown = Assertions.catchThrowable(() -> {
-			this.clientService.sauvegarderDossier(1L, new Dossier("nomDossier"));
+			this.clientService.sauvegarderDossier(refDossier, new Dossier("nomDossier"));
 		});
 
 		//
@@ -233,13 +240,13 @@ public class ClientServiceTest {
 	public void test03Dossier04ClientNonLie() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
-		final Long idClient = this.clientService.sauvegarderClient(null, "nomClient");
-		final Long idClient2 = this.clientService.sauvegarderClient(null, "nomClient2");
-		final Long idDossier = this.clientService.sauvegarderDossier(idClient, new Dossier("nomDossier"));
+		final String refClient = this.clientService.sauvegarderClient(null, "nomClient");
+		final String refClient2 = this.clientService.sauvegarderClient(null, "nomClient2");
+		final String refDossier = this.clientService.sauvegarderDossier(refClient, new Dossier("nomDossier"));
 
 		//
 		final Throwable thrown = Assertions.catchThrowable(() -> {
-			this.clientService.sauvegarderDossier(idClient2, new Dossier(idDossier, "nomDossier2"));
+			this.clientService.sauvegarderDossier(refClient2, new Dossier(refDossier, "nomDossier2"));
 		});
 
 		//
@@ -252,11 +259,12 @@ public class ClientServiceTest {
 	public void test03Dossier05DossierInexistant() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
-		final Long idClient = this.clientService.sauvegarderClient(null, "nomClient");
+		final String refClient = this.clientService.sauvegarderClient(null, "nomClient");
+		final String refDossier = Entite.genererReference(Dossier.class, 1L);
 
 		//
 		final Throwable thrown = Assertions.catchThrowable(() -> {
-			this.clientService.sauvegarderDossier(idClient, new Dossier(1L, "nomDossier2"));
+			this.clientService.sauvegarderDossier(refClient, new Dossier(refDossier, "nomDossier2"));
 		});
 
 		//
@@ -269,15 +277,15 @@ public class ClientServiceTest {
 	public void test04Demande01CreationOk() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
-		final Long idClient = this.clientService.sauvegarderClient(null, "nomClient");
-		final Long idDossier = this.clientService.sauvegarderDossier(idClient, new Dossier("nomDossier"));
+		final String refClient = this.clientService.sauvegarderClient(null, "nomClient");
+		final String refDossier = this.clientService.sauvegarderDossier(refClient, new Dossier("nomDossier"));
 		final String description = "maDemande";
 
 		//
-		final Long idDemande = this.clientService.sauvegarderDemande(idDossier, new Demande(description, description));
+		final String refDemande = this.clientService.sauvegarderDemande(refDossier, new Demande(description, description));
 
 		//
-		Assert.assertNotNull(idDemande);
+		Assert.assertNotNull(refDemande);
 		Assert.assertEquals((Long) 1L,
 				jdbc.queryForObject("select count(*) from DEMANDE where DESCRIPTION_COURTE=?", new Object[] { description }, Long.class));
 	}
@@ -286,17 +294,17 @@ public class ClientServiceTest {
 	public void test04Demande02ModificationOk() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
-		final Long idClient = this.clientService.sauvegarderClient(null, "nomClient");
-		final Long idDossier = this.clientService.sauvegarderDossier(idClient, new Dossier("nomDossier"));
+		final String refClient = this.clientService.sauvegarderClient(null, "nomClient");
+		final String refDossier = this.clientService.sauvegarderDossier(refClient, new Dossier("nomDossier"));
 		final String description = "maDemande";
 		final String description2 = "maDemande2";
-		Long idDemande = this.clientService.sauvegarderDemande(idDossier, new Demande(description, description));
+		String refDemande = this.clientService.sauvegarderDemande(refDossier, new Demande(description, description));
 
 		//
-		idDemande = this.clientService.sauvegarderDemande(idDossier, new Demande(idDemande, description2, description2));
+		refDemande = this.clientService.sauvegarderDemande(refDossier, new Demande(refDemande, description2, description2));
 
 		//
-		Assert.assertNotNull(idDemande);
+		Assert.assertNotNull(refDemande);
 		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from DEMANDE", Long.class));
 		Assert.assertEquals(description2, jdbc.queryForObject("select DESCRIPTION_COURTE from DEMANDE", String.class));
 	}
@@ -305,10 +313,11 @@ public class ClientServiceTest {
 	public void test04Demande03DossierInexistant() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final String refDemande = Entite.genererReference(Demande.class, 1L);
 
 		//
 		final Throwable thrown = Assertions.catchThrowable(() -> {
-			this.clientService.sauvegarderDemande(1L, new Demande("maDemande", "maDemande"));
+			this.clientService.sauvegarderDemande(refDemande, new Demande("maDemande", "maDemande"));
 		});
 
 		//
@@ -321,14 +330,14 @@ public class ClientServiceTest {
 	public void test04Demande04DossierNonLie() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
-		final Long idClient = this.clientService.sauvegarderClient(null, "nomClient");
-		final Long idDossier = this.clientService.sauvegarderDossier(idClient, new Dossier("nomDossier"));
-		final Long idDossier2 = this.clientService.sauvegarderDossier(idClient, new Dossier("nomDossier2"));
-		final Long idDemande = this.clientService.sauvegarderDemande(idDossier, new Demande("maDemande", "maDemande"));
+		final String refClient = this.clientService.sauvegarderClient(null, "nomClient");
+		final String refDossier = this.clientService.sauvegarderDossier(refClient, new Dossier("nomDossier"));
+		final String refDossier2 = this.clientService.sauvegarderDossier(refClient, new Dossier("nomDossier2"));
+		final String refDemande = this.clientService.sauvegarderDemande(refDossier, new Demande("maDemande", "maDemande"));
 
 		//
 		final Throwable thrown = Assertions.catchThrowable(() -> {
-			this.clientService.sauvegarderDemande(idDossier2, new Demande(idDemande, "maDemande", "maDemande"));
+			this.clientService.sauvegarderDemande(refDossier2, new Demande(refDemande, "maDemande", "maDemande"));
 		});
 
 		//
@@ -341,12 +350,13 @@ public class ClientServiceTest {
 	public void test04Demande05DemandeInexistante() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
-		final Long idClient = this.clientService.sauvegarderClient(null, "nomClient");
-		final Long idDossier = this.clientService.sauvegarderDossier(idClient, new Dossier("nomDossier"));
+		final String refClient = this.clientService.sauvegarderClient(null, "nomClient");
+		final String refDossier = this.clientService.sauvegarderDossier(refClient, new Dossier("nomDossier"));
+		final String refDemande = Entite.genererReference(Demande.class, 1L);
 
 		//
 		final Throwable thrown = Assertions.catchThrowable(() -> {
-			this.clientService.sauvegarderDemande(idDossier, new Demande(1L, "maDescription", "maDescription"));
+			this.clientService.sauvegarderDemande(refDossier, new Demande(refDemande, "maDescription", "maDescription"));
 		});
 
 		//

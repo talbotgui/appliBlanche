@@ -23,16 +23,17 @@ public class Demande extends Entite {
 		super();
 	}
 
-	public Demande(final Long id, final String descriptionCourte, final String descriptionLongue) {
-		super(id);
-		this.descriptionCourte = descriptionCourte;
-		this.descriptionLongue = descriptionLongue;
-	}
-
 	public Demande(final String descriptionCourte, final String descriptionLongue) {
 		super();
 		this.descriptionCourte = descriptionCourte;
 		this.descriptionLongue = descriptionLongue;
+	}
+
+	public Demande(final String reference, final String descriptionCourte, final String descriptionLongue) {
+		super();
+		this.descriptionCourte = descriptionCourte;
+		this.descriptionLongue = descriptionLongue;
+		this.setReference(reference);
 	}
 
 	public String getDescriptionCourte() {

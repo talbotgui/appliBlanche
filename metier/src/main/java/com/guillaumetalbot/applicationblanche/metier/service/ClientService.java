@@ -9,18 +9,18 @@ import com.guillaumetalbot.applicationblanche.metier.entite.client.Dossier;
 
 public interface ClientService {
 
-	Client chargerClientReadonly(Long idClient);
+	Client chargerClientAvecAdresseEtDossiersReadonly(String refClient);
 
-	Client chargerClientAvecAdresseEtDossiersReadonly(Long idClient);
+	Client chargerClientReadonly(String refClient);
 
 	Collection<Client> listerClients();
 
-	Long sauvegarderAdresse(Long idClient, Adresse adresse);
+	String sauvegarderAdresse(String refClient, Adresse adresse);
 
-	Long sauvegarderClient(Long id, String nom);
+	String sauvegarderClient(String ref, String nom);
 
-	Long sauvegarderDemande(Long idDossier, Demande demande);
+	String sauvegarderDemande(String refDossier, Demande demande);
 
-	Long sauvegarderDossier(Long idClient, Dossier dossier);
+	String sauvegarderDossier(String refClient, Dossier dossier);
 
 }

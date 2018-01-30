@@ -20,14 +20,14 @@ public class ClientRestControler {
 	@Autowired
 	private ClientService clientService;
 
-	@RequestMapping(value = "/client/{idClient}", method = GET)
-	public Client chargerClient(@PathVariable("idClient") final Long idClient) {
-		return this.clientService.chargerClientReadonly(idClient);
+	@RequestMapping(value = "/client/{refClient}", method = GET)
+	public Client chargerClient(@PathVariable("refClient") final String refClient) {
+		return this.clientService.chargerClientReadonly(refClient);
 	}
 
-	@RequestMapping(value = "/client/{idClient}", method = GET, produces = "application/json;details")
-	public Client chargerClientAvecDossiers(@PathVariable("idClient") final Long idClient) {
-		return this.clientService.chargerClientAvecAdresseEtDossiersReadonly(idClient);
+	@RequestMapping(value = "/client/{refClient}", method = GET, produces = "application/json;details")
+	public Client chargerClientAvecDossiers(@PathVariable("refClient") final String refClient) {
+		return this.clientService.chargerClientAvecAdresseEtDossiersReadonly(refClient);
 	}
 
 	@RequestMapping(value = "/client", method = GET)
@@ -36,9 +36,9 @@ public class ClientRestControler {
 	}
 
 	@RequestMapping(value = "/client", method = POST)
-	public Long sauvegarderClient(//
-			@RequestParam(required = false, value = "id") final Long id, //
+	public String sauvegarderClient(//
+			@RequestParam(required = false, value = "id") final String refClient, //
 			@RequestParam(value = "nom") final String nom) {
-		return this.clientService.sauvegarderClient(id, nom);
+		return this.clientService.sauvegarderClient(refClient, nom);
 	}
 }

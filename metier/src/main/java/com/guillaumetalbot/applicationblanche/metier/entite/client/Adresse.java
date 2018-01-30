@@ -18,18 +18,19 @@ public class Adresse extends Entite {
 		super();
 	}
 
-	public Adresse(final Long id, final String rue, final String codePostal, final String ville) {
-		super(id);
-		this.rue = rue;
-		this.codePostal = codePostal;
-		this.ville = ville;
-	}
-
 	public Adresse(final String rue, final String codePostal, final String ville) {
 		super();
 		this.rue = rue;
 		this.codePostal = codePostal;
 		this.ville = ville;
+	}
+
+	public Adresse(final String reference, final String rue, final String codePostal, final String ville) {
+		super();
+		this.rue = rue;
+		this.codePostal = codePostal;
+		this.ville = ville;
+		this.setReference(reference);
 	}
 
 	public String getCodePostal() {
