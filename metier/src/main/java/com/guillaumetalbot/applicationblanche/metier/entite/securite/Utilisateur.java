@@ -16,6 +16,7 @@ import javax.persistence.ManyToMany;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.guillaumetalbot.applicationblanche.metier.entite.MutableUtil;
 
 @Entity
@@ -31,6 +32,7 @@ public class Utilisateur implements Serializable {
 	@Id
 	private String login;
 
+	@JsonIgnore
 	private String mdp;
 
 	@Column(name = "PREMIER_ECHEC")

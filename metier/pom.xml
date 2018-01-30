@@ -87,5 +87,11 @@
 			<version>${version.assertJ}</version>
 			<scope>test</scope>
 		</dependency>
+		
+		<!-- Annotations permettant de manipuler la transformation Objet/Json -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+		</dependency>
 	</dependencies>
 </project>
