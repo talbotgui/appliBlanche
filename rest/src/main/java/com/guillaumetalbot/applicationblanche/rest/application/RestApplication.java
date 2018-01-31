@@ -59,13 +59,16 @@ public class RestApplication {
 	/** Logger. */
 	private static final Logger LOG = LoggerFactory.getLogger(RestApplication.class);
 
+	/** Custom MIME-TYPE. */
+	public static final String MIME_JSON_DETAILS = "application/json;details";
+
 	/** Packages utilisés dans la configuration Spring. */
 	public static final String PACKAGE_REST_CONTROLEUR = "com.guillaumetalbot.applicationblanche.rest.controleur";
 	public static final String PACKAGE_REST_ERREUR = "com.guillaumetalbot.applicationblanche.rest.erreur";
 
 	/**
 	 * Recherche de tous les controleurs REST et des méthodes qu'ils exposent.
-	 * 
+	 *
 	 * @return
 	 */
 	private static Collection<String> listerMethodesDeControleurs() {

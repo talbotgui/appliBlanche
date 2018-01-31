@@ -12,6 +12,8 @@ import org.testng.annotations.BeforeMethod;
 
 import com.guillaumetalbot.applicationblanche.metier.service.ClientService;
 import com.guillaumetalbot.applicationblanche.metier.service.SecuriteService;
+import com.guillaumetalbot.applicationblanche.rest.controleur.ClientRestControler;
+import com.guillaumetalbot.applicationblanche.rest.controleur.RoleEtRessourceRestControler;
 import com.guillaumetalbot.applicationblanche.rest.controleur.UtilisateurRestControler;
 
 public class MockedIntegrationWebTest extends IntegrationWebTest {
@@ -19,15 +21,25 @@ public class MockedIntegrationWebTest extends IntegrationWebTest {
 	/** Logger. */
 	private static final Logger LOG = LoggerFactory.getLogger(MockedIntegrationWebTest.class);
 
+	/** Instance de controleurs pour y injecter les mocks de service. */
+	@Autowired
+	@InjectMocks
+	private ClientRestControler clientCtrl;
+
 	/** Mock de service créé par Mockito. */
 	@Mock
 	protected ClientService clientService;
+
+	/** Instance de controleurs pour y injecter les mocks de service. */
+	@Autowired
+	@InjectMocks
+	private RoleEtRessourceRestControler roleEtRessourceCtrl;
 
 	/** Mock de service créé par Mockito. */
 	@Mock
 	protected SecuriteService securiteService;
 
-	/** Instance des controleurs nécessaires pour y injecter le mock de service. */
+	/** Instance de controleurs pour y injecter les mocks de service. */
 	@Autowired
 	@InjectMocks
 	private UtilisateurRestControler utilisateurCtrl;

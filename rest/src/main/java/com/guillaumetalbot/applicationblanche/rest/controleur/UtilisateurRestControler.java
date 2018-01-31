@@ -20,12 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.guillaumetalbot.applicationblanche.exception.RestException;
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.Utilisateur;
 import com.guillaumetalbot.applicationblanche.metier.service.SecuriteService;
+import com.guillaumetalbot.applicationblanche.rest.application.RestApplication;
 
 @RestController
 @CrossOrigin
 public class UtilisateurRestControler {
 
-	private static final String MIME_JSON_DETAILS = "application/json;details";
 	@Autowired
 	private SecuriteService securiteService;
 
@@ -53,7 +53,7 @@ public class UtilisateurRestControler {
 
 	@RequestMapping(value = "/v1/utilisateur", method = GET, produces = { "application/json", "application/json;details" })
 	public Collection<?> listerUtilisateur(@RequestHeader("Accept") final String accept) {
-		if (MIME_JSON_DETAILS.equals(accept)) {
+		if (RestApplication.MIME_JSON_DETAILS.equals(accept)) {
 			return this.securiteService.listerUtilisateursAvecRolesEtAutorisations();
 		} else {
 			return this.securiteService.listerUtilisateurs();

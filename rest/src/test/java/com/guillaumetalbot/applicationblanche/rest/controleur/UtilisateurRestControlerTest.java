@@ -21,6 +21,7 @@ import org.testng.annotations.Test;
 
 import com.guillaumetalbot.applicationblanche.metier.dto.UtilisateurAvecRolesEtAutorisations;
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.Utilisateur;
+import com.guillaumetalbot.applicationblanche.rest.application.RestApplication;
 import com.guillaumetalbot.applicationblanche.rest.controleur.utils.ControlerTestUtil;
 import com.guillaumetalbot.applicationblanche.rest.controleur.utils.MockedIntegrationWebTest;
 
@@ -57,7 +58,7 @@ public class UtilisateurRestControlerTest extends MockedIntegrationWebTest {
 		// ACT
 		final ParameterizedTypeReference<Collection<UtilisateurAvecRolesEtAutorisations>> typeRetour = new ParameterizedTypeReference<Collection<UtilisateurAvecRolesEtAutorisations>>() {
 		};
-		final HttpEntity<?> headers = ControlerTestUtil.creerHeaders("application/json;details");
+		final HttpEntity<?> headers = ControlerTestUtil.creerHeaders(RestApplication.MIME_JSON_DETAILS);
 		final ResponseEntity<Collection<UtilisateurAvecRolesEtAutorisations>> utilisateurs = this.getREST()
 				.exchange(this.getURL() + "/v1/utilisateur", HttpMethod.GET, headers, typeRetour);
 

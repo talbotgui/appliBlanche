@@ -20,17 +20,17 @@ public class RoleEtRessourceRestControler {
 	@Autowired
 	private SecuriteService securiteService;
 
-	@RequestMapping(value = "/ressource", method = GET)
+	@RequestMapping(value = "/v1/ressource", method = GET)
 	public Collection<Ressource> listerRessource() {
 		return this.securiteService.listerRessources();
 	}
 
-	@RequestMapping(value = "/role", method = GET)
+	@RequestMapping(value = "/v1/role", method = GET)
 	public Collection<Role> listerRole() {
 		return this.securiteService.listerRoles();
 	}
 
-	@RequestMapping(value = "/role", method = POST)
+	@RequestMapping(value = "/v1/role", method = POST)
 	public void sauvegarderUtilisateur(@RequestParam(value = "nom") final String nom) {
 		this.securiteService.sauvegarderRole(nom);
 	}

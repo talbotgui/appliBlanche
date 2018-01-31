@@ -1,6 +1,7 @@
 package com.guillaumetalbot.applicationblanche.metier.entite.client;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -35,6 +36,13 @@ public class Client extends Entite {
 	public Client(final String nom) {
 		super();
 		this.nom = nom;
+	}
+
+	public void addDossier(final Dossier dossier) {
+		if (this.dossiers == null) {
+			this.dossiers = new HashSet<>();
+		}
+		this.dossiers.add(dossier);
 	}
 
 	public Adresse getAdresse() {
