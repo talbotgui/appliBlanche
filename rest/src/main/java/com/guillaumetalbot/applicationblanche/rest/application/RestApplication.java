@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.autoconfigure.security.IgnoredRequestCustomizer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.context.embedded.MimeMappings;
 import org.springframework.boot.web.servlet.ErrorPage;
@@ -23,7 +25,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.OrRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -143,14 +149,16 @@ public class RestApplication {
 				.roles("USER");
 	}
 
-	/**
-	 * Configuration des pages HTML du répertoire src/main/resources/templates.
-	 *
-	 * @return
-	 */
 	@Bean
 	public WebMvcConfigurerAdapter configurerPagesHtml() {
 		return new WebMvcConfigurerAdapter() {
+
+			@Override
+			public void addCorsMappings(final CorsRegistry registry) {
+				registry.addMapping("/**");
+			}
+
+			/** Configuration des pages HTML du répertoire src/main/resources/templates. */
 			@Override
 			public void addViewControllers(final ViewControllerRegistry registry) {
 				registry.addViewController("/").setViewName("index");
@@ -173,6 +181,21 @@ public class RestApplication {
 			// Mime types
 			final MimeMappings mappings = new MimeMappings(MimeMappings.DEFAULT);
 			container.setMimeMappings(mappings);
+		};
+	}
+
+	/**
+	 * Pour autoriser les appels OPTIONS et permettre les appels de VueJS.
+	 *
+	 * @see https://github.com/spring-projects/spring-boot/pull/9711
+	 * @return
+	 */
+	@Bean
+	public IgnoredRequestCustomizer optionsIgnoredRequestsCustomizer() {
+		return configurer -> {
+			final List<RequestMatcher> matchers = new ArrayList<>();
+			matchers.add(new AntPathRequestMatcher("/v1/utilisateur/moi", "OPTIONS"));
+			configurer.requestMatchers(new OrRequestMatcher(matchers));
 		};
 	}
 }
