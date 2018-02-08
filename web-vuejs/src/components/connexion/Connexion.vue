@@ -21,30 +21,44 @@
 </template>
 
 <script>
+import rest from '../../services/rest'
+import router from '../../router/router'
+
 export default {
   name: 'Connexion',
+
   data () {
     return {
       msgErreur: null,
-      login: '',
-      mdp: ''
+      login: 'adminAsupprimer',
+      mdp: 'adminAsupprimer'
     }
   },
+
   methods: {
+
     connexion (event) {
+      // Reset du message d'erreur
       this.msgErreur = ''
 
-      const options = {
-        url: 'http://localhost:9090/applicationBlanche/v1/utilisateur/moi',
-        method: 'GET',
-        headers: { Authorization: 'Basic ' + btoa(this.login + ':' + this.mdp) }
-      }
-      this.$http(options)
-        .then(response => {
-          console.debug(response.data)
-        }, errorResponse => {
-          this.msgErreur = 'Erreur de connexion'
-        })
+      // Initialisation des paramètres de securité à partir du formulaire
+      rest.setHeaderSecurite(this.login, this.mdp)
+
+      // Recherche des informations de l'utilisateur (pour sauvegarde)
+      rest.getUtilisateurMoi(
+        // si c'est ok, on change de page
+        response => {
+          const urlDemandee = this.$route.query.redirect
+          if (urlDemandee) {
+            router.push(urlDemandee)
+          } else {
+            router.push('/administration')
+          }
+        },
+
+        // Sinon, message d'erreur
+        errorResponse => { this.msgErreur = 'Erreur de connexion' }
+      )
     }
   }
 }

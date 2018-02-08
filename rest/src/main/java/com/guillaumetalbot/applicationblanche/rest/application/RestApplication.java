@@ -112,7 +112,7 @@ public class RestApplication {
 		// Log pour afficher l'URL de l'API
 		final String port = ac.getEnvironment().getProperty("server.port");
 		final String context = ac.getEnvironment().getProperty("server.context-path");
-		LOG.info("Application disponible sur http://localhost:{}/{}", port, context);
+		LOG.info("Application disponible sur http://localhost:{}{}", port, context);
 	}
 
 	/**
@@ -194,7 +194,7 @@ public class RestApplication {
 	public IgnoredRequestCustomizer optionsIgnoredRequestsCustomizer() {
 		return configurer -> {
 			final List<RequestMatcher> matchers = new ArrayList<>();
-			matchers.add(new AntPathRequestMatcher("/v1/utilisateur/moi", "OPTIONS"));
+			matchers.add(new AntPathRequestMatcher("/**", "OPTIONS"));
 			configurer.requestMatchers(new OrRequestMatcher(matchers));
 		};
 	}
