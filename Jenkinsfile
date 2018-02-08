@@ -50,12 +50,4 @@ pipeline {
 			}
 		}
 	}
-	
-	post {
-        // success {}
-        // unstable {}
-        // failure {}
-        //always {}
-        //changed {}
-    }
 }
