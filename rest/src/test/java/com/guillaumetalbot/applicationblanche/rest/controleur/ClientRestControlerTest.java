@@ -34,7 +34,7 @@ public class ClientRestControlerTest extends MockedIntegrationWebTest {
 		// ACT
 		final ParameterizedTypeReference<Collection<Client>> typeRetour = new ParameterizedTypeReference<Collection<Client>>() {
 		};
-		final ResponseEntity<Collection<Client>> clients = this.getREST().exchange(this.getURL() + "/v1/client", HttpMethod.GET, null, typeRetour);
+		final ResponseEntity<Collection<Client>> clients = this.getREST().exchange(this.getURL() + "/v1/clients", HttpMethod.GET, null, typeRetour);
 
 		// ASSERT
 		Mockito.verify(this.clientService).listerClients();
@@ -56,7 +56,7 @@ public class ClientRestControlerTest extends MockedIntegrationWebTest {
 
 		// ACT
 		final HttpEntity<?> headers = ControlerTestUtil.creerHeaders(RestApplication.MIME_JSON_DETAILS);
-		final ResponseEntity<Client> client = this.getREST().exchange(this.getURL() + "/v1/client/" + refClient, HttpMethod.GET, headers,
+		final ResponseEntity<Client> client = this.getREST().exchange(this.getURL() + "/v1/clients/" + refClient, HttpMethod.GET, headers,
 				Client.class);
 
 		// ASSERT
@@ -76,7 +76,7 @@ public class ClientRestControlerTest extends MockedIntegrationWebTest {
 		Mockito.doReturn(toReturn).when(this.clientService).chargerClientReadonly(refClient);
 
 		// ACT
-		final Client client = this.getREST().getForObject(this.getURL() + "/v1/client/" + refClient, Client.class);
+		final Client client = this.getREST().getForObject(this.getURL() + "/v1/clients/" + refClient, Client.class);
 
 		// ASSERT
 		Mockito.verify(this.clientService).chargerClientReadonly(refClient);
@@ -96,7 +96,7 @@ public class ClientRestControlerTest extends MockedIntegrationWebTest {
 		// ACT
 		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("nom", nomClient);
 		final Map<String, Object> uriVars = new HashMap<String, Object>();
-		final String refClientRetournee = this.getREST().postForObject(this.getURL() + "/v1/client", requestParam, String.class, uriVars);
+		final String refClientRetournee = this.getREST().postForObject(this.getURL() + "/v1/clients", requestParam, String.class, uriVars);
 
 		// ASSERT
 		Mockito.verify(this.clientService).sauvegarderClient(null, nomClient);

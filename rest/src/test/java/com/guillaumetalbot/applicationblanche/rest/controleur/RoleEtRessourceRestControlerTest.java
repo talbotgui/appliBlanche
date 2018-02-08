@@ -31,7 +31,7 @@ public class RoleEtRessourceRestControlerTest extends MockedIntegrationWebTest {
 		// ACT
 		final ParameterizedTypeReference<Collection<Role>> typeRetour = new ParameterizedTypeReference<Collection<Role>>() {
 		};
-		final ResponseEntity<Collection<Role>> roles = this.getREST().exchange(this.getURL() + "/v1/role", HttpMethod.GET, null, typeRetour);
+		final ResponseEntity<Collection<Role>> roles = this.getREST().exchange(this.getURL() + "/v1/roles", HttpMethod.GET, null, typeRetour);
 
 		// ASSERT
 		Mockito.verify(this.securiteService).listerRoles();
@@ -51,7 +51,7 @@ public class RoleEtRessourceRestControlerTest extends MockedIntegrationWebTest {
 		// ACT
 		final ParameterizedTypeReference<Collection<Ressource>> typeRetour = new ParameterizedTypeReference<Collection<Ressource>>() {
 		};
-		final ResponseEntity<Collection<Ressource>> reponse = this.getREST().exchange(this.getURL() + "/v1/ressource", HttpMethod.GET, null,
+		final ResponseEntity<Collection<Ressource>> reponse = this.getREST().exchange(this.getURL() + "/v1/ressources", HttpMethod.GET, null,
 				typeRetour);
 
 		// ASSERT
@@ -72,7 +72,7 @@ public class RoleEtRessourceRestControlerTest extends MockedIntegrationWebTest {
 		// ACT
 		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("nom", nomRole);
 		final Map<String, Object> uriVars = new HashMap<String, Object>();
-		this.getREST().postForObject(this.getURL() + "/v1/role", requestParam, Void.class, uriVars);
+		this.getREST().postForObject(this.getURL() + "/v1/roles", requestParam, Void.class, uriVars);
 
 		// ASSERT
 		Mockito.verify(this.securiteService).sauvegarderRole(nomRole);

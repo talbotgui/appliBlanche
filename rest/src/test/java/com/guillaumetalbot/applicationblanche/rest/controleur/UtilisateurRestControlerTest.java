@@ -37,7 +37,7 @@ public class UtilisateurRestControlerTest extends MockedIntegrationWebTest {
 		// ACT
 		final ParameterizedTypeReference<Collection<Utilisateur>> typeRetour = new ParameterizedTypeReference<Collection<Utilisateur>>() {
 		};
-		final ResponseEntity<Collection<Utilisateur>> utilisateurs = this.getREST().exchange(this.getURL() + "/v1/utilisateur", HttpMethod.GET, null,
+		final ResponseEntity<Collection<Utilisateur>> utilisateurs = this.getREST().exchange(this.getURL() + "/v1/utilisateurs", HttpMethod.GET, null,
 				typeRetour);
 
 		// ASSERT
@@ -60,7 +60,7 @@ public class UtilisateurRestControlerTest extends MockedIntegrationWebTest {
 		};
 		final HttpEntity<?> headers = ControlerTestUtil.creerHeaders(RestApplication.MIME_JSON_DETAILS);
 		final ResponseEntity<Collection<UtilisateurAvecRolesEtAutorisations>> utilisateurs = this.getREST()
-				.exchange(this.getURL() + "/v1/utilisateur", HttpMethod.GET, headers, typeRetour);
+				.exchange(this.getURL() + "/v1/utilisateurs", HttpMethod.GET, headers, typeRetour);
 
 		// ASSERT
 		Mockito.verify(this.securiteService).listerUtilisateursAvecRolesEtAutorisations();
@@ -82,7 +82,7 @@ public class UtilisateurRestControlerTest extends MockedIntegrationWebTest {
 		final Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT
-		this.getREST().postForObject(this.getURL() + "/v1/utilisateur", requestParam, Void.class, uriVars);
+		this.getREST().postForObject(this.getURL() + "/v1/utilisateurs", requestParam, Void.class, uriVars);
 
 		// ASSERT
 		Mockito.verify(this.securiteService).sauvegarderUtilisateur(login, mdp);
@@ -99,7 +99,7 @@ public class UtilisateurRestControlerTest extends MockedIntegrationWebTest {
 		Mockito.doNothing().when(this.securiteService).supprimerUtilisateur(argumentCaptor.capture());
 
 		// ACT
-		final ResponseEntity<Void> response = this.getREST().exchange(this.getURL() + "/v1/utilisateur/" + login, HttpMethod.DELETE, null,
+		final ResponseEntity<Void> response = this.getREST().exchange(this.getURL() + "/v1/utilisateurs/" + login, HttpMethod.DELETE, null,
 				Void.class);
 
 		// ASSERT
@@ -120,7 +120,7 @@ public class UtilisateurRestControlerTest extends MockedIntegrationWebTest {
 
 		// ACT
 		final Throwable thrown = Assertions.catchThrowable(() -> {
-			this.getREST().postForObject(this.getURL() + "/v1/utilisateur", requestParam, Void.class, uriVars);
+			this.getREST().postForObject(this.getURL() + "/v1/utilisateurs", requestParam, Void.class, uriVars);
 		});
 
 		// ASSERT
@@ -139,7 +139,7 @@ public class UtilisateurRestControlerTest extends MockedIntegrationWebTest {
 		Mockito.doNothing().when(this.securiteService).deverrouillerUtilisateur(Mockito.anyString());
 
 		// ACT
-		this.getREST().put(this.getURL() + "/v1/utilisateur/" + login + "/deverrouille", null);
+		this.getREST().put(this.getURL() + "/v1/utilisateurs/" + login + "/deverrouille", null);
 
 		// ASSERT
 		Mockito.verify(this.securiteService).deverrouillerUtilisateur(login);
@@ -155,7 +155,7 @@ public class UtilisateurRestControlerTest extends MockedIntegrationWebTest {
 		// ACT
 		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("login", loginToReset);
 		final HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(requestParam);
-		final ResponseEntity<Void> response = this.getREST().exchange(this.getURL() + "/v1/utilisateur/" + loginToReset + "/reset", HttpMethod.PUT,
+		final ResponseEntity<Void> response = this.getREST().exchange(this.getURL() + "/v1/utilisateurs/" + loginToReset + "/reset", HttpMethod.PUT,
 				request, Void.class);
 
 		// ASSERT
@@ -178,7 +178,7 @@ public class UtilisateurRestControlerTest extends MockedIntegrationWebTest {
 		final Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT
-		this.getREST().postForObject(this.getURL() + "/v1/utilisateur/" + login + "/changeMdp", requestParam, Void.class, uriVars);
+		this.getREST().postForObject(this.getURL() + "/v1/utilisateurs/" + login + "/changeMdp", requestParam, Void.class, uriVars);
 
 		// ASSERT
 		Mockito.verify(this.securiteService).sauvegarderUtilisateur(login, mdp);
@@ -201,7 +201,7 @@ public class UtilisateurRestControlerTest extends MockedIntegrationWebTest {
 
 		// ACT
 		final Throwable thrown = Assertions.catchThrowable(() -> {
-			this.getREST().postForObject(this.getURL() + "/v1/utilisateur/" + login + "/changeMdp", requestParam, Void.class, uriVars);
+			this.getREST().postForObject(this.getURL() + "/v1/utilisateurs/" + login + "/changeMdp", requestParam, Void.class, uriVars);
 		});
 
 		// ASSERT
@@ -222,7 +222,7 @@ public class UtilisateurRestControlerTest extends MockedIntegrationWebTest {
 		Mockito.doNothing().when(this.securiteService).supprimerUtilisateur(argumentCaptor.capture());
 
 		// ACT
-		final ResponseEntity<Void> response = this.getREST().exchange(this.getURL() + "/v1/utilisateur/" + login, HttpMethod.DELETE, null,
+		final ResponseEntity<Void> response = this.getREST().exchange(this.getURL() + "/v1/utilisateurs/" + login, HttpMethod.DELETE, null,
 				Void.class);
 
 		// ASSERT

@@ -29,7 +29,7 @@ public class UtilisateurRestControler {
 	@Autowired
 	private SecuriteService securiteService;
 
-	@RequestMapping(value = "/v1/utilisateur/{login}/changeMdp", method = POST)
+	@RequestMapping(value = "/v1/utilisateurs/{login}/changeMdp", method = POST)
 	public void changerMotDePasseUtilisateur(//
 			@PathVariable(value = "login") final String login, //
 			@RequestParam(value = "mdp", required = false) final String mdp) {
@@ -41,17 +41,17 @@ public class UtilisateurRestControler {
 		this.securiteService.sauvegarderUtilisateur(u.getLogin(), mdp);
 	}
 
-	@RequestMapping(value = "/v1/utilisateur/moi", method = GET)
+	@RequestMapping(value = "/v1/utilisateurs/moi", method = GET)
 	public Utilisateur chargerUtilisateurMoi(final HttpServletRequest request) {
 		return this.securiteService.chargerUtilisateurReadOnly(request.getRemoteUser());
 	}
 
-	@RequestMapping(value = "/v1/utilisateur/{login}/deverrouille", method = PUT)
+	@RequestMapping(value = "/v1/utilisateurs/{login}/deverrouille", method = PUT)
 	public void deverrouillerUtilisateur(@PathVariable(value = "login") final String login, final HttpServletRequest request) {
 		this.securiteService.deverrouillerUtilisateur(login);
 	}
 
-	@RequestMapping(value = "/v1/utilisateur", method = GET, produces = { "application/json", "application/json;details" })
+	@RequestMapping(value = "/v1/utilisateurs", method = GET, produces = { "application/json", "application/json;details" })
 	public Collection<?> listerUtilisateur(@RequestHeader("Accept") final String accept) {
 		if (RestApplication.MIME_JSON_DETAILS.equals(accept)) {
 			return this.securiteService.listerUtilisateursAvecRolesEtAutorisations();
@@ -60,12 +60,12 @@ public class UtilisateurRestControler {
 		}
 	}
 
-	@RequestMapping(value = "/v1/utilisateur/{login}/reset", method = PUT)
+	@RequestMapping(value = "/v1/utilisateurs/{login}/reset", method = PUT)
 	public void resetPassword(@PathVariable(value = "login") final String login, final HttpServletRequest request) {
 		this.securiteService.reinitialiserMotDePasse(login);
 	}
 
-	@RequestMapping(value = "/v1/utilisateur", method = POST)
+	@RequestMapping(value = "/v1/utilisateurs", method = POST)
 	public void sauvegarderUtilisateur(//
 			@RequestParam(value = "login") final String login, //
 			@RequestParam(value = "mdp", required = false) final String mdp) {
@@ -77,7 +77,7 @@ public class UtilisateurRestControler {
 		this.securiteService.sauvegarderUtilisateur(login, mdp);
 	}
 
-	@RequestMapping(value = "/v1/utilisateur/{login}", method = DELETE)
+	@RequestMapping(value = "/v1/utilisateurs/{login}", method = DELETE)
 	public void supprimerUtilisateur(@PathVariable(value = "login") final String login) {
 		this.securiteService.supprimerUtilisateur(login);
 	}

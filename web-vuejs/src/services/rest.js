@@ -8,17 +8,17 @@ export default {
   },
 
   getRoles (sucessCallback, erreurCallback) {
-    const options = { method: 'GET', url: 'v1/role' }
+    const options = { method: 'GET', url: 'v1/roles' }
     Vue.http(options).then(sucessCallback, erreurCallback)
   },
 
   getUtilisateurs (sucessCallback, erreurCallback) {
-    const options = { method: 'GET', url: 'v1/utilisateur' }
+    const options = { method: 'GET', url: 'v1/utilisateurs' }
     Vue.http(options).then(sucessCallback, erreurCallback)
   },
 
   getUtilisateurMoi (sucessCallback, erreurCallback) {
-    const options = { method: 'GET', url: 'v1/utilisateur/moi' }
+    const options = { method: 'GET', url: 'v1/utilisateurs/moi' }
     Vue.http(options).then(
       reponseSucces => { this.estConnecte = true; this.utilisateur = reponseSucces.data; sucessCallback(reponseSucces) },
       erreurCallback
@@ -26,12 +26,12 @@ export default {
   },
 
   postRole (param, sucessCallback, erreurCallback) {
-    const options = { method: 'POST', url: 'v1/role', body: param }
+    const options = { method: 'POST', url: 'v1/roles', body: param }
     Vue.http(options).then(sucessCallback, erreurCallback)
   },
 
   postUtilisateur (param, sucessCallback, erreurCallback) {
-    const options = { method: 'POST', url: 'v1/utilisateur', body: param }
+    const options = { method: 'POST', url: 'v1/utilisateurs', body: param }
     Vue.http(options).then(sucessCallback, erreurCallback)
   },
 

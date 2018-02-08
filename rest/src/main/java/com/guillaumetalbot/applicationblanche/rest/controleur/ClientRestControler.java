@@ -22,7 +22,7 @@ public class ClientRestControler {
 	@Autowired
 	private ClientService clientService;
 
-	@RequestMapping(value = "/v1/client/{refClient}", method = GET)
+	@RequestMapping(value = "/v1/clients/{refClient}", method = GET)
 	public Client chargerClient(@RequestHeader("Accept") final String accept, @PathVariable("refClient") final String refClient) {
 		if (RestApplication.MIME_JSON_DETAILS.equals(accept)) {
 			return this.clientService.chargerClientAvecAdresseEtDossiersReadonly(refClient);
@@ -31,12 +31,12 @@ public class ClientRestControler {
 		}
 	}
 
-	@RequestMapping(value = "/v1/client", method = GET)
+	@RequestMapping(value = "/v1/clients", method = GET)
 	public Collection<Client> listerClients() {
 		return this.clientService.listerClients();
 	}
 
-	@RequestMapping(value = "/v1/client", method = POST)
+	@RequestMapping(value = "/v1/clients", method = POST)
 	public String sauvegarderClient(//
 			@RequestParam(required = false, value = "refClient") final String refClient, //
 			@RequestParam(value = "nom") final String nom) {
