@@ -31,7 +31,7 @@ public class RoleEtRessourceRestControler {
 	}
 
 	@RequestMapping(value = "/v1/roles", method = POST)
-	public void sauvegarderUtilisateur(@RequestParam(value = "nom") final String nom) {
+	public void sauvegarderUtilisateur(@RequestParam(value = "nom", required = true) final String nom) {
 		this.securiteService.sauvegarderRole(nom);
 	}
 }

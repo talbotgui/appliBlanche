@@ -3,8 +3,11 @@
 
     <!-- Petit menu pour la section Administration -->
     <div class="col-lg-1 col-md-1 col-xs-1">
+      <div class="bienvenue">Bonjour {{utilisateur.login}}</div>
+
       <h3>Administration</h3>
-      <router-link to="/administration/utilisateur">Utilisateur</router-link>
+      <router-link to="/administration/utilisateur">Utilisateurs</router-link>
+      <router-link to="/administration/role">Roles</router-link>
     </div>
 
     <!--Cadre dans lequel s'affiche la vue sélectionnée -->
@@ -14,9 +17,17 @@
 </template>
 
 <script>
+import rest from '../../services/rest'
+
 export default {
   name: 'Administration',
-  data () { return {} }
+  data () {
+    return {
+      get utilisateur () {
+        return rest.utilisateur
+      }
+    }
+  }
 }
 </script>
 

@@ -6,6 +6,7 @@ import Router from 'vue-router'
 import Connexion from '@/components/connexion/Connexion'
 import Administration from '@/components/administration/Administration'
 import Utilisateur from '@/components/administration/Utilisateur'
+import Role from '@/components/administration/Role'
 import rest from '../services/rest'
 
 // Déclaration des modules de VueJS
@@ -32,7 +33,8 @@ export default new Router({
       component: Administration,
       beforeEnter: connexionNecessaire,
       children: [
-        { path: 'utilisateur', name: 'Utilisateur', component: Utilisateur }
+        { path: 'utilisateur', name: 'Utilisateur', component: Utilisateur },
+        { path: 'role', name: 'Role', component: Role }
       ]
     }
   ]

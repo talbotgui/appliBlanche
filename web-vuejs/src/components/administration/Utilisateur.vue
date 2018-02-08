@@ -16,23 +16,7 @@
       <div class="col-lg-12 col-md-12 col-xs-12">
         <input id="login" v-model.trim="nouvelUtilisateur.login" placeholder="nom d'utilisateur" />
         <input id="mdp" v-model.trim="nouvelUtilisateur.mdp" placeholder="mot de passe" />
-        <button class="btn btn-outline-primary" v-on:click="creerUtilisateur">Créer l'utilisateur</button>
-      </div>
-    </div>
-
-    <!-- Administration des roles -->
-    <div class="col-lg-8 col-md-6 col-xs-12">
-      <h2>Administration des roles</h2>
-
-      <!-- Liste des roles -->
-      <div v-for="role in roles" :key="role.nom">
-        <span>{{ role.nom }}</span>
-      </div>
-
-      <!-- Création d'un role -->
-      <div class="col-lg-12 col-md-12 col-xs-12">
-        <input id="nouveauRole" v-model.trim="nouveauRole.nom" placeholder="nom" />
-        <button class="btn btn-outline-primary" v-on:click="creerRole">Créer le role</button>
+        <button class="btn btn-outline-primary" v-on:click="creer">Créer l'utilisateur</button>
       </div>
     </div>
   </div>
@@ -46,9 +30,7 @@ export default {
   data () {
     return {
       nouvelUtilisateur: { login: '', mdp: '' },
-      nouveauRole: { nom: '' },
-      utilisateurs: [],
-      roles: []
+      utilisateurs: []
     }
   },
 
@@ -59,17 +41,12 @@ export default {
 
   methods: {
 
-    creerUtilisateur (event) {
+    creer (event) {
       rest.postUtilisateur(this.nouvelUtilisateur, response => { this.nouvelUtilisateur = { login: '', mdp: '' }; this.rechercherLesDonnees() })
-    },
-
-    creerRole (event) {
-      rest.postRole(this.nouveauRole, response => { this.nouveauRole = { nom: '' }; this.rechercherLesDonnees() })
     },
 
     rechercherLesDonnees (event) {
       rest.getUtilisateurs(response => { this.utilisateurs = response.body })
-      rest.getRoles(response => { this.roles = response.body })
     }
   }
 }

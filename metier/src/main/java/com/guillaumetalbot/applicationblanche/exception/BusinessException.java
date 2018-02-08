@@ -14,6 +14,9 @@ public class BusinessException extends BaseException {
 	public static final ExceptionId ERREUR_LOGIN_VEROUILLE = new ExceptionId("ERREUR_LOGIN_VEROUILLE",
 			"Erreur de connexion - le compte est verrouillé", ExceptionLevel.ERROR, 403);
 
+	public static final ExceptionId ERREUR_ROLE_NOM = new ExceptionId("ERREUR_ROLE_NOM", "Nom du role trop court ({0} caractères minimum)",
+			ExceptionLevel.ERROR, 400);
+
 	public static final ExceptionId ERREUR_SHA = new ExceptionId("ERREUR_SHA", "Erreur de cryptage", ExceptionLevel.ERROR, 500);
 
 	public static final ExceptionId OBJET_DEJA_EXISTANT = new ExceptionId("OBJET_DEJA_EXISTANT",

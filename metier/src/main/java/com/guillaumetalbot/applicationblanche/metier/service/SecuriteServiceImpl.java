@@ -37,6 +37,9 @@ public class SecuriteServiceImpl implements SecuriteService {
 	/** Longueur minimale du mot de passe. */
 	private static final int LOGIN_MDP_MIN = 6;
 
+	/** Longueur minimale du nom d'un role. */
+	private static final int ROLE_NOM_MIN = 3;
+
 	@Autowired
 	private LienRoleRessourceRepository lienRoleRessourceRepo;
 
@@ -171,6 +174,10 @@ public class SecuriteServiceImpl implements SecuriteService {
 
 	@Override
 	public void sauvegarderRole(final String nomRole) {
+		if ((nomRole == null) || (nomRole.length() < ROLE_NOM_MIN)) {
+			throw new BusinessException(BusinessException.ERREUR_ROLE_NOM, ROLE_NOM_MIN);
+		}
+
 		if (this.roleRepo.findOne(nomRole) == null) {
 			this.roleRepo.save(new Role(nomRole));
 		} else {
