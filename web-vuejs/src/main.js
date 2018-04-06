@@ -23,8 +23,8 @@ Vue.config.productionTip = false
 // Vue.config.silent = false
 // Vue.config.devtools = true
 
-// Configuration de l'internationnalisation
-const i18n = new VueI18n({ locale: 'fr', messages: { fr: { 'connexion_identifiant': 'login', 'connexion_titre': 'Connexion', 'connexion_motDePasse': 'Mot de passe :', 'connexion_boutonConnexion': 'Se connecter' } } })
+// Configuration de l'internationnalisation à minima (elle sera chargée plus tard depuis l'API)
+const i18n = new VueI18n({ locale: 'fr', messages: {} })
 
 /* eslint-disable no-new */
 new Vue({

@@ -6,7 +6,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'App',
 
@@ -15,7 +14,26 @@ export default {
   },
 
   mounted () {
-    this.loading = ''
+    const locale = 'fr'
+    const cb = (err, message) => {
+      if (err) {
+        console.error(err)
+        return
+      }
+      this.$i18n.setLocaleMessage('fr', message)
+      this.loading = ''
+    }
+    return fetch('http://localhost:9090/applicationBlanche/i18n/' + locale, { method: 'get', headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' } })
+      .then((res) => { return res.json() })
+      .then((json) => {
+        if (Object.keys(json).length === 0) {
+          return Promise.reject(new Error('locale empty !!'))
+        } else {
+          return Promise.resolve(json)
+        }
+      })
+      .then((message) => { cb(null, message) })
+      .catch((error) => { cb(error) })
   }
 }
 </script>
