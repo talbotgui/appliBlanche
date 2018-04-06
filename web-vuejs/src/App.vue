@@ -1,12 +1,22 @@
 <template>
   <div id="app">
-    <router-view/>
+    {{loading}}
+    <router-view v-if="!loading" />
   </div>
 </template>
 
 <script>
+
 export default {
-  name: 'App'
+  name: 'App',
+
+  data () {
+    return { loading: 'Chargement en cours' }
+  },
+
+  mounted () {
+    this.loading = ''
+  }
 }
 </script>
 
