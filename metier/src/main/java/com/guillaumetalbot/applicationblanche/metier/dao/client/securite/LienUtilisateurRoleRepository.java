@@ -1,4 +1,4 @@
-package com.guillaumetalbot.applicationblanche.metier.dao.securite;
+package com.guillaumetalbot.applicationblanche.metier.dao.client.securite;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

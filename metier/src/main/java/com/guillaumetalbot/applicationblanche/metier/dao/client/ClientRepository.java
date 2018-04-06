@@ -1,4 +1,4 @@
-package com.guillaumetalbot.applicationblanche.metier.dao;
+package com.guillaumetalbot.applicationblanche.metier.dao.client;
 
 import java.util.Collection;
 

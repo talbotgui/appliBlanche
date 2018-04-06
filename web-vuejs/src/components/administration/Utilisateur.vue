@@ -3,7 +3,7 @@
 
     <!-- Administration des utilisateurs -->
     <div class="col-lg-4 col-md-6 col-xs-12">
-      <h2>Administration des utilisateurs</h2>
+      <h2>{{ $t("utilisateur_titre") }}</h2>
 
       <!-- Liste des utilisateurs-->
       <div>
@@ -14,9 +14,9 @@
 
       <!-- Création d'un utilisateur -->
       <div class="col-lg-12 col-md-12 col-xs-12">
-        <input id="login" v-model.trim="nouvelUtilisateur.login" placeholder="nom d'utilisateur" />
-        <input id="mdp" v-model.trim="nouvelUtilisateur.mdp" placeholder="mot de passe" />
-        <button class="btn btn-outline-primary" v-on:click="creer">Créer l'utilisateur</button>
+        <input id="login" v-model.trim="nouvelUtilisateur.login" v-bind:placeholder='$t("utilisateur_placeholder_login")' />
+        <input id="mdp" v-model.trim="nouvelUtilisateur.mdp" v-bind:placeholder='$t("utilisateur_placeholder_mdp")' />
+        <button class="btn btn-outline-primary" v-on:click="creer">{{ $t("utilisateur_bouton_creer") }}</button>
       </div>
     </div>
   </div>

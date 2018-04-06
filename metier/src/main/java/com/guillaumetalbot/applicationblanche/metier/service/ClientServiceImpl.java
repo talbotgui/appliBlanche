@@ -9,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.guillaumetalbot.applicationblanche.exception.BusinessException;
-import com.guillaumetalbot.applicationblanche.metier.dao.AdresseRepository;
-import com.guillaumetalbot.applicationblanche.metier.dao.ClientRepository;
-import com.guillaumetalbot.applicationblanche.metier.dao.DemandeRepository;
-import com.guillaumetalbot.applicationblanche.metier.dao.DossierRepository;
+import com.guillaumetalbot.applicationblanche.metier.dao.client.AdresseRepository;
+import com.guillaumetalbot.applicationblanche.metier.dao.client.ClientRepository;
+import com.guillaumetalbot.applicationblanche.metier.dao.client.DemandeRepository;
+import com.guillaumetalbot.applicationblanche.metier.dao.client.DossierRepository;
 import com.guillaumetalbot.applicationblanche.metier.entite.Entite;
 import com.guillaumetalbot.applicationblanche.metier.entite.client.Adresse;
 import com.guillaumetalbot.applicationblanche.metier.entite.client.Client;
