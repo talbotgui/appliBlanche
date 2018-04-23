@@ -1,0 +1,24 @@
+<!-- Liste des utilisateurs -->
+<table>
+	<thead>
+		<tr>
+			<td>Identifiant</td>
+			<td>Rôles</td>
+		</tr>
+	</thead>
+	<tr *ngFor="let utilisateur of utilisateurs" [class.ligneSelectionne]="utilisateur === utilisateurSelectionne" (click)="selectionnerUtilisateur(utilisateur); utilisateurForm.reset(utilisateur);">
+		<td>{{utilisateur.login}}</td>
+		<td>
+			<span *ngFor="let role of utilisateur.roles">{{role.nom}}</span>
+		</td>
+	</tr>
+</table>
+
+<!-- Création ou édition d'utilisateur -->
+<form novalidate #utilisateurForm="ngForm">
+	<div *ngIf="utilisateurSelectionne">
+		<div *ngIf="!inputLogin.pristine && inputLogin.errors?.required" class="alert-danger">Le nom d'utilisateur est obligatoire</div>
+		<div *ngIf="!inputLogin.pristine && inputLogin.errors?.minlength" class="alert-danger">Le nom d'utilisateur doit faire 6 caractères au minimum</div>
+		<input required minlength="6" #inputLogin="ngModel" [(ngModel)]="utilisateurSelectionne.login" name="login" placeholder="Nom d'utilisateur">
+	</div>
+</form>

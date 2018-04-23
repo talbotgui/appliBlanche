@@ -5,7 +5,7 @@
   "author": "Guillaume TALBOT <talbotgui@gmail.com>",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --port=8080",
+    "start": "ng serve --port=8181",
     "build": "ng build --locale fr",
     "build-prod": "ng build --prod --aot --progress=false --verbose=true --build-optimizer --locale fr",
     "test": "ng test",
