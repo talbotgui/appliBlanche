@@ -1,11 +1,11 @@
 <template>
   <div class="container-fluid">
 
-    <!-- Petit menu pour la section Administration -->
+    <!-- Petit menu -->
     <div class="col-lg-1 col-md-1 col-xs-1">
       <div class="bienvenue">Bonjour {{utilisateur.login}}</div>
 
-      <h3>Administration</h3>
+      <h3>Accueil</h3>
       <router-link to="/administration/utilisateur">Utilisateurs</router-link>
       <router-link to="/administration/role">Roles</router-link>
     </div>
@@ -17,10 +17,10 @@
 </template>
 
 <script>
-import rest from '../../services/rest'
+import rest from '../services/rest'
 
 export default {
-  name: 'Administration',
+  name: 'Accueil',
   data () {
     return {
       get utilisateur () {

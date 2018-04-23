@@ -4,7 +4,7 @@ import Router from 'vue-router'
 
 // Import des composants de l'application
 import Connexion from '@/components/connexion/Connexion'
-import Administration from '@/components/administration/Administration'
+import Accueil from '@/components/Accueil'
 import Utilisateur from '@/components/administration/Utilisateur'
 import Role from '@/components/administration/Role'
 import rest from '../services/rest'
@@ -27,15 +27,8 @@ export default new Router({
   routes: [
     { path: '/', name: 'Connexion', component: Connexion },
     { path: '/login', name: 'Connexion', component: Connexion },
-    {
-      path: '/administration',
-      name: 'Administration',
-      component: Administration,
-      beforeEnter: connexionNecessaire,
-      children: [
-        { path: 'utilisateur', name: 'Utilisateur', component: Utilisateur },
-        { path: 'role', name: 'Role', component: Role }
-      ]
-    }
+    { path: '/accueil', name: 'Accueil', component: Accueil, beforeEnter: connexionNecessaire },
+    { path: '/administration/utilisateur', name: 'Utilisateur', component: Utilisateur, beforeEnter: connexionNecessaire },
+    { path: '/administration/role', name: 'Role', component: Role, beforeEnter: connexionNecessaire }
   ]
 })

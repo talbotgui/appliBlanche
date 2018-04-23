@@ -52,7 +52,7 @@ export default {
           if (urlDemandee) {
             router.push(urlDemandee)
           } else {
-            router.push('/administration')
+            router.push('/accueil')
           }
         },
 
