@@ -4,8 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { UtilisateurService } from '../service/utilisateur.service';
 import * as model from '../model/model';
 
-@Component({ selector: 'tab-utilisateur', templateUrl: './tab-utilisateur.component.html', styleUrls: ['./tab-utilisateur.component.css'] })
-export class TabUtilisateurComponent implements OnInit {
+@Component({ selector: 'page-utilisateur', templateUrl: './page-utilisateur.component.html', styleUrls: ['./page-utilisateur.component.css'] })
+export class PageUtilisateurComponent implements OnInit {
 
   // Liste des utilisateurs à afficher
   utilisateurs: model.Utilisateur[];

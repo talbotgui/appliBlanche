@@ -21,8 +21,8 @@ import { AlertModule } from 'ngx-bootstrap';
 
 // Tous les composants applicatifs de l'application
 import { AppComponent } from './app.component';
-import { TabAccueilComponent } from './tab-accueil/tab-accueil.component';
-import { TabUtilisateurComponent } from './tab-utilisateur/tab-utilisateur.component';
+import { PageAccueilComponent } from './page-accueil/page-accueil.component';
+import { PageUtilisateurComponent } from './page-utilisateur/page-utilisateur.component';
 
 // Les composants injectables
 import { UtilisateurService } from './service/utilisateur.service';
@@ -45,7 +45,7 @@ registerLocaleData(localeFr, 'fr');
   // Tous les composants applicatifs de l'application
   declarations: [
     AppComponent, AttributesToMapPipe,
-    MapValuesPipe, TabAccueilComponent, TabUtilisateurComponent
+    MapValuesPipe, PageAccueilComponent, PageUtilisateurComponent
   ],
 
   // Tous les composants à afficher dans un Dialog
