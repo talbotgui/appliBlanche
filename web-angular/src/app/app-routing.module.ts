@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 // Tous les composants applicatifs de l'application
 import { PageAccueilComponent } from './page-accueil/page-accueil.component';
-import { PageUtilisateurComponent } from './page-utilisateur/page-utilisateur.component';
+import { PageUtilisateurComponent } from './administration/page-utilisateur/page-utilisateur.component';
 
 const routes: Routes = [
   // pour rediriger par défaut sur le dashboard

@@ -22,7 +22,7 @@ import { AlertModule } from 'ngx-bootstrap';
 // Tous les composants applicatifs de l'application
 import { AppComponent } from './app.component';
 import { PageAccueilComponent } from './page-accueil/page-accueil.component';
-import { PageUtilisateurComponent } from './page-utilisateur/page-utilisateur.component';
+import { PageUtilisateurComponent } from './administration/page-utilisateur/page-utilisateur.component';
 
 // Les composants injectables
 import { UtilisateurService } from './service/utilisateur.service';
