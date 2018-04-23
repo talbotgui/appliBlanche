@@ -6,6 +6,7 @@
 
 **/node_modules
 **/dist
+**/bin
 **/test/unit/coverage/
 **/test/e2e/reports/
 **/.extract/

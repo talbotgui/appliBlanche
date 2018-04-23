@@ -26,6 +26,7 @@
 		<module>batch</module>
 		<module>rest</module>
 		<module>web-vuejs</module>
+		<module>web-angular</module>
 	</modules>
 
 	<profiles>
