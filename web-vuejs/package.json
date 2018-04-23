@@ -2,7 +2,7 @@
   "name": "web-vuejs",
   "version": "1.0.0",
   "description": "Application WEB de l'application blanche avec Vue.JS",
-  "author": "Guillaume TALBOT <guillaume.talbot@cgi.com>",
+  "author": "Guillaume TALBOT <talbotgui@gmail.com>",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",

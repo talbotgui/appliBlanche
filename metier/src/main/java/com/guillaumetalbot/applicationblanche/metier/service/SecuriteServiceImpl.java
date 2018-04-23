@@ -16,11 +16,11 @@ import org.springframework.stereotype.Service;
 
 import com.guillaumetalbot.applicationblanche.exception.BusinessException;
 import com.guillaumetalbot.applicationblanche.exception.BusinessExceptionSansRollback;
-import com.guillaumetalbot.applicationblanche.metier.dao.client.securite.LienRoleRessourceRepository;
-import com.guillaumetalbot.applicationblanche.metier.dao.client.securite.LienUtilisateurRoleRepository;
-import com.guillaumetalbot.applicationblanche.metier.dao.client.securite.RessourceRepository;
-import com.guillaumetalbot.applicationblanche.metier.dao.client.securite.RoleRepository;
-import com.guillaumetalbot.applicationblanche.metier.dao.client.securite.UtilisateurRepository;
+import com.guillaumetalbot.applicationblanche.metier.dao.securite.LienRoleRessourceRepository;
+import com.guillaumetalbot.applicationblanche.metier.dao.securite.LienUtilisateurRoleRepository;
+import com.guillaumetalbot.applicationblanche.metier.dao.securite.RessourceRepository;
+import com.guillaumetalbot.applicationblanche.metier.dao.securite.RoleRepository;
+import com.guillaumetalbot.applicationblanche.metier.dao.securite.UtilisateurRepository;
 import com.guillaumetalbot.applicationblanche.metier.dto.UtilisateurAvecRolesEtAutorisations;
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.LienRoleRessource;
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.LienUtilisateurRole;
