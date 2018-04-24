@@ -22,9 +22,12 @@ import { AlertModule } from 'ngx-bootstrap';
 // Tous les composants applicatifs de l'application
 import { AppComponent } from './app.component';
 import { PageAccueilComponent } from './page-accueil/page-accueil.component';
+import { PageConnexionComponent } from './page-connexion/page-connexion.component';
+import { CadreMenuComponent } from './cadre-menu/cadre-menu.component';
 import { PageUtilisateurComponent } from './administration/page-utilisateur/page-utilisateur.component';
 
 // Les composants injectables
+import { AuthGuard } from './service/auth-guard.service';
 import { UtilisateurService } from './service/utilisateur.service';
 
 // Le composant contenant les routes
@@ -45,7 +48,7 @@ registerLocaleData(localeFr, 'fr');
   // Tous les composants applicatifs de l'application
   declarations: [
     AppComponent, AttributesToMapPipe,
-    MapValuesPipe, PageAccueilComponent, PageUtilisateurComponent
+    MapValuesPipe, PageAccueilComponent, PageConnexionComponent, CadreMenuComponent, PageUtilisateurComponent
   ],
 
   // Tous les composants à afficher dans un Dialog
@@ -59,7 +62,7 @@ registerLocaleData(localeFr, 'fr');
     { provide: MAT_PLACEHOLDER_GLOBAL_OPTIONS, useValue: { float: 'never' } },
 
     // Les composants injectables
-    UtilisateurService
+    UtilisateurService, AuthGuard
 
   ],
 

@@ -10,17 +10,26 @@ import * as model from '../model/model';
 @Injectable()
 export class UtilisateurService {
 
+  private headerSecurite: { headers: HttpHeaders } | undefined;
+
   constructor(private http: HttpClient) { }
 
   listerUtilisateurs(): Observable<model.Utilisateur[]> {
-    const httpOptions = this.creerHeaderSecurite();
-    return this.http.get<model.Utilisateur[]>('http://localhost:9090/applicationBlanche/v1/utilisateurs', httpOptions)
+    return this.http.get<model.Utilisateur[]>('http://localhost:9090/applicationBlanche/v1/utilisateurs', this.headerSecurite)
       .pipe(catchError(this.handleError));
   }
 
-  /** Creation des entetes de securite */
-  private creerHeaderSecurite() {
-    return { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Basic ' + btoa('adminAsupprimer:adminAsupprimer') }) };
+  connecter(login: string, mdp: string): Observable<void> {
+    this.headerSecurite = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Basic ' + btoa(login + ':' + mdp) }) };
+    return this.http.get<void>('http://localhost:9090/applicationBlanche/v1/utilisateurs', this.headerSecurite)
+      .pipe(catchError(error => {
+        this.headerSecurite = undefined;
+        return this.handleError(error);
+      }))
+  }
+
+  estConnecte(): boolean {
+    return !!this.headerSecurite;
   }
 
   /** Gestionnnaire des erreurs REST */
