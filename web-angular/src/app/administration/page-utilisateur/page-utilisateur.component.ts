@@ -19,10 +19,7 @@ export class PageUtilisateurComponent implements OnInit {
   // Appel au service à l'initialisation du composant
   ngOnInit(): void {
 
-    // Chargemnt de la liste des utilisateurs
-    this.utilisateurService.listerUtilisateurs().subscribe(liste => {
-      this.utilisateurs = liste;
-    });
+    this.chargerDonnees();
 
     // Si des paramètres sont présents, initialisation du formulaire avec les données de l'objet indiqué
     this.route.params.subscribe((params: { [key: string]: any }) => {
@@ -35,6 +32,22 @@ export class PageUtilisateurComponent implements OnInit {
         })
       }
     });
+  }
+
+  // Chargement de la liste des utilisateurs
+  chargerDonnees() {
+    this.utilisateurService.listerUtilisateurs().subscribe(liste => {
+      this.utilisateurs = liste;
+    });
+  }
+
+  creerUtilisateur() {
+    this.utilisateurSelectionne = new model.Utilisateur();
+  }
+
+  sauvegarderUtilisateur() {
+    this.utilisateurService.sauvegarderUtilisateur(this.utilisateurSelectionne)
+      .subscribe(retour => { this.chargerDonnees(); });
   }
 
   // A la sélection d'un élève
