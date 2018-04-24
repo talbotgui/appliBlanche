@@ -29,12 +29,12 @@
 	<div *ngIf="utilisateurSelectionne">
 		<div *ngIf="!inputLogin.pristine && inputLogin.errors?.required" class="alert-danger">Le nom d'utilisateur est obligatoire</div>
 		<div *ngIf="!inputLogin.pristine && inputLogin.errors?.minlength" class="alert-danger">Le nom d'utilisateur doit faire 6 caractères au minimum</div>
-		<input required minlength="6" #inputLogin="ngModel" [(ngModel)]="utilisateurSelectionne.login" name="login" placeholder="Nom d'utilisateur">
+		<input required minlength="6" #inputLogin="ngModel" [(ngModel)]="utilisateurSelectionne.login" name="login" placeholder="Nom d'utilisateur *">
 
 		<div *ngIf="!inputMdp.pristine && inputMdp.errors?.required" class="alert-danger">Le mot de passe est obligatoire</div>
 		<div *ngIf="!inputMdp.pristine && inputMdp.errors?.minlength" class="alert-danger">Le mot de passe doit faire 6 caractères au minimum</div>
-		<input required minlength="6" type="password" #inputMdp="ngModel" [(ngModel)]="utilisateurSelectionne.mdp" name="mdp" placeholder="Mot de passe">
+		<input required minlength="6" type="password" #inputMdp="ngModel" [(ngModel)]="utilisateurSelectionne.mdp" name="mdp" placeholder="Mot de passe *">
 
-		<button type="submit" [disabled]="!utilisateurForm.form.valid" (click)="sauvegarderUtilisateur()">Sauvegarder</button>
+		<button type="submit" class="btn btn-outline-primary" [disabled]="!utilisateurForm.form.valid" (click)="sauvegarderUtilisateur()">Sauvegarder</button>
 	</div>
 </form>
