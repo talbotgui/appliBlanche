@@ -1,11 +1,8 @@
 package com.guillaumetalbot.applicationblanche.rest.application;
 
-import java.lang.reflect.Method;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,13 +25,11 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import com.guillaumetalbot.applicationblanche.application.PackageForApplication;
-import com.guillaumetalbot.applicationblanche.metier.service.SecuriteService;
 
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -49,18 +44,14 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @EnableSwagger2
 @EntityScan({ PackageForApplication.PACKAGE_METIER_ENTITE })
-@ComponentScan({ RestApplication.PACKAGE_REST_CONTROLEUR, RestApplication.PACKAGE_REST_ERREUR, PackageForApplication.PACKAGE_METIER_SERVICE,
-		PackageForApplication.PACKAGE_METIER_DAO })
+@ComponentScan({ RestApplication.PACKAGE_REST_APPLICATION, RestApplication.PACKAGE_REST_CONTROLEUR, RestApplication.PACKAGE_REST_ERREUR,
+		PackageForApplication.PACKAGE_METIER_SERVICE, PackageForApplication.PACKAGE_METIER_DAO })
 @EnableJpaRepositories(PackageForApplication.PACKAGE_METIER_DAO)
 @EnableGlobalMethodSecurity
 public class RestApplication {
 
 	/** Contexte applicatif démarré. */
 	private static ApplicationContext ac;
-
-	/** Configuration de la sécurité par défaut. */
-	public static final String ADMIN_PAR_DEFAUT_LOGIN_MDP = "adminAsupprimer";
-	public static final String ADMIN_PAR_DEFAUT_ROLE = "administrateur";
 
 	/** Logger. */
 	private static final Logger LOG = LoggerFactory.getLogger(RestApplication.class);
@@ -69,29 +60,9 @@ public class RestApplication {
 	public static final String MIME_JSON_DETAILS = "application/json;details";
 
 	/** Packages utilisés dans la configuration Spring. */
+	public static final String PACKAGE_REST_APPLICATION = "com.guillaumetalbot.applicationblanche.rest.application";
 	public static final String PACKAGE_REST_CONTROLEUR = "com.guillaumetalbot.applicationblanche.rest.controleur";
 	public static final String PACKAGE_REST_ERREUR = "com.guillaumetalbot.applicationblanche.rest.erreur";
-
-	/**
-	 * Recherche de tous les controleurs REST et des méthodes qu'ils exposent.
-	 *
-	 * @return
-	 */
-	private static Collection<String> listerMethodesDeControleurs() {
-		final Map<String, Object> beans = ac.getBeansWithAnnotation(Controller.class);
-		final Collection<String> clefsRessources = new ArrayList<>();
-		for (final Map.Entry<String, Object> entry : beans.entrySet()) {
-			final String nomClasse = entry.getKey() + ".";
-			final Object bean = entry.getValue();
-			if (!PACKAGE_REST_CONTROLEUR.equals(bean.getClass().getPackage().getName())) {
-				continue;
-			}
-			for (final Method methode : entry.getValue().getClass().getDeclaredMethods()) {
-				clefsRessources.add(nomClasse + methode.getName());
-			}
-		}
-		return clefsRessources;
-	}
 
 	/**
 	 * Méthode de démarrage de l'application
@@ -101,27 +72,10 @@ public class RestApplication {
 	public static void main(final String[] args) {
 		ac = SpringApplication.run(RestApplication.class);
 
-		// Création/complétion des clefs de ressource en fonction des méthodes exposées par l'API
-		// Si aucun utilisateur au base, on en crée un par défaut associé au role 'administrateur' et ayant tous les droits
-		final SecuriteService securiteService = ac.getBean(SecuriteService.class);
-
-		final Collection<String> clefsRessources = listerMethodesDeControleurs();
-		securiteService.initialiserOuCompleterConfigurationSecurite(clefsRessources, ADMIN_PAR_DEFAUT_LOGIN_MDP, ADMIN_PAR_DEFAUT_LOGIN_MDP,
-				ADMIN_PAR_DEFAUT_ROLE);
-
 		// Log pour afficher l'URL de l'API
 		final String port = ac.getEnvironment().getProperty("server.port");
 		final String context = ac.getEnvironment().getProperty("server.context-path");
 		LOG.info("Application disponible sur http://localhost:{}{}", port, context);
-	}
-
-	/**
-	 * Méthode d'arrêt de l'application
-	 */
-	public static void stop() {
-		if (ac != null) {
-			SpringApplication.exit(ac);
-		}
 	}
 
 	/**
@@ -132,8 +86,7 @@ public class RestApplication {
 	@Bean
 	public Docket configuerSwagger() {
 
-		// see
-		// http://springfox.github.io/springfox/docs/current/#springfox-samples
+		// see http://springfox.github.io/springfox/docs/current/#springfox-samples
 		return new Docket(DocumentationType.SWAGGER_2)//
 				.select().apis(RequestHandlerSelectors.any())//
 				.paths(PathSelectors.any()).build().pathMapping("/")//
@@ -145,8 +98,8 @@ public class RestApplication {
 
 	@Autowired
 	public void configureGlobal(final AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication().withUser(RestApplication.ADMIN_PAR_DEFAUT_LOGIN_MDP).password(RestApplication.ADMIN_PAR_DEFAUT_LOGIN_MDP)
-				.roles("USER");
+		auth.inMemoryAuthentication().withUser(InitialisationDonneesService.ADMIN_PAR_DEFAUT_LOGIN_MDP)
+				.password(InitialisationDonneesService.ADMIN_PAR_DEFAUT_LOGIN_MDP).roles("USER");
 	}
 
 	@Bean

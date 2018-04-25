@@ -1,30 +1,51 @@
-Créer un projet SpringBoot contenant
-  - une persitence Hibernate 5 avec
-	- les différents types de mappings d'association (même le double mapping d'un manyToMany bidirectionnel)
-	- du HQL chargeant des DTO
-	- des requêtes paginées
-  - les services transactionnels
-  - une exposition REST par des controleurs
-    - avec négociation de contenu pour exposer une même données en différentes structures
-	- masquage des identifiants techniques (id:Long => reference:String)
+Sujets FRONT (partie sécurité) :
+	ANG	VUE	SUJET				
+	x	x	page de login
+			rediriger vers la page demandée avant la connexion
+			OAUTH
+			Déconnexion
 
-Créer une appli Angular 
-  - avec une partie publique
-  - avec une partie protégée par login/mdp (mdp stockés hachés en bdd)
-  - avec des composants de type "service"
-  - avec des tableaux de données
-  - avec des tests e2e et des tests unitaires
-  - autoporteuse (boot ?) et paramétrable (url rest et/ou serviceRegistry)
+Sujets FRONT (partie structure) :
+	ANG	VUE	SUJET				
+	x	x	appel à l'API en get
+	x	x	appel à l'API en post
+		x	internationnalisation avec l'appel à l'API
+	x		utiliser un service depuis les pages
+	x	x	utiliser un style.css général
+	x	x	utiliser le bon logo en favicon
+			test e2e avec bonne gestion des selecteurs
+			couverture de code des tests de l'application WEB
+			packaging et configuration par environnement
 
-Créer une partie Batch
-  - lisant du CSV à la ligne
-  - lisant du CSV en fichier complet
-  - lisant du XML en fichier complet
-  - lisant du XML par morceau (faisable ?)
-  - produisant du CSV à la ligne
-  - produisant du XML par morceau
+Sujets FRONT (partie fonction&ergonomie) :
+	ANG	VUE	SUJET				
+	x		faire de la validation de formulaire (disable de bouton ou autre)
+			traiter les messages d'erreur de l'API correctement
 
-Créer un guide du développeur 
-  - basé sur Hugo
-  - avec les normes de développement
-  - avec les règles de conception
+Sujets BACK :
+	exploser la configuration SpringRest en plusieurs classes compréhensibles et documentées	
+	persitence avec Hibernate 5
+	tous les types de mappings d'association (même le double mapping d'un manyToMany bidirectionnel)
+	HQL chargeant des DTO
+	requêtes paginées
+	services transactionnels
+	négociation de contenu pour exposer une même données en différentes structures
+	masquage des identifiants techniques (id:Long => reference:String)
+	packaging et configuration par environnement
+
+Sujets BATCH :
+	lire du CSV à la ligne
+	lire du CSV en fichier complet
+	lire du XML en fichier complet
+	lire du XML par morceau (est-ce faisable ?)
+	produire du CSV à la ligne
+	produire du XML par morceau
+
+Sujets DOCUMENTATION :
+	description de l'architecture
+	description du poste de développemnt
+	règles de développement BACK
+	règles de développement BATCH
+	règles de développement FRONT-ANGULAR
+	règles de développement FRONT-VUEJS
+	règles de conception globales
