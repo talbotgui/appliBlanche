@@ -2,6 +2,7 @@ package com.guillaumetalbot.applicationblanche.rest.securite.jwt;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Date;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -17,10 +18,15 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+
 /**
  * Filtre HTTP permettant à un utilisateur de se connecter. Ce filtre n'est actif que pour l'URL "/login" (cf. WebSecurityConfig.java)
  */
 public class JWTConnexionFilter extends AbstractAuthenticationProcessingFilter {
+
+	private final ParametresJwt parametresJwt;
 
 	/**
 	 * Constructeur.
@@ -30,9 +36,10 @@ public class JWTConnexionFilter extends AbstractAuthenticationProcessingFilter {
 	 * @param authManager
 	 *            Instance de composant permetant la vérification du login/mdp.
 	 */
-	public JWTConnexionFilter(final String url, final AuthenticationManager authManager) {
-		super(new AntPathRequestMatcher(url));
+	public JWTConnexionFilter(final ParametresJwt parametresJwt, final AuthenticationManager authManager) {
+		super(new AntPathRequestMatcher(parametresJwt.getUrlConnexion()));
 		this.setAuthenticationManager(authManager);
+		this.parametresJwt = parametresJwt;
 	}
 
 	/**
@@ -55,6 +62,11 @@ public class JWTConnexionFilter extends AbstractAuthenticationProcessingFilter {
 	@Override
 	protected void successfulAuthentication(final HttpServletRequest req, final HttpServletResponse res, final FilterChain chain,
 			final Authentication auth) throws IOException, ServletException {
-		TokenAuthenticationService.addAuthentication(res, auth.getName());
+		final String login = auth.getName();
+		final String JWT = Jwts.builder().setSubject(login)//
+				.setExpiration(new Date(System.currentTimeMillis() + this.parametresJwt.getExpirationTime()))//
+				.signWith(SignatureAlgorithm.HS512, this.parametresJwt.getSecret())//
+				.compact();
+		res.addHeader(this.parametresJwt.getHeaderKey(), this.parametresJwt.getTokenPrefix() + " " + JWT);
 	}
 }

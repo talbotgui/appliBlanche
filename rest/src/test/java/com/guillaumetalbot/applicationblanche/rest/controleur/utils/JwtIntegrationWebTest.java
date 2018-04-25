@@ -3,6 +3,7 @@ package com.guillaumetalbot.applicationblanche.rest.controleur.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.devtools.remote.client.HttpHeaderInterceptor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -15,12 +16,15 @@ import org.testng.annotations.BeforeClass;
 
 import com.guillaumetalbot.applicationblanche.rest.application.InitialisationDonneesService;
 import com.guillaumetalbot.applicationblanche.rest.securite.jwt.ParametreDeConnexionDto;
-import com.guillaumetalbot.applicationblanche.rest.securite.jwt.TokenAuthenticationService;
+import com.guillaumetalbot.applicationblanche.rest.securite.jwt.ParametresJwt;
 
 public class JwtIntegrationWebTest extends IntegrationWebTest {
 
 	/** Jeton JWT récupéré au login avant l'exécution de tout test. */
 	private String jetonJwt;
+
+	@Autowired
+	private ParametresJwt parametresJwt;
 
 	@Override
 	protected RestTemplate getREST() {
@@ -29,7 +33,7 @@ public class JwtIntegrationWebTest extends IntegrationWebTest {
 		// si un jeton est disponible, on ajoute dans RestTemplate l'intercepteur qui introduira le header dans toutes les requêtes
 		if (this.jetonJwt != null) {
 			final List<ClientHttpRequestInterceptor> intercepteurs = new ArrayList<>(rest.getInterceptors());
-			intercepteurs.add(new HttpHeaderInterceptor(TokenAuthenticationService.HEADER_STRING, this.jetonJwt));
+			intercepteurs.add(new HttpHeaderInterceptor(this.parametresJwt.getHeaderKey(), this.jetonJwt));
 			rest.setInterceptors(intercepteurs);
 		}
 		return rest;
@@ -48,7 +52,7 @@ public class JwtIntegrationWebTest extends IntegrationWebTest {
 		Assert.assertEquals(reponse.getStatusCodeValue(), HttpStatus.OK.value());
 
 		// Lecture du jeton à réutiliser dans les prochaines requêtes
-		final List<String> entetes = reponse.getHeaders().get(TokenAuthenticationService.HEADER_STRING);
+		final List<String> entetes = reponse.getHeaders().get(this.parametresJwt.getHeaderKey());
 		Assert.assertNotNull(entetes);
 		Assert.assertEquals(entetes.size(), 1);
 

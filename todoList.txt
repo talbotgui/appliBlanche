@@ -23,7 +23,7 @@ Sujets FRONT (partie fonction&ergonomie) :
 			traiter les messages d'erreur de l'API correctement
 
 Sujets BACK :
-	JWT
+x	JWT
 	exploser la configuration SpringRest en plusieurs classes compréhensibles et documentées	
 	persitence avec Hibernate 5
 	tous les types de mappings d'association (même le double mapping d'un manyToMany bidirectionnel)

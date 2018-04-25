@@ -12,10 +12,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.guillaumetalbot.applicationblanche.rest.securite.jwt.JWTAuthenticationFilter;
 import com.guillaumetalbot.applicationblanche.rest.securite.jwt.JWTConnexionFilter;
+import com.guillaumetalbot.applicationblanche.rest.securite.jwt.ParametresJwt;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+	@Autowired
+	private ParametresJwt parametresJwt;
 
 	@Autowired
 	private UserDetailsService userDetailsService;
@@ -30,11 +34,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests().antMatchers("/").permitAll().antMatchers(HttpMethod.POST, "/login").permitAll().anyRequest()
-				.authenticated().and()
-				// We filter the api/login requests
-				.addFilterBefore(new JWTConnexionFilter("/login", this.authenticationManager()), UsernamePasswordAuthenticationFilter.class)
-				// And filter other requests to check the presence of JWT in header
-				.addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+
+		http.csrf().disable()//
+				.authorizeRequests().antMatchers("/").permitAll()//
+				.antMatchers(HttpMethod.POST, "/login").permitAll()//
+				.anyRequest().authenticated().and()
+				// Ajout du filtre permettant la connexion JWT
+				.addFilterBefore(new JWTConnexionFilter(this.parametresJwt, this.authenticationManager()), UsernamePasswordAuthenticationFilter.class)
+				// Ajout du filtre vérifiant la présence du token JWT
+				.addFilterBefore(new JWTAuthenticationFilter(this.parametresJwt), UsernamePasswordAuthenticationFilter.class);
 	}
 }

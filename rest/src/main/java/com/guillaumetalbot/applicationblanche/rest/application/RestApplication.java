@@ -109,19 +109,4 @@ public class RestApplication {
 			container.setMimeMappings(mappings);
 		};
 	}
-
-	/**
-	 * Pour autoriser les appels OPTIONS et permettre les appels de VueJS.
-	 *
-	 * @see https://github.com/spring-projects/spring-boot/pull/9711
-	 * @return
-	 */
-	// @Bean
-	// public IgnoredRequestCustomizer optionsIgnoredRequestsCustomizer() {
-	// return configurer -> {
-	// final List<RequestMatcher> matchers = new ArrayList<>();
-	// matchers.add(new AntPathRequestMatcher("/**", "OPTIONS"));
-	// configurer.requestMatchers(new OrRequestMatcher(matchers));
-	// };
-	// }
 }
