@@ -1,16 +1,12 @@
 package com.guillaumetalbot.applicationblanche.rest.application;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.boot.autoconfigure.security.IgnoredRequestCustomizer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.context.embedded.MimeMappings;
 import org.springframework.boot.web.servlet.ErrorPage;
@@ -20,11 +16,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.util.matcher.OrRequestMatcher;
-import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import com.guillaumetalbot.applicationblanche.application.PackageForApplication;
 
@@ -93,11 +85,11 @@ public class RestApplication {
 				.tags(new Tag("API Application blanche", "Description de l'API REST"));
 	}
 
-	@Autowired
-	public void configureGlobal(final AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication().withUser(InitialisationDonneesService.ADMIN_PAR_DEFAUT_LOGIN_MDP)
-				.password(InitialisationDonneesService.ADMIN_PAR_DEFAUT_LOGIN_MDP).roles("USER");
-	}
+	// @Autowired
+	// public void configureGlobal(final AuthenticationManagerBuilder auth) throws Exception {
+	// auth.inMemoryAuthentication().withUser(InitialisationDonneesService.ADMIN_PAR_DEFAUT_LOGIN_MDP)
+	// .password(InitialisationDonneesService.ADMIN_PAR_DEFAUT_LOGIN_MDP).roles("USER");
+	// }
 
 	@Bean
 	public EmbeddedServletContainerCustomizer creerPagesErreur() {
@@ -123,12 +115,12 @@ public class RestApplication {
 	 * @see https://github.com/spring-projects/spring-boot/pull/9711
 	 * @return
 	 */
-	@Bean
-	public IgnoredRequestCustomizer optionsIgnoredRequestsCustomizer() {
-		return configurer -> {
-			final List<RequestMatcher> matchers = new ArrayList<>();
-			matchers.add(new AntPathRequestMatcher("/**", "OPTIONS"));
-			configurer.requestMatchers(new OrRequestMatcher(matchers));
-		};
-	}
+	// @Bean
+	// public IgnoredRequestCustomizer optionsIgnoredRequestsCustomizer() {
+	// return configurer -> {
+	// final List<RequestMatcher> matchers = new ArrayList<>();
+	// matchers.add(new AntPathRequestMatcher("/**", "OPTIONS"));
+	// configurer.requestMatchers(new OrRequestMatcher(matchers));
+	// };
+	// }
 }
