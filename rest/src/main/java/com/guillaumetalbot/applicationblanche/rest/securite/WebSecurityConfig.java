@@ -35,9 +35,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception {
 
-		http.csrf().disable()//
-				.authorizeRequests().antMatchers("/").permitAll()//
+		// Désactivation du CSRF
+		http.csrf().disable()
+				// La page index.html est accessible
+				.authorizeRequests().antMatchers("/").permitAll()
+				// les écrans de Swagger sont accessibles à tous
+				.antMatchers("/v2/api-docs", "/swagger-ui.html", "/swagger-resources/").permitAll()
+				// les API publiques sont accessibles
+				.antMatchers("/i18n/**").permitAll()//
+				// Le filtre de connexion JWT est accessble
 				.antMatchers(HttpMethod.POST, "/login").permitAll()//
+				// Tout le reste est protégé
 				.anyRequest().authenticated().and()
 				// Ajout du filtre permettant la connexion JWT
 				.addFilterBefore(new JWTConnexionFilter(this.parametresJwt, this.authenticationManager()), UsernamePasswordAuthenticationFilter.class)
