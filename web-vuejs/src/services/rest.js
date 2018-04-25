@@ -44,6 +44,22 @@ export default {
     )
   },
 
+  connecter (login, mdp, sucessCallback, erreurCallback = this.erreurCallbackParDefaut) {
+    // Initialisation des paramètres globaux REST (le login est la première méthode rest appelée)
+    Vue.http.options.root = 'http://localhost:9090/applicationBlanche/'
+    // Vue.http.options.emulateJSON = true
+
+    const options = { method: 'POST', url: 'login', body: { login: login, mdp: mdp } }
+    Vue.http(options).then(
+      reponseSucces => {
+        this.estConnecte = true
+        console.debug(reponseSucces)
+        sucessCallback(reponseSucces)
+      },
+      erreurCallback
+    )
+  },
+
   postRole (param, sucessCallback, erreurCallback = this.erreurCallbackParDefaut) {
     const options = { method: 'POST', url: 'v1/roles', body: param }
     Vue.http(options).then(sucessCallback, erreurCallback)
@@ -56,11 +72,6 @@ export default {
 
   isUtilisateurConnecte () {
     return this.estConnecte
-  },
-
-  setHeaderSecurite (login, mdp) {
-    Vue.http.options.root = 'http://localhost:9090/applicationBlanche/'
-    Vue.http.headers.common['Authorization'] = 'Basic ' + btoa(login + ':' + mdp)
-    Vue.http.options.emulateJSON = true
   }
+
 }

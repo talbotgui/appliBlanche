@@ -8,7 +8,10 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +24,8 @@ import io.jsonwebtoken.Jwts;
  */
 public class JWTAuthenticationFilter extends GenericFilterBean {
 
+	private static final Logger LOG = LoggerFactory.getLogger(JWTAuthenticationFilter.class);
+
 	private final ParametresJwt parametresJwt;
 
 	public JWTAuthenticationFilter(final ParametresJwt parametresJwt) {
@@ -31,9 +36,12 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
 	@Override
 	public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain filterChain)
 			throws IOException, ServletException {
+		final HttpServletRequest httpRequete = ((HttpServletRequest) request);
+		final HttpServletResponse httpReponse = ((HttpServletResponse) response);
+
 		// Récupération de la description de l'utilisateur connecté
 		// Null si pas de token
-		String token = ((HttpServletRequest) request).getHeader(this.parametresJwt.getHeaderKey());
+		String token = httpRequete.getHeader(this.parametresJwt.getHeaderKey());
 		Authentication authentication = null;
 		if (token != null) {
 			token = token.replace(this.parametresJwt.getTokenPrefix(), "");
@@ -43,8 +51,17 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
 			}
 		}
 
+		// log
+		if (LOG.isInfoEnabled() && (authentication == null)) {
+			LOG.info("Requête {} bloquée car aucun token valide en entête", httpRequete.getServletPath());
+		}
+
 		// Sauvegarde de cette information dans le contexte de la requête
 		SecurityContextHolder.getContext().setAuthentication(authentication);
+
+		// Ajout des entêtes de sécurité
+		httpReponse.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, Authorization");
+		httpReponse.setHeader("Access-Control-Allow-Origin", httpRequete.getHeader("Origin"));
 
 		// Le filtre a fini son boulo. Si cette URL est protégée, Spring refusera l'accès à la ressource
 		filterChain.doFilter(request, response);

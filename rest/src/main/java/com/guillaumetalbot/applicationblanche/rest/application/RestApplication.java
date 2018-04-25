@@ -50,6 +50,7 @@ public class RestApplication {
 
 	/** Packages utilisés dans la configuration Spring. */
 	public static final String PACKAGE_REST_APPLICATION = "com.guillaumetalbot.applicationblanche.rest.application";
+
 	public static final String PACKAGE_REST_CONTROLEUR = "com.guillaumetalbot.applicationblanche.rest.controleur";
 	public static final String PACKAGE_REST_ERREUR = "com.guillaumetalbot.applicationblanche.rest.erreur";
 	public static final String PACKAGE_REST_SECURITE = "com.guillaumetalbot.applicationblanche.rest.securite";

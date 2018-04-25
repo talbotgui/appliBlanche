@@ -17,11 +17,18 @@ export class UtilisateurService {
 
 
   connecter(login: string, mdp: string): Observable<void> {
-    this.headerSecurite = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Basic ' + btoa(login + ':' + mdp) }) };
-    this.headerSecuritePost = { headers: new HttpHeaders({ 'Authorization': 'Basic ' + btoa(login + ':' + mdp) }) };
-    return this.http.get<void>('http://localhost:9090/applicationBlanche/v1/utilisateurs', this.headerSecurite)
+    const donnees = { login: login, mdp: mdp };
+    return this.http.post<void>('http://localhost:9090/applicationBlanche/login', donnees)
+      .subscribe(reponse => {
+        console.debug("reponse");
+        console.debug(reponse);
+        const token = '';
+        this.headerSecurite = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+        this.headerSecuritePost = { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + token }) };
+      })
       .pipe(catchError(error => {
         this.headerSecurite = undefined;
+        this.headerSecuritePost = undefined;
         return this.handleError(error);
       }))
   }

@@ -10,7 +10,7 @@ Sujets FRONT (partie structure) :
 	x	x	appel à l'API en get
 	x	x	appel à l'API en post
 		x	internationnalisation avec l'appel à l'API
-	x		utiliser un service depuis les pages
+	x	x	utiliser un service depuis les pages
 	x	x	utiliser un style.css général
 	x	x	utiliser le bon logo en favicon
 			test e2e avec bonne gestion des selecteurs

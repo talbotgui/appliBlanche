@@ -41,11 +41,8 @@ export default {
       // Reset du message d'erreur
       this.msgErreur = ''
 
-      // Initialisation des paramètres de securité à partir du formulaire
-      rest.setHeaderSecurite(this.login, this.mdp)
-
       // Recherche des informations de l'utilisateur (pour sauvegarde)
-      rest.getUtilisateurMoi(
+      rest.connecter(this.login, this.mdp,
         // si c'est ok, on change de page
         response => {
           const urlDemandee = this.$route.query.redirect

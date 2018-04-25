@@ -6,6 +6,8 @@ import java.util.Date;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -37,7 +39,7 @@ public class JWTConnexionFilter extends AbstractAuthenticationProcessingFilter {
 	 *            Instance de composant permetant la vérification du login/mdp.
 	 */
 	public JWTConnexionFilter(final ParametresJwt parametresJwt, final AuthenticationManager authManager) {
-		super(new AntPathRequestMatcher(parametresJwt.getUrlConnexion()));
+		super(new AntPathRequestMatcher(parametresJwt.getUrlConnexion(), "POST"));
 		this.setAuthenticationManager(authManager);
 		this.parametresJwt = parametresJwt;
 	}
@@ -54,6 +56,18 @@ public class JWTConnexionFilter extends AbstractAuthenticationProcessingFilter {
 		// Appel au composant d'authentification avec les paramètres de connexion
 		return this.getAuthenticationManager()
 				.authenticate(new UsernamePasswordAuthenticationToken(param.getLogin(), param.getMdp(), Collections.emptyList()));
+	}
+
+	@Override
+	public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain) throws IOException, ServletException {
+		final HttpServletRequest httpRequete = ((HttpServletRequest) request);
+		final HttpServletResponse httpReponse = ((HttpServletResponse) response);
+
+		// Ajout des entêtes de sécurité
+		httpReponse.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, Authorization");
+		httpReponse.setHeader("Access-Control-Allow-Origin", httpRequete.getHeader("Origin"));
+
+		super.doFilter(request, response, chain);
 	}
 
 	/**
