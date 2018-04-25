@@ -2,7 +2,7 @@ Sujets FRONT (partie sécurité) :
 	ANG	VUE	SUJET				
 	x	x	page de login
 			rediriger vers la page demandée avant la connexion
-			OAUTH
+			JWT
 			Déconnexion
 
 Sujets FRONT (partie structure) :
@@ -23,6 +23,7 @@ Sujets FRONT (partie fonction&ergonomie) :
 			traiter les messages d'erreur de l'API correctement
 
 Sujets BACK :
+	JWT
 	exploser la configuration SpringRest en plusieurs classes compréhensibles et documentées	
 	persitence avec Hibernate 5
 	tous les types de mappings d'association (même le double mapping d'un manyToMany bidirectionnel)

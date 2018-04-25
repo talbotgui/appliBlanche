@@ -1,4 +1,4 @@
-package com.guillaumetalbot.applicationblanche.rest.application;
+package com.guillaumetalbot.applicationblanche.rest.securite;
 
 import java.util.Collection;
 

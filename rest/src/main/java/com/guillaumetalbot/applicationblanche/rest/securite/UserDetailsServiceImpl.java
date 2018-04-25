@@ -1,4 +1,4 @@
-package com.guillaumetalbot.applicationblanche.rest.application;
+package com.guillaumetalbot.applicationblanche.rest.securite;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.Utilisateur;
 import com.guillaumetalbot.applicationblanche.metier.service.SecuriteService;
+import com.guillaumetalbot.applicationblanche.rest.securite.UserDetailsImpl;
 
 /**
  * Service permettant de faire le lien entre le service métier de l'application et les interfaces de Spring (UserDetails et UserDetailsService)

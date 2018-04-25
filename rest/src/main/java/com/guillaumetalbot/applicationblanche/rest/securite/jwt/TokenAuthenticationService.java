@@ -1,4 +1,4 @@
-package com.guillaumetalbot.applicationblanche.rest.application;
+package com.guillaumetalbot.applicationblanche.rest.securite.jwt;
 
 import static java.util.Collections.emptyList;
 
@@ -19,7 +19,7 @@ public class TokenAuthenticationService {
 	private static final String SECRET = "ThisIsASecret";
 	private static final String TOKEN_PREFIX = "Bearer";
 
-	static void addAuthentication(final HttpServletResponse res, final String username) {
+	public static void addAuthentication(final HttpServletResponse res, final String username) {
 		final String JWT = Jwts.builder().setSubject(username)//
 				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATIONTIME))//
 				.signWith(SignatureAlgorithm.HS512, SECRET)//
@@ -27,7 +27,7 @@ public class TokenAuthenticationService {
 		res.addHeader(HEADER_STRING, TOKEN_PREFIX + " " + JWT);
 	}
 
-	static Authentication getAuthentication(final HttpServletRequest request) {
+	public static Authentication getAuthentication(final HttpServletRequest request) {
 		final String token = request.getHeader(HEADER_STRING);
 		if (token != null) {
 			final String user = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token.replace(TOKEN_PREFIX, "")).getBody().getSubject();

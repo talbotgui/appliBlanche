@@ -33,8 +33,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @EnableSwagger2
 @EntityScan({ PackageForApplication.PACKAGE_METIER_ENTITE })
-@ComponentScan({ RestApplication.PACKAGE_REST_APPLICATION, RestApplication.PACKAGE_REST_CONTROLEUR, RestApplication.PACKAGE_REST_ERREUR,
-		PackageForApplication.PACKAGE_METIER_SERVICE, PackageForApplication.PACKAGE_METIER_DAO })
+@ComponentScan({ RestApplication.PACKAGE_REST_APPLICATION, RestApplication.PACKAGE_REST_SECURITE, RestApplication.PACKAGE_REST_CONTROLEUR,
+		RestApplication.PACKAGE_REST_ERREUR, PackageForApplication.PACKAGE_METIER_SERVICE, PackageForApplication.PACKAGE_METIER_DAO })
 @EnableJpaRepositories(PackageForApplication.PACKAGE_METIER_DAO)
 @EnableGlobalMethodSecurity
 public class RestApplication {
@@ -52,6 +52,7 @@ public class RestApplication {
 	public static final String PACKAGE_REST_APPLICATION = "com.guillaumetalbot.applicationblanche.rest.application";
 	public static final String PACKAGE_REST_CONTROLEUR = "com.guillaumetalbot.applicationblanche.rest.controleur";
 	public static final String PACKAGE_REST_ERREUR = "com.guillaumetalbot.applicationblanche.rest.erreur";
+	public static final String PACKAGE_REST_SECURITE = "com.guillaumetalbot.applicationblanche.rest.securite";
 
 	/**
 	 * Méthode de démarrage de l'application

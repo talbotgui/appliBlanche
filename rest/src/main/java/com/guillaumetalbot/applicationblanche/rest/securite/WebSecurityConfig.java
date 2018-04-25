@@ -1,4 +1,4 @@
-package com.guillaumetalbot.applicationblanche.rest.application;
+package com.guillaumetalbot.applicationblanche.rest.securite;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +9,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.guillaumetalbot.applicationblanche.rest.securite.jwt.JWTAuthenticationFilter;
+import com.guillaumetalbot.applicationblanche.rest.securite.jwt.JWTConnexionFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -30,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable().authorizeRequests().antMatchers("/").permitAll().antMatchers(HttpMethod.POST, "/login").permitAll().anyRequest()
 				.authenticated().and()
 				// We filter the api/login requests
-				.addFilterBefore(new JWTLoginFilter("/login", this.authenticationManager()), UsernamePasswordAuthenticationFilter.class)
+				.addFilterBefore(new JWTConnexionFilter("/login", this.authenticationManager()), UsernamePasswordAuthenticationFilter.class)
 				// And filter other requests to check the presence of JWT in header
 				.addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 	}

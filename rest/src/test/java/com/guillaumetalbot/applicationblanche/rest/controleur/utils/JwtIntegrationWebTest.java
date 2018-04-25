@@ -13,9 +13,9 @@ import org.springframework.web.client.RestTemplate;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 
-import com.guillaumetalbot.applicationblanche.rest.application.AccountCredentials;
 import com.guillaumetalbot.applicationblanche.rest.application.InitialisationDonneesService;
-import com.guillaumetalbot.applicationblanche.rest.application.TokenAuthenticationService;
+import com.guillaumetalbot.applicationblanche.rest.securite.jwt.ParametreDeConnexionDto;
+import com.guillaumetalbot.applicationblanche.rest.securite.jwt.TokenAuthenticationService;
 
 public class JwtIntegrationWebTest extends IntegrationWebTest {
 
@@ -39,12 +39,12 @@ public class JwtIntegrationWebTest extends IntegrationWebTest {
 	public void login() {
 
 		// Appel au login
-		final AccountCredentials cred = AccountCredentials.creerInstanceSansChiffreLeMotDePassePourUsageDansTests(
+		final ParametreDeConnexionDto cred = ParametreDeConnexionDto.creerInstanceSansChiffreLeMotDePassePourUsageDansTests(
 				InitialisationDonneesService.ADMIN_PAR_DEFAUT_LOGIN_MDP, InitialisationDonneesService.ADMIN_PAR_DEFAUT_LOGIN_MDP);
-		final HttpEntity<AccountCredentials> requete = new HttpEntity<>(cred);
+		final HttpEntity<ParametreDeConnexionDto> requete = new HttpEntity<>(cred);
 		final ResponseEntity<Void> reponse = super.getREST().exchange(this.getURL() + "/login", HttpMethod.POST, requete, void.class);
 
-		// Vérification du code de retour
+		// Vérification du code de retourO
 		Assert.assertEquals(reponse.getStatusCodeValue(), HttpStatus.OK.value());
 
 		// Lecture du jeton à réutiliser dans les prochaines requêtes
