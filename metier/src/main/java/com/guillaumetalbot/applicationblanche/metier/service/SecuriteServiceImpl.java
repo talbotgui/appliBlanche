@@ -109,17 +109,6 @@ public class SecuriteServiceImpl implements SecuriteService {
 		this.utilisateurRepo.save(u);
 	}
 
-	private String encrypt(final String mdp) {
-		// try {
-		// final MessageDigest md = MessageDigest.getInstance("SHA-256");
-		// md.update(mdp.getBytes("UTF-8"));
-		// return new String(md.digest(), "UTF-8");
-		return mdp;
-		// } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-		// throw new BusinessException(BusinessException.ERREUR_SHA, e);
-		// }
-	}
-
 	@Override
 	public void initialiserOuCompleterConfigurationSecurite(final Collection<String> clefsRessources, final String loginAdmin, final String mdpAdmin,
 			final String roleAdmin) {
@@ -165,7 +154,7 @@ public class SecuriteServiceImpl implements SecuriteService {
 	@Override
 	public void reinitialiserMotDePasse(final String login) {
 		final Utilisateur u = this.utilisateurRepo.findOne(login);
-		u.setMdp(this.encrypt(login));
+		u.setMdp(ChiffrementUtil.encrypt(login));
 		this.utilisateurRepo.save(u);
 	}
 
@@ -201,14 +190,14 @@ public class SecuriteServiceImpl implements SecuriteService {
 
 			this.valideLoginOuMotDePasse(mdp);
 
-			return this.utilisateurRepo.save(new Utilisateur(login, this.encrypt(mdp)));
+			return this.utilisateurRepo.save(new Utilisateur(login, ChiffrementUtil.encrypt(mdp)));
 		}
 
 		// MaJ
 		else {
 			if (mdp != null) {
 				this.valideLoginOuMotDePasse(mdp);
-				u.setMdp(this.encrypt(mdp));
+				u.setMdp(ChiffrementUtil.encrypt(mdp));
 			}
 			return this.utilisateurRepo.save(u);
 		}
@@ -263,7 +252,7 @@ public class SecuriteServiceImpl implements SecuriteService {
 		}
 
 		// Si erreur dans le mot de passe
-		else if (!u.getMdp().equals(this.encrypt(mdp))) {
+		else if (!u.getMdp().equals(ChiffrementUtil.encrypt(mdp))) {
 
 			// Init des dates d'echec et sauvegarde des modifications
 			u.declarerConnexionEnEchec();
