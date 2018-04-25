@@ -150,11 +150,6 @@
 			<artifactId>springfox-swagger2</artifactId>
 			<version>${version.springfox}</version>
 		</dependency>
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger-ui</artifactId>
-			<version>${version.springfox}</version>
-		</dependency>
 
 		<!-- Utilitaire pour la mise à jour du modèle de base de données -->
 		<dependency>

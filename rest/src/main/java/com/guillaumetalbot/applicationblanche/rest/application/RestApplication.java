@@ -86,12 +86,6 @@ public class RestApplication {
 				.tags(new Tag("API Application blanche", "Description de l'API REST"));
 	}
 
-	// @Autowired
-	// public void configureGlobal(final AuthenticationManagerBuilder auth) throws Exception {
-	// auth.inMemoryAuthentication().withUser(InitialisationDonneesService.ADMIN_PAR_DEFAUT_LOGIN_MDP)
-	// .password(InitialisationDonneesService.ADMIN_PAR_DEFAUT_LOGIN_MDP).roles("USER");
-	// }
-
 	@Bean
 	public EmbeddedServletContainerCustomizer creerPagesErreur() {
 		return container -> {
