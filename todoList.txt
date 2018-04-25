@@ -33,6 +33,9 @@ Sujets BACK :
 	négociation de contenu pour exposer une même données en différentes structures
 	masquage des identifiants techniques (id:Long => reference:String)
 	packaging et configuration par environnement
+	gestion de transaction dans les controleurs ?
+	Utiliser l'injection automatique des mock dans tout le context Spring pour les XxxControlerTest
+	remplacer les java.util.Date par des LocalDateTime
 
 Sujets BATCH :
 	lire du CSV à la ligne
@@ -50,3 +53,10 @@ Sujets DOCUMENTATION :
 	règles de développement FRONT-ANGULAR
 	règles de développement FRONT-VUEJS
 	règles de conception globales
+
+Sujets Indus :
+	mettre des règles checkstyle custom pour interdire :
+		- partout, l'usage de "java.util.Date"
+		- partout, l'usage de "SimplDateFormat"
+		- dans les DAO, bloquer "+ [a-z]" (pour ne pas concaténer avec des variables)
+		- dans les DAO, bloquer "append([a-z]" (pour ne pas concaténer avec des variables)
