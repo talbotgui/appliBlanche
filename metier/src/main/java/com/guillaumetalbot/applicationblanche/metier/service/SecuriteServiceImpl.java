@@ -224,6 +224,10 @@ public class SecuriteServiceImpl implements SecuriteService {
 	}
 
 	private void supprimerRessources(final Collection<String> clefs) {
+		if (clefs.isEmpty()) {
+			return;
+		}
+
 		// Suppression de lien entre ressources et role
 		this.lienRoleRessourceRepo.supprimerParClefs(clefs);
 

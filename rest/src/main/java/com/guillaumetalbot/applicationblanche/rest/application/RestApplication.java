@@ -25,9 +25,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import com.guillaumetalbot.applicationblanche.application.PackageForApplication;
 
@@ -100,23 +97,6 @@ public class RestApplication {
 	public void configureGlobal(final AuthenticationManagerBuilder auth) throws Exception {
 		auth.inMemoryAuthentication().withUser(InitialisationDonneesService.ADMIN_PAR_DEFAUT_LOGIN_MDP)
 				.password(InitialisationDonneesService.ADMIN_PAR_DEFAUT_LOGIN_MDP).roles("USER");
-	}
-
-	@Bean
-	public WebMvcConfigurerAdapter configurerPagesHtml() {
-		return new WebMvcConfigurerAdapter() {
-
-			@Override
-			public void addCorsMappings(final CorsRegistry registry) {
-				registry.addMapping("/**");
-			}
-
-			/** Configuration des pages HTML du répertoire src/main/resources/templates. */
-			@Override
-			public void addViewControllers(final ViewControllerRegistry registry) {
-				registry.addViewController("/").setViewName("index");
-			}
-		};
 	}
 
 	@Bean
