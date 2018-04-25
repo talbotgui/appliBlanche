@@ -14,13 +14,16 @@ import com.guillaumetalbot.applicationblanche.rest.securite.jwt.JWTAuthenticatio
 import com.guillaumetalbot.applicationblanche.rest.securite.jwt.JWTConnexionFilter;
 import com.guillaumetalbot.applicationblanche.rest.securite.jwt.ParametresJwt;
 
+/** Configuration de la sécurité de l'application */
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+	/** Contenu du fichier application.properties lié à JWT. */
 	@Autowired
 	private ParametresJwt parametresJwt;
 
+	/** Composant mappant le service métier et les interfaces de Spring. */
 	@Autowired
 	private UserDetailsService userDetailsService;
 
@@ -32,6 +35,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.userDetailsService(this.userDetailsService);
 	}
 
+	/**
+	 * Définition de toute la sécurité de l'application
+	 */
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception {
 

@@ -8,13 +8,12 @@ import org.springframework.stereotype.Service;
 
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.Utilisateur;
 import com.guillaumetalbot.applicationblanche.metier.service.SecuriteService;
-import com.guillaumetalbot.applicationblanche.rest.securite.UserDetailsImpl;
 
 /**
- * Service permettant de faire le lien entre le service métier de l'application et les interfaces de Spring (UserDetails et UserDetailsService)
+ * Wrapper permettant d'adapter le service métier de l'application et les interfaces de Spring (UserDetails et UserDetailsService)
  */
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class UserDetailsServiceWrapper implements UserDetailsService {
 
 	@Autowired
 	private SecuriteService securiteService;
@@ -25,7 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		if (u == null) {
 			throw new UsernameNotFoundException("Mauvais paramètres de connexion");
 		}
-		return new UserDetailsImpl(u);
+		return new UserDetailsDto(u);
 	}
 
 }

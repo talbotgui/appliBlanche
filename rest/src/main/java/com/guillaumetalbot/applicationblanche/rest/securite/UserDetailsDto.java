@@ -7,13 +7,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.Utilisateur;
 
-public class UserDetailsImpl implements UserDetails {
+/** Classe mappant un utilisateur de Spring avec l'entité métier du projet */
+public class UserDetailsDto implements UserDetails {
 	private static final long serialVersionUID = 1L;
 
 	/** Composition avec un utilisateur. */
 	private final Utilisateur utilisateur;
 
-	public UserDetailsImpl(final Utilisateur utilisateur) {
+	public UserDetailsDto(final Utilisateur utilisateur) {
 		super();
 		this.utilisateur = utilisateur;
 	}
