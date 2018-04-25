@@ -2,6 +2,7 @@ package com.guillaumetalbot.applicationblanche.metier.dao.securite;
 
 import java.util.Collection;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -23,4 +24,8 @@ public interface LienRoleRessourceRepository extends CrudRepository<LienRoleRess
 			+ " where ro.nom = :nomRole"//
 			+ " and re.clef not in (select li.id.ressource.clef from LienRoleRessource li where li.id.role.nom = :nomRole)")
 	Collection<LienRoleRessource> listerLiensInexistantsAvecToutesLesRessources(@Param("nomRole") String nomRole);
+
+	@Query("delete from LienRoleRessource where id.ressource.clef in :clefs")
+	@Modifying
+	void supprimerParClefs(@Param("clefs") Collection<String> clefs);
 }

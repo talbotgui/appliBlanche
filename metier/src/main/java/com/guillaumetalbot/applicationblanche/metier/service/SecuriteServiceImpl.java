@@ -130,16 +130,15 @@ public class SecuriteServiceImpl implements SecuriteService {
 		final Collection<String> clefsExistantes = this.ressourceRepo.listerClefsRessources();
 		final Collection<String> clefsAcreer = new ArrayList<>(clefsRessources);
 		clefsAcreer.removeAll(clefsExistantes);
-		for (final String clef : clefsAcreer) {
-			this.ressourceRepo.save(new Ressource(clef));
-		}
+		this.sauvegarderRessources(clefsAcreer);
+
+		final Collection<String> clefsAsupprimer = new ArrayList<>(clefsExistantes);
+		clefsAsupprimer.removeAll(clefsRessources);
+		this.supprimerRessources(clefsAsupprimer);
 
 		// Si aucun utilisateur existant, création d'un administrateur avec tous les droits
 		if (this.utilisateurRepo.listerUtilisateur().isEmpty()) {
-			final Utilisateur utilisateur = this.sauvegarderUtilisateur(loginAdmin, mdpAdmin);
-			final Role role = this.roleRepo.save(new Role(roleAdmin));
-			this.lienUtilisateurRoleRepo.save(new LienUtilisateurRole(role, utilisateur));
-			this.lienRoleRessourceRepo.save(this.lienRoleRessourceRepo.listerLiensInexistantsAvecToutesLesRessources(roleAdmin));
+			this.sauvegarderUtilisateurAvecTousLesDroits(loginAdmin, mdpAdmin, roleAdmin);
 		}
 	}
 
@@ -170,6 +169,12 @@ public class SecuriteServiceImpl implements SecuriteService {
 		final Utilisateur u = this.utilisateurRepo.findOne(login);
 		u.setMdp(this.encrypt(login));
 		this.utilisateurRepo.save(u);
+	}
+
+	private void sauvegarderRessources(final Collection<String> clefs) {
+		for (final String clef : clefs) {
+			this.ressourceRepo.save(new Ressource(clef));
+		}
 	}
 
 	@Override
@@ -208,6 +213,23 @@ public class SecuriteServiceImpl implements SecuriteService {
 				u.setMdp(this.encrypt(mdp));
 			}
 			return this.utilisateurRepo.save(u);
+		}
+	}
+
+	private void sauvegarderUtilisateurAvecTousLesDroits(final String loginAdmin, final String mdpAdmin, final String roleAdmin) {
+		final Utilisateur utilisateur = this.sauvegarderUtilisateur(loginAdmin, mdpAdmin);
+		final Role role = this.roleRepo.save(new Role(roleAdmin));
+		this.lienUtilisateurRoleRepo.save(new LienUtilisateurRole(role, utilisateur));
+		this.lienRoleRessourceRepo.save(this.lienRoleRessourceRepo.listerLiensInexistantsAvecToutesLesRessources(roleAdmin));
+	}
+
+	private void supprimerRessources(final Collection<String> clefs) {
+		// Suppression de lien entre ressources et role
+		this.lienRoleRessourceRepo.supprimerParClefs(clefs);
+
+		// Suppression des ressources
+		for (final String clef : clefs) {
+			this.ressourceRepo.delete(clef);
 		}
 	}
 

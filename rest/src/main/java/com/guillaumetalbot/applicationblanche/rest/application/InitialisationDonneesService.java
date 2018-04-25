@@ -14,6 +14,13 @@ import org.springframework.stereotype.Controller;
 
 import com.guillaumetalbot.applicationblanche.metier.service.SecuriteService;
 
+/**
+ * Ce composant s'exécute au démarrage de l'application (ApplicationListener) et initialise ou met à jour la base de données :
+ *
+ * création d'un utilisateur adminAsupprimer si aucun utilisateur n'existe
+ *
+ * et mise à jour de la liste des ressources en fonction des méthodes exposées par les controleurs REST.
+ */
 @Component
 public class InitialisationDonneesService implements ApplicationListener<ApplicationReadyEvent> {
 
@@ -54,6 +61,5 @@ public class InitialisationDonneesService implements ApplicationListener<Applica
 
 		this.securiteService.initialiserOuCompleterConfigurationSecurite(clefsRessources, ADMIN_PAR_DEFAUT_LOGIN_MDP, ADMIN_PAR_DEFAUT_LOGIN_MDP,
 				ADMIN_PAR_DEFAUT_ROLE);
-
 	}
 }
