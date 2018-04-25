@@ -3,7 +3,18 @@ package com.guillaumetalbot.applicationblanche.rest.application;
 public class AccountCredentials {
 
 	private String password;
+
 	private String username;
+
+	public AccountCredentials() {
+		super();
+	}
+
+	public AccountCredentials(final String password, final String username) {
+		super();
+		this.password = password;
+		this.username = username;
+	}
 
 	public String getPassword() {
 		return this.password;

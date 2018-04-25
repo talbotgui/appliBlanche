@@ -13,11 +13,11 @@ import org.springframework.security.core.Authentication;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
-class TokenAuthenticationService {
-	static final long EXPIRATIONTIME = 864_000_000; // 10 days
-	static final String HEADER_STRING = "Authorization";
-	static final String SECRET = "ThisIsASecret";
-	static final String TOKEN_PREFIX = "Bearer";
+public class TokenAuthenticationService {
+	private static final long EXPIRATIONTIME = 864_000_000; // 10 days
+	public static final String HEADER_STRING = "Authorization";
+	private static final String SECRET = "ThisIsASecret";
+	private static final String TOKEN_PREFIX = "Bearer";
 
 	static void addAuthentication(final HttpServletResponse res, final String username) {
 		final String JWT = Jwts.builder().setSubject(username)//

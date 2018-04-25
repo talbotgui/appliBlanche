@@ -16,7 +16,7 @@ import com.guillaumetalbot.applicationblanche.rest.controleur.ClientRestControle
 import com.guillaumetalbot.applicationblanche.rest.controleur.RoleEtRessourceRestControler;
 import com.guillaumetalbot.applicationblanche.rest.controleur.UtilisateurRestControler;
 
-public class MockedIntegrationWebTest extends IntegrationWebTest {
+public class MockedIntegrationWebTest extends JwtIntegrationWebTest {
 
 	/** Logger. */
 	private static final Logger LOG = LoggerFactory.getLogger(MockedIntegrationWebTest.class);

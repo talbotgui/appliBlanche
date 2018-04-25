@@ -9,11 +9,8 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.http.client.support.BasicAuthorizationInterceptor;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-
-import com.guillaumetalbot.applicationblanche.rest.application.InitialisationDonneesService;
 
 public class ControlerTestUtil {
 
@@ -53,8 +50,6 @@ public class ControlerTestUtil {
 
 	/** Log interceptor for all HTTP requests. */
 	public static List<ClientHttpRequestInterceptor> getRestInterceptors() {
-		final ClientHttpRequestInterceptor securite = new BasicAuthorizationInterceptor(InitialisationDonneesService.ADMIN_PAR_DEFAUT_LOGIN_MDP,
-				InitialisationDonneesService.ADMIN_PAR_DEFAUT_LOGIN_MDP);
-		return Arrays.asList(securite, LOG_INTERCEPTOR);
+		return Arrays.asList(LOG_INTERCEPTOR);
 	}
 }
