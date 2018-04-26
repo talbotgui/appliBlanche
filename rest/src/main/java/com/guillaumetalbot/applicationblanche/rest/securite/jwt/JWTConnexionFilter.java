@@ -66,6 +66,7 @@ public class JWTConnexionFilter extends AbstractAuthenticationProcessingFilter {
 		// Ajout des entêtes de sécurité
 		httpReponse.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, Authorization");
 		httpReponse.setHeader("Access-Control-Allow-Origin", httpRequete.getHeader("Origin"));
+		httpReponse.setHeader("Access-Control-Expose-Headers", "Authorization");
 
 		super.doFilter(request, response, chain);
 	}

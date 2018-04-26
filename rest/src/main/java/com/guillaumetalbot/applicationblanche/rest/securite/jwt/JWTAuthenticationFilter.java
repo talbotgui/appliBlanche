@@ -62,6 +62,7 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
 		// Ajout des entêtes de sécurité
 		httpReponse.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, Authorization");
 		httpReponse.setHeader("Access-Control-Allow-Origin", httpRequete.getHeader("Origin"));
+		httpReponse.setHeader("Access-Control-Expose-Headers", "Authorization");
 
 		// Le filtre a fini son boulo. Si cette URL est protégée, Spring refusera l'accès à la ressource
 		filterChain.doFilter(request, response);

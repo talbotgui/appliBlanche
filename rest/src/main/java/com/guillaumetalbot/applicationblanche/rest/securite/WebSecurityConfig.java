@@ -54,9 +54,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(this.swaggerDocsPath).permitAll()
 				// les API publiques sont accessibles
 				.antMatchers("/i18n/**").permitAll()//
-				// Le filtre de connexion JWT est accessble
+				// Le filtre de connexion JWT est accessible
 				.antMatchers(HttpMethod.POST, this.parametresJwt.getUrlConnexion()).permitAll()
-				.antMatchers(HttpMethod.OPTIONS, this.parametresJwt.getUrlConnexion()).permitAll()
+				// Toutes les requêtes "preflight" sont accessibles (les navigateurs n'envoie pas l'entête Authorization)
+				.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 				// Tout le reste est protégé
 				.anyRequest().authenticated().and()
 				// Ajout du filtre permettant la connexion JWT
