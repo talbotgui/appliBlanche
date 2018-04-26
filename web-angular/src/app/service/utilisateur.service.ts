@@ -10,36 +10,42 @@ import * as model from '../model/model';
 @Injectable()
 export class UtilisateurService {
 
-  private headerSecurite: { headers: HttpHeaders } | undefined;
-  private headerSecuritePost: { headers: HttpHeaders } | undefined;
+
 
   constructor(private http: HttpClient) { }
 
 
   connecter(login: string, mdp: string, callback: Function): void {
     const donnees = { login: login, mdp: mdp };
-    this.http.post<void>('http://localhost:9090/applicationBlanche/login', donnees)
+    this.http.post<void>('http://localhost:9090/applicationBlanche/login', donnees, { observe: 'response' })
       .pipe(catchError(error => {
-        this.headerSecurite = undefined;
-        this.headerSecuritePost = undefined;
+        localStorage.removeItem('JWT');
         return this.handleError(error);
       }))
       .subscribe(reponse => {
-        console.debug("reponse");
-        console.debug(reponse);
-        const token = '';
-        this.headerSecurite = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-        this.headerSecuritePost = { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + token }) };
+
+        // Lecture du token
+        const token = reponse.headers.get('Authorization');
+
+        // Sauvegarde du token dans le localstorage
+        localStorage.setItem('JWT', token);
+
+        // Appel à la callback
         callback();
       })
   }
 
+  deconnecter(): void {
+    localStorage.removeItem('JWT');
+  }
+
   estConnecte(): boolean {
-    return !!this.headerSecurite;
+    const token = localStorage.getItem('JWT');
+    return !!token;
   }
 
   listerUtilisateurs(): Observable<model.Utilisateur[]> {
-    return this.http.get<model.Utilisateur[]>('http://localhost:9090/applicationBlanche/v1/utilisateurs', this.headerSecurite)
+    return this.http.get<model.Utilisateur[]>('http://localhost:9090/applicationBlanche/v1/utilisateurs', this.creerHeader())
       .pipe(catchError(this.handleError));
   }
 
@@ -48,7 +54,7 @@ export class UtilisateurService {
       .set('login', utilisateur.login)
       .set('mdp', utilisateur.mdp);
 
-    return this.http.post<void>('http://localhost:9090/applicationBlanche/v1/utilisateurs', donnees, this.headerSecuritePost)
+    return this.http.post<void>('http://localhost:9090/applicationBlanche/v1/utilisateurs', donnees, this.creerHeaderPost())
       .pipe(catchError(this.handleError));
   }
 
@@ -68,4 +74,24 @@ export class UtilisateurService {
     // return an ErrorObservable with a user-facing error message
     return new ErrorObservable('Une erreur est arrivée. Si le problème persiste, merci de contacter l\'administrateur');
   };
+
+  // Création des options d'appels REST
+  private creerHeader(): { headers: HttpHeaders } | undefined {
+    const headers: any = { 'Content-Type': 'application/json' }
+    const jwt = localStorage.getItem('JWT');
+    if (jwt) {
+      headers.Authorization = jwt;
+    }
+    return { headers: new HttpHeaders(headers) };
+  }
+
+  // Création des options d'appels REST pour les POST
+  private creerHeaderPost(): { headers: HttpHeaders } | undefined {
+    const headers: any = {}
+    const jwt = localStorage.getItem('JWT');
+    if (jwt) {
+      headers.Authorization = jwt;
+    }
+    return { headers: new HttpHeaders(headers) };
+  }
 }

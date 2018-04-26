@@ -18,4 +18,6 @@ export class PageConnexionComponent {
       this.router.navigate(['page-accueil-route']);
     });
   }
+
+
 }
