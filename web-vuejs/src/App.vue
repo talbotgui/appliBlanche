@@ -6,6 +6,8 @@
 </template>
 
 <script>
+import Vue from 'vue'
+
 export default {
   name: 'App',
 
@@ -14,6 +16,14 @@ export default {
   },
 
   mounted () {
+    // Initialisation des paramètres globaux REST (le login est la première méthode rest appelée)
+    Vue.http.options.root = 'http://localhost:9090/applicationBlanche/'
+    Vue.http.options.emulateJSON = true
+
+    // Après un rechargement de la page, si un token JWT est disponible, on le met en place dans les entêtes
+    Vue.http.headers.common['Authorization'] = localStorage.getItem('JWT')
+
+    // Chargement des libelles venant de l'API
     const locale = 'fr'
     const cb = (err, message) => {
       if (err) {

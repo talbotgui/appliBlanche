@@ -30,7 +30,7 @@ const i18n = new VueI18n({ locale: 'fr', messages: {} })
 new Vue({
   el: '#app',
   router,
-  components: { App },
-  template: '<App/>',
+  components: { 'm-app': App },
+  template: '<m-app/>',
   i18n
 })

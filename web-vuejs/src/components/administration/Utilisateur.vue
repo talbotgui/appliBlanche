@@ -1,8 +1,13 @@
 <template>
   <div class="row">
 
+    <!--Menu-->
+    <div class="col-lg-1 col-md-1 col-xs-1">
+      <m-menu />
+    </div>
+
     <!-- Administration des utilisateurs -->
-    <div class="col-lg-4 col-md-6 col-xs-12">
+    <div class="col-lg-11 col-md-11 col-xs-11">
       <h2>{{ $t("utilisateur_titre") }}</h2>
 
       <!-- Liste des utilisateurs-->

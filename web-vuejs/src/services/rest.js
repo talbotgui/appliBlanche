@@ -3,7 +3,6 @@ import Vue from 'vue'
 export default {
 
   data: {
-    utilisateur: null
   },
 
   erreurCallbackParDefaut: reponse => {
@@ -37,18 +36,11 @@ export default {
 
   getUtilisateurMoi (sucessCallback, erreurCallback = this.erreurCallbackParDefaut) {
     const options = { method: 'GET', url: 'v1/utilisateurs/moi' }
-    Vue.http(options).then(
-      reponseSucces => { this.utilisateur = reponseSucces.data; sucessCallback(reponseSucces) },
-      erreurCallback
-    )
+    Vue.http(options).then(sucessCallback, erreurCallback)
   },
 
   connecter (login, mdp, sucessCallback, erreurCallback = this.erreurCallbackParDefaut) {
-    // Initialisation des paramètres globaux REST (le login est la première méthode rest appelée)
-    Vue.http.options.root = 'http://localhost:9090/applicationBlanche/'
-    // Vue.http.options.emulateJSON = true
-
-    const options = { method: 'POST', url: 'login', body: { login: login, mdp: mdp } }
+    const options = { method: 'POST', url: 'login', body: { login: login, mdp: mdp }, emulateJSON: false }
     Vue.http(options).then(
       reponseSucces => {
         // Lecture du token, sauvegarde et utilisation dans les entêtes de requête
@@ -56,11 +48,15 @@ export default {
         localStorage.setItem('JWT', token)
         Vue.http.headers.common['Authorization'] = token
 
-        // Chargement des informations personnelles
-        this.getUtilisateurMoi(sucessCallback)
+        // Appel à la callback
+        sucessCallback(reponseSucces)
       },
       erreurCallback
     )
+  },
+
+  deconnecter () {
+    localStorage.removeItem('JWT')
   },
 
   postRole (param, sucessCallback, erreurCallback = this.erreurCallbackParDefaut) {

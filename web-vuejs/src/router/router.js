@@ -21,12 +21,20 @@ function connexionNecessaire (to, from, next) {
     next({ path: '/', query: { redirect: to.fullPath } })
   }
 }
+function dejaConnecte (to, from, next) {
+  if (!rest.isUtilisateurConnecte()) {
+    next()
+  } else {
+    console.info('utilsateur déjà connecté, direction accueil')
+    next({ path: '/accueil' })
+  }
+}
 
 // Définition des routes
 export default new Router({
   routes: [
-    { path: '/', name: 'Connexion', component: Connexion },
-    { path: '/login', name: 'Connexion', component: Connexion },
+    { path: '/', name: 'Connexion', component: Connexion, beforeEnter: dejaConnecte },
+    { path: '/login', name: 'Connexion', component: Connexion, beforeEnter: dejaConnecte },
     { path: '/accueil', name: 'Accueil', component: Accueil, beforeEnter: connexionNecessaire },
     { path: '/administration/utilisateur', name: 'Utilisateur', component: Utilisateur, beforeEnter: connexionNecessaire },
     { path: '/administration/role', name: 'Role', component: Role, beforeEnter: connexionNecessaire }
