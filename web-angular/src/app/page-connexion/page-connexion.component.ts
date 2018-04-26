@@ -14,7 +14,7 @@ export class PageConnexionComponent {
   constructor(private router: Router, private utilisateurService: UtilisateurService) { }
 
   connecter(): void {
-    this.utilisateurService.connecter(this.login, this.mdp).subscribe(resultat => {
+    this.utilisateurService.connecter(this.login, this.mdp, () => {
       this.router.navigate(['page-accueil-route']);
     });
   }

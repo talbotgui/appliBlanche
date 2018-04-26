@@ -25,7 +25,7 @@ Sujets FRONT (partie fonction&ergonomie) :
 Sujets BACK :
 x	JWT
 x	exploser la configuration SpringRest en plusieurs classes compréhensibles et documentées	
-	persitence avec Hibernate 5
+x	persitence avec Hibernate 5
 	tous les types de mappings d'association (même le double mapping d'un manyToMany bidirectionnel)
 	HQL chargeant des DTO
 	requêtes paginées
@@ -36,6 +36,7 @@ x	exploser la configuration SpringRest en plusieurs classes compréhensibles et 
 	gestion de transaction dans les controleurs ?
 	Utiliser l'injection automatique des mock dans tout le context Spring pour les XxxControlerTest
 	remplacer les java.util.Date par des LocalDateTime
+	rassembler l'initialisation des entêtes (dans JWTAuthenticationFilter & JWTConnexionFilter) dans un même filtre ou un même paramètre
 
 Sujets BATCH :
 	lire du CSV à la ligne

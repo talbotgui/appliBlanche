@@ -16,21 +16,22 @@ export class UtilisateurService {
   constructor(private http: HttpClient) { }
 
 
-  connecter(login: string, mdp: string): Observable<void> {
+  connecter(login: string, mdp: string, callback: Function): void {
     const donnees = { login: login, mdp: mdp };
-    return this.http.post<void>('http://localhost:9090/applicationBlanche/login', donnees)
+    this.http.post<void>('http://localhost:9090/applicationBlanche/login', donnees)
+      .pipe(catchError(error => {
+        this.headerSecurite = undefined;
+        this.headerSecuritePost = undefined;
+        return this.handleError(error);
+      }))
       .subscribe(reponse => {
         console.debug("reponse");
         console.debug(reponse);
         const token = '';
         this.headerSecurite = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
         this.headerSecuritePost = { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + token }) };
+        callback();
       })
-      .pipe(catchError(error => {
-        this.headerSecurite = undefined;
-        this.headerSecuritePost = undefined;
-        return this.handleError(error);
-      }))
   }
 
   estConnecte(): boolean {
