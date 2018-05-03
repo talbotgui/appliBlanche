@@ -13,8 +13,8 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>10</maven.compiler.source>
+		<maven.compiler.target>10</maven.compiler.target>
 
 		<!-- Il est nécessaire de créer une property car ${maven.build.timestamp} n'est pas utilisable dans le filtering -->
 		<buildTimestamp>${maven.build.timestamp}</buildTimestamp>
@@ -97,6 +97,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-hibernate5</artifactId>
+			<version>2.9.5</version>
+		</dependency> 
 		
 		<!-- Spring Security -->
 		<dependency>
@@ -109,12 +114,6 @@
 			<version>0.7.0</version>
 		</dependency>
 		
-		<!-- Thymeleaf pour faire du template de page simple (page d'erreur et login) -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>
-
 		<!-- Testing starter -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

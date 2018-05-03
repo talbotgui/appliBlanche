@@ -2,6 +2,7 @@ package com.guillaumetalbot.applicationblanche.metier.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -104,7 +105,8 @@ public class SecuriteServiceImpl implements SecuriteService {
 
 	@Override
 	public void deverrouillerUtilisateur(final String login) {
-		final Utilisateur u = this.utilisateurRepo.findOne(login);
+		final Utilisateur u = this.utilisateurRepo.findById(login)
+				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Utilisateur", login));
 		u.declarerConnexionReussie();
 		this.utilisateurRepo.save(u);
 	}
@@ -153,7 +155,8 @@ public class SecuriteServiceImpl implements SecuriteService {
 
 	@Override
 	public void reinitialiserMotDePasse(final String login) {
-		final Utilisateur u = this.utilisateurRepo.findOne(login);
+		final Utilisateur u = this.utilisateurRepo.findById(login)
+				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Utilisateur", login));
 		u.setMdp(ChiffrementUtil.encrypt(login));
 		this.utilisateurRepo.save(u);
 	}
@@ -166,11 +169,11 @@ public class SecuriteServiceImpl implements SecuriteService {
 
 	@Override
 	public void sauvegarderRole(final String nomRole) {
-		if ((nomRole == null) || (nomRole.length() < ROLE_NOM_MIN)) {
+		if (nomRole == null || nomRole.length() < ROLE_NOM_MIN) {
 			throw new BusinessException(BusinessException.ERREUR_ROLE_NOM, ROLE_NOM_MIN);
 		}
 
-		if (this.roleRepo.findOne(nomRole) == null) {
+		if (!this.roleRepo.findById(nomRole).isPresent()) {
 			this.roleRepo.save(new Role(nomRole));
 		} else {
 			throw new BusinessException(BusinessException.OBJET_DEJA_EXISTANT, "Role", nomRole);
@@ -183,10 +186,10 @@ public class SecuriteServiceImpl implements SecuriteService {
 		this.valideLoginOuMotDePasse(login);
 
 		// Recherche
-		final Utilisateur u = this.utilisateurRepo.findOne(login);
+		final Optional<Utilisateur> optU = this.utilisateurRepo.findById(login);
 
 		// Creation
-		if (u == null) {
+		if (!optU.isPresent()) {
 
 			this.valideLoginOuMotDePasse(mdp);
 
@@ -195,6 +198,7 @@ public class SecuriteServiceImpl implements SecuriteService {
 
 		// MaJ
 		else {
+			final Utilisateur u = optU.get();
 			if (mdp != null) {
 				this.valideLoginOuMotDePasse(mdp);
 				u.setMdp(ChiffrementUtil.encrypt(mdp));
@@ -207,7 +211,7 @@ public class SecuriteServiceImpl implements SecuriteService {
 		final Utilisateur utilisateur = this.sauvegarderUtilisateur(loginAdmin, mdpAdmin);
 		final Role role = this.roleRepo.save(new Role(roleAdmin));
 		this.lienUtilisateurRoleRepo.save(new LienUtilisateurRole(role, utilisateur));
-		this.lienRoleRessourceRepo.save(this.lienRoleRessourceRepo.listerLiensInexistantsAvecToutesLesRessources(roleAdmin));
+		this.lienRoleRessourceRepo.saveAll(this.lienRoleRessourceRepo.listerLiensInexistantsAvecToutesLesRessources(roleAdmin));
 	}
 
 	private void supprimerRessources(final Collection<String> clefs) {
@@ -220,17 +224,17 @@ public class SecuriteServiceImpl implements SecuriteService {
 
 		// Suppression des ressources
 		for (final String clef : clefs) {
-			this.ressourceRepo.delete(clef);
+			this.ressourceRepo.deleteById(clef);
 		}
 	}
 
 	@Override
 	public void supprimerUtilisateur(final String login) {
-		this.utilisateurRepo.delete(login);
+		this.utilisateurRepo.deleteById(login);
 	}
 
 	private void valideLoginOuMotDePasse(final String loginOuMdp) {
-		if ((loginOuMdp == null) || (loginOuMdp.length() < LOGIN_MDP_MIN)) {
+		if (loginOuMdp == null || loginOuMdp.length() < LOGIN_MDP_MIN) {
 			throw new BusinessException(BusinessException.ERREUR_LOGIN_MDP, LOGIN_MDP_MIN);
 		}
 	}
@@ -239,15 +243,12 @@ public class SecuriteServiceImpl implements SecuriteService {
 	@Transactional(dontRollbackOn = BusinessExceptionSansRollback.class)
 	public void verifierUtilisateur(final String login, final String mdp) {
 
-		final Utilisateur u = this.utilisateurRepo.findOne(login);
-
-		// Si pas d'utilisateur correspondant
-		if (u == null) {
-			throw new BusinessException(BusinessException.ERREUR_LOGIN);
-		}
+		final Utilisateur u = this.utilisateurRepo.findById(login)
+				// Si pas d'utilisateur correspondant
+				.orElseThrow(() -> new BusinessException(BusinessException.ERREUR_LOGIN));
 
 		// Si l'utilisateur est verrouilé
-		else if (u.isVerrouille()) {
+		if (u.isVerrouille()) {
 			throw new BusinessException(BusinessException.ERREUR_LOGIN_VEROUILLE);
 		}
 

@@ -14,7 +14,7 @@ import com.guillaumetalbot.applicationblanche.rest.application.RestApplication;
 public class IntegrationWebTest extends AbstractTestNGSpringContextTests {
 
 	/** ContextRoot de l'application. */
-	@Value("${server.context-path}")
+	@Value("${server.servlet.context-path}")
 	private String contextPath;
 
 	/** Port sur lequel démarre le serveur. */

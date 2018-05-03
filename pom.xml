@@ -11,8 +11,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		
 		<version.jacoco>0.8.0</version.jacoco>
-		<version.springDataReleaseTrain>Ingalls-SR9</version.springDataReleaseTrain>
-		<version.springBootDependencies>1.5.9.RELEASE</version.springBootDependencies>
+		<version.springBootDependencies>2.0.1.RELEASE</version.springBootDependencies>
 		<version.jxr>2.5</version.jxr>
 		<version.javadoc>3.0.0</version.javadoc>
 		<version.surefireReport>2.20.1</version.surefireReport>
@@ -52,13 +51,6 @@
 
 	<dependencyManagement>
 		<dependencies>
-			<dependency>
-				<groupId>org.springframework.data</groupId>
-				<artifactId>spring-data-releasetrain</artifactId>
-				<version>${version.springDataReleaseTrain}</version>
-				<scope>import</scope>
-				<type>pom</type>
-			</dependency>
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-dependencies</artifactId>

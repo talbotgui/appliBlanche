@@ -60,8 +60,8 @@ public class JWTConnexionFilter extends AbstractAuthenticationProcessingFilter {
 
 	@Override
 	public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain) throws IOException, ServletException {
-		final HttpServletRequest httpRequete = ((HttpServletRequest) request);
-		final HttpServletResponse httpReponse = ((HttpServletResponse) response);
+		final HttpServletRequest httpRequete = (HttpServletRequest) request;
+		final HttpServletResponse httpReponse = (HttpServletResponse) response;
 
 		// Ajout des entêtes de sécurité
 		httpReponse.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, Authorization");

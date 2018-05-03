@@ -213,9 +213,8 @@ public class UtilisateurRestControlerTest extends MockedIntegrationWebTest {
 	}
 
 	@Test
-	public void test99BugSuppressionUtilisateurDontLoginContientUnPoint() {
+	public void test11SuppressionUtilisateurDontLoginContientUnPoint() {
 		final String login = "mon.login";
-		final String loginObtenu = "mon.login".substring(0, login.indexOf("."));
 
 		// ARRANGE
 		final ArgumentCaptor<String> argumentCaptor = ArgumentCaptor.forClass(String.class);
@@ -227,7 +226,7 @@ public class UtilisateurRestControlerTest extends MockedIntegrationWebTest {
 
 		// ASSERT
 		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
-		Assert.assertEquals(argumentCaptor.getValue(), loginObtenu);
+		Assert.assertEquals(argumentCaptor.getValue(), login);
 		Mockito.verify(this.securiteService).supprimerUtilisateur(Mockito.anyString());
 		Mockito.verifyNoMoreInteractions(this.securiteService);
 	}

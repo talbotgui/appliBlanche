@@ -9,8 +9,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.guillaumetalbot.applicationblanche.metier.service.ChiffrementUtil;
 import com.guillaumetalbot.applicationblanche.rest.securite.jwt.JWTAuthenticationFilter;
 import com.guillaumetalbot.applicationblanche.rest.securite.jwt.JWTConnexionFilter;
 import com.guillaumetalbot.applicationblanche.rest.securite.jwt.ParametresJwt;
@@ -37,7 +39,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	 */
 	@Override
 	protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(this.userDetailsService);
+		final PasswordEncoder pe = new PasswordEncoder() {
+
+			@Override
+			public String encode(final CharSequence rawPassword) {
+				if (rawPassword != null) {
+					return ChiffrementUtil.encrypt(rawPassword.toString());
+				} else {
+					return null;
+				}
+			}
+
+			@Override
+			public boolean matches(final CharSequence rawPassword, final String encodedPassword) {
+				return rawPassword != null && rawPassword.equals(encodedPassword);
+			}
+		};
+		auth.userDetailsService(this.userDetailsService).passwordEncoder(pe);
 	}
 
 	/**

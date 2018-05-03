@@ -64,7 +64,7 @@ public class ClientServiceImpl implements ClientService {
 		if (client == null) {
 			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Client", refClient);
 		}
-		if ((adresse.getReference() != null) && ((client.getAdresse() == null) || !client.getAdresse().getId().equals(idAdresse))) {
+		if (adresse.getReference() != null && (client.getAdresse() == null || !client.getAdresse().getId().equals(idAdresse))) {
 			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Adresse", adresse.getReference());
 		}
 
@@ -86,10 +86,8 @@ public class ClientServiceImpl implements ClientService {
 		if (idClient == null) {
 			client = new Client(nom);
 		} else {
-			client = this.clientRepo.findOne(idClient);
-			if (client == null) {
-				throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Client", refClient);
-			}
+			client = this.clientRepo.findById(idClient)
+					.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Client", refClient));
 			client.setNom(nom);
 		}
 		this.clientRepo.save(client);
@@ -102,10 +100,8 @@ public class ClientServiceImpl implements ClientService {
 		final Long idDemande = Entite.extraireIdentifiant(demande.getReference(), Demande.class);
 
 		// Validation existance du dossier
-		final Dossier dossier = this.dossierRepo.findOne(idDossier);
-		if (dossier == null) {
-			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Dossier", refDossier);
-		}
+		final Dossier dossier = this.dossierRepo.findById(idDossier)
+				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Dossier", refDossier));
 
 		// Création de la demande
 		if (idDemande == null) {
@@ -115,7 +111,7 @@ public class ClientServiceImpl implements ClientService {
 		// mAj
 		else {
 			final Demande demandeExistante = this.demandeRepo.chargerDemandeAvecDossier(idDemande);
-			if ((demandeExistante == null) || (demandeExistante.getDossier() == null) || !demandeExistante.getDossier().getId().equals(idDossier)) {
+			if (demandeExistante == null || demandeExistante.getDossier() == null || !demandeExistante.getDossier().getId().equals(idDossier)) {
 				throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Demande", demande.getReference());
 			}
 		}
@@ -131,10 +127,8 @@ public class ClientServiceImpl implements ClientService {
 		final Long idDossier = Entite.extraireIdentifiant(dossier.getReference(), Dossier.class);
 
 		// Validation existance du client
-		final Client client = this.clientRepo.findOne(idClient);
-		if (client == null) {
-			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Client", refClient);
-		}
+		final Client client = this.clientRepo.findById(idClient)
+				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Client", refClient));
 
 		// Création du dossier
 		if (idDossier == null) {
@@ -145,7 +139,7 @@ public class ClientServiceImpl implements ClientService {
 		// mAj
 		else {
 			final Dossier dossierExistant = this.dossierRepo.chargerDossierAvecClient(idDossier);
-			if ((dossierExistant == null) || (dossierExistant.getClient() == null) || !dossierExistant.getClient().getId().equals(idClient)) {
+			if (dossierExistant == null || dossierExistant.getClient() == null || !dossierExistant.getClient().getId().equals(idClient)) {
 				throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Dossier", dossier.getId());
 			}
 		}

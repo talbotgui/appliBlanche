@@ -37,6 +37,7 @@ x	persitence avec Hibernate 5
 	Utiliser l'injection automatique des mock dans tout le context Spring pour les XxxControlerTest
 	remplacer les java.util.Date par des LocalDateTime
 	rassembler l'initialisation des entêtes (dans JWTAuthenticationFilter & JWTConnexionFilter) dans un même filtre ou un même paramètre
+	supprimer l'héritage avec la @MappedSuperClass et laisser les ID passés proprement (c'est une API REST)
 
 Sujets BATCH :
 	lire du CSV à la ligne
