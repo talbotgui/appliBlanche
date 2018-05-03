@@ -38,6 +38,7 @@ x	persitence avec Hibernate 5
 	remplacer les java.util.Date par des LocalDateTime
 	rassembler l'initialisation des entêtes (dans JWTAuthenticationFilter & JWTConnexionFilter) dans un même filtre ou un même paramètre
 	supprimer l'héritage avec la @MappedSuperClass et laisser les ID passés proprement (c'est une API REST)
+	ajouter MonitoringAdvisor
 
 Sujets BATCH :
 	lire du CSV à la ligne
