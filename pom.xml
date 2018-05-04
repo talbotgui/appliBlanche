@@ -10,8 +10,8 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		
-		<version.jacoco>0.8.0</version.jacoco>
 		<version.springBootDependencies>2.0.1.RELEASE</version.springBootDependencies>
+		<version.jacoco>0.8.0</version.jacoco>
 		<version.jxr>2.5</version.jxr>
 		<version.javadoc>3.0.0</version.javadoc>
 		<version.surefireReport>2.20.1</version.surefireReport>

@@ -52,6 +52,7 @@
 			<artifactId>jaxb-api</artifactId>
 			<version>${version.jaxb}</version>
 		</dependency>
+		
 
 		<!-- Utility classes -->
 		<dependency>

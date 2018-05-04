@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
+import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module.Feature;
 import com.guillaumetalbot.applicationblanche.application.PackageForApplication;
 
 import springfox.documentation.builders.PathSelectors;
@@ -87,7 +88,7 @@ public class RestApplication {
 	@Bean
 	public com.fasterxml.jackson.databind.Module configurerJackson() {
 		final Hibernate5Module hibernate5Module = new Hibernate5Module();
-		// hibernate5Module.enable(Feature.REPLACE_PERSISTENT_COLLECTIONS);
+		hibernate5Module.enable(Feature.REPLACE_PERSISTENT_COLLECTIONS);
 		// hibernate5Module.enable(Feature.REQUIRE_EXPLICIT_LAZY_LOADING_MARKER);
 		return hibernate5Module;
 	}
