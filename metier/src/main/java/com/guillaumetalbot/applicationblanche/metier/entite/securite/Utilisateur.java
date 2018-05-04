@@ -113,13 +113,13 @@ public class Utilisateur implements Serializable {
 
 		// Annulation des échecs de connexion
 		for (int i = 0; i < 3; i++) {
-			if ((this.premierEchec != null) && this.premierEchec.before(dateLimite)) {
+			if (this.premierEchec != null && this.premierEchec.before(dateLimite)) {
 				this.premierEchec = this.secondEchec;
 				this.secondEchec = this.troisiemeEchec;
 			}
 		}
 
-		return (this.premierEchec != null) && (this.secondEchec != null) && (this.troisiemeEchec != null);
+		return this.premierEchec != null && this.secondEchec != null && this.troisiemeEchec != null;
 	}
 
 	public void setMdp(final String mdp) {
@@ -128,6 +128,10 @@ public class Utilisateur implements Serializable {
 
 	public void setPremierEchec(final Date premierEchec) {
 		this.premierEchec = MutableUtil.getMutable(premierEchec);
+	}
+
+	public void setRoles(final Set<Role> roles) {
+		this.roles = roles;
 	}
 
 	public void setSecondEchec(final Date secondEchec) {
