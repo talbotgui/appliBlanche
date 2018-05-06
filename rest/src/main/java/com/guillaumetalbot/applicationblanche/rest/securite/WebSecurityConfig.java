@@ -79,7 +79,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				// Tout le reste est protégé
 				.anyRequest().authenticated().and()
 				// Ajout du filtre permettant la connexion JWT
-				.addFilterBefore(new JWTConnexionFilter(this.parametresJwt, this.authenticationManager()), UsernamePasswordAuthenticationFilter.class)
+				.addFilterBefore(
+						new JWTConnexionFilter(this.parametresJwt, this.authenticationManager(), (UserDetailsServiceWrapper) this.userDetailsService),
+						UsernamePasswordAuthenticationFilter.class)
 				// Ajout du filtre vérifiant la présence du token JWT
 				.addFilterBefore(new JWTAuthenticationFilter(this.parametresJwt), UsernamePasswordAuthenticationFilter.class);
 	}

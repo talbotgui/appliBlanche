@@ -202,13 +202,13 @@ public class SecuriteServiceTest {
 		final String login = "monLoginToReset";
 		final String mdp = "unBonMdp";
 		this.securiteService.sauvegarderUtilisateur(login, mdp);
-		this.securiteService.verifierUtilisateur(login, mdp);
+		final String mdpChiffre = this.securiteService.chargerUtilisateurReadOnly(login).getMdp();
 
 		//
 		this.securiteService.reinitialiserMotDePasse(login);
 
 		//
-		this.securiteService.verifierUtilisateur(login, login);
+		Assert.assertNotEquals(mdpChiffre, this.securiteService.chargerUtilisateurReadOnly(login).getMdp());
 	}
 
 	@Test
@@ -332,119 +332,101 @@ public class SecuriteServiceTest {
 	}
 
 	@Test
-	public void test05VerifierUtilisateur01Ok() {
+	public void test05NotifierConnexion01Ok() {
 		//
 		final String login = "monLogin";
 		final String mdp = "unBonMdp";
 		this.securiteService.sauvegarderUtilisateur(login, mdp);
 
 		//
-		this.securiteService.verifierUtilisateur(login, mdp);
+		this.securiteService.notifierConnexion(login, true);
 
 		//
+		final Utilisateur u = this.securiteService.chargerUtilisateurReadOnly(login);
+		Assert.assertNull(u.getPremierEchec());
+		Assert.assertNull(u.getSecondEchec());
+		Assert.assertNull(u.getTroisiemeEchec());
+		Assert.assertFalse(u.isVerrouille());
 	}
 
 	@Test
-	public void test05VerifierUtilisateur02KoMdp() {
+	public void test05NotifierConnexion02AvecUnKo() {
 		//
 		final String login = "monLogin";
 		final String mdp = "unBonMdp";
-		final String mauvaisMdp = "pasBonMdp";
 		this.securiteService.sauvegarderUtilisateur(login, mdp);
 
 		//
-		final Throwable thrown = Assertions.catchThrowable(() -> {
-			this.securiteService.verifierUtilisateur(login, mauvaisMdp);
-		});
+		this.securiteService.notifierConnexion(login, false);
 
 		//
-		Assert.assertNotNull(thrown);
-		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.ERREUR_LOGIN));
+		final Utilisateur u = this.securiteService.chargerUtilisateurReadOnly(login);
+		Assert.assertNotNull(u.getPremierEchec());
+		Assert.assertNull(u.getSecondEchec());
+		Assert.assertNull(u.getTroisiemeEchec());
+		Assert.assertFalse(u.isVerrouille());
 	}
 
 	@Test
-	public void test05VerifierUtilisateur03KoLogin() {
+	public void test05NotifierConnexion03AvecTroisKo() {
 		//
 		final String login = "monLogin";
 		final String mdp = "unBonMdp";
-		final String mauvaisLogin = "pasMonLogin";
 		this.securiteService.sauvegarderUtilisateur(login, mdp);
 
 		//
-		final Throwable thrown = Assertions.catchThrowable(() -> {
-			this.securiteService.verifierUtilisateur(mauvaisLogin, mdp);
-		});
+		this.securiteService.notifierConnexion(login, false);
+		this.securiteService.notifierConnexion(login, false);
+		this.securiteService.notifierConnexion(login, false);
 
 		//
-		Assert.assertNotNull(thrown);
-		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.ERREUR_LOGIN));
+		final Utilisateur u = this.securiteService.chargerUtilisateurReadOnly(login);
+		Assert.assertNotNull(u.getPremierEchec());
+		Assert.assertNotNull(u.getSecondEchec());
+		Assert.assertNotNull(u.getTroisiemeEchec());
+		Assert.assertTrue(u.isVerrouille());
 	}
 
 	@Test
-	public void test05VerifierUtilisateur04Verrouillage() {
+	public void test05NotifierConnexion04BonneConnexionApresVerrouillage() {
 		//
 		final String login = "monLogin";
 		final String mdp = "unBonMdp";
-		final String mauvaisMdp = "pasBonMdp";
 		this.securiteService.sauvegarderUtilisateur(login, mdp);
 
 		//
-		final Throwable e1 = Assertions.catchThrowable(() -> {
-			this.securiteService.verifierUtilisateur(login, mauvaisMdp);
-		});
-		final Throwable e2 = Assertions.catchThrowable(() -> {
-			this.securiteService.verifierUtilisateur(login, mauvaisMdp);
-		});
-		final Throwable e3 = Assertions.catchThrowable(() -> {
-			this.securiteService.verifierUtilisateur(login, mauvaisMdp);
-		});
-		final Throwable e4 = Assertions.catchThrowable(() -> {
-			this.securiteService.verifierUtilisateur(login, mdp);
-		});
-		final Throwable e5 = Assertions.catchThrowable(() -> {
-			this.securiteService.verifierUtilisateur(login, mauvaisMdp);
-		});
-		final Throwable e6 = Assertions.catchThrowable(() -> {
-			this.securiteService.verifierUtilisateur(login, mauvaisMdp);
-		});
+		this.securiteService.notifierConnexion(login, false);
+		this.securiteService.notifierConnexion(login, false);
+		this.securiteService.notifierConnexion(login, false);
+		this.securiteService.notifierConnexion(login, true);
 
 		//
-		Assert.assertNotNull(e1);
-		Assert.assertTrue(BusinessException.equals((Exception) e1, BusinessException.ERREUR_LOGIN));
-		Assert.assertNotNull(e2);
-		Assert.assertTrue(BusinessException.equals((Exception) e2, BusinessException.ERREUR_LOGIN));
-		Assert.assertNotNull(e3);
-		Assert.assertTrue(BusinessException.equals((Exception) e3, BusinessException.ERREUR_LOGIN));
-		Assert.assertNotNull(e4);
-		Assert.assertTrue(BusinessException.equals((Exception) e4, BusinessException.ERREUR_LOGIN_VEROUILLE));
-		Assert.assertNotNull(e5);
-		Assert.assertTrue(BusinessException.equals((Exception) e5, BusinessException.ERREUR_LOGIN_VEROUILLE));
-		Assert.assertNotNull(e6);
-		Assert.assertTrue(BusinessException.equals((Exception) e6, BusinessException.ERREUR_LOGIN_VEROUILLE));
+		final Utilisateur u = this.securiteService.chargerUtilisateurReadOnly(login);
+		Assert.assertNull(u.getPremierEchec());
+		Assert.assertNull(u.getSecondEchec());
+		Assert.assertNull(u.getTroisiemeEchec());
+		Assert.assertFalse(u.isVerrouille());
 	}
 
 	@Test
-	public void test05VerifierUtilisateur05Deverrouillage() {
+	public void test05NotifierConnexion04Deverrouillage() {
 		//
 		final String login = "monLogin";
 		final String mdp = "unBonMdp";
-		final String mauvaisMdp = "pasBonMdp";
 		this.securiteService.sauvegarderUtilisateur(login, mdp);
-		Assertions.catchThrowable(() -> {
-			this.securiteService.verifierUtilisateur(login, mauvaisMdp);
-		});
-		Assertions.catchThrowable(() -> {
-			this.securiteService.verifierUtilisateur(login, mauvaisMdp);
-		});
-		Assertions.catchThrowable(() -> {
-			this.securiteService.verifierUtilisateur(login, mauvaisMdp);
-		});
 
 		//
+		this.securiteService.notifierConnexion(login, false);
+		this.securiteService.notifierConnexion(login, false);
+		this.securiteService.notifierConnexion(login, false);
 		this.securiteService.deverrouillerUtilisateur(login);
 
 		//
-		this.securiteService.verifierUtilisateur(login, mdp);
+		final Utilisateur u = this.securiteService.chargerUtilisateurReadOnly(login);
+		Assert.assertNull(u.getPremierEchec());
+		Assert.assertNull(u.getSecondEchec());
+		Assert.assertNull(u.getTroisiemeEchec());
+		Assert.assertFalse(u.isVerrouille());
 	}
 
 	@Test

@@ -33,6 +33,8 @@ public interface SecuriteService {
 
 	Collection<UtilisateurAvecRolesEtAutorisations> listerUtilisateursAvecRolesEtAutorisations();
 
+	void notifierConnexion(String login, boolean status);
+
 	void reinitialiserMotDePasse(String login);
 
 	void sauvegarderRole(String nomRole);
@@ -40,6 +42,4 @@ public interface SecuriteService {
 	Utilisateur sauvegarderUtilisateur(String login, String mdp);
 
 	void supprimerUtilisateur(String login);
-
-	void verifierUtilisateur(String login, String mdp);
 }

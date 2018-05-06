@@ -19,6 +19,7 @@ import org.springframework.security.web.authentication.AbstractAuthenticationPro
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.guillaumetalbot.applicationblanche.rest.securite.UserDetailsServiceWrapper;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -28,7 +29,11 @@ import io.jsonwebtoken.SignatureAlgorithm;
  */
 public class JWTConnexionFilter extends AbstractAuthenticationProcessingFilter {
 
+	/** Paramètres JWT présents dans les application.properties */
 	private final ParametresJwt parametresJwt;
+
+	/** Service métier traitant de la sécurité */
+	private final UserDetailsServiceWrapper securiteService;
 
 	/**
 	 * Constructeur.
@@ -38,10 +43,12 @@ public class JWTConnexionFilter extends AbstractAuthenticationProcessingFilter {
 	 * @param authManager
 	 *            Instance de composant permetant la vérification du login/mdp.
 	 */
-	public JWTConnexionFilter(final ParametresJwt parametresJwt, final AuthenticationManager authManager) {
+	public JWTConnexionFilter(final ParametresJwt parametresJwt, final AuthenticationManager authManager,
+			final UserDetailsServiceWrapper securiteService) {
 		super(new AntPathRequestMatcher(parametresJwt.getUrlConnexion(), "POST"));
 		this.setAuthenticationManager(authManager);
 		this.parametresJwt = parametresJwt;
+		this.securiteService = securiteService;
 	}
 
 	/**
@@ -52,6 +59,9 @@ public class JWTConnexionFilter extends AbstractAuthenticationProcessingFilter {
 			throws AuthenticationException, IOException, ServletException {
 		// lecture du corp de la requête pour y récupérer un objet de type ParametreDeConnexionDto
 		final ParametreDeConnexionDto param = new ObjectMapper().readValue(req.getInputStream(), ParametreDeConnexionDto.class);
+
+		// Ajout du login dans la requete pour le récupérer en cas d'echec
+		req.setAttribute("login", param.getLogin());
 
 		// Appel au composant d'authentification avec les paramètres de connexion
 		return this.getAuthenticationManager()
@@ -72,16 +82,36 @@ public class JWTConnexionFilter extends AbstractAuthenticationProcessingFilter {
 	}
 
 	/**
-	 * En cas d'authentification réussie de l'utilisateur, on crée le token et on l'ajoute dans les entêtes de la réponse.
+	 * En cas d'authentification réussie de l'utilisateur
 	 */
 	@Override
 	protected void successfulAuthentication(final HttpServletRequest req, final HttpServletResponse res, final FilterChain chain,
 			final Authentication auth) throws IOException, ServletException {
+
+		// on crée le token et on l'ajoute dans les entêtes de la réponse.
 		final String login = auth.getName();
 		final String JWT = Jwts.builder().setSubject(login)//
 				.setExpiration(new Date(System.currentTimeMillis() + this.parametresJwt.getExpirationTime()))//
 				.signWith(SignatureAlgorithm.HS512, this.parametresJwt.getSecret())//
 				.compact();
 		res.addHeader(this.parametresJwt.getHeaderKey(), this.parametresJwt.getTokenPrefix() + " " + JWT);
+
+		// on notifie le service métier de la bonne connexion
+		this.securiteService.notifierConnexion(login, true);
 	}
+
+	/**
+	 * En cas d'echec de connexion
+	 */
+	@Override
+	protected void unsuccessfulAuthentication(final HttpServletRequest request, final HttpServletResponse response,
+			final AuthenticationException failed) throws IOException, ServletException {
+		super.unsuccessfulAuthentication(request, response, failed);
+
+		// on notifie le service métier de la bonne connexion
+		final String login = (String) request.getAttribute("login");
+		this.securiteService.notifierConnexion(login, false);
+
+	}
+
 }

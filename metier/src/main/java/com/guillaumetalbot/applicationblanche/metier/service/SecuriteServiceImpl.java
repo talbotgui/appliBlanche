@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.guillaumetalbot.applicationblanche.exception.BusinessException;
-import com.guillaumetalbot.applicationblanche.exception.BusinessExceptionSansRollback;
 import com.guillaumetalbot.applicationblanche.metier.dao.securite.LienRoleRessourceRepository;
 import com.guillaumetalbot.applicationblanche.metier.dao.securite.LienUtilisateurRoleRepository;
 import com.guillaumetalbot.applicationblanche.metier.dao.securite.RessourceRepository;
@@ -154,6 +153,25 @@ public class SecuriteServiceImpl implements SecuriteService {
 	}
 
 	@Override
+	public void notifierConnexion(final String login, final boolean status) {
+		// Chargement de l'utilisateur
+		final Utilisateur u = this.utilisateurRepo.findById(login)
+				// Si pas d'utilisateur correspondant
+				.orElseThrow(() -> new BusinessException(BusinessException.ERREUR_LOGIN));
+
+		// Enregistrement des echecs ou nettoyage des echecs
+		if (status) {
+			u.declarerConnexionReussie();
+		} else {
+			u.declarerConnexionEnEchec();
+		}
+
+		// Enregistrement des modifications
+		this.utilisateurRepo.save(u);
+
+	}
+
+	@Override
 	public void reinitialiserMotDePasse(final String login) {
 		final Utilisateur u = this.utilisateurRepo.findById(login)
 				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Utilisateur", login));
@@ -236,37 +254,6 @@ public class SecuriteServiceImpl implements SecuriteService {
 	private void valideLoginOuMotDePasse(final String loginOuMdp) {
 		if (loginOuMdp == null || loginOuMdp.length() < LOGIN_MDP_MIN) {
 			throw new BusinessException(BusinessException.ERREUR_LOGIN_MDP, LOGIN_MDP_MIN);
-		}
-	}
-
-	@Override
-	@Transactional(dontRollbackOn = BusinessExceptionSansRollback.class)
-	public void verifierUtilisateur(final String login, final String mdp) {
-
-		final Utilisateur u = this.utilisateurRepo.findById(login)
-				// Si pas d'utilisateur correspondant
-				.orElseThrow(() -> new BusinessException(BusinessException.ERREUR_LOGIN));
-
-		// Si l'utilisateur est verrouilé
-		if (u.isVerrouille()) {
-			throw new BusinessException(BusinessException.ERREUR_LOGIN_VEROUILLE);
-		}
-
-		// Si erreur dans le mot de passe
-		else if (!u.getMdp().equals(ChiffrementUtil.encrypt(mdp))) {
-
-			// Init des dates d'echec et sauvegarde des modifications
-			u.declarerConnexionEnEchec();
-			this.utilisateurRepo.save(u);
-
-			// renvoi de l'erreur
-			throw new BusinessExceptionSansRollback(BusinessException.ERREUR_LOGIN);
-		}
-
-		// Si tout se passe bien, suppression des erreurs de connexion
-		else {
-			u.declarerConnexionReussie();
-			this.utilisateurRepo.save(u);
 		}
 	}
 }

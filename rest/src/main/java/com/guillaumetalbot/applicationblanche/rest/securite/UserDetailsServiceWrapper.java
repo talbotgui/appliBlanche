@@ -24,7 +24,14 @@ public class UserDetailsServiceWrapper implements UserDetailsService {
 		if (u == null) {
 			throw new UsernameNotFoundException("Mauvais paramètres de connexion");
 		}
+		if (u.isVerrouille()) {
+			throw new UsernameNotFoundException("Compte verrouille");
+		}
 		return new UserDetailsDto(u);
+	}
+
+	public void notifierConnexion(final String login, final boolean status) {
+		this.securiteService.notifierConnexion(login, status);
 	}
 
 }

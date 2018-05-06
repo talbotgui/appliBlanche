@@ -26,7 +26,7 @@ Sujets BACK :
 x	JWT
 x	exploser la configuration SpringRest en plusieurs classes compréhensibles et documentées	
 x	persitence avec Hibernate 5
-	remettre la mécanique de verouillage de compte
+	remettre la mécanique de verouillage de compte ***********************************************  /!\ A TESTER EN REEL ***********************************************
 	tous les types de mappings d'association (même le double mapping d'un manyToMany bidirectionnel)
 	HQL chargeant des DTO
 	requêtes paginées
