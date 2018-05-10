@@ -1,6 +1,6 @@
 package com.guillaumetalbot.applicationblanche.metier.entite.client;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,7 +22,7 @@ public class Client extends Entite {
 	@JoinColumn(name = "CLIENT_ID", unique = true)
 	private Adresse adresse;
 
-	private Date dateCreation;
+	private LocalDateTime dateCreation;
 
 	@OneToMany(mappedBy = "client")
 	private Set<Dossier> dossiers;
@@ -49,8 +49,8 @@ public class Client extends Entite {
 		return this.adresse;
 	}
 
-	public Date getDateCreation() {
-		return MutableUtil.getMutable(this.dateCreation);
+	public LocalDateTime getDateCreation() {
+		return this.dateCreation;
 	}
 
 	public Set<Dossier> getDossiers() {
@@ -65,8 +65,8 @@ public class Client extends Entite {
 		this.adresse = adresse;
 	}
 
-	public void setDateCreation(final Date dateCreation) {
-		this.dateCreation = MutableUtil.getMutable(dateCreation);
+	public void setDateCreation(final LocalDateTime dateCreation) {
+		this.dateCreation = dateCreation;
 	}
 
 	public void setNom(final String nom) {

@@ -1,7 +1,7 @@
 package com.guillaumetalbot.applicationblanche.metier.service;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Date;
 
 import javax.transaction.Transactional;
 
@@ -132,7 +132,7 @@ public class ClientServiceImpl implements ClientService {
 
 		// Création du dossier
 		if (idDossier == null) {
-			dossier.setDateCreation(new Date());
+			dossier.setDateCreation(LocalDateTime.now());
 			dossier.setClient(client);
 		}
 

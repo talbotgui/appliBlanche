@@ -1,6 +1,6 @@
 package com.guillaumetalbot.applicationblanche.metier.entite.client;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -18,7 +18,7 @@ public class Dossier extends Entite {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Client client;
 
-	private Date dateCreation;
+	private LocalDateTime dateCreation;
 
 	@OneToMany(mappedBy = "dossier")
 	private Set<Demande> demandes;
@@ -44,8 +44,8 @@ public class Dossier extends Entite {
 		return this.client;
 	}
 
-	public Date getDateCreation() {
-		return MutableUtil.getMutable(this.dateCreation);
+	public LocalDateTime getDateCreation() {
+		return this.dateCreation;
 	}
 
 	public Set<Demande> getDemandes() {
@@ -60,8 +60,8 @@ public class Dossier extends Entite {
 		this.client = client;
 	}
 
-	public void setDateCreation(final Date dateCreation) {
-		this.dateCreation = MutableUtil.getMutable(dateCreation);
+	public void setDateCreation(final LocalDateTime dateCreation) {
+		this.dateCreation = dateCreation;
 	}
 
 	public void setNom(final String nom) {

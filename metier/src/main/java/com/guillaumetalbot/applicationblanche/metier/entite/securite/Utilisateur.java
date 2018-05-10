@@ -1,9 +1,8 @@
 package com.guillaumetalbot.applicationblanche.metier.entite.securite;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -36,7 +35,7 @@ public class Utilisateur implements Serializable {
 	private String mdp;
 
 	@Column(name = "PREMIER_ECHEC")
-	private Date premierEchec;
+	private LocalDateTime premierEchec;
 
 	@ManyToMany
 	@JoinTable(//
@@ -46,10 +45,10 @@ public class Utilisateur implements Serializable {
 	private Set<Role> roles;
 
 	@Column(name = "SECOND_ECHEC")
-	private Date secondEchec;
+	private LocalDateTime secondEchec;
 
 	@Column(name = "TROISIEME_ECHEC")
-	private Date troisiemeEchec;
+	private LocalDateTime troisiemeEchec;
 
 	public Utilisateur() {
 		super();
@@ -67,11 +66,11 @@ public class Utilisateur implements Serializable {
 
 	public void declarerConnexionEnEchec() {
 		if (this.premierEchec == null) {
-			this.premierEchec = new Date();
+			this.premierEchec = LocalDateTime.now();
 		} else if (this.secondEchec == null) {
-			this.secondEchec = new Date();
+			this.secondEchec = LocalDateTime.now();
 		} else if (this.troisiemeEchec == null) {
-			this.troisiemeEchec = new Date();
+			this.troisiemeEchec = LocalDateTime.now();
 		} else {
 			LOG.warn("Tentative répétées de connexion de l'utilisateur {}", this.login);
 		}
@@ -91,29 +90,29 @@ public class Utilisateur implements Serializable {
 		return this.mdp;
 	}
 
-	public Date getPremierEchec() {
-		return MutableUtil.getMutable(this.premierEchec);
+	public LocalDateTime getPremierEchec() {
+		return this.premierEchec;
 	}
 
 	public Set<Role> getRoles() {
 		return MutableUtil.getMutable(this.roles);
 	}
 
-	public Date getSecondEchec() {
-		return MutableUtil.getMutable(this.secondEchec);
+	public LocalDateTime getSecondEchec() {
+		return this.secondEchec;
 	}
 
-	public Date getTroisiemeEchec() {
-		return MutableUtil.getMutable(this.troisiemeEchec);
+	public LocalDateTime getTroisiemeEchec() {
+		return this.troisiemeEchec;
 	}
 
 	public boolean isVerrouille() {
 		// Calcul de la date avant laquelle un echec de connexion est oublié
-		final Date dateLimite = Date.from(Instant.now().minus(NB_JOUR_DELAI_EFFACEMENT_ECHEC, ChronoUnit.DAYS));
+		final LocalDateTime dateLimite = LocalDateTime.now().minus(NB_JOUR_DELAI_EFFACEMENT_ECHEC, ChronoUnit.DAYS);
 
 		// Annulation des échecs de connexion
 		for (int i = 0; i < 3; i++) {
-			if (this.premierEchec != null && this.premierEchec.before(dateLimite)) {
+			if (this.premierEchec != null && this.premierEchec.isBefore(dateLimite)) {
 				this.premierEchec = this.secondEchec;
 				this.secondEchec = this.troisiemeEchec;
 			}
@@ -126,20 +125,20 @@ public class Utilisateur implements Serializable {
 		this.mdp = mdp;
 	}
 
-	public void setPremierEchec(final Date premierEchec) {
-		this.premierEchec = MutableUtil.getMutable(premierEchec);
+	public void setPremierEchec(final LocalDateTime premierEchec) {
+		this.premierEchec = premierEchec;
 	}
 
 	public void setRoles(final Set<Role> roles) {
 		this.roles = roles;
 	}
 
-	public void setSecondEchec(final Date secondEchec) {
-		this.secondEchec = MutableUtil.getMutable(secondEchec);
+	public void setSecondEchec(final LocalDateTime secondEchec) {
+		this.secondEchec = secondEchec;
 	}
 
-	public void setTroisiemeEchec(final Date troisiemeEchec) {
-		this.troisiemeEchec = MutableUtil.getMutable(troisiemeEchec);
+	public void setTroisiemeEchec(final LocalDateTime troisiemeEchec) {
+		this.troisiemeEchec = troisiemeEchec;
 	}
 
 	@Override
