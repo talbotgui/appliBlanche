@@ -6,11 +6,10 @@ import java.util.Date;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -29,6 +28,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
  */
 public class JWTConnexionFilter extends AbstractAuthenticationProcessingFilter {
 
+	private static final String PARAMETRE_LOGIN_EN_REQUETE = "login";
+
 	/** Paramètres JWT présents dans les application.properties */
 	private final ParametresJwt parametresJwt;
 
@@ -45,7 +46,7 @@ public class JWTConnexionFilter extends AbstractAuthenticationProcessingFilter {
 	 */
 	public JWTConnexionFilter(final ParametresJwt parametresJwt, final AuthenticationManager authManager,
 			final UserDetailsServiceWrapper securiteService) {
-		super(new AntPathRequestMatcher(parametresJwt.getUrlConnexion(), "POST"));
+		super(new AntPathRequestMatcher(parametresJwt.getUrlConnexion(), HttpMethod.POST.name()));
 		this.setAuthenticationManager(authManager);
 		this.parametresJwt = parametresJwt;
 		this.securiteService = securiteService;
@@ -61,24 +62,11 @@ public class JWTConnexionFilter extends AbstractAuthenticationProcessingFilter {
 		final ParametreDeConnexionDto param = new ObjectMapper().readValue(req.getInputStream(), ParametreDeConnexionDto.class);
 
 		// Ajout du login dans la requete pour le récupérer en cas d'echec
-		req.setAttribute("login", param.getLogin());
+		req.setAttribute(PARAMETRE_LOGIN_EN_REQUETE, param.getLogin());
 
 		// Appel au composant d'authentification avec les paramètres de connexion
 		return this.getAuthenticationManager()
 				.authenticate(new UsernamePasswordAuthenticationToken(param.getLogin(), param.getMdp(), Collections.emptyList()));
-	}
-
-	@Override
-	public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain) throws IOException, ServletException {
-		final HttpServletRequest httpRequete = (HttpServletRequest) request;
-		final HttpServletResponse httpReponse = (HttpServletResponse) response;
-
-		// Ajout des entêtes de sécurité
-		httpReponse.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, Authorization");
-		httpReponse.setHeader("Access-Control-Allow-Origin", httpRequete.getHeader("Origin"));
-		httpReponse.setHeader("Access-Control-Expose-Headers", "Authorization");
-
-		super.doFilter(request, response, chain);
 	}
 
 	/**
@@ -109,7 +97,7 @@ public class JWTConnexionFilter extends AbstractAuthenticationProcessingFilter {
 		super.unsuccessfulAuthentication(request, response, failed);
 
 		// on notifie le service métier de la bonne connexion
-		final String login = (String) request.getAttribute("login");
+		final String login = (String) request.getAttribute(PARAMETRE_LOGIN_EN_REQUETE);
 		this.securiteService.notifierConnexion(login, false);
 
 	}
