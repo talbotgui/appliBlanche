@@ -4,6 +4,9 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.hibernate.Hibernate;
+import org.hibernate.collection.internal.PersistentSet;
+
 public class MutableUtil {
 
 	public static Date getMutable(final Date date) {
@@ -17,6 +20,8 @@ public class MutableUtil {
 	public static <T> Set<T> getMutable(final Set<T> set) {
 		if (set == null) {
 			return null;
+		} else if (PersistentSet.class.isInstance(set) && !Hibernate.isInitialized(set)) {
+			return new HashSet<T>();
 		} else {
 			return new HashSet<T>(set);
 		}

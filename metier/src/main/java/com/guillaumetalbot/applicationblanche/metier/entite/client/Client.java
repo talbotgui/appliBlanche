@@ -19,7 +19,7 @@ public class Client extends Entite {
 	private static final long serialVersionUID = 1L;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "CLIENT_ID", unique = true)
+	@JoinColumn(name = "ADRESSE_ID", unique = true)
 	private Adresse adresse;
 
 	private LocalDateTime dateCreation;

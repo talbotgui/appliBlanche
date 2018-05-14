@@ -16,7 +16,7 @@ public interface ClientRepository extends CrudRepository<Client, Long> {
 	@Query("select c from Client c left join fetch c.adresse where c.id = :idClient")
 	Client chargerClientAvecAdresse(@Param("idClient") Long idClient);
 
-	@Query("select c from Client c left join c.dossiers left join c.adresse where c.id = :idClient")
+	@Query("select c from Client c left join fetch c.dossiers left join fetch c.adresse where c.id = :idClient")
 	@QueryHints(value = { @QueryHint(name = org.hibernate.jpa.QueryHints.HINT_READONLY, value = "true") })
 	Client chargerClientAvecAdresseEtDossiersReadonly(@Param("idClient") Long idClient);
 

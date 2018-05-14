@@ -25,6 +25,9 @@ public class BusinessException extends BaseException {
 	public static final ExceptionId OBJET_NON_EXISTANT = new ExceptionId("OBJET_NON_EXISTANT", "Objet de référence {0} inexistant",
 			ExceptionLevel.ERROR, 404);
 
+	public static final ExceptionId REFERENCE_NON_VALIDE = new ExceptionId("REFERENCE_NON_VALIDE", "Objet de référence {0} inexistant",
+			ExceptionLevel.ERROR, 404);
+
 	/** Default UID. */
 	private static final long serialVersionUID = 1L;
 

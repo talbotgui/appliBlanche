@@ -5,10 +5,12 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collection;
+import java.util.Iterator;
 
 import javax.sql.DataSource;
 
 import org.assertj.core.api.Assertions;
+import org.hibernate.LazyInitializationException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -69,7 +71,7 @@ public class ClientServiceTest {
 	}
 
 	@Test
-	public void test01Client02tModificationOk() {
+	public void test01Client02ModificationOk() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		final String refClient = this.clientService.sauvegarderClient(null, "nomClient");
@@ -99,6 +101,101 @@ public class ClientServiceTest {
 		Assert.assertNotNull(thrown);
 		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_NON_EXISTANT));
 		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from CLIENT", Long.class));
+	}
+
+	@Test
+	public void test01Client04Lister() {
+		//
+		final String secondNomParOrdreAlphabetique = "nom2";
+		this.clientService.sauvegarderClient(null, secondNomParOrdreAlphabetique);
+		final String premierNomParOrdreAlphabetique = "nom1";
+		this.clientService.sauvegarderClient(null, premierNomParOrdreAlphabetique);
+
+		//
+		final Collection<Client> clients = this.clientService.listerClients();
+
+		//
+		Assert.assertNotNull(clients);
+		Assert.assertEquals(2, clients.size());
+		final Iterator<Client> iter = clients.iterator();
+		Assert.assertEquals(premierNomParOrdreAlphabetique, iter.next().getNom());
+		Assert.assertEquals(secondNomParOrdreAlphabetique, iter.next().getNom());
+	}
+
+	@Test
+	public void test01Client05ChargerClientReadOnly() {
+		//
+		final String nomClient = "nom";
+		final String ref = this.clientService.sauvegarderClient(null, nomClient);
+
+		//
+		final Client client = this.clientService.chargerClientReadonly(ref);
+
+		//
+		Assert.assertNotNull(client);
+		Assert.assertEquals(nomClient, client.getNom());
+		Assert.assertNull(client.getAdresse());
+		Assert.assertNotNull(client.getDossiers());
+		Assert.assertTrue(client.getDossiers().isEmpty());
+	}
+
+	@Test
+	public void test01Client06ChargerClientReadOnlyAvecUneGrappeDeDonneesExistante() {
+		//
+		final String nomClient = "nom";
+		final String ref = this.clientService.sauvegarderClient(null, nomClient);
+		this.clientService.sauvegarderAdresse(ref, new Adresse("rue", "codePostal", "ville"));
+		this.clientService.sauvegarderDossier(ref, new Dossier("nomDossier"));
+
+		//
+		final Client client = this.clientService.chargerClientReadonly(ref);
+
+		//
+		Assert.assertNotNull(client);
+		Assert.assertEquals(nomClient, client.getNom());
+		final Throwable e = Assertions.catchThrowable(() -> {
+			client.getAdresse().toString();
+		});
+		Assert.assertNotNull(e);
+		Assert.assertEquals(LazyInitializationException.class, e.getClass());
+		Assert.assertNotNull(client.getDossiers());
+		Assert.assertTrue(client.getDossiers().isEmpty());
+	}
+
+	@Test
+	public void test01Client07ChargerClientReadOnlyAvecAdresseEtDossiers() {
+		//
+		final String nomClient = "nom";
+		final String ref = this.clientService.sauvegarderClient(null, nomClient);
+
+		//
+		final Client client = this.clientService.chargerClientAvecAdresseEtDossiersReadonly(ref);
+
+		//
+		Assert.assertNotNull(client);
+		Assert.assertEquals(nomClient, client.getNom());
+		Assert.assertNull(client.getAdresse());
+		Assert.assertNotNull(client.getDossiers());
+		Assert.assertTrue(client.getDossiers().isEmpty());
+	}
+
+	@Test
+	public void test01Client08ChargerClientReadOnlyAvecAdresseEtDossiersAvecUneGrappeDeDonneesExistante() {
+		//
+		final String nomClient = "nom";
+		final String ref = this.clientService.sauvegarderClient(null, nomClient);
+		this.clientService.sauvegarderAdresse(ref, new Adresse("rue", "codePostal", "ville"));
+		this.clientService.sauvegarderDossier(ref, new Dossier("nomDossier"));
+
+		//
+		final Client client = this.clientService.chargerClientAvecAdresseEtDossiersReadonly(ref);
+
+		//
+		Assert.assertNotNull(client);
+		Assert.assertEquals(nomClient, client.getNom());
+		Assert.assertNotNull(client.getAdresse());
+		Assert.assertNotNull(client.getDossiers());
+		Assert.assertEquals(1, client.getDossiers().size());
 	}
 
 	@Test
@@ -135,11 +232,11 @@ public class ClientServiceTest {
 	public void test02Adresse03ClientInexistant() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
-		final String refAdresse = Entite.genererReference(Adresse.class, 1L);
+		final String refClient = Entite.genererReference(Client.class, 1L);
 
 		//
 		final Throwable thrown = Assertions.catchThrowable(() -> {
-			this.clientService.sauvegarderAdresse(refAdresse, new Adresse("rue", "codePostal", "ville"));
+			this.clientService.sauvegarderAdresse(refClient, new Adresse("rue", "codePostal", "ville"));
 		});
 
 		//
@@ -223,11 +320,11 @@ public class ClientServiceTest {
 	public void test03Dossier03ClientInexistant() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
-		final String refDossier = Entite.genererReference(Dossier.class, 1L);
+		final String refClient = Entite.genererReference(Client.class, 1L);
 
 		//
 		final Throwable thrown = Assertions.catchThrowable(() -> {
-			this.clientService.sauvegarderDossier(refDossier, new Dossier("nomDossier"));
+			this.clientService.sauvegarderDossier(refClient, new Dossier("nomDossier"));
 		});
 
 		//
@@ -313,11 +410,11 @@ public class ClientServiceTest {
 	public void test04Demande03DossierInexistant() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
-		final String refDemande = Entite.genererReference(Demande.class, 1L);
+		final String refDossier = Entite.genererReference(Dossier.class, 1L);
 
 		//
 		final Throwable thrown = Assertions.catchThrowable(() -> {
-			this.clientService.sauvegarderDemande(refDemande, new Demande("maDemande", "maDemande"));
+			this.clientService.sauvegarderDemande(refDossier, new Demande("maDemande", "maDemande"));
 		});
 
 		//

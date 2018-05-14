@@ -30,6 +30,7 @@ x	remettre la mécanique de verouillage de compte
 	tous les types de mappings d'association (même le double mapping d'un manyToMany bidirectionnel)
 	HQL chargeant des DTO
 	requêtes paginées
+	extraire le sel utilisé pour la création des références Entite.SEL_POUR_REFERENCE dans un fichier de configuration
 	services transactionnels
 x	négociation de contenu pour exposer une même données en différentes structures
 x	masquage des identifiants techniques (id:Long => reference:String)

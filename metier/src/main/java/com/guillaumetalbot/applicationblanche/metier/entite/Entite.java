@@ -13,7 +13,7 @@ import com.guillaumetalbot.applicationblanche.exception.BusinessException;
 @MappedSuperclass
 public class Entite implements Serializable, IdentifiableParReference {
 	private static final Pattern PATTERN_REFERENCE = Pattern.compile("([0-9]*)-([0-9]*)");
-	private static final long SEL_POUR_REFERENCE = 29091985;
+	private static final long SEL_POUR_REFERENCE = 1234567890;
 
 	private static final long serialVersionUID = 1L;
 
@@ -26,7 +26,7 @@ public class Entite implements Serializable, IdentifiableParReference {
 		// Si la référence n'est pas sur le bon modèle
 		final Matcher matcher = PATTERN_REFERENCE.matcher(reference);
 		if (!matcher.find()) {
-			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, reference);
+			throw new BusinessException(BusinessException.REFERENCE_NON_VALIDE, reference);
 		}
 
 		// Extraction des nombres
@@ -35,10 +35,10 @@ public class Entite implements Serializable, IdentifiableParReference {
 
 		// Validation des nombres
 		if (clazz.getName().hashCode() != objet) {
-			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, reference);
+			throw new BusinessException(BusinessException.REFERENCE_NON_VALIDE, reference);
 		}
 		if (id < 0) {
-			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, reference);
+			throw new BusinessException(BusinessException.REFERENCE_NON_VALIDE, reference);
 		}
 
 		// Initialisation de l'identifiant
@@ -47,10 +47,10 @@ public class Entite implements Serializable, IdentifiableParReference {
 	}
 
 	public static String genererReference(final Class<? extends IdentifiableParReference> clazz, final Long id) {
-		if ((id == null) || (clazz == null)) {
+		if (id == null || clazz == null) {
 			return null;
 		}
-		final String ref = (SEL_POUR_REFERENCE + clazz.getName().hashCode()) + "-" + (SEL_POUR_REFERENCE + id);
+		final String ref = SEL_POUR_REFERENCE + clazz.getName().hashCode() + "-" + (SEL_POUR_REFERENCE + id);
 		return ref;
 	}
 

@@ -38,7 +38,7 @@ public class EntiteTest {
 		//
 		Assert.assertNotNull(thrown);
 		Assert.assertEquals(BusinessException.class, thrown.getClass());
-		Assert.assertTrue(BusinessException.equals((BusinessException) thrown, BusinessException.OBJET_NON_EXISTANT));
+		Assert.assertTrue(BusinessException.equals((BusinessException) thrown, BusinessException.REFERENCE_NON_VALIDE));
 	}
 
 	@Test
@@ -57,7 +57,7 @@ public class EntiteTest {
 		//
 		Assert.assertNotNull(thrown);
 		Assert.assertEquals(BusinessException.class, thrown.getClass());
-		Assert.assertTrue(BusinessException.equals((BusinessException) thrown, BusinessException.OBJET_NON_EXISTANT));
+		Assert.assertTrue(BusinessException.equals((BusinessException) thrown, BusinessException.REFERENCE_NON_VALIDE));
 	}
 
 	@Test
@@ -75,7 +75,7 @@ public class EntiteTest {
 		//
 		Assert.assertNotNull(thrown);
 		Assert.assertEquals(BusinessException.class, thrown.getClass());
-		Assert.assertTrue(BusinessException.equals((BusinessException) thrown, BusinessException.OBJET_NON_EXISTANT));
+		Assert.assertTrue(BusinessException.equals((BusinessException) thrown, BusinessException.REFERENCE_NON_VALIDE));
 	}
 
 }
