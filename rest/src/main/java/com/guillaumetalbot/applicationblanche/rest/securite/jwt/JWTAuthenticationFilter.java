@@ -16,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 
 /**
@@ -42,13 +43,21 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
 		if (token != null) {
 			token = token.replace(this.parametresJwt.getTokenPrefix(), "");
 
-			// parse du token
-			final String login = Jwts.parser().setSigningKey(this.parametresJwt.getSecret()).parseClaimsJws(token).getBody().getSubject();
-			if (login != null) {
-				// Sauvegarde de cette information dans le contexte de la requête
-				final Authentication authentication = new UsernamePasswordAuthenticationToken(login, null, Collections.emptyList());
-				SecurityContextHolder.getContext().setAuthentication(authentication);
-			} else {
+			try {
+				// parse du token
+				final String login = Jwts.parser().setSigningKey(this.parametresJwt.getSecret()).parseClaimsJws(token).getBody().getSubject();
+
+				// Si on a un login
+				if (login != null) {
+					// Sauvegarde de cette information dans le contexte de la requête
+					final Authentication authentication = new UsernamePasswordAuthenticationToken(login, null, Collections.emptyList());
+					SecurityContextHolder.getContext().setAuthentication(authentication);
+				} else {
+					LOG.warn("Requête {} bloquée car token invalide en entête", httpRequete.getServletPath());
+				}
+
+			} catch (final JwtException e) {
+				// En cas d'erreur de parse du token
 				LOG.warn("Requête {} bloquée car token invalide en entête", httpRequete.getServletPath());
 			}
 		} else {
