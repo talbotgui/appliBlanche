@@ -4,9 +4,6 @@
 properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '5')), pipelineTriggers([]), disableConcurrentBuilds()])
 
 pipeline {
-    tools {
-        maven "M3"
-    }
 	
 	agent none
 
@@ -21,22 +18,24 @@ pipeline {
 
 		stage ('Build') {
 			agent any
+			environment { JAVA_HOME = '/usr/lib/jvm/jdk-10.0.1/' }
 			steps {
-				script { env.PATH = "${tool 'M3'}/bin:${env.PATH}" }
 				sh "mvn clean install -Dmaven.test.skip=true"
 			}
 		}
 
 		stage ('Developement test') {
 			agent any
+			environment { JAVA_HOME = '/usr/lib/jvm/jdk-10.0.1/' }
 			steps {
-				sh "mvn -B -Dmaven.test.failure.ignore test-compile surefire:test"
+				sh "mvn -B -Dmaven.test.failure.ignore test-compile surefire:test  -Djvm=/usr/lib/jvm/jdk-10.0.1/"
 				junit '**/TEST-*Test.xml'
 			}
 		}
 
 		stage ('Quality') {
 			agent any
+			environment { JAVA_HOME = '/usr/lib/jvm/jdk-10.0.1/' }
 			steps {
 				sh "mvn clean install site -Psite"
 				step([$class: 'FindBugsPublisher'])
