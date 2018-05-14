@@ -8,7 +8,6 @@ import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -17,16 +16,14 @@ import org.testng.annotations.Test;
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.Utilisateur;
 import com.guillaumetalbot.applicationblanche.metier.service.SecuriteService;
 
-//@SpringBootTest(classes = RestApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
-//@TestPropertySource(locations = "classpath:application-test.properties")
-public class UserDetailsServiceWrapperTest extends AbstractTestNGSpringContextTests {
+public class UserDetailsServiceWrapperTest {
 
+	/** Logger */
 	private static final Logger LOG = LoggerFactory.getLogger(UserDetailsServiceWrapperTest.class);
 
 	@Mock
 	private SecuriteService securiteService;
 
-	// @Autowired
 	@InjectMocks
 	private final UserDetailsServiceWrapper userDetailsServiceWrapper = new UserDetailsServiceWrapper();
 
