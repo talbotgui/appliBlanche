@@ -1,6 +1,7 @@
 package com.guillaumetalbot.applicationblanche.rest.controleur.utils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +19,45 @@ import com.guillaumetalbot.applicationblanche.rest.application.InitialisationDon
 import com.guillaumetalbot.applicationblanche.rest.securite.jwt.ParametreDeConnexionDto;
 import com.guillaumetalbot.applicationblanche.rest.securite.jwt.ParametresJwt;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+
 public class JwtIntegrationWebTest extends IntegrationWebTest {
 
 	/** Jeton JWT récupéré au login avant l'exécution de tout test. */
 	private String jetonJwt;
+	private String jetonJwtEcrase;
 
 	@Autowired
 	private ParametresJwt parametresJwt;
+
+	/**
+	 * Ecrase la valeur du jeton JWT récupéré au login dans la methode @BeforeClass
+	 */
+	protected void ecraseJetonJwtBidon() {
+		this.sauvegardeJetonJwt();
+		this.jetonJwt = "azertyuiop";
+	}
+
+	protected void ecraseJetonJwtExpire() {
+		this.sauvegardeJetonJwt();
+		this.jetonJwt = Jwts.builder().setSubject(InitialisationDonneesService.ADMIN_PAR_DEFAUT_LOGIN_MDP)//
+				.setExpiration(new Date(System.currentTimeMillis() - 1))//
+				.signWith(SignatureAlgorithm.HS512, this.parametresJwt.getSecret())//
+				.compact();
+	}
+
+	/**
+	 * Ecrase la valeur du jeton JWT récupéré au login dans la methode @BeforeClass
+	 */
+	protected void ecraseJetonJwtNull() {
+		this.sauvegardeJetonJwt();
+		this.jetonJwt = null;
+	}
+
+	protected ParametresJwt getParametresJwt() {
+		return this.parametresJwt;
+	}
 
 	@Override
 	protected RestTemplate getREST() {
@@ -58,5 +91,23 @@ public class JwtIntegrationWebTest extends IntegrationWebTest {
 
 		// Sauvegarde du jeton dans une variable pour le réutiliser
 		this.jetonJwt = entetes.get(0);
+	}
+
+	/**
+	 * Restaure le jeton JWT s'il a été précédemment écrasé
+	 */
+	protected void restaureJetonJwt() {
+		if (this.jetonJwtEcrase != null) {
+			this.jetonJwt = this.jetonJwtEcrase;
+		}
+	}
+
+	/**
+	 * Sauvegarde le jeton JWT.
+	 */
+	private void sauvegardeJetonJwt() {
+		if (this.jetonJwtEcrase == null) {
+			this.jetonJwtEcrase = this.jetonJwt;
+		}
 	}
 }
