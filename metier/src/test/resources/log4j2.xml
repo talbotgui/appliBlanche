@@ -22,7 +22,7 @@
 <!-- 		Ces logger sont pratiques pour avoir les requêtes SQL et les paramètres des requêtes. -->
 <!-- 		Mais tout est en triple (problème entre Log4J2 et JPA) -->
 <!-- 		Sinon, utiliser "spring.jpa.show-sql" dans application.properties. -->
-<!-- 		<Logger additivity="false" name="org.hibernate.SQL" level="trace"><AppenderRef ref="Console" /></Logger> -->
+		<Logger additivity="false" name="org.hibernate.SQL" level="trace"><AppenderRef ref="Console" /></Logger>
 <!-- 		<Logger additivity="false" name="org.hibernate.type" level="trace"><AppenderRef ref="Console" /></Logger> -->
 		<Root level="debug">
 			<AppenderRef ref="Console" />
