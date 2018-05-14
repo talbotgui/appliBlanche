@@ -53,15 +53,15 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
 					final Authentication authentication = new UsernamePasswordAuthenticationToken(login, null, Collections.emptyList());
 					SecurityContextHolder.getContext().setAuthentication(authentication);
 				} else {
-					LOG.warn("Requête {} bloquée car token invalide en entête", httpRequete.getServletPath());
+					LOG.warn("Requête {} avec token invalide en entête (pas de login)", httpRequete.getServletPath());
 				}
 
 			} catch (final JwtException e) {
 				// En cas d'erreur de parse du token
-				LOG.warn("Requête {} bloquée car token invalide en entête", httpRequete.getServletPath());
+				LOG.warn("Requête {} avec token invalide en entête ({})", httpRequete.getServletPath(), e.getMessage());
 			}
 		} else {
-			LOG.info("Requête {} bloquée car aucun token valide en entête", httpRequete.getServletPath());
+			LOG.info("Requête {} sans token JWT en entête", httpRequete.getServletPath());
 		}
 
 		// Le filtre a fini son boulo. Si cette URL est protégée, Spring refusera l'accès à la ressource
