@@ -51,7 +51,7 @@ public class ClientCsvBatch extends AbstractBatch {
 
 		return new FlatFileItemReaderBuilder<LigneCsvImportClient>().name("clientItemReader")
 				// Chemin d'accès
-				.resource(new ClassPathResource("exempleImportCsvClient.csv"))
+				.resource(new ClassPathResource("exempleImportClient.csv"))
 				// Comment parser chaque ligne
 				.lineTokenizer(dlt)
 				// Pas de plantage si le fichier n'est pas présent

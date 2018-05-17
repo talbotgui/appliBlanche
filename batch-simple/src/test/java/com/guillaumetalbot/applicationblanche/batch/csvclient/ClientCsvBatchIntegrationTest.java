@@ -21,7 +21,7 @@ public class ClientCsvBatchIntegrationTest extends AbstractBatchIntegrationTest 
 	public void testBatchAvecUnFichierSimple() throws Exception {
 		//
 		final JobLauncherTestUtils utilitaireJob = super.creerUtilitaireJob(ClientCsvBatch.NOM_JOB);
-		super.deplacerFichier("src/test/resources/data/exempleImportCsvClient.csv", CHEMIN_IMPORT_CSV_CLIENT);
+		super.deplacerFichier("src/test/resources/data/exempleImportClient.csv", CHEMIN_IMPORT_CSV_CLIENT);
 
 		//
 		final JobExecution jobExecution = utilitaireJob.launchJob();

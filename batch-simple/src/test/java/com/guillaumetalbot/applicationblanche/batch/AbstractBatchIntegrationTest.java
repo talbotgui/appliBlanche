@@ -23,9 +23,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 public class AbstractBatchIntegrationTest {
 
-	protected static final String CHEMIN_IMPORT_CSV_CLIENT = "target/test-classes/exempleImportCsvClient.csv";
+	protected static final String CHEMIN_IMPORT_CSV_CLIENT = "target/test-classes/exempleImportClient.csv";
 
-	protected static final String CHEMIN_IMPORT_XML_CLIENT = "target/test-classes/exempleImportCsvClient.xml";
+	protected static final String CHEMIN_IMPORT_XML_CLIENT = "target/test-classes/exempleImportClient.xml";
 
 	@Autowired
 	private ApplicationContext applicationContext;
