@@ -10,6 +10,8 @@ import java.nio.file.StandardCopyOption;
 
 import javax.sql.DataSource;
 
+import org.junit.AfterClass;
+import org.junit.Before;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.NoSuchJobException;
@@ -20,6 +22,16 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class AbstractBatchIntegrationTest {
+
+	protected static final String CHEMIN_IMPORT_CSV_CLIENT = "target/test-classes/exempleImportCsvClient.csv";
+
+	protected static final String CHEMIN_IMPORT_XML_CLIENT = "target/test-classes/exempleImportCsvClient.xml";
+
+	@AfterClass
+	public static void nettoyerFichiersDeTest() throws IOException {
+		Files.deleteIfExists(new File(CHEMIN_IMPORT_CSV_CLIENT).toPath());
+		Files.deleteIfExists(new File(CHEMIN_IMPORT_XML_CLIENT).toPath());
+	}
 
 	@Autowired
 	private ApplicationContext applicationContext;
@@ -42,7 +54,7 @@ public class AbstractBatchIntegrationTest {
 		final JobLauncherTestUtils utilitaire = new JobLauncherTestUtils();
 		utilitaire.setJobLauncher(this.jobLauncher);
 		utilitaire.setJobRepository(this.jobRepository);
-		utilitaire.setJob(this.rechercherJobDansContext(nomJob));
+		utilitaire.setJob((Job) this.applicationContext.getBean(nomJob));
 		return utilitaire;
 	}
 
@@ -59,18 +71,13 @@ public class AbstractBatchIntegrationTest {
 		Files.copy(Paths.get(cheminDuFichierDansLesSources), Paths.get(cheminAttenduParLeBatch), StandardCopyOption.REPLACE_EXISTING);
 	}
 
-	private Job rechercherJobDansContext(final String nomJob) {
-		for (final Job job : this.applicationContext.getBeansOfType(Job.class).values()) {
-			if (nomJob.equals(job.getName())) {
-				return job;
-			}
-		}
-		return null;
+	@Before
+	public void nettoyerBaseDeDonnées() {
+		this.jdbcTemplate.batchUpdate("delete from ADRESSE", "delete from CLIENT");
 	}
 
 	@Autowired
 	protected void setDataSource(final DataSource ds) {
 		this.jdbcTemplate = new JdbcTemplate(ds);
 	}
-
 }

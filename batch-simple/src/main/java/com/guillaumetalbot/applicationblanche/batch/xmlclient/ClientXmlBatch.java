@@ -1,4 +1,4 @@
-package com.guillaumetalbot.applicationblanche.batch.csvclient;
+package com.guillaumetalbot.applicationblanche.batch.xmlclient;
 
 import java.util.Arrays;
 
@@ -29,23 +29,18 @@ import com.guillaumetalbot.applicationblanche.batch.csvclient.dto.LigneCsvImport
 import com.guillaumetalbot.applicationblanche.batch.csvclient.listener.FinCsvClientBatchListener;
 import com.guillaumetalbot.applicationblanche.batch.csvclient.processor.LigneProcessor;
 
-/**
- * Configuration du batch d'import des clients par un fichier CSV.
- *
- * Attention, le nom des BEANs est par défaut celui de la méthode qui lui donne naissance. Pour permettre de conserver une homogénéité des
- * configurations des batchs, il est nécessaire de définir le nom de chaque BEAN dans l'annotation.
- *
- * Attention, pour permettre la résolution des paramètres des méthodes de contruction, il est nécessaire d'utiliser l'annotation @Qualifier.
- */
 @Configuration
-public class ClientCsvBatch {
+public class ClientXmlBatch {
 
 	private static final String BEAN_SUFFIX_DESTINATION = "Destination";
 	private static final String BEAN_SUFFIX_PROCESSEUR = "Processeur";
 	private static final String BEAN_SUFFIX_SOURCE = "Source";
 
-	public static final String NOM_JOB = "importclientcsv";
+	public static final String NOM_JOB = "importclientxml";
 	private static final String NOM_STEP_1 = NOM_JOB + "Step1";
+
+	@Autowired
+	private DataSource dataSource;
 
 	@Autowired
 	private FinCsvClientBatchListener debutFinBatchlistener;
@@ -96,7 +91,7 @@ public class ClientCsvBatch {
 
 	@Bean(name = NOM_STEP_1 + BEAN_SUFFIX_DESTINATION)
 	@Qualifier(NOM_STEP_1 + BEAN_SUFFIX_DESTINATION)
-	public ItemWriter<LigneCsvImportClient> creer3Destination(final DataSource dataSource) {
+	public ItemWriter<LigneCsvImportClient> creer3Destination() {
 		// Création d'un builder
 		final JdbcBatchItemWriterBuilder<LigneCsvImportClient> builder = new JdbcBatchItemWriterBuilder<LigneCsvImportClient>()
 				// Les données sont issues du processeur
@@ -106,7 +101,7 @@ public class ClientCsvBatch {
 				// hibernate_sequence)")
 				.sql("insert into CLIENT (NOM) values (:nomClient)")
 				// DS
-				.dataSource(dataSource);
+				.dataSource(this.dataSource);
 		final JdbcBatchItemWriter<LigneCsvImportClient> writer1 = builder.build();
 		writer1.afterPropertiesSet();
 

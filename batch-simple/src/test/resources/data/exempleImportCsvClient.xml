@@ -1,0 +1,74 @@
+<clients>
+	<client>
+		<nom>client2</nom>
+		<rue>2 rue de l'église</rue>
+		<codePostal>00000</codePostal>
+		<ville>Toon Ville</ville>
+	</client>
+	<client>
+		<nom>client3</nom>
+		<rue>3 rue de la grande ville</rue>
+		<codePostal>00000</codePostal>
+		<ville>Toon Ville</ville>
+	</client>
+	<client>
+		<nom>client4</nom>
+		<rue>4 boulevard de la liberté</rue>
+		<codePostal>00000</codePostal>
+		<ville>Toon Ville</ville>
+	</client>
+	<client>
+		<nom>client5</nom>
+		<rue>5 place de la mairie</rue>
+		<codePostal>00000</codePostal>
+		<ville>Toon Ville</ville>
+	</client>
+	<client>
+		<nom>client6</nom>
+		<rue>6 place du marché</rue>
+		<codePostal>00000</codePostal>
+		<ville>Toon Ville</ville>
+	</client>
+	<client>
+		<nom>client7</nom>
+		<rue>7 rue du moulin</rue>
+		<codePostal>00000</codePostal>
+		<ville>Toon Ville</ville>
+	</client>
+	<client>
+		<nom>client8</nom>
+		<rue>8 route de Paris</rue>
+		<codePostal>00000</codePostal>
+		<ville>Toon Ville</ville>
+	</client>
+	<client>
+		<nom>client9</nom>
+		<rue>9 chemin de traverse</rue>
+		<codePostal>00000</codePostal>
+		<ville>Toon Ville</ville>
+	</client>
+	<client>
+		<nom>client10</nom>
+		<rue>10 allée des champs</rue>
+		<codePostal>00000</codePostal>
+		<ville>Toon Ville</ville>
+	</client>
+	<client>
+		<nom>client11</nom>
+		<rue>11 boulevard du paradis</rue>
+		<codePostal>00000</codePostal>
+		<ville>Toon Ville</ville>
+	</client>
+	<client>
+		<nom>client12</nom>
+		<rue>12 avenue des champs</rue>
+		<codePostal>00000</codePostal>
+		<ville>Toon Ville</ville>
+	</client>
+	<client>
+		<nom>client13</nom>
+		<rue>13 route des nuages</rue>
+		<codePostal>00000</codePostal>
+		<ville>Toon Ville</ville>
+	</client>
+</clients>
