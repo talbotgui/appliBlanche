@@ -2,12 +2,8 @@ package com.guillaumetalbot.applicationblanche.batch.csvclient;
 
 import java.util.Arrays;
 
-import javax.sql.DataSource;
-
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
-import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
@@ -18,15 +14,13 @@ import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.batch.item.support.builder.CompositeItemWriterBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 
-import com.guillaumetalbot.applicationblanche.batch.commun.listener.NotificationDebutFinDeJobListener;
+import com.guillaumetalbot.applicationblanche.batch.commun.AbstractBatch;
 import com.guillaumetalbot.applicationblanche.batch.csvclient.dto.LigneCsvImportClient;
-import com.guillaumetalbot.applicationblanche.batch.csvclient.listener.FinCsvClientBatchListener;
 import com.guillaumetalbot.applicationblanche.batch.csvclient.processor.LigneProcessor;
 
 /**
@@ -38,26 +32,10 @@ import com.guillaumetalbot.applicationblanche.batch.csvclient.processor.LignePro
  * Attention, pour permettre la résolution des paramètres des méthodes de contruction, il est nécessaire d'utiliser l'annotation @Qualifier.
  */
 @Configuration
-public class ClientCsvBatch {
-
-	private static final String BEAN_SUFFIX_DESTINATION = "Destination";
-	private static final String BEAN_SUFFIX_PROCESSEUR = "Processeur";
-	private static final String BEAN_SUFFIX_SOURCE = "Source";
+public class ClientCsvBatch extends AbstractBatch {
 
 	public static final String NOM_JOB = "importclientcsv";
 	private static final String NOM_STEP_1 = NOM_JOB + "Step1";
-
-	@Autowired
-	private FinCsvClientBatchListener debutFinBatchlistener;
-
-	@Autowired
-	public JobBuilderFactory jobBuilderFactory;
-
-	@Autowired
-	private NotificationDebutFinDeJobListener notificationFinDeJobListener;
-
-	@Autowired
-	public StepBuilderFactory stepBuilderFactory;
 
 	/**
 	 * Bean permettant la lecture du CSV
@@ -96,7 +74,7 @@ public class ClientCsvBatch {
 
 	@Bean(name = NOM_STEP_1 + BEAN_SUFFIX_DESTINATION)
 	@Qualifier(NOM_STEP_1 + BEAN_SUFFIX_DESTINATION)
-	public ItemWriter<LigneCsvImportClient> creer3Destination(final DataSource dataSource) {
+	public ItemWriter<LigneCsvImportClient> creer3Destination() {
 		// Création d'un builder
 		final JdbcBatchItemWriterBuilder<LigneCsvImportClient> builder = new JdbcBatchItemWriterBuilder<LigneCsvImportClient>()
 				// Les données sont issues du processeur
@@ -106,7 +84,7 @@ public class ClientCsvBatch {
 				// hibernate_sequence)")
 				.sql("insert into CLIENT (NOM) values (:nomClient)")
 				// DS
-				.dataSource(dataSource);
+				.dataSource(super.datasource);
 		final JdbcBatchItemWriter<LigneCsvImportClient> writer1 = builder.build();
 		writer1.afterPropertiesSet();
 

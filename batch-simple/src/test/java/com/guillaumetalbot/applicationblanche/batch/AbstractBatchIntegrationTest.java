@@ -10,7 +10,7 @@ import java.nio.file.StandardCopyOption;
 
 import javax.sql.DataSource;
 
-import org.junit.AfterClass;
+import org.junit.After;
 import org.junit.Before;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.launch.JobLauncher;
@@ -26,12 +26,6 @@ public class AbstractBatchIntegrationTest {
 	protected static final String CHEMIN_IMPORT_CSV_CLIENT = "target/test-classes/exempleImportCsvClient.csv";
 
 	protected static final String CHEMIN_IMPORT_XML_CLIENT = "target/test-classes/exempleImportCsvClient.xml";
-
-	@AfterClass
-	public static void nettoyerFichiersDeTest() throws IOException {
-		Files.deleteIfExists(new File(CHEMIN_IMPORT_CSV_CLIENT).toPath());
-		Files.deleteIfExists(new File(CHEMIN_IMPORT_XML_CLIENT).toPath());
-	}
 
 	@Autowired
 	private ApplicationContext applicationContext;
@@ -74,6 +68,12 @@ public class AbstractBatchIntegrationTest {
 	@Before
 	public void nettoyerBaseDeDonnées() {
 		this.jdbcTemplate.batchUpdate("delete from ADRESSE", "delete from CLIENT");
+	}
+
+	@After
+	public void nettoyerFichiersDeTest() throws IOException {
+		Files.deleteIfExists(new File(CHEMIN_IMPORT_CSV_CLIENT).toPath());
+		Files.deleteIfExists(new File(CHEMIN_IMPORT_XML_CLIENT).toPath());
 	}
 
 	@Autowired
