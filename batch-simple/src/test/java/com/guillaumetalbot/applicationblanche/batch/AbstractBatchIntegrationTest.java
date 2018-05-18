@@ -26,8 +26,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class AbstractBatchIntegrationTest {
 
 	protected static final String CHEMIN_IMPORT_CSV_CLIENT = "target/test-classes/exempleImportClient.csv";
-
+	protected static final String CHEMIN_IMPORT_JSON_CLIENT = "target/test-classes/exempleImportClient.json";
 	protected static final String CHEMIN_IMPORT_XML_CLIENT = "target/test-classes/exempleImportClient.xml";
+
 	private static final Logger LOG = LoggerFactory.getLogger(AbstractBatchIntegrationTest.class);
 
 	@Autowired
@@ -78,6 +79,7 @@ public class AbstractBatchIntegrationTest {
 	public void nettoyerFichiersDeTest() throws IOException {
 		Files.deleteIfExists(new File(CHEMIN_IMPORT_CSV_CLIENT).toPath());
 		Files.deleteIfExists(new File(CHEMIN_IMPORT_XML_CLIENT).toPath());
+		Files.deleteIfExists(new File(CHEMIN_IMPORT_JSON_CLIENT).toPath());
 	}
 
 	@Autowired

@@ -11,9 +11,10 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.guillaumetalbot.applicationblanche.batch.AbstractBatchIntegrationTest;
+import com.guillaumetalbot.applicationblanche.batch.BatchApplicationTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = ClientXmlBatchApplicationTest.class)
+@SpringBootTest(classes = BatchApplicationTest.class)
 @TestPropertySource(locations = "classpath:application-test.properties")
 public class ClientXmlBatchIntegrationTest extends AbstractBatchIntegrationTest {
 
