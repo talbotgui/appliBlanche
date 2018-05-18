@@ -42,12 +42,17 @@ x	rassembler l'initialisation des entêtes (dans JWTAuthenticationFilter & JWTCo
 	ajouter MonitoringAdvisor
 
 Sujets BATCH :
+x	destination SQL avec une requête
+x	destination SQL avec plusieurs requêtes
+	batch avec plusieurs étapes (exemple : source SQL puis destination XML puis destination CSV)
 	lire du CSV à la ligne
-	lire du CSV en fichier complet
-	lire du XML en fichier complet
+x	lire du CSV en fichier complet
+x	lire du XML en fichier complet
 	lire du XML par morceau (est-ce faisable ?)
+	lire du JSON
 	produire du CSV à la ligne
 	produire du XML par morceau
+	produire du JSON
 
 Sujets DOCUMENTATION :
 	description de l'architecture
