@@ -1,23 +1,24 @@
 package com.guillaumetalbot.applicationblanche.batch.xmlclient;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.database.builder.JdbcBatchItemWriterBuilder;
-import org.springframework.batch.item.file.FlatFileItemReader;
-import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
-import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
-import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.batch.item.support.builder.CompositeItemWriterBuilder;
+import org.springframework.batch.item.xml.builder.StaxEventItemReaderBuilder;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.oxm.xstream.XStreamMarshaller;
 
 import com.guillaumetalbot.applicationblanche.batch.commun.AbstractBatch;
 import com.guillaumetalbot.applicationblanche.batch.csvclient.dto.LigneCsvImportClient;
@@ -42,26 +43,28 @@ public class ClientXmlBatch extends AbstractBatch {
 	 */
 	@Bean(name = NOM_STEP_1 + BEAN_SUFFIX_SOURCE)
 	@Qualifier(NOM_STEP_1 + BEAN_SUFFIX_SOURCE)
-	public FlatFileItemReader<LigneCsvImportClient> creer1Source() {
+	public ItemReader<LigneCsvImportClient> creer1Source() {
 
-		// Type de fichier avec séparateur
-		final DelimitedLineTokenizer dlt = new DelimitedLineTokenizer(";");
-		// mapping des colonnes du CSV avec le DTO
-		dlt.setNames(new String[] { "nomClient", "rue", "codePostal", "ville" });
+		// Parser de chaque fragment XML
 
-		return new FlatFileItemReaderBuilder<LigneCsvImportClient>().name("clientItemReader")
+		final Map<String, String> alias = new HashMap<>();
+		alias.put("client", LigneCsvImportClient.class.getCanonicalName());
+		alias.put("nomClient", String.class.getCanonicalName());
+		alias.put("rue", String.class.getCanonicalName());
+		alias.put("codePostal", String.class.getCanonicalName());
+		alias.put("ville", String.class.getCanonicalName());
+		final XStreamMarshaller marshaller = new XStreamMarshaller();
+		marshaller.setAliases(alias);
+
+		return new StaxEventItemReaderBuilder<LigneCsvImportClient>().name(NOM_STEP_1 + BEAN_SUFFIX_SOURCE)
 				// Chemin d'accès
 				.resource(new ClassPathResource("exempleImportClient.xml"))
-				// Comment parser chaque ligne
-				.lineTokenizer(dlt)
+				// XPath permettant de lire chaque ligne
+				.addFragmentRootElements("client")
+				// Pour transformer un noeud XML en objet Java
+				.unmarshaller(marshaller)
 				// Pas de plantage si le fichier n'est pas présent
 				.strict(false)
-				// Transformation en objet
-				.fieldSetMapper(new BeanWrapperFieldSetMapper<LigneCsvImportClient>() {
-					{
-						this.setTargetType(LigneCsvImportClient.class);
-					}
-				})
 				//
 				.build();
 	}
@@ -99,10 +102,11 @@ public class ClientXmlBatch extends AbstractBatch {
 
 	@Bean(name = NOM_STEP_1)
 	@Qualifier(NOM_STEP_1)
-	public Step creer4ConfigurationEtape(@Qualifier(NOM_STEP_1 + BEAN_SUFFIX_DESTINATION) final ItemWriter<LigneCsvImportClient> destination) {
+	public Step creer4ConfigurationEtape(@Qualifier(NOM_STEP_1 + BEAN_SUFFIX_SOURCE) final ItemReader<LigneCsvImportClient> source,
+			@Qualifier(NOM_STEP_1 + BEAN_SUFFIX_DESTINATION) final ItemWriter<LigneCsvImportClient> destination) {
 		return this.stepBuilderFactory.get(NOM_STEP_1)
 				// lecture de la source par paquet de 10
-				.<LigneCsvImportClient, LigneCsvImportClient>chunk(10).reader(this.creer1Source())
+				.<LigneCsvImportClient, LigneCsvImportClient>chunk(10).reader(source)
 				// .processor(this.cprocessor())
 				// destination
 				.writer(destination).build();

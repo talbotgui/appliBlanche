@@ -18,6 +18,7 @@
 		<maven.compiler.target>10</maven.compiler.target>
 
 		<version.flyway>5.0.5</version.flyway>
+		<version.sun-jaxb>2.3.0</version.sun-jaxb>
 	</properties>
 
 
@@ -74,6 +75,26 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- Pour parser des fichiers XML -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-oxm</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-impl</artifactId>
+			<version>2.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-core</artifactId>
+			<version>2.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+			<version>1.4.10</version>
+		</dependency>
 
 	</dependencies>
 

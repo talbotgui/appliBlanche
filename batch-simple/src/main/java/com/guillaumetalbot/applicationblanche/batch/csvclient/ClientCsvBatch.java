@@ -5,11 +5,11 @@ import java.util.Arrays;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.database.builder.JdbcBatchItemWriterBuilder;
-import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
@@ -42,14 +42,14 @@ public class ClientCsvBatch extends AbstractBatch {
 	 */
 	@Bean(name = NOM_STEP_1 + BEAN_SUFFIX_SOURCE)
 	@Qualifier(NOM_STEP_1 + BEAN_SUFFIX_SOURCE)
-	public FlatFileItemReader<LigneCsvImportClient> creer1Source() {
+	public ItemReader<LigneCsvImportClient> creer1Source() {
 
 		// Type de fichier avec séparateur
 		final DelimitedLineTokenizer dlt = new DelimitedLineTokenizer(";");
 		// mapping des colonnes du CSV avec le DTO
 		dlt.setNames(new String[] { "nomClient", "rue", "codePostal", "ville" });
 
-		return new FlatFileItemReaderBuilder<LigneCsvImportClient>().name("clientItemReader")
+		return new FlatFileItemReaderBuilder<LigneCsvImportClient>().name(NOM_STEP_1 + BEAN_SUFFIX_SOURCE)
 				// Chemin d'accès
 				.resource(new ClassPathResource("exempleImportClient.csv"))
 				// Comment parser chaque ligne
@@ -99,10 +99,11 @@ public class ClientCsvBatch extends AbstractBatch {
 
 	@Bean(name = NOM_STEP_1)
 	@Qualifier(NOM_STEP_1)
-	public Step creer4ConfigurationEtape(@Qualifier(NOM_STEP_1 + BEAN_SUFFIX_DESTINATION) final ItemWriter<LigneCsvImportClient> destination) {
+	public Step creer4ConfigurationEtape(@Qualifier(NOM_STEP_1 + BEAN_SUFFIX_SOURCE) final ItemReader<LigneCsvImportClient> source,
+			@Qualifier(NOM_STEP_1 + BEAN_SUFFIX_DESTINATION) final ItemWriter<LigneCsvImportClient> destination) {
 		return this.stepBuilderFactory.get(NOM_STEP_1)
 				// lecture de la source par paquet de 10
-				.<LigneCsvImportClient, LigneCsvImportClient>chunk(10).reader(this.creer1Source())
+				.<LigneCsvImportClient, LigneCsvImportClient>chunk(10).reader(source)
 				// .processor(this.cprocessor())
 				// destination
 				.writer(destination).build();

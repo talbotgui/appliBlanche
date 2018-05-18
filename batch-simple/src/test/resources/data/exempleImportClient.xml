@@ -1,72 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <clients>
 	<client>
-		<nom>client2</nom>
+		<nomClient>client2</nomClient>
 		<rue>2 rue de l'église</rue>
 		<codePostal>00000</codePostal>
 		<ville>Toon Ville</ville>
 	</client>
 	<client>
-		<nom>client3</nom>
+		<nomClient>client3</nomClient>
 		<rue>3 rue de la grande ville</rue>
 		<codePostal>00000</codePostal>
 		<ville>Toon Ville</ville>
 	</client>
 	<client>
-		<nom>client4</nom>
+		<nomClient>client4</nomClient>
 		<rue>4 boulevard de la liberté</rue>
 		<codePostal>00000</codePostal>
 		<ville>Toon Ville</ville>
 	</client>
 	<client>
-		<nom>client5</nom>
+		<nomClient>client5</nomClient>
 		<rue>5 place de la mairie</rue>
 		<codePostal>00000</codePostal>
 		<ville>Toon Ville</ville>
 	</client>
 	<client>
-		<nom>client6</nom>
+		<nomClient>client6</nomClient>
 		<rue>6 place du marché</rue>
 		<codePostal>00000</codePostal>
 		<ville>Toon Ville</ville>
 	</client>
 	<client>
-		<nom>client7</nom>
+		<nomClient>client7</nomClient>
 		<rue>7 rue du moulin</rue>
 		<codePostal>00000</codePostal>
 		<ville>Toon Ville</ville>
 	</client>
 	<client>
-		<nom>client8</nom>
+		<nomClient>client8</nomClient>
 		<rue>8 route de Paris</rue>
 		<codePostal>00000</codePostal>
 		<ville>Toon Ville</ville>
 	</client>
 	<client>
-		<nom>client9</nom>
+		<nomClient>client9</nomClient>
 		<rue>9 chemin de traverse</rue>
 		<codePostal>00000</codePostal>
 		<ville>Toon Ville</ville>
 	</client>
 	<client>
-		<nom>client10</nom>
+		<nomClient>client10</nomClient>
 		<rue>10 allée des champs</rue>
 		<codePostal>00000</codePostal>
 		<ville>Toon Ville</ville>
 	</client>
 	<client>
-		<nom>client11</nom>
+		<nomClient>client11</nomClient>
 		<rue>11 boulevard du paradis</rue>
 		<codePostal>00000</codePostal>
 		<ville>Toon Ville</ville>
 	</client>
 	<client>
-		<nom>client12</nom>
+		<nomClient>client12</nomClient>
 		<rue>12 avenue des champs</rue>
 		<codePostal>00000</codePostal>
 		<ville>Toon Ville</ville>
 	</client>
 	<client>
-		<nom>client13</nom>
+		<nomClient>client13</nomClient>
 		<rue>13 route des nuages</rue>
 		<codePostal>00000</codePostal>
 		<ville>Toon Ville</ville>

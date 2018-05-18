@@ -12,6 +12,8 @@ import javax.sql.DataSource;
 
 import org.junit.After;
 import org.junit.Before;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.NoSuchJobException;
@@ -26,6 +28,7 @@ public class AbstractBatchIntegrationTest {
 	protected static final String CHEMIN_IMPORT_CSV_CLIENT = "target/test-classes/exempleImportClient.csv";
 
 	protected static final String CHEMIN_IMPORT_XML_CLIENT = "target/test-classes/exempleImportClient.xml";
+	private static final Logger LOG = LoggerFactory.getLogger(AbstractBatchIntegrationTest.class);
 
 	@Autowired
 	private ApplicationContext applicationContext;
@@ -67,6 +70,7 @@ public class AbstractBatchIntegrationTest {
 
 	@Before
 	public void nettoyerBaseDeDonnées() {
+		LOG.info("************************");
 		this.jdbcTemplate.batchUpdate("delete from ADRESSE", "delete from CLIENT");
 	}
 
