@@ -72,7 +72,7 @@ public class AbstractBatchIntegrationTest {
 	@Before
 	public void nettoyerBaseDeDonnées() {
 		LOG.info("************************");
-		this.jdbcTemplate.batchUpdate("delete from ADRESSE", "delete from CLIENT");
+		this.jdbcTemplate.batchUpdate("delete from CLIENT", "delete from ADRESSE");
 	}
 
 	@After

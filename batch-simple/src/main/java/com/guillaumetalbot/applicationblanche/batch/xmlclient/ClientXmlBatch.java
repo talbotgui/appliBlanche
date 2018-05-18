@@ -15,9 +15,9 @@ import org.springframework.batch.item.database.builder.JdbcBatchItemWriterBuilde
 import org.springframework.batch.item.support.builder.CompositeItemWriterBuilder;
 import org.springframework.batch.item.xml.builder.StaxEventItemReaderBuilder;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.oxm.xstream.XStreamMarshaller;
 
 import com.guillaumetalbot.applicationblanche.batch.commun.AbstractBatch;
@@ -35,8 +35,20 @@ import com.guillaumetalbot.applicationblanche.batch.csvclient.processor.LignePro
 @Configuration
 public class ClientXmlBatch extends AbstractBatch {
 
+	private static final String ATTRIBUT_CODE_POSTAL = "codePostal";
+	private static final String ATTRIBUT_NOM_CLIENT = "nomClient";
+	private static final String ATTRIBUT_RUE = "rue";
+	private static final String ATTRIBUT_VILLE = "ville";
+	private static final String BALISE_XML_CLIENT = "client";
+
 	public static final String NOM_JOB = "importclientxml";
 	private static final String NOM_STEP_1 = NOM_JOB + "Step1";
+
+	@Value(PREFIX_CONFIGURATION + NOM_JOB + SUFFIX_CHEMIN_SOURCE)
+	private String cheminSource;
+
+	@Value(PREFIX_CONFIGURATION + NOM_JOB + SUFFIX_ECHEC_SI_FICHIER_ABSENT)
+	private Boolean echecSiFichierAbsent;
 
 	/**
 	 * Bean permettant la lecture du CSV
@@ -48,23 +60,23 @@ public class ClientXmlBatch extends AbstractBatch {
 		// Parser de chaque fragment XML
 
 		final Map<String, String> alias = new HashMap<>();
-		alias.put("client", LigneCsvImportClient.class.getCanonicalName());
-		alias.put("nomClient", String.class.getCanonicalName());
-		alias.put("rue", String.class.getCanonicalName());
-		alias.put("codePostal", String.class.getCanonicalName());
-		alias.put("ville", String.class.getCanonicalName());
+		alias.put(BALISE_XML_CLIENT, LigneCsvImportClient.class.getCanonicalName());
+		alias.put(ATTRIBUT_NOM_CLIENT, String.class.getCanonicalName());
+		alias.put(ATTRIBUT_RUE, String.class.getCanonicalName());
+		alias.put(ATTRIBUT_CODE_POSTAL, String.class.getCanonicalName());
+		alias.put(ATTRIBUT_VILLE, String.class.getCanonicalName());
 		final XStreamMarshaller marshaller = new XStreamMarshaller();
 		marshaller.setAliases(alias);
 
 		return new StaxEventItemReaderBuilder<LigneCsvImportClient>().name(NOM_STEP_1 + BEAN_SUFFIX_SOURCE)
 				// Chemin d'accès
-				.resource(new ClassPathResource("exempleImportClient.xml"))
+				.resource(super.creerRessource(this.cheminSource))
 				// XPath permettant de lire chaque ligne
-				.addFragmentRootElements("client")
+				.addFragmentRootElements(BALISE_XML_CLIENT)
 				// Pour transformer un noeud XML en objet Java
 				.unmarshaller(marshaller)
 				// Pas de plantage si le fichier n'est pas présent
-				.strict(false)
+				.strict(this.echecSiFichierAbsent)
 				//
 				.build();
 	}
@@ -83,16 +95,16 @@ public class ClientXmlBatch extends AbstractBatch {
 				// Les données sont issues du processeur
 				.itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
 				// La requête à exécuter
-				// .sql("insert into CLIENT (NOM, ID, ADRESSE_ID) values (:nomClient, next value for hibernate_sequence, next value for
-				// hibernate_sequence)")
-				.sql("insert into CLIENT (NOM) values (:nomClient)")
+				.sql("insert into ADRESSE (RUE, CODE_POSTAL, VILLE, ID) values (:rue, :codePostal, :ville, next value for hibernate_sequence)")
 				// DS
 				.dataSource(super.datasource);
 		final JdbcBatchItemWriter<LigneCsvImportClient> writer1 = builder.build();
 		writer1.afterPropertiesSet();
 
 		// Builder pour la seconde requête à exécuter
-		builder.sql("insert into ADRESSE (RUE, CODE_POSTAL, VILLE, ID) values (:rue, :codePostal, :ville, current value for hibernate_sequence)");
+		builder.sql("insert into CLIENT (NOM, ID, ADRESSE_ID)"//
+				+ " select :nomClient, next value for hibernate_sequence, a.ID"//
+				+ " from ADRESSE a where a.RUE=:rue and a.CODE_POSTAL=:codePostal and a.VILLE=:ville");
 		final JdbcBatchItemWriter<LigneCsvImportClient> writer2 = builder.build();
 		writer2.afterPropertiesSet();
 
@@ -107,7 +119,6 @@ public class ClientXmlBatch extends AbstractBatch {
 		return this.stepBuilderFactory.get(NOM_STEP_1)
 				// lecture de la source par paquet de 10
 				.<LigneCsvImportClient, LigneCsvImportClient>chunk(10).reader(source)
-				// .processor(this.cprocessor())
 				// destination
 				.writer(destination).build();
 	}
