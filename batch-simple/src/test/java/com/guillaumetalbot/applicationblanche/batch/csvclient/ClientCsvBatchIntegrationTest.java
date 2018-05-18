@@ -30,6 +30,7 @@ public class ClientCsvBatchIntegrationTest extends AbstractBatchIntegrationTest 
 		//
 		Assert.assertEquals(BatchStatus.COMPLETED, jobExecution.getStatus());
 		Assert.assertEquals((Long) 13L, this.jdbcTemplate.queryForObject("select count(*) from CLIENT", Long.class));
+		Assert.assertEquals((Long) 13L, this.jdbcTemplate.queryForObject("select count(*) from CLIENT where nom=upper(nom)", Long.class));
 		Assert.assertEquals((Long) 13L, this.jdbcTemplate.queryForObject("select count(*) from ADRESSE", Long.class));
 	}
 }

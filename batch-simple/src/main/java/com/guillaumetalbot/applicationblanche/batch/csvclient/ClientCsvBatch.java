@@ -114,6 +114,8 @@ public class ClientCsvBatch extends AbstractBatch {
 		return this.stepBuilderFactory.get(NOM_STEP_1)
 				// lecture de la source par paquet de 10
 				.<LigneCsvImportClient, LigneCsvImportClient>chunk(10).reader(source)
+				// modification des données
+				.processor(new LigneProcessor())
 				// destination
 				.writer(destination).build();
 	}
