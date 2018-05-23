@@ -44,7 +44,7 @@ public class ClientJsonBatch extends AbstractBatch {
 	private Boolean echecSiFichierAbsent;
 
 	/**
-	 * Bean permettant la lecture du CSV
+	 * Bean permettant la lecture
 	 */
 	@Bean(name = NOM_STEP_1 + BEAN_SUFFIX_SOURCE)
 	@Qualifier(NOM_STEP_1 + BEAN_SUFFIX_SOURCE)
