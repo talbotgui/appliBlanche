@@ -19,7 +19,7 @@ import com.guillaumetalbot.applicationblanche.batch.BatchApplicationTest;
 public class ClientXmlBatchIntegrationTest extends AbstractBatchIntegrationTest {
 
 	@Test
-	public void testBatchAvecUnFichierSimple() throws Exception {
+	public void testBatchCasNominal() throws Exception {
 		//
 		final JobLauncherTestUtils utilitaireJob = super.creerUtilitaireJob(ClientXmlBatch.NOM_JOB);
 		super.deplacerFichier("src/test/resources/data/exempleImportClient.xml", CHEMIN_IMPORT_XML_CLIENT);

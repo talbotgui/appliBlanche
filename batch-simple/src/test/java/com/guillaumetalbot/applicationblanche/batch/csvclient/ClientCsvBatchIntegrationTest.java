@@ -19,7 +19,7 @@ import com.guillaumetalbot.applicationblanche.batch.BatchApplicationTest;
 public class ClientCsvBatchIntegrationTest extends AbstractBatchIntegrationTest {
 
 	@Test
-	public void testBatchAvecUnFichierSimple() throws Exception {
+	public void testBatchCasNominal() throws Exception {
 		//
 		final JobLauncherTestUtils utilitaireJob = super.creerUtilitaireJob(ClientCsvBatch.NOM_JOB);
 		super.deplacerFichier("src/test/resources/data/exempleImportClient.csv", CHEMIN_IMPORT_CSV_CLIENT);

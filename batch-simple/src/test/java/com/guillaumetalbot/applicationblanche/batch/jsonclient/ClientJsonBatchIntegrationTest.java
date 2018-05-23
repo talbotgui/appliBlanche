@@ -19,7 +19,7 @@ import com.guillaumetalbot.applicationblanche.batch.BatchApplicationTest;
 public class ClientJsonBatchIntegrationTest extends AbstractBatchIntegrationTest {
 
 	@Test
-	public void testBatchAvecUnFichierSimple() throws Exception {
+	public void testBatchCasNominal() throws Exception {
 		//
 		final JobLauncherTestUtils utilitaireJob = super.creerUtilitaireJob(ClientJsonBatch.NOM_JOB);
 		super.deplacerFichier("src/test/resources/data/exempleImportClient.json", CHEMIN_IMPORT_JSON_CLIENT);

@@ -7,6 +7,8 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -77,13 +79,17 @@ public class AbstractBatchIntegrationTest {
 
 	@After
 	public void nettoyerFichiersDeTest() throws IOException {
-		Files.deleteIfExists(new File(CHEMIN_IMPORT_CSV_CLIENT).toPath());
-		Files.deleteIfExists(new File(CHEMIN_IMPORT_XML_CLIENT).toPath());
-		Files.deleteIfExists(new File(CHEMIN_IMPORT_JSON_CLIENT).toPath());
+		this.supprimerFichiers(Arrays.asList(CHEMIN_IMPORT_CSV_CLIENT, CHEMIN_IMPORT_XML_CLIENT, CHEMIN_IMPORT_JSON_CLIENT));
 	}
 
 	@Autowired
 	protected void setDataSource(final DataSource ds) {
 		this.jdbcTemplate = new JdbcTemplate(ds);
+	}
+
+	public void supprimerFichiers(final List<String> cheminsExportClient) throws IOException {
+		for (final String chemin : cheminsExportClient) {
+			Files.deleteIfExists(new File(chemin).toPath());
+		}
 	}
 }
