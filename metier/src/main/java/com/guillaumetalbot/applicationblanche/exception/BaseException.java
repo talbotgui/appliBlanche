@@ -1,6 +1,7 @@
 package com.guillaumetalbot.applicationblanche.exception;
 
 import java.io.Serializable;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -40,6 +41,8 @@ public abstract class BaseException extends RuntimeException {
 		super();
 		this.exceptionId = exceptionId;
 		this.parameters = null;
+
+		this.verifierNombreDeParametreParRapportAuMessage();
 	}
 
 	/**
@@ -53,6 +56,8 @@ public abstract class BaseException extends RuntimeException {
 	public BaseException(final ExceptionId pExceptionId, final Serializable... pParameters) {
 		this.exceptionId = pExceptionId;
 		this.parameters = pParameters;
+
+		this.verifierNombreDeParametreParRapportAuMessage();
 	}
 
 	/**
@@ -67,6 +72,8 @@ public abstract class BaseException extends RuntimeException {
 		super(nestedException);
 		this.exceptionId = exceptionId;
 		this.parameters = null;
+
+		this.verifierNombreDeParametreParRapportAuMessage();
 	}
 
 	/**
@@ -83,6 +90,8 @@ public abstract class BaseException extends RuntimeException {
 		super(pNested);
 		this.exceptionId = pExceptionId;
 		this.parameters = pParameters;
+
+		this.verifierNombreDeParametreParRapportAuMessage();
 	}
 
 	/**
@@ -150,6 +159,31 @@ public abstract class BaseException extends RuntimeException {
 			}
 		}
 		return valeur;
+	}
+
+	private void verifierNombreDeParametreParRapportAuMessage() {
+		final String message = this.exceptionId.getDefaultMessage();
+
+		// Si des paramètres ont été fournis
+		if (this.parameters != null) {
+			final int indexDernierParametre = this.parameters.length - 1;
+			final int positionDuDernierParametreUtilise = message.indexOf("{" + indexDernierParametre + "}");
+
+			// si le message ne prevoit pas l'usage de tant de paramètres, erreur
+			if (positionDuDernierParametreUtilise == -1) {
+				throw new InvalidParameterException("Le nombre de paramètres de l'exception ne correspond pas à celui dans le message");
+			}
+
+			// Si le message attend plus de paramètres que ceux fournis
+			if (message.indexOf("{", positionDuDernierParametreUtilise + 1) != -1) {
+				throw new InvalidParameterException("Le nombre de paramètres de l'exception ne correspond pas à celui dans le message");
+			}
+		}
+
+		// Si aucun paramètre n'a été fourni mais qu'il en faut, erreur
+		else if (message.indexOf("{0}") != -1) {
+			throw new InvalidParameterException("Le nombre de paramètres de l'exception ne correspond pas à celui dans le message");
+		}
 	}
 
 }
