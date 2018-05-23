@@ -78,4 +78,22 @@ public class EntiteTest {
 		Assert.assertTrue(BusinessException.equals((BusinessException) thrown, BusinessException.REFERENCE_NON_VALIDE));
 	}
 
+	@Test
+	public void test03InjectionChaineDansReference() {
+		//
+		final Class<? extends IdentifiableParReference> clazz = Client.class;
+		final Long id = 100L;
+
+		//
+		final String referenceModifiee = "aa" + Entite.genererReference(clazz, id) + "aa";
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			Entite.extraireIdentifiant(referenceModifiee, clazz);
+		});
+
+		//
+		Assert.assertNotNull(thrown);
+		Assert.assertEquals(BusinessException.class, thrown.getClass());
+		Assert.assertTrue(BusinessException.equals((BusinessException) thrown, BusinessException.REFERENCE_NON_VALIDE));
+	}
+
 }
