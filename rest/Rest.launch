@@ -24,6 +24,7 @@
 <listAttribute key="org.testng.eclipse.METHOD_TEST_LIST"/>
 <listAttribute key="org.testng.eclipse.PACKAGE_TEST_LIST">
 <listEntry value="com.guillaumetalbot.applicationblanche.rest.controleur"/>
+<listEntry value="com.guillaumetalbot.applicationblanche.rest.securite"/>
 </listAttribute>
 <stringAttribute key="org.testng.eclipse.PRE_DEFINED_LISTENERS" value=""/>
 <stringAttribute key="org.testng.eclipse.PROTOCOL" value="json"/>
