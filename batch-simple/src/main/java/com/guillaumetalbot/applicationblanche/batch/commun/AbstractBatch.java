@@ -29,10 +29,16 @@ public class AbstractBatch {
 	protected static final String PREFIX_CONFIGURATION = "${mesBatchs.";
 
 	/** Elements des clefs de configuration */
+	protected static final String SUFFIX_CHEMIN_DESTINATION = ".cheminDestination}";
+
+	/** Elements des clefs de configuration */
 	protected static final String SUFFIX_CHEMIN_SOURCE = ".cheminSource}";
 
 	/** Elements des clefs de configuration */
-	protected static final String SUFFIX_ECHEC_SI_FICHIER_ABSENT = ".echecSiFichierAbsent}";
+	protected static final String SUFFIX_ECHEC_SI_FICHIER_SOURCE_ABSENT = ".echecSiFichierAbsent}";
+
+	/** Elements des clefs de configuration */
+	protected static final String SUFFIX_SUPPRIME_SI_FICHIER_DESTINATION_PRESENT = ".supprimeFichierSiExistant}";
 
 	@Autowired
 	protected DataSource datasource;

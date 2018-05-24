@@ -40,7 +40,7 @@ public class ClientJsonBatch extends AbstractBatch {
 	@Value(PREFIX_CONFIGURATION + NOM_JOB + SUFFIX_CHEMIN_SOURCE)
 	private String cheminSource;
 
-	@Value(PREFIX_CONFIGURATION + NOM_JOB + SUFFIX_ECHEC_SI_FICHIER_ABSENT)
+	@Value(PREFIX_CONFIGURATION + NOM_JOB + SUFFIX_ECHEC_SI_FICHIER_SOURCE_ABSENT)
 	private Boolean echecSiFichierAbsent;
 
 	/**
