@@ -13,7 +13,7 @@ import com.guillaumetalbot.applicationblanche.exception.BusinessException;
 @MappedSuperclass
 public class Entite implements Serializable, IdentifiableParReference {
 	private static final Pattern PATTERN_REFERENCE = Pattern.compile("^([0-9]*)-([0-9]*)$");
-	private static final long SEL_POUR_REFERENCE = 1234567890;
+	public static long SEL_POUR_REFERENCE;
 
 	private static final long serialVersionUID = 1L;
 
@@ -50,8 +50,7 @@ public class Entite implements Serializable, IdentifiableParReference {
 		if (id == null || clazz == null) {
 			return null;
 		}
-		final String ref = SEL_POUR_REFERENCE + clazz.getName().hashCode() + "-" + (SEL_POUR_REFERENCE + id);
-		return ref;
+		return SEL_POUR_REFERENCE + clazz.getName().hashCode() + "-" + (SEL_POUR_REFERENCE + id);
 	}
 
 	@Id

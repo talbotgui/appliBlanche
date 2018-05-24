@@ -5,11 +5,13 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.guillaumetalbot.applicationblanche.exception.BusinessException;
@@ -19,6 +21,7 @@ import com.guillaumetalbot.applicationblanche.metier.dao.securite.RessourceRepos
 import com.guillaumetalbot.applicationblanche.metier.dao.securite.RoleRepository;
 import com.guillaumetalbot.applicationblanche.metier.dao.securite.UtilisateurRepository;
 import com.guillaumetalbot.applicationblanche.metier.dto.UtilisateurAvecRolesEtAutorisations;
+import com.guillaumetalbot.applicationblanche.metier.entite.Entite;
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.LienRoleRessource;
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.LienUtilisateurRole;
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.Ressource;
@@ -48,6 +51,9 @@ public class SecuriteServiceImpl implements SecuriteService {
 
 	@Autowired
 	private RoleRepository roleRepo;
+
+	@Value(value = "${metier.selReference:1234567890}")
+	private Long selPourReference;
 
 	@Autowired
 	private UtilisateurRepository utilisateurRepo;
@@ -128,6 +134,15 @@ public class SecuriteServiceImpl implements SecuriteService {
 		if (this.utilisateurRepo.listerUtilisateur().isEmpty()) {
 			this.sauvegarderUtilisateurAvecTousLesDroits(loginAdmin, mdpAdmin, roleAdmin);
 		}
+	}
+
+	/**
+	 * Méthode initilisant le sel utilisé dans la création et la lecture des références uniques d'une entite.
+	 *
+	 */
+	@PostConstruct
+	protected void initialiseSelPourCalculReferencesDansLesEntites() {
+		Entite.SEL_POUR_REFERENCE = this.selPourReference;
 	}
 
 	@Override
