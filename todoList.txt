@@ -39,7 +39,7 @@ x	masquage des identifiants techniques (id:Long => reference:String)
 	Utiliser l'injection automatique des mock dans tout le context Spring pour les XxxControlerTest
 x	remplacer les java.util.Date par des LocalDateTime
 x	rassembler l'initialisation des entêtes (dans JWTAuthenticationFilter & JWTConnexionFilter) dans un même filtre ou un même paramètre
-	ajouter MonitoringAdvisor
+x	ajouter MonitoringAdvisor
 
 Sujets BATCH :
 x	destination SQL avec une requête

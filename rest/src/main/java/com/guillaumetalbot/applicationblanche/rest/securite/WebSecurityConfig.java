@@ -71,7 +71,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				// les écrans de Swagger sont accessibles à tous
 				.antMatchers(this.swaggerDocsPath).permitAll()
 				// les API publiques sont accessibles
-				.antMatchers("/i18n/**").permitAll()
+				.antMatchers("/i18n/**", "/monitoring").permitAll()
 				// Le filtre de connexion JWT est accessible
 				.antMatchers(HttpMethod.POST, this.parametresJwt.getUrlConnexion()).permitAll()
 				// Toutes les requêtes "preflight" sont accessibles (les navigateurs n'envoie pas l'entête Authorization)
