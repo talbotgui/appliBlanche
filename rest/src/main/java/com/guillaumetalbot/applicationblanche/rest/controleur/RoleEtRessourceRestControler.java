@@ -28,10 +28,6 @@ public class RoleEtRessourceRestControler {
 	@RequestMapping(value = "/v1/roles", method = GET)
 	public Collection<Role> listerRole() {
 		final Collection<Role> liste = this.securiteService.listerRoles();
-		// TODO : https://jira.spring.io/projects/SPR/issues/SPR-16569?filter=allopenissues
-		for (final Role r : liste) {
-			r.setRessourcesAutorisees(null);
-		}
 		return liste;
 	}
 

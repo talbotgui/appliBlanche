@@ -17,9 +17,9 @@ import org.testng.annotations.Test;
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.Ressource;
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.Role;
 import com.guillaumetalbot.applicationblanche.rest.controleur.utils.ControlerTestUtil;
-import com.guillaumetalbot.applicationblanche.rest.controleur.utils.MockedIntegrationWebTest;
+import com.guillaumetalbot.applicationblanche.rest.controleur.utils.JwtIntegrationWebTest;
 
-public class RoleEtRessourceRestControlerTest extends MockedIntegrationWebTest {
+public class RoleEtRessourceRestControlerTest extends JwtIntegrationWebTest {
 
 	@Test
 	public void test01GetListeRole() {

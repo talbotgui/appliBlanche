@@ -57,10 +57,6 @@ public class UtilisateurRestControler {
 			return this.securiteService.listerUtilisateursAvecRolesEtAutorisations();
 		} else {
 			final Collection<Utilisateur> liste = this.securiteService.listerUtilisateurs();
-			// TODO : https://jira.spring.io/projects/SPR/issues/SPR-16569?filter=allopenissues
-			for (final Utilisateur u : liste) {
-				u.setRoles(null);
-			}
 			return liste;
 		}
 	}

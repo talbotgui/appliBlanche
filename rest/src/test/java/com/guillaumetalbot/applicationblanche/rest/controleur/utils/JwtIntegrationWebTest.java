@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.devtools.remote.client.HttpHeaderInterceptor;
 import org.springframework.http.HttpEntity;
@@ -15,6 +16,8 @@ import org.springframework.web.client.RestTemplate;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 
+import com.guillaumetalbot.applicationblanche.metier.entite.securite.Utilisateur;
+import com.guillaumetalbot.applicationblanche.metier.service.ChiffrementUtil;
 import com.guillaumetalbot.applicationblanche.rest.application.InitialisationDonneesService;
 import com.guillaumetalbot.applicationblanche.rest.securite.jwt.ParametreDeConnexionDto;
 import com.guillaumetalbot.applicationblanche.rest.securite.jwt.ParametresJwt;
@@ -22,7 +25,7 @@ import com.guillaumetalbot.applicationblanche.rest.securite.jwt.ParametresJwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
-public class JwtIntegrationWebTest extends IntegrationWebTest {
+public class JwtIntegrationWebTest extends MockedIntegrationWebTest {
 
 	/** Jeton JWT récupéré au login avant l'exécution de tout test. */
 	private String jetonJwt;
@@ -75,9 +78,13 @@ public class JwtIntegrationWebTest extends IntegrationWebTest {
 	@BeforeClass
 	public void login() {
 
+		// Mock du service de recherche d'un utilisateur
+		final String loginMdp = InitialisationDonneesService.ADMIN_PAR_DEFAUT_LOGIN_MDP;
+		final Utilisateur u = new Utilisateur(loginMdp, ChiffrementUtil.encrypt(loginMdp));
+		Mockito.doReturn(u).when(this.securiteService).chargerUtilisateurReadOnly(Mockito.anyString());
+
 		// Appel au login
-		final ParametreDeConnexionDto cred = ParametreDeConnexionDto.creerInstanceSansChiffreLeMotDePassePourUsageDansTests(
-				InitialisationDonneesService.ADMIN_PAR_DEFAUT_LOGIN_MDP, InitialisationDonneesService.ADMIN_PAR_DEFAUT_LOGIN_MDP);
+		final ParametreDeConnexionDto cred = ParametreDeConnexionDto.creerInstanceSansChiffreLeMotDePassePourUsageDansTests(loginMdp, loginMdp);
 		final HttpEntity<ParametreDeConnexionDto> requete = new HttpEntity<>(cred);
 		final ResponseEntity<Void> reponse = super.getREST().exchange(this.getURL() + "/login", HttpMethod.POST, requete, void.class);
 

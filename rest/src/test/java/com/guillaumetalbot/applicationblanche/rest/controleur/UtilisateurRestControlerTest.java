@@ -23,9 +23,9 @@ import com.guillaumetalbot.applicationblanche.metier.dto.UtilisateurAvecRolesEtA
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.Utilisateur;
 import com.guillaumetalbot.applicationblanche.rest.application.RestApplication;
 import com.guillaumetalbot.applicationblanche.rest.controleur.utils.ControlerTestUtil;
-import com.guillaumetalbot.applicationblanche.rest.controleur.utils.MockedIntegrationWebTest;
+import com.guillaumetalbot.applicationblanche.rest.controleur.utils.JwtIntegrationWebTest;
 
-public class UtilisateurRestControlerTest extends MockedIntegrationWebTest {
+public class UtilisateurRestControlerTest extends JwtIntegrationWebTest {
 
 	@Test
 	public void test01GetListeUtilisateur01() {
@@ -41,11 +41,11 @@ public class UtilisateurRestControlerTest extends MockedIntegrationWebTest {
 				typeRetour);
 
 		// ASSERT
-		Mockito.verify(this.securiteService).listerUtilisateurs();
-		Mockito.verifyNoMoreInteractions(this.securiteService);
 		Assert.assertNotNull(utilisateurs.getBody());
 		Assert.assertEquals(utilisateurs.getBody().size(), toReturn.size());
 		Assert.assertEquals(utilisateurs.getBody().iterator().next().getLogin(), toReturn.iterator().next().getLogin());
+		Mockito.verify(this.securiteService).listerUtilisateurs();
+		Mockito.verifyNoMoreInteractions(this.securiteService);
 	}
 
 	@Test

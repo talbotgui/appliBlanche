@@ -16,11 +16,12 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.Utilisateur;
+import com.guillaumetalbot.applicationblanche.metier.service.ChiffrementUtil;
 import com.guillaumetalbot.applicationblanche.rest.application.InitialisationDonneesService;
-import com.guillaumetalbot.applicationblanche.rest.controleur.utils.MockedIntegrationWebTest;
+import com.guillaumetalbot.applicationblanche.rest.controleur.utils.JwtIntegrationWebTest;
 import com.guillaumetalbot.applicationblanche.rest.securite.jwt.ParametreDeConnexionDto;
 
-public class SecuriteTest extends MockedIntegrationWebTest {
+public class SecuriteTest extends JwtIntegrationWebTest {
 
 	@Test
 	public void test01acces01SansToken() {
@@ -162,9 +163,12 @@ public class SecuriteTest extends MockedIntegrationWebTest {
 	public void test02connexion03Valide() {
 
 		//
+		final String loginMdp = InitialisationDonneesService.ADMIN_PAR_DEFAUT_LOGIN_MDP;
+		final Utilisateur u = new Utilisateur(loginMdp, ChiffrementUtil.encrypt(loginMdp));
+		Mockito.doReturn(u).when(this.securiteService).chargerUtilisateurReadOnly(Mockito.anyString());
+
 		super.ecraseJetonJwtNull();
-		final ParametreDeConnexionDto cred = ParametreDeConnexionDto.creerInstanceSansChiffreLeMotDePassePourUsageDansTests(
-				InitialisationDonneesService.ADMIN_PAR_DEFAUT_LOGIN_MDP, InitialisationDonneesService.ADMIN_PAR_DEFAUT_LOGIN_MDP);
+		final ParametreDeConnexionDto cred = ParametreDeConnexionDto.creerInstanceSansChiffreLeMotDePassePourUsageDansTests(loginMdp, loginMdp);
 
 		//
 		final HttpEntity<ParametreDeConnexionDto> requete = new HttpEntity<>(cred);

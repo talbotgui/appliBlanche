@@ -3,6 +3,8 @@ package com.guillaumetalbot.applicationblanche.rest.controleur.utils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.web.client.RestTemplate;
@@ -11,6 +13,7 @@ import com.guillaumetalbot.applicationblanche.rest.application.RestApplication;
 
 @SpringBootTest(classes = RestApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations = "classpath:application-test.properties")
+@TestExecutionListeners(MockitoTestExecutionListener.class)
 public class IntegrationWebTest extends AbstractTestNGSpringContextTests {
 
 	/** ContextRoot de l'application. */

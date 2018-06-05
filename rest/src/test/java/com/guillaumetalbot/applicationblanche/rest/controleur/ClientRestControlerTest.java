@@ -20,9 +20,9 @@ import com.guillaumetalbot.applicationblanche.metier.entite.client.Client;
 import com.guillaumetalbot.applicationblanche.metier.entite.client.Dossier;
 import com.guillaumetalbot.applicationblanche.rest.application.RestApplication;
 import com.guillaumetalbot.applicationblanche.rest.controleur.utils.ControlerTestUtil;
-import com.guillaumetalbot.applicationblanche.rest.controleur.utils.MockedIntegrationWebTest;
+import com.guillaumetalbot.applicationblanche.rest.controleur.utils.JwtIntegrationWebTest;
 
-public class ClientRestControlerTest extends MockedIntegrationWebTest {
+public class ClientRestControlerTest extends JwtIntegrationWebTest {
 
 	@Test
 	public void test01GetListeClient() {
