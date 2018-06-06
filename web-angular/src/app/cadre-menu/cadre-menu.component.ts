@@ -11,6 +11,6 @@ export class CadreMenuComponent {
 
   deconnecter(): void {
     this.utilisateurService.deconnecter();
-    this.router.navigate(['page-accueil-route']);
+    this.router.navigate(['page-connexion-route']);
   }
 }

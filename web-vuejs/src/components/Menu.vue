@@ -5,7 +5,7 @@
     <h3>Accueil</h3>
     <router-link to="/administration/utilisateur">Utilisateurs</router-link>
     <router-link to="/administration/role">Roles</router-link>
-    <a v-on:click.prevent="deconnecter">Déconnexion</a>
+    <a href="#" v-on:click.prevent="deconnecter">Déconnexion</a>
   </div>
 </template>
 

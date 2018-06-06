@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
-import { Router } from '@angular/router';
+import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot, NavigationExtras } from '@angular/router';
 
 import { UtilisateurService } from '../service/utilisateur.service';
 
@@ -9,11 +8,12 @@ export class AuthGuard implements CanActivate {
 
   constructor(private router: Router, private utilisateurService: UtilisateurService) { }
 
-  canActivate() {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     if (this.utilisateurService.estConnecte()) {
       return true;
     } else {
-      this.router.navigate(['page-connexion-route']);
+      const navigationExtras: NavigationExtras = { queryParams: { 'redirect': state.url } };
+      this.router.navigate(['page-connexion-route'], navigationExtras);
       return false;
     }
   }

@@ -2,9 +2,9 @@
 Sujets FRONT (partie sécurité) :
 	ANG	VUE	SUJET				
 	x	x	page de login
-			rediriger vers la page demandée avant la connexion
+	x	x	rediriger vers la page demandée avant la connexion
 	x	x	JWT
-			Déconnexion
+	x	x	Déconnexion
 
 Sujets FRONT (partie structure) :
 	ANG	VUE	SUJET				
