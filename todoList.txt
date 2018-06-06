@@ -1,3 +1,4 @@
+
 Sujets FRONT (partie sécurité) :
 	ANG	VUE	SUJET				
 	x	x	page de login
@@ -31,12 +32,12 @@ x	remettre la mécanique de verouillage de compte
 	HQL chargeant des DTO
 	requêtes paginées
 x	extraire le sel utilisé pour la création des références Entite.SEL_POUR_REFERENCE dans un fichier de configuration
-	services transactionnels
+x	services transactionnels
 x	négociation de contenu pour exposer une même données en différentes structures
 x	masquage des identifiants techniques (id:Long => reference:String)
 	packaging et configuration par environnement
-	gestion de transaction dans les controleurs ?
-	Utiliser l'injection automatique des mock dans tout le context Spring pour les XxxControlerTest
+x	gestion de transaction dans les controleurs ?
+x	Utiliser l'injection automatique des mock dans tout le context Spring pour les XxxControlerTest
 x	remplacer les java.util.Date par des LocalDateTime
 x	rassembler l'initialisation des entêtes (dans JWTAuthenticationFilter & JWTConnexionFilter) dans un même filtre ou un même paramètre
 x	ajouter MonitoringAdvisor
