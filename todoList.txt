@@ -29,7 +29,7 @@ x	exploser la configuration SpringRest en plusieurs classes compréhensibles et 
 x	persitence avec Hibernate 5
 x	remettre la mécanique de verouillage de compte
 	tous les types de mappings d'association (même le double mapping d'un manyToMany bidirectionnel)
-	HQL chargeant des DTO
+x	HQL chargeant des DTO
 	requêtes paginées
 x	extraire le sel utilisé pour la création des références Entite.SEL_POUR_REFERENCE dans un fichier de configuration
 x	services transactionnels
