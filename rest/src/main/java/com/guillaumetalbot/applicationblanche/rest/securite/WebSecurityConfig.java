@@ -22,6 +22,12 @@ import com.guillaumetalbot.applicationblanche.rest.securite.jwt.ParametresJwt;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+	@Value("${security.headers.accessControlAllowHeaders}")
+	private String accessControlAllowHeaders;
+
+	@Value("${security.headers.accessControlExposeHeaders}")
+	private String accessControlExposeHeaders;
+
 	/** Contenu du fichier application.properties lié à JWT. */
 	@Autowired
 	private ParametresJwt parametresJwt;
@@ -79,8 +85,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				// Tout le reste est protégé
 				.anyRequest().authenticated().and()
 				// Ajout du filtre permettant la connexion JWT
-				.addFilterBefore(
-						new JWTConnexionFilter(this.parametresJwt, this.authenticationManager(), (UserDetailsServiceWrapper) this.userDetailsService),
+				.addFilterBefore(new JWTConnexionFilter(this.parametresJwt, this.authenticationManager(),
+						(UserDetailsServiceWrapper) this.userDetailsService, this.accessControlAllowHeaders, this.accessControlExposeHeaders),
 						UsernamePasswordAuthenticationFilter.class)
 				// Ajout du filtre vérifiant la présence du token JWT
 				.addFilterBefore(new JWTAuthenticationFilter(this.parametresJwt), UsernamePasswordAuthenticationFilter.class);

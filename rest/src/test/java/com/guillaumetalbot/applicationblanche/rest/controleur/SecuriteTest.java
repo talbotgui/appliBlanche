@@ -114,7 +114,8 @@ public class SecuriteTest extends JwtIntegrationWebTest {
 		Assert.assertNotNull(utilisateurs.getBody());
 		Assert.assertEquals(utilisateurs.getBody().size(), toReturn.size());
 		Assert.assertEquals(utilisateurs.getBody().iterator().next().getLogin(), toReturn.iterator().next().getLogin());
-
+		Assert.assertNotNull(utilisateurs.getHeaders().getAccessControlExposeHeaders());
+		Assert.assertEquals(utilisateurs.getHeaders().getAccessControlExposeHeaders().size(), 1);
 	}
 
 	@Test

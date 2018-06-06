@@ -30,6 +30,10 @@ public class JWTConnexionFilter extends AbstractAuthenticationProcessingFilter {
 
 	private static final String PARAMETRE_LOGIN_EN_REQUETE = "login";
 
+	private final String accessControlAllowHeaders;
+
+	private final String accessControlExposeHeaders;
+
 	/** Paramètres JWT présents dans les application.properties */
 	private final ParametresJwt parametresJwt;
 
@@ -37,19 +41,22 @@ public class JWTConnexionFilter extends AbstractAuthenticationProcessingFilter {
 	private final UserDetailsServiceWrapper securiteService;
 
 	/**
-	 * Constructeur.
-	 *
-	 * @param url
-	 *            URL sur laquelle se déclenchera ce filtre.
+	 * Constructeur
+	 * 
+	 * @param parametresJwt
 	 * @param authManager
-	 *            Instance de composant permetant la vérification du login/mdp.
+	 * @param securiteService
+	 * @param accessControlAllowHeaders
+	 * @param accessControlExposeHeaders
 	 */
 	public JWTConnexionFilter(final ParametresJwt parametresJwt, final AuthenticationManager authManager,
-			final UserDetailsServiceWrapper securiteService) {
+			final UserDetailsServiceWrapper securiteService, final String accessControlAllowHeaders, final String accessControlExposeHeaders) {
 		super(new AntPathRequestMatcher(parametresJwt.getUrlConnexion(), HttpMethod.POST.name()));
 		this.setAuthenticationManager(authManager);
 		this.parametresJwt = parametresJwt;
 		this.securiteService = securiteService;
+		this.accessControlAllowHeaders = accessControlAllowHeaders;
+		this.accessControlExposeHeaders = accessControlExposeHeaders;
 	}
 
 	/**
@@ -83,6 +90,11 @@ public class JWTConnexionFilter extends AbstractAuthenticationProcessingFilter {
 				.signWith(SignatureAlgorithm.HS512, this.parametresJwt.getSecret())//
 				.compact();
 		res.addHeader(this.parametresJwt.getHeaderKey(), this.parametresJwt.getTokenPrefix() + " " + JWT);
+
+		// Ajout des tokens de sécurité
+		res.setHeader("Access-Control-Allow-Origin", req.getHeader("Origin"));
+		res.setHeader("Access-Control-Allow-Headers", this.accessControlAllowHeaders);
+		res.setHeader("Access-Control-Expose-Headers", this.accessControlExposeHeaders);
 
 		// on notifie le service métier de la bonne connexion
 		this.securiteService.notifierConnexion(login, true);
