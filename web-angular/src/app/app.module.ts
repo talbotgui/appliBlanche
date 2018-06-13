@@ -8,11 +8,10 @@ import { MatSnackBarModule, MatTooltipModule } from '@angular/material';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatNativeDateModule, MAT_PLACEHOLDER_GLOBAL_OPTIONS, DateAdapter } from '@angular/material';
+import { MatNativeDateModule, DateAdapter } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CKEditorModule } from 'ng2-ckeditor';
-import { TreeModule } from 'angular-tree-component';
 import { MapValuesPipe, AttributesToMapPipe } from './pipes.component';
 import { MyDateAdapter } from './dateformat.component';
 
@@ -59,7 +58,6 @@ registerLocaleData(localeFr, 'fr');
     // Paramétrage global
     { provide: LOCALE_ID, useValue: 'fr' },
     { provide: DateAdapter, useClass: MyDateAdapter },
-    { provide: MAT_PLACEHOLDER_GLOBAL_OPTIONS, useValue: { float: 'never' } },
 
     // Les composants injectables
     UtilisateurService, AuthGuard
@@ -77,7 +75,7 @@ registerLocaleData(localeFr, 'fr');
     MatNativeDateModule, MatRadioModule, MatSelectModule, MatSidenavModule, MatSnackBarModule, MatTooltipModule,
 
     // les composants WEB riches externes
-    CKEditorModule, TreeModule,
+    CKEditorModule,
 
     // Déclaration des routes
     AppRoutingModule,

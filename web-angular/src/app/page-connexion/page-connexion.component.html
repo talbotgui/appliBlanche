@@ -4,16 +4,18 @@
 
   <h2>Connexion</h2>
 
-  <div class="col-lg-5 col-md-6 col-xs-12">
-    <span>Nom d'utilisateur</span>
-    <input id="login" matInput [(ngModel)]="login" autocomplete="username login" />
-  </div>
-  <div class="col-lg-5 col-md-6 col-xs-12">
-    <span>Mot de passe</span>
-    <input type="password" id="mdp" matInput [(ngModel)]="mdp" autocomplete="current-password" />
-  </div>
-  <div class="col-lg-2 col-md-12 col-xs-12">
-    <button class="btn btn-outline-primary" (click)="connecter()">Connexion</button>
+  <div class="row">
+    <div class="col-lg-5 col-md-6 col-xs-12">
+      <span>Nom d'utilisateur</span>
+      <input id="login" matInput [(ngModel)]="login" autocomplete="username login" required/>
+    </div>
+    <div class="col-lg-5 col-md-6 col-xs-12">
+      <span>Mot de passe</span>
+      <input type="password" id="mdp" matInput [(ngModel)]="mdp" autocomplete="current-password" required />
+    </div>
+    <div class="col-lg-2 col-md-12 col-xs-12">
+      <button class="btn btn-outline-primary" (click)="connecter()">Connexion</button>
+    </div>
   </div>
 
 </div>

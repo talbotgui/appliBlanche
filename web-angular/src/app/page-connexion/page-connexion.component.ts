@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
+import { map } from 'rxjs/operators';
 
 import { UtilisateurService } from '../service/utilisateur.service';
 import * as model from '../model/model';
@@ -19,7 +20,7 @@ export class PageConnexionComponent implements OnInit {
 
   ngOnInit() {
     // Lecture des paramètres de l'URL
-    this.route.queryParamMap.map(params => params.get('redirect') || undefined)
+    this.route.queryParamMap.pipe(map(params => params.get('redirect') || undefined))
       .subscribe(redirect => this.redirectionPostConnexion = redirect);
   }
 

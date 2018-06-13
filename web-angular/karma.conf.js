@@ -8,13 +8,13 @@ module.exports = function (config) {
     // Répertoire de base permettant la résolution des chemins
     basePath: '',
     // Liste des frameworks de test à utiliser
-    frameworks: ['jasmine', '@angular/cli'],
+    frameworks: ['jasmine', '@angular-devkit/build-angular'],
     // Liste des plugins à charger
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
-      require('@angular/cli/plugins/karma')
+      require('@angular-devkit/build-angular/plugins/karma')
     ],
     // Nécessaire pour l'exécution des tests Jasmine
     client: { clearContext: false },
@@ -36,8 +36,7 @@ module.exports = function (config) {
     // Configuration particulière pour démarrer Chrome en debug et permettre à VSCode de s'y connecter
     customLaunchers: { ChromeDebugging: { base: 'Chrome', flags: ['--remote-debugging-port=9333'] } },
     // Le(s) browser(s) à utiliser pour les tests
-    browsers: ['ChromeDebugging'],
-    // Configuration pour Angular : mode dev
-    angularCli: { environment: 'dev' }
+    browsers: ['ChromeDebugging']
+    
   });
 };

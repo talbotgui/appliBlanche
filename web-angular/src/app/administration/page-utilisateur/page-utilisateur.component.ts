@@ -36,7 +36,7 @@ export class PageUtilisateurComponent implements OnInit {
 
   // Chargement de la liste des utilisateurs
   chargerDonnees() {
-    this.utilisateurService.listerUtilisateurs().subscribe(liste => {
+    this.utilisateurService.listerUtilisateurs().subscribe((liste: model.Utilisateur[]) => {
       this.utilisateurs = liste;
     });
   }
