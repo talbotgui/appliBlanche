@@ -1,7 +1,7 @@
-<div id="menu">
+<div id="menu" class="row">
   <nav mat-tab-nav-bar>
-    <a mat-tab-link routerLink="/page-accueil-route" class="navAccueil" routerLinkActive="active">Accueil</a>
-    <a mat-tab-link routerLink="/page-utilisateur-route" class="navUtilisateur" routerLinkActive="active">Utilisateurs</a>
-    <a mat-tab-link href="#" class="navDeconnexion" (click)="deconnecter()">Déconnexion</a>
+    <a class="col-md-4" mat-tab-link routerLink="/page-accueil-route" class="navAccueil" routerLinkActive="active">Accueil</a>
+    <a class="col-md-4" mat-tab-link routerLink="/page-utilisateur-route" class="navUtilisateur" routerLinkActive="active">Utilisateurs</a>
+    <a class="col-md-4" mat-tab-link href="#" class="navDeconnexion" (click)="deconnecter()">Déconnexion</a>
   </nav>
 </div>

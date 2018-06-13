@@ -1,0 +1,7 @@
+#menu { background-color: #fff; border: 0; margin-bottom: 50px; }
+#menu { border-top: 5px solid #D10000; }
+#menu a:link,a:visited { border-radius: 0 0 8px 8px;  padding:0px 15px; }
+#menu ul { margin:0; margin-left: 20px;  padding: 0; }
+#menu li{ text-transform:uppercase; }
+#menu a { float: left; font-weight: bold; color: #000; margin: 0 5px 0 0; background-color: #eee; }
+#menu a:hover { background-color: #D10000;  color: #fff; }
