@@ -1,24 +1,45 @@
 <template>
-  <div class="row">
+  <div class="container-fluid">
 
     <!--Menu-->
-    <div class="col-lg-1 col-md-1 col-xs-1">
-      <m-menu />
-    </div>
+    <m-menu />
 
     <!-- Administration des roles -->
-    <div class="col-lg-11 col-md-11 col-xs-11">
-      <h2>Administration des roles</h2>
+    <div class="row">
+      <h3>Administration des roles</h3>
 
       <!-- Liste des roles -->
-      <div v-for="role in roles" :key="role.nom">
-        <span>{{ role.nom }}</span>
-      </div>
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Nom</th>
+            <th scope="col">
+              <span>Actions</span>
+              <em class="fa fa-plus" v-on:click="afficherFormulaireCreation"></em>
+            </th>
+          </tr>
+        </thead>
+        <tr v-for="role in roles" :key="role.nom">
+          <th scope="row">{{ role.nom }}</th>
+        </tr>
+      </table>
 
       <!-- Création d'un role -->
-      <div class="col-lg-12 col-md-12 col-xs-12">
+      <div v-if="nouveauRole">
+
+        <!-- Titre -->
+        <hr/>
+        <h3>Ajouter/modifier un utilisateur</h3>
+
+        <!-- Validation de surface -->
+        <div>???validation de surface???</div>
+
+        <!-- Champs -->
         <input id="nouveauRole" v-model.trim="nouveauRole.nom" placeholder="nom" />
-        <button class="btn btn-outline-primary" v-on:click="creer">Créer le role</button>
+
+        <!-- Boutons -->
+        <button class="btn btn-outline-secondary" v-on:click="masquerFormulaireCreation">Annuler</button>
+        <button class="btn btn-outline-secondary" v-on:click="creerRole">Créer le role</button>
       </div>
     </div>
   </div>
@@ -31,7 +52,7 @@ export default {
   name: 'Role',
   data () {
     return {
-      nouveauRole: { nom: '' },
+      nouveauRole: undefined,
       roles: []
     }
   },
@@ -43,7 +64,15 @@ export default {
 
   methods: {
 
-    creer (event) {
+    afficherFormulaireCreation (event) {
+      this.nouveauRole = { nom: '' }
+    },
+
+    masquerFormulaireCreation (event) {
+      this.nouveauRole = undefined
+    },
+
+    creerRole (event) {
       rest.postRole(this.nouveauRole, response => { this.nouveauRole = { nom: '' }; this.rechercherLesDonnees() })
     },
 
@@ -56,5 +85,4 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 </style>

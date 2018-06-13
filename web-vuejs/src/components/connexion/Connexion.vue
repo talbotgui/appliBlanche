@@ -5,17 +5,17 @@
 
     <h2>{{ $t("connexion_titre") }}</h2>
 
-    <div class="col-lg-5 col-md-6 col-xs-12">
-      <span>{{ $t("connexion_identifiant") }}</span>
-      <input id="login" v-model.trim="login" autocomplete="username login" />
+    <div class="form-group">
+      <label for="login">{{ $t("connexion_identifiant") }}</label>
+      <input class="form-control" id="login" v-model.trim="login" autocomplete="username login" />
     </div>
-    <div class="col-lg-5 col-md-6 col-xs-12">
-      <span>{{ $t("connexion_motDePasse") }}</span>
-      <input type="password" id="mdp" v-model="mdp" autocomplete="current-password" />
+
+    <div class="form-group">
+      <label for="mdp">{{ $t("connexion_motDePasse") }}</label>
+      <input class="form-control" type="password" id="mdp" v-model="mdp" autocomplete="current-password" />
     </div>
-    <div class="col-lg-2 col-md-12 col-xs-12">
-      <button class="btn btn-outline-primary" v-on:click="connexion">{{ $t("connexion_boutonConnexion") }}</button>
-    </div>
+
+    <button class="btn btn-outline-secondary" v-on:click="connexion">{{ $t("connexion_boutonConnexion") }}</button>
 
   </div>
 </template>

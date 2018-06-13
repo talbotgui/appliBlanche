@@ -1,9 +1,8 @@
 <template>
   <div>
-    <div class="bienvenue">Bonjour</div>
-
     <div id="menu" class="row">
       <nav mat-tab-nav-bar>
+        <router-link to="/accueil">Accueil</router-link>
         <router-link to="/administration/utilisateur">Utilisateurs</router-link>
         <router-link to="/administration/role">Roles</router-link>
         <a href="#" v-on:click.prevent="deconnecter">Déconnexion</a>
