@@ -11,7 +11,7 @@ export class PageUtilisateurComponent implements OnInit {
   utilisateurs: model.Utilisateur[];
 
   // Utilisateur en cours d'édition
-  utilisateurSelectionne: model.Utilisateur;
+  utilisateurSelectionne: model.Utilisateur | undefined;
 
   // Un constructeur pour se faire injecter les dépendances
   constructor(private route: ActivatedRoute, private utilisateurService: UtilisateurService) { }
@@ -36,9 +36,18 @@ export class PageUtilisateurComponent implements OnInit {
 
   // Chargement de la liste des utilisateurs
   chargerDonnees() {
+
+    // Chargement de la liste des utilisateurs
     this.utilisateurService.listerUtilisateurs().subscribe((liste: model.Utilisateur[]) => {
       this.utilisateurs = liste;
     });
+
+    // Reset du formulaire
+    this.annulerCreationUtilisateur();
+  }
+
+  annulerCreationUtilisateur() {
+    this.utilisateurSelectionne = undefined;
   }
 
   creerUtilisateur() {
@@ -46,8 +55,10 @@ export class PageUtilisateurComponent implements OnInit {
   }
 
   sauvegarderUtilisateur() {
-    this.utilisateurService.sauvegarderUtilisateur(this.utilisateurSelectionne)
-      .subscribe(retour => { this.chargerDonnees(); });
+    if (this.utilisateurSelectionne) {
+      this.utilisateurService.sauvegarderUtilisateur(this.utilisateurSelectionne)
+        .subscribe(retour => { this.chargerDonnees(); });
+    }
   }
 
   // A la sélection d'un élève
