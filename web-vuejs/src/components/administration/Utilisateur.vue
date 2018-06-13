@@ -20,15 +20,17 @@
             </th>
           </tr>
         </thead>
-        <tr v-for="utilisateur in utilisateurs" :key="utilisateur.login">
-          <th scope="row">{{ utilisateur.login }}</th>
-          <td>
-            <span v-for="role in utilisateur.roles" :key="role.nom">{{role.nom}}</span>
-          </td>
-          <td>
-            <em class="fa fa-edit" v-on:click="selectionnerUtilisateur(utilisateur)"></em>
-          </td>
-        </tr>
+        <tbody>
+          <tr v-for="utilisateur in utilisateurs" :key="utilisateur.login">
+            <th scope="row">{{ utilisateur.login }}</th>
+            <td>
+              <span v-for="role in utilisateur.roles" :key="role.nom">{{role.nom}}</span>
+            </td>
+            <td>
+              <em class="fa fa-edit" v-on:click="selectionnerUtilisateur(utilisateur)"></em>
+            </td>
+          </tr>
+        </tbody>
       </table>
 
       <!-- Création d'un utilisateur -->

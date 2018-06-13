@@ -16,15 +16,17 @@
 			</th>
 		</tr>
 	</thead>
-	<tr *ngFor="let utilisateur of utilisateurs" [class.ligneSelectionne]="utilisateur === utilisateurSelectionne">
-		<th scope="row">{{utilisateur.login}}</th>
-		<td>
-			<span *ngFor="let role of utilisateur.roles">{{role.nom}}</span>
-		</td>
-		<td>
-			<em class="fa fa-edit" (click)="selectionnerUtilisateur(utilisateur); utilisateurForm.reset(utilisateur);"></em>
-		</td>
-	</tr>
+	<tbody>
+		<tr *ngFor="let utilisateur of utilisateurs" [class.ligneSelectionne]="utilisateur === utilisateurSelectionne">
+			<th scope="row">{{utilisateur.login}}</th>
+			<td>
+				<span *ngFor="let role of utilisateur.roles">{{role.nom}}</span>
+			</td>
+			<td>
+				<em class="fa fa-edit" (click)="selectionnerUtilisateur(utilisateur); utilisateurForm.reset(utilisateur);"></em>
+			</td>
+		</tr>
+	</tbody>
 </table>
 
 <!-- Création ou édition d'utilisateur -->

@@ -19,9 +19,11 @@
             </th>
           </tr>
         </thead>
-        <tr v-for="role in roles" :key="role.nom">
-          <th scope="row">{{ role.nom }}</th>
-        </tr>
+        <tbody>
+          <tr v-for="role in roles" :key="role.nom">
+            <th scope="row">{{ role.nom }}</th>
+          </tr>
+        </tbody>
       </table>
 
       <!-- Création d'un role -->
