@@ -6,3 +6,6 @@ input.ng-valid { border-left: solid 2px green; }
 
 /* Pour les boutons FA dans un entete de tableau */
 em.fa.actionDansUnEntete { margin-left: 5px; }
+
+/* Pour les FA en général */
+.fa { cursor: pointer; }
