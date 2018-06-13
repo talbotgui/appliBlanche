@@ -7,6 +7,7 @@ import router from './router/router'
 // Import des CSS
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../static/style.css'
+import '../node_modules/font-awesome/css/font-awesome.css'
 
 // Composant permettant les appels REST
 import VueResource from 'vue-resource'
