@@ -6,15 +6,15 @@
 
     <!-- Administration des roles -->
     <div class="row">
-      <h3>Administration des roles</h3>
+      <h3>{{ $t("role_titre") }}</h3>
 
       <!-- Liste des roles -->
       <table class="table table-striped table-hover">
         <thead>
           <tr>
-            <th scope="col">Nom</th>
+            <th scope="col">{{ $t("role_entete_nom") }}</th>
             <th scope="col">
-              <span>Actions</span>
+              <span>{{ $t("commun_entete_actions") }}</span>
               <em class="fa fa-plus" v-on:click="afficherFormulaireCreation"></em>
             </th>
           </tr>
@@ -31,7 +31,7 @@
 
         <!-- Titre -->
         <hr/>
-        <h3>Ajouter/modifier un utilisateur</h3>
+        <h3>{{ $t("role_formulaire_titre") }}</h3>
 
         <!-- Validation de surface -->
         <div v-if="erreurs.length">
@@ -39,11 +39,11 @@
         </div>
 
         <!-- Champs -->
-        <input id="nouveauRole" v-model.trim="nouveauRole.nom" placeholder="nom" />
+        <input id="nouveauRole" v-model.trim="nouveauRole.nom" v-bind:placeholder='$t("role_placeholder_nom")' />
 
         <!-- Boutons -->
-        <button class="btn btn-outline-secondary" v-on:click="masquerFormulaireCreation">Annuler</button>
-        <button class="btn btn-outline-secondary" v-on:click="creerRole">Créer le role</button>
+        <button class="btn btn-outline-secondary" v-on:click="masquerFormulaireCreation">{{ $t("role_bouton_annuler") }}</button>
+        <button class="btn btn-outline-secondary" v-on:click="creerRole">{{ $t("role_bouton_creer") }}</button>
       </div>
     </div>
   </div>

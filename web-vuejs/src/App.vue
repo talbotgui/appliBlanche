@@ -12,7 +12,10 @@ export default {
   name: 'App',
 
   data () {
-    return { loading: 'Chargement en cours' }
+    return {
+      // Libelle en dur car les libellés ne sont pas encore chargés depuis l'API
+      loading: 'Chargement en cours'
+    }
   },
 
   mounted () {

@@ -1,6 +1,7 @@
 <template>
   <div class="container-fluid">
-    <m-menu /> Bienvenue dans l'application blanche avec VueJS.
+    <m-menu />
+    <div>{{ $t("accueil_message") }}VueJS</div>
   </div>
 </template>
 

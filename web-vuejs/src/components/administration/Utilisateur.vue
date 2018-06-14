@@ -12,10 +12,10 @@
       <table class="table table-striped table-hover">
         <thead>
           <tr>
-            <th scope="col">Identifiant</th>
-            <th scope="col">Rôles</th>
+            <th scope="col">{{ $t("utilisateur_entete_identifiant") }}</th>
+            <th scope="col">{{ $t("utilisateur_entete_roles") }}</th>
             <th scope="col">
-              <span>Actions</span>
+              <span>{{ $t("commun_entete_actions") }}</span>
               <em class="fa fa-plus" v-on:click="afficherFormulaireCreation"></em>
             </th>
           </tr>
@@ -38,7 +38,7 @@
 
         <!-- Titre -->
         <hr/>
-        <h3>Ajouter/modifier un utilisateur</h3>
+        <h3>{{ $t("utilisateur_formulaire_titre") }}</h3>
 
         <!-- Validation de surface -->
         <div v-if="erreurs.length">

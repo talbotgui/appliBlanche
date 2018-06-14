@@ -11,7 +11,10 @@ Sujets FRONT (partie structure) :
 	x	x	appel à l'API en get
 	x	x	appel à l'API en post
 		x	internationnalisation avec l'appel à l'API
+			internationnalisation des messages de validation de surface
+			internationnalisation des messages d'erreurs venant de l'API
 			rechercher les libelles en dur dans l'application et les ajouter dans la bdd
+			ajouter des tooltips sur les FA et les internationnaliser
 	x	x	utiliser un service depuis les pages
 	x	x	utiliser un style.css général
 	x	x	utiliser le bon logo en favicon
