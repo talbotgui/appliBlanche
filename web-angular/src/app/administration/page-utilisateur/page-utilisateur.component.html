@@ -2,16 +2,16 @@
 <cadre-menu></cadre-menu>
 
 <!-- Liste des utilisateurs -->
-<h3>Liste des utilisateurs</h3>
+<h3 l10nTranslate>utilisateur_titre</h3>
 
 <!-- Style décrit ici : https://getbootstrap.com/docs/4.0/content/tables/ -->
 <table class="table table-striped table-hover">
 	<thead>
 		<tr>
-			<th scope="col">Identifiant</th>
-			<th scope="col">Rôles</th>
+			<th scope="col" l10nTranslate>utilisateur_entete_identifiant</th>
+			<th scope="col" l10nTranslate>utilisateur_entete_roles</th>
 			<th scope="col">
-				<span>Actions</span>
+				<span l10nTranslate>commun_entete_actions</span>
 				<em class="actionDansUnEntete fa fa-plus" (click)="creerUtilisateur(); utilisateurForm.reset(utilisateurSelectionne);"></em>
 			</th>
 		</tr>
@@ -35,7 +35,7 @@
 
 		<!-- Titre -->
 		<hr/>
-		<h3>Ajouter/modifier un utilisateur</h3>
+		<h3 l10nTranslate>utilisateur_formulaire_titre</h3>
 
 		<!-- Messages de validation de surface -->
 		<div *ngIf="!inputLogin.pristine && inputLogin.errors?.required" class="alert-danger">Le nom d'utilisateur est obligatoire</div>
@@ -44,11 +44,14 @@
 		<div *ngIf="!inputMdp.pristine && inputMdp.errors?.minlength" class="alert-danger">Le mot de passe doit faire 6 caractères au minimum</div>
 
 		<!-- Champs -->
-		<input required minlength="6" #inputLogin="ngModel" [(ngModel)]="utilisateurSelectionne.login" name="login" placeholder="Nom d'utilisateur *">
-		<input required minlength="6" type="password" #inputMdp="ngModel" [(ngModel)]="utilisateurSelectionne.mdp" name="mdp" placeholder="Mot de passe *">
+		<input required minlength="6" #inputLogin="ngModel" [(ngModel)]="utilisateurSelectionne.login" name="login" l10nTranslate
+		 l10n-placeholder placeholder="utilisateur_placeholder_login">
+		<input required minlength="6" type="password" #inputMdp="ngModel" [(ngModel)]="utilisateurSelectionne.mdp" name="mdp" l10nTranslate
+		 l10n-placeholder placeholder="utilisateur_placeholder_mdp">
 
 		<!-- Boutons -->
-		<button type="submit" class="btn btn-outline-secondary" (click)="annulerCreationUtilisateur()">Annuler</button>
-		<button type="submit" class="btn btn-outline-secondary" [disabled]="!utilisateurForm.form.valid" (click)="sauvegarderUtilisateur()">Sauvegarder</button>
+		<button type="submit" class="btn btn-outline-secondary" (click)="annulerCreationUtilisateur()" l10nTranslate>utilisateur_bouton_annuler</button>
+		<button type="submit" class="btn btn-outline-secondary" [disabled]="!utilisateurForm.form.valid" (click)="sauvegarderUtilisateur()"
+		 l10nTranslate>utilisateur_bouton_creer</button>
 	</div>
 </form>
