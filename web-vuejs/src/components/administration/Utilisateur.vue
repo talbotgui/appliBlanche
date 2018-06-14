@@ -41,7 +41,9 @@
         <h3>Ajouter/modifier un utilisateur</h3>
 
         <!-- Validation de surface -->
-        <div>???validation de surface???</div>
+        <div v-if="erreurs.length">
+          <div class="alert-danger" v-for="erreur in erreurs" :key="erreur">{{ erreur }}</div>
+        </div>
 
         <!-- Champs -->
         <input id="login" v-model.trim="nouvelUtilisateur.login" v-bind:placeholder='$t("utilisateur_placeholder_login")' required/>
@@ -63,7 +65,8 @@ export default {
   data () {
     return {
       nouvelUtilisateur: undefined,
-      utilisateurs: []
+      utilisateurs: [],
+      erreurs: []
     }
   },
 
@@ -87,7 +90,25 @@ export default {
     },
 
     creerUtilisateur (event) {
-      rest.postUtilisateur(this.nouvelUtilisateur, response => { this.nouvelUtilisateur = { login: '', mdp: '' }; this.rechercherLesDonnees() })
+      if (this.nouvelUtilisateur) {
+        // Validation de formulaire
+        this.erreurs = []
+        if (!this.nouvelUtilisateur.login) {
+          this.erreurs.push('Le nom d\'utilisateur est obligatoire')
+        } else if (this.nouvelUtilisateur.login.length < 6) {
+          this.erreurs.push('Le nom d\'utilisateur doit faire 6 caractères au minimum')
+        }
+        if (!this.nouvelUtilisateur.mdp) {
+          this.erreurs.push('Le mot de passe est obligatoire')
+        } else if (this.nouvelUtilisateur.mdp.length < 6) {
+          this.erreurs.push('Le mot de passe doit faire 6 caractères au minimum')
+        }
+
+        // Appel au service
+        if (this.erreurs.length === 0) {
+          rest.postUtilisateur(this.nouvelUtilisateur, response => { this.nouvelUtilisateur = { login: '', mdp: '' }; this.rechercherLesDonnees() })
+        }
+      }
     },
 
     rechercherLesDonnees (event) {

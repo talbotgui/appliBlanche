@@ -34,7 +34,9 @@
         <h3>Ajouter/modifier un utilisateur</h3>
 
         <!-- Validation de surface -->
-        <div>???validation de surface???</div>
+        <div v-if="erreurs.length">
+          <div class="alert-danger" v-for="erreur in erreurs" :key="erreur">{{ erreur }}</div>
+        </div>
 
         <!-- Champs -->
         <input id="nouveauRole" v-model.trim="nouveauRole.nom" placeholder="nom" />
@@ -55,7 +57,8 @@ export default {
   data () {
     return {
       nouveauRole: undefined,
-      roles: []
+      roles: [],
+      erreurs: []
     }
   },
 
@@ -75,7 +78,20 @@ export default {
     },
 
     creerRole (event) {
-      rest.postRole(this.nouveauRole, response => { this.nouveauRole = { nom: '' }; this.rechercherLesDonnees() })
+      if (this.nouveauRole) {
+        // Validation de formulaire
+        this.erreurs = []
+        if (!this.nouveauRole.nom) {
+          this.erreurs.push('Le nom de role est obligatoire')
+        } else if (this.nouveauRole.nom.length < 3) {
+          this.erreurs.push('Le nom de role doit faire 3 caractères au minimum')
+        }
+
+        // Appel au service
+        if (this.erreurs.length === 0) {
+          rest.postRole(this.nouveauRole, response => { this.nouveauRole = { nom: '' }; this.rechercherLesDonnees() })
+        }
+      }
     },
 
     rechercherLesDonnees (event) {
