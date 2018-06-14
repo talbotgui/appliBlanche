@@ -11,6 +11,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatNativeDateModule, DateAdapter } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { L10nConfig, L10nLoader, TranslationModule, StorageStrategy, ProviderType } from 'angular-l10n';
 import { CKEditorModule } from 'ng2-ckeditor';
 import { MapValuesPipe, AttributesToMapPipe } from './pipes.component';
 import { MyDateAdapter } from './dateformat.component';
@@ -37,6 +38,26 @@ import { AppRoutingModule } from './app-routing.module';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 registerLocaleData(localeFr, 'fr');
+
+// Configuration de l'internationnalisation
+const l10nConfig: L10nConfig = {
+  locale: {
+    // Liste des langues disponibles
+    languages: [{ code: 'fr', dir: 'ltr' }, { code: 'en', dir: 'ltr' }],
+    // Langue par défaut
+    language: 'fr',
+    // Lieu de stockage de la dernière langue sélectionnée par l'utilisateur
+    storage: StorageStrategy.Cookie
+  },
+  translation: {
+    // Source des libellés
+    providers: [{ type: ProviderType.WebAPI, path: 'http://localhost:9090/applicationBlanche/i18n/' }],
+    // cache
+    caching: true,
+    // Libellé par défaut si manquant
+    missingValue: 'xxx'
+  }
+};
 
 // Déclaration du module
 @NgModule({
@@ -81,7 +102,15 @@ registerLocaleData(localeFr, 'fr');
     AppRoutingModule,
 
     // Import de bootstrap
-    AlertModule.forRoot()
+    AlertModule.forRoot(),
+
+    // Gestion de l'internationnalisation
+    TranslationModule.forRoot(l10nConfig)
   ]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(public l10nLoader: L10nLoader) {
+    // Initialisation de l'i18n au démarrage de l'application
+    this.l10nLoader.load();
+  }
+}
