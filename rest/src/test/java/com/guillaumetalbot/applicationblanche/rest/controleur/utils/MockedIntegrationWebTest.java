@@ -9,6 +9,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
 import com.guillaumetalbot.applicationblanche.metier.service.ClientService;
+import com.guillaumetalbot.applicationblanche.metier.service.LibelleService;
 import com.guillaumetalbot.applicationblanche.metier.service.SecuriteService;
 
 public class MockedIntegrationWebTest extends IntegrationWebTest {
@@ -19,6 +20,10 @@ public class MockedIntegrationWebTest extends IntegrationWebTest {
 	/** Mock de service créé par Mockito. */
 	@MockBean
 	protected ClientService clientService;
+
+	/** Mock de service créé par Mockito. */
+	@MockBean
+	protected LibelleService libelleService;
 
 	/** Mock de service créé par Mockito. */
 	@MockBean
@@ -34,7 +39,7 @@ public class MockedIntegrationWebTest extends IntegrationWebTest {
 	@BeforeMethod
 	public void beforeMethod() {
 		LOG.info("*****************************************");
-		Mockito.reset(this.clientService, this.securiteService);
+		Mockito.reset(this.clientService, this.securiteService, this.libelleService);
 	}
 
 }

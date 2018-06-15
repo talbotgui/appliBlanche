@@ -2,12 +2,17 @@ package com.guillaumetalbot.applicationblanche.rest.dto;
 
 public class ElementMonitoring {
 
-	private final String clef;
-	private final Double nbAppels;
-	private final Double tempsCumule;
-	private final Double tempsMax;
-	private final Double tempsMin;
-	private final Double tempsMoyen;
+	private String clef;
+
+	private Double nbAppels;
+	private Double tempsCumule;
+	private Double tempsMax;
+	private Double tempsMin;
+	private Double tempsMoyen;
+
+	public ElementMonitoring() {
+		super();
+	}
 
 	public ElementMonitoring(final String clef, final Double nbAppels, final Double tempsMin, final Double tempsMoyen, final Double tempsMax,
 			final Double tempsCumule) {

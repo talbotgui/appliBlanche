@@ -231,4 +231,22 @@ public class UtilisateurRestControlerTest extends JwtIntegrationWebTest {
 		Mockito.verifyNoMoreInteractions(this.securiteService);
 	}
 
+	@Test
+	public void test12GetUtilisateurMoi() {
+		final String login = "login";
+		final Utilisateur aRetourner = new Utilisateur(login, "m1");
+
+		// ARRANGE
+		Mockito.doReturn(aRetourner).when(this.securiteService).chargerUtilisateurReadOnly(Mockito.anyString());
+
+		// ACT
+		final Utilisateur utilisateur = this.getREST().getForObject(this.getURL() + "/v1/utilisateurs/moi", Utilisateur.class);
+
+		// ASSERT
+		Assert.assertNotNull(utilisateur);
+		Assert.assertEquals(utilisateur.getLogin(), aRetourner.getLogin());
+		Mockito.verify(this.securiteService).chargerUtilisateurReadOnly(Mockito.anyString());
+		Mockito.verifyNoMoreInteractions(this.securiteService);
+	}
+
 }
