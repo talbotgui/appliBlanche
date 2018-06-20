@@ -2,6 +2,10 @@ package com.guillaumetalbot.applicationblanche.metier.service;
 
 import java.util.Collection;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import com.guillaumetalbot.applicationblanche.metier.dto.ClientDto;
 import com.guillaumetalbot.applicationblanche.metier.entite.client.Adresse;
 import com.guillaumetalbot.applicationblanche.metier.entite.client.Client;
 import com.guillaumetalbot.applicationblanche.metier.entite.client.Demande;
@@ -14,6 +18,8 @@ public interface ClientService {
 	Client chargerClientReadonly(String refClient);
 
 	Collection<Client> listerClients();
+
+	Page<ClientDto> listerClientsDto(Pageable requete);
 
 	String sauvegarderAdresse(String refClient, Adresse adresse);
 

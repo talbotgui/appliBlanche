@@ -8,6 +8,8 @@ import java.util.Map;
 
 import org.mockito.Mockito;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
@@ -16,6 +18,7 @@ import org.testng.annotations.Test;
 
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.Ressource;
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.Role;
+import com.guillaumetalbot.applicationblanche.rest.controleur.dto.PageablePourLesTest;
 import com.guillaumetalbot.applicationblanche.rest.controleur.utils.ControlerTestUtil;
 import com.guillaumetalbot.applicationblanche.rest.controleur.utils.JwtIntegrationWebTest;
 
@@ -43,23 +46,22 @@ public class RoleEtRessourceRestControlerTest extends JwtIntegrationWebTest {
 
 	@Test
 	public void test02GetListeRessource() {
-		final List<Ressource> toReturn = Arrays.asList(new Ressource("Re1"), new Ressource("Re2"), new Ressource("Re3"));
+		final Page<Ressource> toReturn = new PageablePourLesTest<>(Arrays.asList(new Ressource("Re1"), new Ressource("Re2"), new Ressource("Re3")));
 
 		// ARRANGE
-		Mockito.doReturn(toReturn).when(this.securiteService).listerRessources();
+		Mockito.doReturn(toReturn).when(this.securiteService).listerRessources(Mockito.any(Pageable.class));
 
 		// ACT
-		final ParameterizedTypeReference<Collection<Ressource>> typeRetour = new ParameterizedTypeReference<Collection<Ressource>>() {
+		final ParameterizedTypeReference<PageablePourLesTest<Ressource>> typeRetour = new ParameterizedTypeReference<PageablePourLesTest<Ressource>>() {
 		};
-		final ResponseEntity<Collection<Ressource>> reponse = this.getREST().exchange(this.getURL() + "/v1/ressources", HttpMethod.GET, null,
+		final ResponseEntity<PageablePourLesTest<Ressource>> reponse = this.getREST().exchange(this.getURL() + "/v1/ressources", HttpMethod.GET, null,
 				typeRetour);
 
 		// ASSERT
-		Mockito.verify(this.securiteService).listerRessources();
+		Mockito.verify(this.securiteService).listerRessources(Mockito.any(Pageable.class));
 		Mockito.verifyNoMoreInteractions(this.securiteService);
 		Assert.assertNotNull(reponse.getBody());
-		Assert.assertEquals(reponse.getBody().size(), toReturn.size());
-		Assert.assertEquals(reponse.getBody().iterator().next().getClef(), toReturn.iterator().next().getClef());
+		Assert.assertEquals(reponse.getBody().getContent().size(), toReturn.getContent().size());
 	}
 
 	@Test

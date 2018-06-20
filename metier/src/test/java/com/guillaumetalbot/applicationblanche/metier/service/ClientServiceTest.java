@@ -21,11 +21,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.guillaumetalbot.applicationblanche.exception.BusinessException;
 import com.guillaumetalbot.applicationblanche.metier.application.SpringApplicationForTests;
+import com.guillaumetalbot.applicationblanche.metier.dto.ClientDto;
 import com.guillaumetalbot.applicationblanche.metier.entite.Entite;
 import com.guillaumetalbot.applicationblanche.metier.entite.client.Adresse;
 import com.guillaumetalbot.applicationblanche.metier.entite.client.Client;
@@ -196,6 +199,41 @@ public class ClientServiceTest {
 		Assert.assertNotNull(client.getAdresse());
 		Assert.assertNotNull(client.getDossiers());
 		Assert.assertEquals(1, client.getDossiers().size());
+	}
+
+	@Test
+	public void test01Client09ListerClientDto() {
+		//
+		final String refClient = this.clientService.sauvegarderClient(null, "clientAvecDossiersEtDemandes");
+		final String refDossier1 = this.clientService.sauvegarderDossier(refClient, new Dossier("nomDossier1"));
+		this.clientService.sauvegarderDemande(refDossier1, new Demande("descCourte1", "descLongue1"));
+		this.clientService.sauvegarderDemande(refDossier1, new Demande("descCourte1", "descLongue2"));
+		final String refDossier2 = this.clientService.sauvegarderDossier(refClient, new Dossier("nomDossier2"));
+		this.clientService.sauvegarderDemande(refDossier2, new Demande("descCourte2", "descLongue1"));
+		this.clientService.sauvegarderDemande(refDossier2, new Demande("descCourte2", "descLongue2"));
+		final String refDossier3 = this.clientService.sauvegarderDossier(refClient, new Dossier("nomDossier3"));
+		this.clientService.sauvegarderDemande(refDossier3, new Demande("descCourte3", "descLongue1"));
+		this.clientService.sauvegarderDemande(refDossier3, new Demande("descCourte3", "descLongue2"));
+
+		final String refClient2 = this.clientService.sauvegarderClient(null, "clientAvecDossiersSansDemandes");
+		this.clientService.sauvegarderDossier(refClient2, new Dossier("nomDossier4"));
+		this.clientService.sauvegarderDossier(refClient2, new Dossier("nomDossier5"));
+		this.clientService.sauvegarderDossier(refClient2, new Dossier("nomDossier6"));
+
+		this.clientService.sauvegarderClient(null, "clientSansDossiersNiDemandes");
+
+		//
+		final Page<ClientDto> page = this.clientService.listerClientsDto(new QPageRequest(0, 5));
+
+		//
+		Assert.assertNotNull(page);
+		Assert.assertEquals("Nb dtos", 3, page.getContent().size());
+		Assert.assertEquals("Nb dossiers", 3, page.getContent().get(0).getNbDossiers());
+		Assert.assertEquals("Nb demandes", 6, page.getContent().get(0).getNbDemandes());
+		Assert.assertEquals("Nb dossiers", 3, page.getContent().get(1).getNbDossiers());
+		Assert.assertEquals("Nb demandes", 0, page.getContent().get(1).getNbDemandes());
+		Assert.assertEquals("Nb dossiers", 0, page.getContent().get(2).getNbDossiers());
+		Assert.assertEquals("Nb demandes", 0, page.getContent().get(2).getNbDemandes());
 	}
 
 	@Test

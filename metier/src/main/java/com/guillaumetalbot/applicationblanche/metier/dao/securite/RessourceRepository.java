@@ -2,6 +2,8 @@ package com.guillaumetalbot.applicationblanche.metier.dao.securite;
 
 import java.util.Collection;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -17,6 +19,6 @@ public interface RessourceRepository extends CrudRepository<Ressource, String> {
 	Collection<String> listerClefsRessources();
 
 	@Query("select r from Ressource r order by r.clef")
-	Collection<Ressource> listerRessources();
+	Page<Ressource> listerRessources(Pageable page);
 
 }

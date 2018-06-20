@@ -36,7 +36,7 @@ public class UtilisateurRestControler {
 
 		final Utilisateur u = this.securiteService.chargerUtilisateurReadOnly(login);
 		if (u == null) {
-			throw new RestException(RestException.OBJET_INEXISTANTE);
+			throw new RestException(RestException.OBJET_INEXISTANT);
 		}
 		this.securiteService.sauvegarderUtilisateur(u.getLogin(), mdp);
 	}

@@ -6,6 +6,8 @@ import java.util.Collection;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.guillaumetalbot.applicationblanche.exception.BusinessException;
@@ -13,6 +15,7 @@ import com.guillaumetalbot.applicationblanche.metier.dao.client.AdresseRepositor
 import com.guillaumetalbot.applicationblanche.metier.dao.client.ClientRepository;
 import com.guillaumetalbot.applicationblanche.metier.dao.client.DemandeRepository;
 import com.guillaumetalbot.applicationblanche.metier.dao.client.DossierRepository;
+import com.guillaumetalbot.applicationblanche.metier.dto.ClientDto;
 import com.guillaumetalbot.applicationblanche.metier.entite.Entite;
 import com.guillaumetalbot.applicationblanche.metier.entite.client.Adresse;
 import com.guillaumetalbot.applicationblanche.metier.entite.client.Client;
@@ -50,6 +53,11 @@ public class ClientServiceImpl implements ClientService {
 	@Override
 	public Collection<Client> listerClients() {
 		return this.clientRepo.listerClients();
+	}
+
+	@Override
+	public Page<ClientDto> listerClientsDto(final Pageable requete) {
+		return this.clientRepo.listerClientsDto(requete);
 	}
 
 	@Override

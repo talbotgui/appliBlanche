@@ -12,6 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.guillaumetalbot.applicationblanche.exception.BusinessException;
@@ -146,8 +148,8 @@ public class SecuriteServiceImpl implements SecuriteService {
 	}
 
 	@Override
-	public Collection<Ressource> listerRessources() {
-		return this.ressourceRepo.listerRessources();
+	public Page<Ressource> listerRessources(final Pageable page) {
+		return this.ressourceRepo.listerRessources(page);
 	}
 
 	@Override

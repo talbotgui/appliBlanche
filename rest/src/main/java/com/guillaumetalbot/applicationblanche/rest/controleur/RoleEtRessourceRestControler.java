@@ -6,6 +6,8 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,8 +23,8 @@ public class RoleEtRessourceRestControler {
 	private SecuriteService securiteService;
 
 	@RequestMapping(value = "/v1/ressources", method = GET)
-	public Collection<Ressource> listerRessource() {
-		return this.securiteService.listerRessources();
+	public Page<Ressource> listerRessource(final Pageable page) {
+		return this.securiteService.listerRessources(page);
 	}
 
 	@RequestMapping(value = "/v1/roles", method = GET)

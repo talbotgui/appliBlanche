@@ -14,11 +14,15 @@ public class RestException extends BaseException {
 
 	public static final ExceptionId ERREUR_IO = new ExceptionId("ERREUR_IO", "Erreur d'écriture durant le traitement.", ExceptionLevel.ERROR, 500);
 
+	public static final ExceptionId ERREUR_PARAMETRES_PAGINATION_MANQUANT = new ExceptionId("ERREUR_PARAMETRES_PAGINATION_MANQUANT",
+			"Les deux parametres 'pageSize' et 'pageNumber' sont tous deux obligatoires.", //
+			ExceptionLevel.ERROR, 400);
+
 	public static final ExceptionId ERREUR_VALEUR_PARAMETRE = new ExceptionId("ERREUR_VALEUR_PARAMETRE",
 			"Le parametre '{0}' ne peut prendre que les valeurs '{1}' et pas la valeur '{2}'.", //
 			ExceptionLevel.ERROR, 400);
 
-	public static final ExceptionId OBJET_INEXISTANTE = new ExceptionId("OBJET_INEXISTANTE", "Objet inexistant", ExceptionLevel.ERROR, 404);
+	public static final ExceptionId OBJET_INEXISTANT = new ExceptionId("OBJET_INEXISTANT", "Objet inexistant", ExceptionLevel.ERROR, 404);
 
 	/** Default UID. */
 	private static final long serialVersionUID = 1L;

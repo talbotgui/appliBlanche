@@ -22,6 +22,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -219,7 +221,7 @@ public class SecuriteServiceTest {
 		//
 		final String role = "role";
 		this.securiteService.sauvegarderRole(role);
-		final Collection<Ressource> ressources = this.securiteService.listerRessources();
+		final Page<Ressource> ressources = this.securiteService.listerRessources(new QPageRequest(1, 20));
 		for (final Ressource r : ressources) {
 			this.securiteService.associerRoleEtRessource(role, r.getClef());
 		}
@@ -240,7 +242,7 @@ public class SecuriteServiceTest {
 		Assert.assertEquals(4, liste.size());
 		for (final UtilisateurAvecRolesEtAutorisations u : liste) {
 			Assert.assertEquals(1, u.getRoles().size());
-			Assert.assertEquals(ressources.size(), u.getRessources().size());
+			Assert.assertEquals(ressources.getTotalElements(), u.getRessources().size());
 		}
 
 	}
@@ -575,10 +577,10 @@ public class SecuriteServiceTest {
 		jdbc.update("insert into RESSOURCE (CLEF, DESCRIPTION) values (?,?)", "clefRessource4", "description4");
 
 		//
-		final Collection<Ressource> ressources = this.securiteService.listerRessources();
+		final Page<Ressource> ressources = this.securiteService.listerRessources(new QPageRequest(1, 20));
 
 		//
-		Assert.assertEquals(4, ressources.size());
+		Assert.assertEquals(4, ressources.getTotalElements());
 	}
 
 	@Test

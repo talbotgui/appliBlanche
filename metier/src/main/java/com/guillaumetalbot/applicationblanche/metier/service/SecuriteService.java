@@ -2,6 +2,9 @@ package com.guillaumetalbot.applicationblanche.metier.service;
 
 import java.util.Collection;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.guillaumetalbot.applicationblanche.metier.dto.UtilisateurAvecRolesEtAutorisations;
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.Ressource;
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.Role;
@@ -25,7 +28,7 @@ public interface SecuriteService {
 
 	void initialiserOuCompleterConfigurationSecurite(Collection<String> clefsRessources, String loginAdmin, String mdpAdmin, String roleAdmin);
 
-	Collection<Ressource> listerRessources();
+	Page<Ressource> listerRessources(Pageable page);
 
 	Collection<Role> listerRoles();
 

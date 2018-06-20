@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
@@ -22,13 +23,14 @@
 		<version.lang3>3.7</version.lang3>
 		<version.jamon>2.81</version.jamon>
 		<version.jaxb>2.3.0</version.jaxb>
+		<version.querydsl>4.2.1</version.querydsl>
 	</properties>
 
 	<build>
 	</build>
 
 	<dependencies>
-	
+
 		<!-- Dependance ajoutée pour la génération de la Javadoc -->
 		<dependency>
 			<groupId>javax.interceptor</groupId>
@@ -52,7 +54,12 @@
 			<artifactId>jaxb-api</artifactId>
 			<version>${version.jaxb}</version>
 		</dependency>
-		
+		<dependency>
+			<groupId>com.querydsl</groupId>
+			<artifactId>querydsl-jpa</artifactId>
+			<version>${version.querydsl}</version>
+		</dependency>
+
 
 		<!-- Utility classes -->
 		<dependency>
@@ -94,7 +101,7 @@
 			<version>${version.assertJ}</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<!-- Annotations permettant de manipuler la transformation Objet/Json -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
