@@ -46,6 +46,7 @@ x	Utiliser l'injection automatique des mock dans tout le context Spring pour les
 x	remplacer les java.util.Date par des LocalDateTime
 x	rassembler l'initialisation des entêtes (dans JWTAuthenticationFilter & JWTConnexionFilter) dans un même filtre ou un même paramètre
 x	ajouter MonitoringAdvisor
+	masquer les détails des erreurs techniques dans les réponses REST (test à faire avec une requête HQL pourrie)
 
 Sujets BATCH :
 x	destination SQL avec une requête
