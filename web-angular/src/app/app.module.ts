@@ -12,7 +12,6 @@ import { MatNativeDateModule, DateAdapter } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { L10nConfig, L10nLoader, TranslationModule, StorageStrategy, ProviderType } from 'angular-l10n';
-import { CKEditorModule } from 'ng2-ckeditor';
 import { MapValuesPipe, AttributesToMapPipe } from './pipes.component';
 import { MyDateAdapter } from './dateformat.component';
 
@@ -97,9 +96,6 @@ const l10nConfig: L10nConfig = {
     // Les modules Material
     BrowserAnimationsModule, MatButtonModule, MatCardModule, MatChipsModule, MatDatepickerModule, MatGridListModule,
     MatNativeDateModule, MatRadioModule, MatSelectModule, MatSidenavModule, MatSnackBarModule, MatTooltipModule,
-
-    // les composants WEB riches externes
-    CKEditorModule,
 
     // Déclaration des routes
     AppRoutingModule,
