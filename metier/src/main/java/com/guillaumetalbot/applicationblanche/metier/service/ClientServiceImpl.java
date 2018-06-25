@@ -156,4 +156,10 @@ public class ClientServiceImpl implements ClientService {
 		this.dossierRepo.save(dossier);
 		return dossier.getReference();
 	}
+
+	@Override
+	public void supprimerClient(final String refClient) {
+		final Long idClient = Entite.extraireIdentifiant(refClient, Client.class);
+		this.clientRepo.deleteById(idClient);
+	}
 }

@@ -1,5 +1,6 @@
 package com.guillaumetalbot.applicationblanche.rest.controleur;
 
+import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
@@ -53,9 +54,14 @@ public class ClientRestControler {
 	}
 
 	@RequestMapping(value = "/v1/clients", method = POST)
-	public String sauvegarderClient(//
+	public void sauvegarderClient(//
 			@RequestParam(required = false, value = "refClient") final String refClient, //
 			@RequestParam(value = "nom") final String nom) {
-		return this.clientService.sauvegarderClient(refClient, nom);
+		this.clientService.sauvegarderClient(refClient, nom);
+	}
+
+	@RequestMapping(value = "/v1/clients/{refClient}", method = DELETE)
+	public void supprimerClient(@PathVariable("refClient") final String refClient) {
+		this.clientService.supprimerClient(refClient);
 	}
 }

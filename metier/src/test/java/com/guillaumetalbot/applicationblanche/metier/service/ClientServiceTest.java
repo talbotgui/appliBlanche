@@ -237,6 +237,20 @@ public class ClientServiceTest {
 	}
 
 	@Test
+	public void test01Client10Supprimer() {
+		//
+		final String nomClient = "nom";
+		final String ref = this.clientService.sauvegarderClient(null, nomClient);
+
+		//
+		this.clientService.supprimerClient(ref);
+
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from CLIENT where nom=?", new Object[] { nomClient }, Long.class));
+	}
+
+	@Test
 	public void test02Adresse01CreationOk() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);

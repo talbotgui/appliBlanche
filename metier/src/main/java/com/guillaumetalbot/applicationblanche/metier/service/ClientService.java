@@ -29,4 +29,6 @@ public interface ClientService {
 
 	String sauvegarderDossier(String refClient, Dossier dossier);
 
+	void supprimerClient(String refClient);
+
 }
