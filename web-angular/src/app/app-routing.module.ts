@@ -6,14 +6,16 @@ import { AuthGuard } from './service/auth-guard.service';
 
 // Tous les composants applicatifs de l'application
 import { PageAccueilComponent } from './page-accueil/page-accueil.component';
-import { PageUtilisateurComponent } from './administration/page-utilisateur/page-utilisateur.component';
 import { PageConnexionComponent } from './page-connexion/page-connexion.component';
+import { PageUtilisateurComponent } from './administration/page-utilisateur/page-utilisateur.component';
+import { PageClientComponent } from './page-client/page-client.component';
 
 const routes: Routes = [
   // pour rediriger par défaut sur le dashboard
   { path: '', redirectTo: '/page-accueil-route', pathMatch: 'full' },
   { path: 'page-accueil-route', component: PageAccueilComponent, canActivate: [AuthGuard] },
   { path: 'page-utilisateur-route', component: PageUtilisateurComponent, canActivate: [AuthGuard] },
+  { path: 'page-client-route', component: PageClientComponent, canActivate: [AuthGuard] },
   { path: 'page-connexion-route', component: PageConnexionComponent }
 ];
 

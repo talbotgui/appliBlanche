@@ -55,9 +55,9 @@ public class ClientRestControler {
 
 	@RequestMapping(value = "/v1/clients", method = POST)
 	public void sauvegarderClient(//
-			@RequestParam(required = false, value = "refClient") final String refClient, //
+			@RequestParam(required = false, value = "reference") final String reference, //
 			@RequestParam(value = "nom") final String nom) {
-		this.clientService.sauvegarderClient(refClient, nom);
+		this.clientService.sauvegarderClient(reference, nom);
 	}
 
 	@RequestMapping(value = "/v1/clients/{refClient}", method = DELETE)

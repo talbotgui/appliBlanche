@@ -25,10 +25,13 @@ import { PageAccueilComponent } from './page-accueil/page-accueil.component';
 import { PageConnexionComponent } from './page-connexion/page-connexion.component';
 import { CadreMenuComponent } from './cadre-menu/cadre-menu.component';
 import { PageUtilisateurComponent } from './administration/page-utilisateur/page-utilisateur.component';
+import { PageClientComponent } from './page-client/page-client.component';
 
 // Les composants injectables
 import { AuthGuard } from './service/auth-guard.service';
+import { RestUtilsService } from './service/restUtils.service';
 import { UtilisateurService } from './service/utilisateur.service';
+import { ClientService } from './service/client.service';
 
 // Le composant contenant les routes
 import { AppRoutingModule } from './app-routing.module';
@@ -68,7 +71,7 @@ const l10nConfig: L10nConfig = {
   // Tous les composants applicatifs de l'application
   declarations: [
     AppComponent, AttributesToMapPipe,
-    MapValuesPipe, PageAccueilComponent, PageConnexionComponent, CadreMenuComponent, PageUtilisateurComponent
+    MapValuesPipe, PageAccueilComponent, PageConnexionComponent, CadreMenuComponent, PageUtilisateurComponent, PageClientComponent
   ],
 
   // Tous les composants à afficher dans un Dialog
@@ -81,7 +84,7 @@ const l10nConfig: L10nConfig = {
     { provide: DateAdapter, useClass: MyDateAdapter },
 
     // Les composants injectables
-    UtilisateurService, AuthGuard
+    RestUtilsService, UtilisateurService, ClientService, RestUtilsService, AuthGuard
 
   ],
 

@@ -2,17 +2,23 @@ package com.guillaumetalbot.applicationblanche.metier.dto;
 
 import java.time.LocalDateTime;
 
-public class ClientDto {
+public class ClientDto extends DtoAvecReference {
+	private static final long serialVersionUID = 1L;
 
 	private LocalDateTime dateCreationDernierDossier;
+
 	private int nbDemandes;
 	private int nbDossiers;
 	private String nomClient;
 	private String ville;
 
-	public ClientDto(final String nomClient, final String ville, final Long nbDemandes, final Long nbDossiers,
-			final LocalDateTime dateCreationDernierDossier) {
+	public ClientDto() {
 		super();
+	}
+
+	public ClientDto(final Long id, final String nomClient, final String ville, final Long nbDemandes, final Long nbDossiers,
+			final LocalDateTime dateCreationDernierDossier) {
+		super(id);
 		this.nomClient = nomClient;
 		this.ville = ville;
 		this.nbDemandes = nbDemandes.intValue();

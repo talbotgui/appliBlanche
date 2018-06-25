@@ -8,8 +8,10 @@ Sujets FRONT (partie sécurité) :
 
 Sujets FRONT (partie structure) :
 	ANG	VUE	SUJET				
+			appel à une API avec un DEBOUNCE sur un INPUT
 	x	x	appel à l'API en get
 	x	x	appel à l'API en post
+	x		pagination toute simple
 	x	x	internationnalisation avec l'appel à l'API
 			internationnalisation des messages de validation de surface
 			internationnalisation des messages d'erreurs venant de l'API

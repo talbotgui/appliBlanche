@@ -32,9 +32,9 @@ public interface ClientRepository extends CrudRepository<Client, Long> {
 	Collection<Client> listerClients();
 
 	@Query("select new com.guillaumetalbot.applicationblanche.metier.dto.ClientDto"
-			+ " (c.nom, adr.ville, count(distinct dem), count(distinct dos), max(dos.dateCreation))"//
+			+ " (c.id, c.nom, adr.ville, count(distinct dem), count(distinct dos), max(dos.dateCreation))"//
 			+ " from Client c left join c.dossiers dos left join dos.demandes dem left join c.adresse adr"//
-			+ " group by c.nom, c.adresse.ville"//
+			+ " group by c.id, c.nom, c.adresse.ville"//
 			+ " order by c.nom")
 	@QueryHints(value = { @QueryHint(name = org.hibernate.jpa.QueryHints.HINT_READONLY, value = "true") })
 	Page<ClientDto> listerClientsDto(Pageable requete);

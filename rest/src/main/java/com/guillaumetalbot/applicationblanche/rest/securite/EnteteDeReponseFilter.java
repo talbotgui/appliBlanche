@@ -31,6 +31,7 @@ public class EnteteDeReponseFilter extends OncePerRequestFilter {
 		httpReponse.setHeader("Access-Control-Allow-Origin", httpRequete.getHeader("Origin"));
 		httpReponse.setHeader("Access-Control-Allow-Headers", this.accessControlAllowHeaders);
 		httpReponse.setHeader("Access-Control-Expose-Headers", this.accessControlExposeHeaders);
+		httpReponse.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE");
 
 		filterChain.doFilter(httpRequete, httpReponse);
 	}

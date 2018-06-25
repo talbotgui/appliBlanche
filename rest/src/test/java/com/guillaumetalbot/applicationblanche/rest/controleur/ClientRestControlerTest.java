@@ -53,16 +53,16 @@ public class ClientRestControlerTest extends JwtIntegrationWebTest {
 
 	@Test
 	public void test01GetListeClient02Paginee() {
-		final PageablePourLesTest<ClientDto> toReturn = new PageablePourLesTest<>(Arrays.asList(new ClientDto("C1", "v", 1L, 1L, null),
-				new ClientDto("C2", "v", 1L, 1L, null), new ClientDto("C3", "v", 1L, 1L, null)));
+		final PageablePourLesTest<ClientDto> toReturn = new PageablePourLesTest<>(Arrays.asList(new ClientDto(1L, "C1", "v", 1L, 1L, null),
+				new ClientDto(2L, "C2", "v", 1L, 1L, null), new ClientDto(3L, "C3", "v", 1L, 1L, null)));
 
 		// ARRANGE
 		Mockito.doReturn(toReturn).when(this.clientService).listerClientsDto(Mockito.any(Pageable.class));
 
 		// ACT
-		final ParameterizedTypeReference<PageablePourLesTest<Client>> typeRetour = new ParameterizedTypeReference<PageablePourLesTest<Client>>() {
+		final ParameterizedTypeReference<PageablePourLesTest<ClientDto>> typeRetour = new ParameterizedTypeReference<PageablePourLesTest<ClientDto>>() {
 		};
-		final ResponseEntity<PageablePourLesTest<Client>> clients = this.getREST().exchange(this.getURL() + "/v1/clients?pageNumber=1&pageSize=5",
+		final ResponseEntity<PageablePourLesTest<ClientDto>> clients = this.getREST().exchange(this.getURL() + "/v1/clients?pageNumber=1&pageSize=5",
 				HttpMethod.GET, null, typeRetour);
 
 		// ASSERT
@@ -174,7 +174,7 @@ public class ClientRestControlerTest extends JwtIntegrationWebTest {
 	}
 
 	@Test
-	public void test03SauvegardeClient01dOk() {
+	public void test03SauvegardeClient01Ok() {
 		final String refClient = Entite.genererReference(Client.class, 1L);
 		final String nomClient = "C1";
 
@@ -184,11 +184,25 @@ public class ClientRestControlerTest extends JwtIntegrationWebTest {
 		// ACT
 		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("nom", nomClient);
 		final Map<String, Object> uriVars = new HashMap<String, Object>();
-		final String refClientRetournee = this.getREST().postForObject(this.getURL() + "/v1/clients", requestParam, String.class, uriVars);
+		this.getREST().postForObject(this.getURL() + "/v1/clients", requestParam, String.class, uriVars);
 
 		// ASSERT
 		Mockito.verify(this.clientService).sauvegarderClient(null, nomClient);
 		Mockito.verifyNoMoreInteractions(this.clientService);
-		Assert.assertEquals(refClientRetournee, refClient);
+	}
+
+	@Test
+	public void test04DeleteClient() {
+		final String refClient = Entite.genererReference(Client.class, 1L);
+
+		// ARRANGE
+		Mockito.doNothing().when(this.clientService).supprimerClient(refClient);
+
+		// ACT
+		this.getREST().delete(this.getURL() + "/v1/clients/" + refClient);
+
+		// ASSERT
+		Mockito.verify(this.clientService).supprimerClient(refClient);
+		Mockito.verifyNoMoreInteractions(this.clientService);
 	}
 }
