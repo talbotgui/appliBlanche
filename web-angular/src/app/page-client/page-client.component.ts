@@ -25,7 +25,6 @@ export class PageClientComponent implements OnInit {
   }
 
   chargerDonnees() {
-    console.debug('coucou');
     this.clientService.listerClientsDto(this.page)
       .subscribe((page: model.Page<model.ClientDto>) => {
         this.page = page;

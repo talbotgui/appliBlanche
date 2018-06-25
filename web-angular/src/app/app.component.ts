@@ -10,7 +10,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     // Exemple de code permettant de récupérer un libellé depuis le controleur
     this.translation.translationChanged().subscribe(
-      () => { console.debug(this.translation.translate('Title')); }
+      () => { console.debug(this.translation.translate('connexion_titre')); }
     );
   }
 
