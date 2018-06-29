@@ -61,4 +61,10 @@ export class UtilisateurService {
     return this.http.post<void>(url, donnees, this.restUtils.creerHeaderPost())
       .pipe(catchError(this.restUtils.handleError));
   }
+
+  supprimerUtilisateur(utilisateur: model.Utilisateur): Observable<{} | void> {
+    const url = 'http://localhost:9090/applicationBlanche/v1/utilisateurs/' + utilisateur.login;
+    return this.http.delete<void>(url, this.restUtils.creerHeaderPost())
+      .pipe(catchError(this.restUtils.handleError));
+  }
 }

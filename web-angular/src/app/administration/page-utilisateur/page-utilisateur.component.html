@@ -23,7 +23,8 @@
 				<span *ngFor="let role of utilisateur.roles">{{role.nom}}</span>
 			</td>
 			<td>
-				<em class="fa fa-edit" (click)="selectionnerUtilisateur(utilisateur); utilisateurForm.reset(utilisateur);"></em>
+				<em class="fa fa-edit" (click)="selectionnerUtilisateur(utilisateur)"></em>
+				<em class="fa fa-remove" (click)="supprimerUtilisateur(utilisateur)"></em>
 			</td>
 		</tr>
 	</tbody>
@@ -38,15 +39,15 @@
 		<h3 l10nTranslate>utilisateur_formulaire_titre</h3>
 
 		<!-- Messages de validation de surface -->
-		<div *ngIf="!inputLogin.pristine && inputLogin.errors?.required" class="alert-danger">Le nom d'utilisateur est obligatoire</div>
-		<div *ngIf="!inputLogin.pristine && inputLogin.errors?.minlength" class="alert-danger">Le nom d'utilisateur doit faire 6 caractères au minimum</div>
+		<div *ngIf="inputLogin && !inputLogin.pristine && inputLogin.errors?.required" class="alert-danger">Le nom d'utilisateur est obligatoire</div>
+		<div *ngIf="inputLogin && !inputLogin.pristine && inputLogin.errors?.minlength" class="alert-danger">Le nom d'utilisateur doit faire 6 caractères au minimum</div>
 		<div *ngIf="!inputMdp.pristine && inputMdp.errors?.required" class="alert-danger">Le mot de passe est obligatoire</div>
 		<div *ngIf="!inputMdp.pristine && inputMdp.errors?.minlength" class="alert-danger">Le mot de passe doit faire 6 caractères au minimum</div>
 
 		<!-- Champs -->
 		<mat-form-field l10nTranslate>
 			<input matInput required minlength="6" #inputLogin="ngModel" [(ngModel)]="utilisateurSelectionne.login" name="login" l10n-placeholder
-			 placeholder="utilisateur_placeholder_login">
+			 placeholder="utilisateur_placeholder_login" disabled="{{!creation}}">
 		</mat-form-field>
 		<mat-form-field l10nTranslate>
 			<input matInput required minlength="6" type="password" #inputMdp="ngModel" [(ngModel)]="utilisateurSelectionne.mdp" name="mdp"

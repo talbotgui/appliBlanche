@@ -13,6 +13,9 @@ export class PageUtilisateurComponent implements OnInit {
   // Utilisateur en cours d'édition
   utilisateurSelectionne: model.Utilisateur | undefined;
 
+  // Flag permettant de savoir si c'est une création ou une modification (pour bloquer le login)
+  creation: boolean = false;
+
   // Un constructeur pour se faire injecter les dépendances
   constructor(private route: ActivatedRoute, private utilisateurService: UtilisateurService) { }
 
@@ -52,6 +55,7 @@ export class PageUtilisateurComponent implements OnInit {
 
   creerUtilisateur() {
     this.utilisateurSelectionne = new model.Utilisateur();
+    this.creation = true;
   }
 
   sauvegarderUtilisateur() {
@@ -61,9 +65,16 @@ export class PageUtilisateurComponent implements OnInit {
     }
   }
 
-  // A la sélection d'un élève
+  // A la sélection
   selectionnerUtilisateur(utilisateur: model.Utilisateur) {
     this.utilisateurSelectionne = utilisateur;
+    this.creation = false;
+  }
+
+  // A la suppression 
+  supprimerUtilisateur(utilisateur: model.Utilisateur) {
+    this.utilisateurService.supprimerUtilisateur(utilisateur)
+      .subscribe(retour => { this.chargerDonnees(); });
   }
 
 }
