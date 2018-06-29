@@ -44,14 +44,18 @@
 		<div *ngIf="!inputMdp.pristine && inputMdp.errors?.minlength" class="alert-danger">Le mot de passe doit faire 6 caractères au minimum</div>
 
 		<!-- Champs -->
-		<input required minlength="6" #inputLogin="ngModel" [(ngModel)]="utilisateurSelectionne.login" name="login" l10nTranslate
-		 l10n-placeholder placeholder="utilisateur_placeholder_login">
-		<input required minlength="6" type="password" #inputMdp="ngModel" [(ngModel)]="utilisateurSelectionne.mdp" name="mdp" l10nTranslate
-		 l10n-placeholder placeholder="utilisateur_placeholder_mdp">
+		<mat-form-field l10nTranslate>
+			<input matInput required minlength="6" #inputLogin="ngModel" [(ngModel)]="utilisateurSelectionne.login" name="login" l10n-placeholder
+			 placeholder="utilisateur_placeholder_login">
+		</mat-form-field>
+		<mat-form-field l10nTranslate>
+			<input matInput required minlength="6" type="password" #inputMdp="ngModel" [(ngModel)]="utilisateurSelectionne.mdp" name="mdp"
+			 l10n-placeholder placeholder="utilisateur_placeholder_mdp">
+		</mat-form-field>
 
 		<!-- Boutons -->
-		<button type="submit" class="btn btn-outline-secondary" (click)="annulerCreationUtilisateur()" l10nTranslate>utilisateur_bouton_annuler</button>
-		<button type="submit" class="btn btn-outline-secondary" [disabled]="!utilisateurForm.form.valid" (click)="sauvegarderUtilisateur()"
+		<button matButton type="submit" class="btn btn-outline-secondary" (click)="annulerCreationUtilisateur()" l10nTranslate>utilisateur_bouton_annuler</button>
+		<button matButton type="submit" class="btn btn-outline-secondary" [disabled]="!utilisateurForm.form.valid" (click)="sauvegarderUtilisateur()"
 		 l10nTranslate>utilisateur_bouton_creer</button>
 	</div>
 </form>

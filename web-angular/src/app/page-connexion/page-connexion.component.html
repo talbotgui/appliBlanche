@@ -5,13 +5,14 @@
   <h2 l10nTranslate>connexion_titre</h2>
 
   <div class="form-group">
-    <label l10nTranslate for="login">connexion_identifiant</label>
-    <input class="form-control" id="login" matInput [(ngModel)]="login" autocomplete="username login" required/>
+    <mat-form-field l10nTranslate>
+      <input matInput autocomplete="username login" [(ngModel)]="login" name="login" l10n-placeholder placeholder="connexion_identifiant">
+    </mat-form-field>
   </div>
   <div class="form-group">
-    <label l10nTranslate for="mdp">connexion_motDePasse</label>
-    <input class="form-control" id="mdp" type="password" matInput [(ngModel)]="mdp" autocomplete="current-password" required
-    />
+    <mat-form-field l10nTranslate>
+      <input type="password" matInput autocomplete="current-password" [(ngModel)]="mdp" l10n-placeholder placeholder="connexion_motDePasse">
+    </mat-form-field>
   </div>
   <button class="btn btn-outline-secondary" (click)="connecter()" l10nTranslate>connexion_boutonConnexion</button>
 

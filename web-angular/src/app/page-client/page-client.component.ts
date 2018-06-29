@@ -24,6 +24,12 @@ export class PageClientComponent implements OnInit {
     this.annulerCreation();
   }
 
+  changerPage(index: number) {
+    console.debug("aze=" + index);
+    this.page.number = index;
+    this.chargerDonnees();
+  }
+
   chargerDonnees() {
     this.clientService.listerClientsDto(this.page)
       .subscribe((page: model.Page<model.ClientDto>) => {

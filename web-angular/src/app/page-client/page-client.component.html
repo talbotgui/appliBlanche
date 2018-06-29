@@ -34,9 +34,13 @@
 	</tbody>
 	<tfoot>
 		<tr colspan=6>
-			<select [(ngModel)]="page.number" (change)="chargerDonnees()">
-				<option *ngFor="let i of listeDeNombres(page.totalPages)">{{i}}</option>
-			</select>
+			<mat-form-field>
+				<mat-select [(value)]="page.number" placeholder="Numéro de page" (selectionChange)="chargerDonnees()">
+					<mat-option *ngFor="let i of listeDeNombres(page.totalPages)" [value]="i">
+						{{ i }}
+					</mat-option>
+				</mat-select>
+			</mat-form-field>
 		</tr>
 	</tfoot>
 </table>
@@ -53,9 +57,12 @@
 		<div *ngIf="!inputNom.pristine && inputNom.errors?.required" class="alert-danger">Le nom du client est obligatoire</div>
 
 		<!-- Champs -->
-		<input required #inputNom="ngModel" [(ngModel)]="clientSelectionne.nomClient" name="nom" l10nTranslate l10n-placeholder placeholder="client_placeholder_nom">
-		<input type="text" #inputVille="ngModel" [(ngModel)]="clientSelectionne.ville" name="ville" l10nTranslate l10n-placeholder
-		 placeholder="client_placeholder_ville">
+		<mat-form-field l10nTranslate>
+			<input matInput required #inputNom="ngModel" [(ngModel)]="clientSelectionne.nomClient" name="nom" l10n-placeholder placeholder="client_placeholder_nom">
+		</mat-form-field>
+		<mat-form-field l10nTranslate>
+			<input matInput type="text" #inputVille="ngModel" [(ngModel)]="clientSelectionne.ville" name="ville" l10n-placeholder placeholder="client_placeholder_ville">
+		</mat-form-field>
 
 		<!-- Boutons -->
 		<button type="submit" class="btn btn-outline-secondary" (click)="annulerCreation()" l10nTranslate>client_bouton_annuler</button>
