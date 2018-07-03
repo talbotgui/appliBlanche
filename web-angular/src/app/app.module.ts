@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { MatInputModule, MatButtonModule, MatCardModule, MatChipsModule, MatDatepickerModule, MatGridListModule } from '@angular/material';
+import { MatInputModule, MatCommonModule, MatButtonModule, MatCardModule, MatChipsModule, MatDatepickerModule, MatGridListModule, MatPaginatorModule, MatSortModule, MatTableModule } from '@angular/material';
 import { MatSnackBarModule, MatTooltipModule } from '@angular/material';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
@@ -95,7 +95,8 @@ const l10nConfig: L10nConfig = {
 
     // Les modules Material
     BrowserAnimationsModule, MatInputModule, MatButtonModule, MatCardModule, MatChipsModule, MatDatepickerModule,
-    MatGridListModule, MatNativeDateModule, MatRadioModule, MatSelectModule, MatSidenavModule, MatSnackBarModule, MatTooltipModule,
+    MatGridListModule, MatNativeDateModule, MatRadioModule, MatSelectModule, MatSidenavModule, MatSnackBarModule,
+    MatTooltipModule, MatPaginatorModule, MatSortModule, MatTableModule, MatCommonModule,
 
     // Déclaration des routes
     AppRoutingModule,

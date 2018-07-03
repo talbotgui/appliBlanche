@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { MatTableDataSource } from '@angular/material';
 
 import { ClientService } from '../service/client.service';
 import * as model from '../model/model';
 
 @Component({ selector: 'page-client', templateUrl: './page-client.component.html', styleUrls: ['./page-client.component.css'] })
 export class PageClientComponent implements OnInit {
+
+  displayedColumns: string[] = ['nomClient', 'ville', 'nbDossiers', 'nbDemandes', 'dateCreationDernierDossier', 'actions'];
+  dataSource: model.ClientDto[] = [];
 
   // Liste des clients à afficher
   page: model.Page<model.ClientDto> = new model.Page(10, 0);
@@ -34,6 +38,7 @@ export class PageClientComponent implements OnInit {
     this.clientService.listerClientsDto(this.page)
       .subscribe((page: model.Page<model.ClientDto>) => {
         this.page = page;
+        this.dataSource = page.content;
       });
 
   }
