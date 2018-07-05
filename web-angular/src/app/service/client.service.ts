@@ -15,8 +15,21 @@ export class ClientService {
 
   constructor(private http: HttpClient, private restUtils: RestUtilsService) { }
 
-  listerClientsDto(page: model.Page<model.ClientDto>): Observable<{} | model.Page<model.ClientDto>> {
-    const url = 'http://localhost:9090/applicationBlanche/v1/clients?pageNumber=' + page.number + '&pageSize=' + page.size;
+  listerClientsDto(page: model.Page<any>): Observable<{} | model.Page<model.ClientDto>> {
+
+    // Seul un tri par défaut est possible
+    let triParNom: string = '';
+    if (page.sort) {
+      console.debug(page.sort.sortOrder);
+      if (page.sort.sortOrder === 'asc') {
+        triParNom = 'true';
+      } else {
+        triParNom = 'false';
+      }
+    }
+
+    // Appel à l'API
+    const url = 'http://localhost:9090/applicationBlanche/v1/clients?pageNumber=' + page.number + '&pageSize=' + page.size + '&triParNom=' + triParNom;
     return this.http.get<model.Page<model.ClientDto>>(url, this.restUtils.creerHeader())
       .pipe(catchError(this.restUtils.handleError));
   }

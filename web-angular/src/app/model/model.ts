@@ -1,3 +1,9 @@
+export class Sort {
+  unsorted: boolean;
+  sorted: boolean;
+  sortColonne: string;
+  sortOrder: string;
+}
 export class Page<T> {
   constructor(public size: number, public number: number) { }
   content: T[];
@@ -5,9 +11,10 @@ export class Page<T> {
   previous: string;
   first: boolean;
   last: boolean;
-  numberOfElements: number;
-  totalOfElements: number;
+  numberElements: number;
+  totalElements: number;
   totalPages: number;
+  sort: Sort | undefined;
 }
 
 export class ClientDto {

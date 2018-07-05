@@ -6,7 +6,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.querydsl.QPageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,14 +40,18 @@ public class ClientRestControler {
 	 *            Paramètre de pagination optionnel
 	 * @param pageNumber
 	 *            Paramètre de pagination optionnel
+	 * @param triParNom
+	 *            Tri par le nom du client
 	 * @return
 	 */
 	@RequestMapping(value = "/v1/clients", method = GET)
 	public Object listerClientDto(@RequestParam(required = false, value = "pageSize") final Integer pageSize,
-			@RequestParam(required = false, value = "pageNumber") final Integer pageNumber) {
-		final Pageable page = RestControlerUtils.creerPageSiPossible(pageSize, pageNumber);
+			@RequestParam(required = false, value = "pageNumber") final Integer pageNumber,
+			@RequestParam(required = false, value = "triParNom") final Boolean triParNom) {
+		final Sort tri = RestControlerUtils.creerTriSiPossible("nom", triParNom);
+		final Pageable page = RestControlerUtils.creerPageSiPossible(pageSize, pageNumber, tri);
 		if (page != null) {
-			return this.clientService.listerClientsDto(new QPageRequest(pageNumber, pageSize));
+			return this.clientService.listerClientsDto(page);
 		} else {
 			return this.clientService.listerClients();
 		}

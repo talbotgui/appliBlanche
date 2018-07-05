@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.guillaumetalbot.applicationblanche.exception.BusinessException;
 import com.guillaumetalbot.applicationblanche.metier.dao.client.AdresseRepository;
+import com.guillaumetalbot.applicationblanche.metier.dao.client.ClientDtoRepository;
 import com.guillaumetalbot.applicationblanche.metier.dao.client.ClientRepository;
 import com.guillaumetalbot.applicationblanche.metier.dao.client.DemandeRepository;
 import com.guillaumetalbot.applicationblanche.metier.dao.client.DossierRepository;
@@ -28,6 +29,9 @@ public class ClientServiceImpl implements ClientService {
 
 	@Autowired
 	private AdresseRepository adresseRepo;
+
+	@Autowired
+	private ClientDtoRepository clientDtoRepo;
 
 	@Autowired
 	private ClientRepository clientRepo;
@@ -57,7 +61,7 @@ public class ClientServiceImpl implements ClientService {
 
 	@Override
 	public Page<ClientDto> listerClientsDto(final Pageable requete) {
-		return this.clientRepo.listerClientsDto(requete);
+		return this.clientDtoRepo.listerClientsDto(requete);
 	}
 
 	@Override
