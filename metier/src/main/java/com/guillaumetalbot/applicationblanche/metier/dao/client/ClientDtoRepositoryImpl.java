@@ -48,7 +48,7 @@ public class ClientDtoRepositoryImpl implements ClientDtoRepository {
 
 		// récupération des données
 		final TypedQuery<ClientDto> q = this.em.createQuery(hql, ClientDto.class);
-		q.setFirstResult((requete.getPageNumber() - 1) * requete.getPageSize());
+		q.setFirstResult(requete.getPageNumber() * requete.getPageSize());
 		q.setMaxResults(requete.getPageSize());
 		final List<ClientDto> results = q.getResultList();
 

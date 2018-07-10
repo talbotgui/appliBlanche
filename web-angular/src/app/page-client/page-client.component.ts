@@ -86,7 +86,14 @@ export class PageClientComponent implements OnInit {
   supprimer(client: model.ClientDto) {
     this.clientService.supprimerClient(client)
       .subscribe(retour => {
-        this.paginator.firstPage();
+        // retour à la première page si on est pas en page 1
+        if (this.paginator.hasPreviousPage()) {
+          this.paginator.firstPage();
+        }
+        // rechargement des données si on est déjà sur la première page
+        else {
+          this.dataSource.load();
+        }
       });
   }
 
