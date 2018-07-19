@@ -42,7 +42,7 @@ public class JWTConnexionFilter extends AbstractAuthenticationProcessingFilter {
 
 	/**
 	 * Constructeur
-	 * 
+	 *
 	 * @param parametresJwt
 	 * @param authManager
 	 * @param securiteService
@@ -57,6 +57,13 @@ public class JWTConnexionFilter extends AbstractAuthenticationProcessingFilter {
 		this.securiteService = securiteService;
 		this.accessControlAllowHeaders = accessControlAllowHeaders;
 		this.accessControlExposeHeaders = accessControlExposeHeaders;
+	}
+
+	private void ajouterLesEntetesHttp(final HttpServletRequest req, final HttpServletResponse res) {
+		// Ajout des tokens de sécurité
+		res.setHeader("Access-Control-Allow-Origin", req.getHeader("Origin"));
+		res.setHeader("Access-Control-Allow-Headers", this.accessControlAllowHeaders);
+		res.setHeader("Access-Control-Expose-Headers", this.accessControlExposeHeaders);
 	}
 
 	/**
@@ -91,10 +98,7 @@ public class JWTConnexionFilter extends AbstractAuthenticationProcessingFilter {
 				.compact();
 		res.addHeader(this.parametresJwt.getHeaderKey(), this.parametresJwt.getTokenPrefix() + " " + JWT);
 
-		// Ajout des tokens de sécurité
-		res.setHeader("Access-Control-Allow-Origin", req.getHeader("Origin"));
-		res.setHeader("Access-Control-Allow-Headers", this.accessControlAllowHeaders);
-		res.setHeader("Access-Control-Expose-Headers", this.accessControlExposeHeaders);
+		this.ajouterLesEntetesHttp(req, res);
 
 		// on notifie le service métier de la bonne connexion
 		this.securiteService.notifierConnexion(login, true);
@@ -106,6 +110,7 @@ public class JWTConnexionFilter extends AbstractAuthenticationProcessingFilter {
 	@Override
 	protected void unsuccessfulAuthentication(final HttpServletRequest request, final HttpServletResponse response,
 			final AuthenticationException failed) throws IOException, ServletException {
+		this.ajouterLesEntetesHttp(request, response);
 		super.unsuccessfulAuthentication(request, response, failed);
 
 		// on notifie le service métier de la bonne connexion
