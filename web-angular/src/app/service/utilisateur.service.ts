@@ -15,12 +15,21 @@ export class UtilisateurService {
 
   constructor(private http: HttpClient, private restUtils: RestUtilsService) { }
 
-  connecter(login: string, mdp: string, callback: Function): void {
+  connecter(login: string, mdp: string, callback: Function, callbackErreurParametresConnexion: Function): void {
     const donnees = { login: login, mdp: mdp };
     this.http.post<void>('http://localhost:9090/applicationBlanche/login', donnees, { observe: 'response' })
-      .pipe(catchError(error => {
+      .pipe(catchError<any>(error => {
+        // Pour traiter l'erreur comme un cas particulier
         localStorage.removeItem('JWT');
-        return this.restUtils.handleError(error);
+
+        // Dans le cas d'une erreur de paramètres de connexion
+        // appel à la callback pour que le composant traite son erreur
+        if (error.status && error.status === 403) {
+          callbackErreurParametresConnexion(error);
+        }
+
+        // On laisse se faire le traitement global d'erreur
+        throw error;
       }))
       .subscribe((reponse: HttpResponse<void>) => {
 
@@ -48,8 +57,7 @@ export class UtilisateurService {
 
   listerUtilisateurs(): Observable<{} | model.Utilisateur[]> {
     const url = 'http://localhost:9090/applicationBlanche/v1/utilisateurs';
-    return this.http.get<model.Utilisateur[]>(url, this.restUtils.creerHeader())
-      .pipe(catchError(this.restUtils.handleError));
+    return this.http.get<model.Utilisateur[]>(url, this.restUtils.creerHeader());
   }
 
   sauvegarderUtilisateur(utilisateur: model.Utilisateur): Observable<{} | void> {
@@ -58,13 +66,11 @@ export class UtilisateurService {
       .set('mdp', utilisateur.mdp);
 
     const url = 'http://localhost:9090/applicationBlanche/v1/utilisateurs';
-    return this.http.post<void>(url, donnees, this.restUtils.creerHeaderPost())
-      .pipe(catchError(this.restUtils.handleError));
+    return this.http.post<void>(url, donnees, this.restUtils.creerHeaderPost());
   }
 
   supprimerUtilisateur(utilisateur: model.Utilisateur): Observable<{} | void> {
     const url = 'http://localhost:9090/applicationBlanche/v1/utilisateurs/' + utilisateur.login;
-    return this.http.delete<void>(url, this.restUtils.creerHeaderPost())
-      .pipe(catchError(this.restUtils.handleError));
+    return this.http.delete<void>(url, this.restUtils.creerHeaderPost());
   }
 }

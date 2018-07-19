@@ -20,7 +20,6 @@ export class ClientService {
     // Seul un tri par défaut est possible
     let triParNom: string = '';
     if (page.sort) {
-      console.debug(page.sort.sortOrder);
       if (page.sort.sortOrder === 'asc') {
         triParNom = 'true';
       } else {
@@ -30,8 +29,7 @@ export class ClientService {
 
     // Appel à l'API
     const url = 'http://localhost:9090/applicationBlanche/v1/clients?pageNumber=' + page.number + '&pageSize=' + page.size + '&triParNom=' + triParNom;
-    return this.http.get<model.Page<model.ClientDto>>(url, this.restUtils.creerHeader())
-      .pipe(catchError(this.restUtils.handleError));
+    return this.http.get<model.Page<model.ClientDto>>(url, this.restUtils.creerHeader());
   }
 
   sauvegarderClient(client: model.ClientDto): Observable<{} | void> {
@@ -41,13 +39,11 @@ export class ClientService {
     }
 
     const url = 'http://localhost:9090/applicationBlanche/v1/clients';
-    return this.http.post<void>(url, donnees, this.restUtils.creerHeaderPost())
-      .pipe(catchError(this.restUtils.handleError));
+    return this.http.post<void>(url, donnees, this.restUtils.creerHeaderPost());
   }
 
   supprimerClient(client: model.ClientDto): Observable<{} | void> {
     const url = 'http://localhost:9090/applicationBlanche/v1/clients/' + client.reference;
-    return this.http.delete<void>(url, this.restUtils.creerHeader())
-      .pipe(catchError(this.restUtils.handleError));
+    return this.http.delete<void>(url, this.restUtils.creerHeader());
   }
 }

@@ -11,6 +11,7 @@ export class PageConnexionComponent implements OnInit {
 
   login: string = 'adminAsupprimer';
   mdp: string = 'adminAsupprimer';
+  messageErreurConnexion: boolean = false;
 
   // Url de redirection à utiliser à la sortie de la connexion
   redirectionPostConnexion: string | undefined = undefined;
@@ -25,16 +26,23 @@ export class PageConnexionComponent implements OnInit {
   }
 
   connecter(): void {
-    // Connexion
-    this.utilisateurService.connecter(this.login, this.mdp, () => {
 
-      // redirection vers la page demandée ou la page d'accueil
-      if (this.redirectionPostConnexion) {
-        this.router.navigate([this.redirectionPostConnexion]);
-      } else {
-        this.router.navigate(['page-accueil-route']);
-      }
-    });
+    // Suppression du message d'erreur
+    this.messageErreurConnexion = false;
+
+    // Connexion
+    this.utilisateurService.connecter(this.login, this.mdp,
+      () => {
+        // redirection vers la page demandée ou la page d'accueil
+        if (this.redirectionPostConnexion) {
+          this.router.navigate([this.redirectionPostConnexion]);
+        } else {
+          this.router.navigate(['page-accueil-route']);
+        }
+      },
+      () => {
+        this.messageErreurConnexion = true;
+      });
   }
 
 

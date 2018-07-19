@@ -4,6 +4,9 @@
 
   <h2 l10nTranslate>connexion_titre</h2>
 
+  <div class="form-group messageErreur" *ngIf="!!messageErreurConnexion">
+    oups i18n ?
+  </div>
   <div class="form-group">
     <mat-form-field l10nTranslate>
       <input matInput autocomplete="username login" [(ngModel)]="login" name="login" l10n-placeholder placeholder="connexion_identifiant">

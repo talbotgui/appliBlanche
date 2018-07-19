@@ -1,8 +1,8 @@
 // Les modules Angular importés
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, LOCALE_ID } from '@angular/core';
+import { NgModule, LOCALE_ID, ErrorHandler } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatInputModule, MatCommonModule, MatButtonModule, MatCardModule, MatChipsModule, MatDatepickerModule, MatGridListModule, MatPaginatorModule, MatSortModule, MatTableModule } from '@angular/material';
 import { MatSnackBarModule, MatTooltipModule } from '@angular/material';
 import { MatRadioModule } from '@angular/material/radio';
@@ -27,6 +27,8 @@ import { PageUtilisateurComponent } from './administration/page-utilisateur/page
 import { PageClientComponent } from './page-client/page-client.component';
 
 // Les composants injectables
+import { ExceptionHandler } from './exception/ExceptionHandler';
+import { IntercepteurHttp } from './exception/IntercepteurHttp';
 import { AuthGuard } from './service/auth-guard.service';
 import { RestUtilsService } from './service/restUtils.service';
 import { UtilisateurService } from './service/utilisateur.service';
@@ -81,6 +83,10 @@ const l10nConfig: L10nConfig = {
     // Paramétrage global
     { provide: LOCALE_ID, useValue: 'fr' },
     { provide: DateAdapter, useClass: MyDateAdapter },
+
+    // Composants de gestion des erreurs
+    { provide: ErrorHandler, useClass: ExceptionHandler },
+    { provide: HTTP_INTERCEPTORS, useClass: IntercepteurHttp, multi: true },
 
     // Les composants injectables
     RestUtilsService, UtilisateurService, ClientService, RestUtilsService, AuthGuard
