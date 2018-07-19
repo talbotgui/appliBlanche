@@ -1,17 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
-import { LocaleService, TranslationService, Language } from 'angular-l10n';
+import { LocaleService } from 'angular-l10n';
 
 @Component({ selector: 'app-root', templateUrl: './app.component.html', styleUrls: ['./app.component.css'] })
 export class AppComponent implements OnInit {
 
-  constructor(public locale: LocaleService, public translation: TranslationService) { }
+  constructor(public locale: LocaleService) { }
 
   ngOnInit(): void {
-    // Exemple de code permettant de récupérer un libellé depuis le controleur
-    this.translation.translationChanged().subscribe(
-      () => { console.debug(this.translation.translate('connexion_titre')); }
-    );
   }
 
   // Méthode permettant de changer de langue
