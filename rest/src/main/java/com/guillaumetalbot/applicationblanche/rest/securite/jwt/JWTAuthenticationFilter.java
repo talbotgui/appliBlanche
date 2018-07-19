@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -60,7 +61,7 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
 				// En cas d'erreur de parse du token
 				LOG.warn("Requête {} avec token invalide en entête ({})", httpRequete.getServletPath(), e.getMessage());
 			}
-		} else {
+		} else if (!HttpMethod.OPTIONS.name().equals(httpRequete.getMethod())) {
 			LOG.info("Requête {} sans token JWT en entête", httpRequete.getServletPath());
 		}
 
