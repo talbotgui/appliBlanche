@@ -1,7 +1,7 @@
 {
   "name": "web-angular",
   "version": "1.0.0",
-  "description": "Application WEB de l'application blanche avec Vue.JS",
+  "description": "Application WEB de l'application blanche avec Angular",
   "author": "Guillaume TALBOT <talbotgui@gmail.com>",
   "scripts": {
     "ng": "ng",
