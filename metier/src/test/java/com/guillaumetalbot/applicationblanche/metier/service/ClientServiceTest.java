@@ -251,6 +251,23 @@ public class ClientServiceTest {
 	}
 
 	@Test
+	public void test01Client11CreationKoNomEnDouble() {
+		//
+		final String nomClient = "nomClient";
+		this.clientService.sauvegarderClient(null, nomClient);
+
+		//
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.clientService.sauvegarderClient(null, nomClient);
+		});
+
+		//
+		Assert.assertNotNull(thrown);
+		Assert.assertEquals(BusinessException.class, thrown.getClass());
+		Assert.assertTrue(BusinessException.equals((BusinessException) thrown, BusinessException.CLIENT_NOM_DEJA_EXISTANT));
+	}
+
+	@Test
 	public void test02Adresse01CreationOk() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);

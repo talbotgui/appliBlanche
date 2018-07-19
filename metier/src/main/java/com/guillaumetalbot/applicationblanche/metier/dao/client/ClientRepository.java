@@ -24,6 +24,8 @@ public interface ClientRepository extends CrudRepository<Client, Long> {
 	@QueryHints(value = { @QueryHint(name = org.hibernate.jpa.QueryHints.HINT_READONLY, value = "true") })
 	Client chargerClientReadonly(@Param("idClient") Long idClient);
 
+	Client findByNom(String nom);
+
 	@Query("select c from Client c order by c.nom")
 	@QueryHints(value = { @QueryHint(name = org.hibernate.jpa.QueryHints.HINT_READONLY, value = "true") })
 	Collection<Client> listerClients();

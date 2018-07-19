@@ -96,6 +96,7 @@ public class ClientServiceImpl implements ClientService {
 
 		Client client;
 		if (idClient == null) {
+			this.verifierNomClientNexistePasDeja(nom);
 			client = new Client(nom);
 		} else {
 			client = this.clientRepo.findById(idClient)
@@ -165,5 +166,16 @@ public class ClientServiceImpl implements ClientService {
 	public void supprimerClient(final String refClient) {
 		final Long idClient = Entite.extraireIdentifiant(refClient, Client.class);
 		this.clientRepo.deleteById(idClient);
+	}
+
+	/**
+	 * Vérification que le nom de client n'existe pas déjà
+	 * 
+	 * @param nom
+	 */
+	private void verifierNomClientNexistePasDeja(final String nom) {
+		if (this.clientRepo.findByNom(nom) != null) {
+			throw new BusinessException(BusinessException.CLIENT_NOM_DEJA_EXISTANT, nom);
+		}
 	}
 }
