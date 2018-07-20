@@ -2,6 +2,9 @@ package com.guillaumetalbot.applicationblanche.metier.dto;
 
 import java.time.LocalDateTime;
 
+import com.guillaumetalbot.applicationblanche.metier.entite.IdentifiableParReference;
+import com.guillaumetalbot.applicationblanche.metier.entite.client.Client;
+
 public class ClientDto extends DtoAvecReference {
 	private static final long serialVersionUID = 1L;
 
@@ -24,6 +27,11 @@ public class ClientDto extends DtoAvecReference {
 		this.nbDemandes = nbDemandes.intValue();
 		this.nbDossiers = nbDossiers.intValue();
 		this.dateCreationDernierDossier = dateCreationDernierDossier;
+	}
+
+	@Override
+	protected Class<? extends IdentifiableParReference> getClasseEntiteCorrespondante() {
+		return Client.class;
 	}
 
 	public LocalDateTime getDateCreationDernierDossier() {

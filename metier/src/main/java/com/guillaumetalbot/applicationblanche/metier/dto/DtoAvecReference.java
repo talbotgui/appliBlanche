@@ -5,9 +5,8 @@ import java.io.Serializable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.guillaumetalbot.applicationblanche.metier.entite.Entite;
 import com.guillaumetalbot.applicationblanche.metier.entite.IdentifiableParReference;
-import com.guillaumetalbot.applicationblanche.metier.entite.client.Client;
 
-public class DtoAvecReference implements Serializable, IdentifiableParReference {
+public abstract class DtoAvecReference implements Serializable, IdentifiableParReference {
 	private static final long serialVersionUID = 1L;
 
 	@JsonIgnore
@@ -22,6 +21,8 @@ public class DtoAvecReference implements Serializable, IdentifiableParReference 
 		this.id = id;
 	}
 
+	protected abstract Class<? extends IdentifiableParReference> getClasseEntiteCorrespondante();
+
 	@JsonIgnore
 	public Long getId() {
 		return this.id;
@@ -29,7 +30,7 @@ public class DtoAvecReference implements Serializable, IdentifiableParReference 
 
 	@Override
 	public String getReference() {
-		return Entite.genererReference(Client.class, this.id);
+		return Entite.genererReference(this.getClasseEntiteCorrespondante(), this.id);
 	}
 
 	public void setId(final Long id) {
@@ -38,7 +39,7 @@ public class DtoAvecReference implements Serializable, IdentifiableParReference 
 
 	@Override
 	public void setReference(final String reference) {
-		this.id = Entite.extraireIdentifiant(reference, this.getClass());
+		this.id = Entite.extraireIdentifiant(reference, this.getClasseEntiteCorrespondante());
 	}
 
 }
