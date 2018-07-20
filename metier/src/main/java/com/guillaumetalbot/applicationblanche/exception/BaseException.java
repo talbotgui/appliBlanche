@@ -6,6 +6,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * 400 : BAD REQUEST - La syntaxe de la requête est erronée.
  *
@@ -14,6 +19,8 @@ import java.util.List;
  * </p>
  */
 public abstract class BaseException extends RuntimeException {
+
+	private static final Logger LOG = LoggerFactory.getLogger(BaseException.class);
 
 	/** Default UID. */
 	private static final long serialVersionUID = 1L;
@@ -118,7 +125,7 @@ public abstract class BaseException extends RuntimeException {
 			if (message != null && this.parameters != null) {
 				for (int i = 0; i < this.parameters.length; i++) {
 					final String valeur = this.transformParameterToString(i);
-					message = message.replace("{" + i + "}", valeur);
+					message = message.replace("{{" + i + "}}", valeur);
 				}
 			}
 			result = message;
@@ -136,6 +143,26 @@ public abstract class BaseException extends RuntimeException {
 			return Arrays.copyOf(this.parameters, this.parameters.length);
 		}
 		return new Object[0];
+	}
+
+	public String toJson() {
+		try {
+			final JSONObject erreurJson = new JSONObject();
+			erreurJson.put("messageParDefaut", this.getMessage());
+			erreurJson.put("codeException", this.getExceptionId().getId());
+			erreurJson.put("httpStatus", this.getExceptionId().getHttpStatusCode());
+			final JSONObject details = new JSONObject();
+			int i = 0;
+			for (final Object param : this.getParameters()) {
+				details.put(Integer.toString(i), param);
+				i++;
+			}
+			erreurJson.put("details", details);
+			return erreurJson.toString();
+		} catch (final JSONException e1) {
+			LOG.warn("Erreur de transformation de l'exception", e1);
+			return this.getMessage();
+		}
 	}
 
 	/**

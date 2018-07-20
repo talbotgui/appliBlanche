@@ -1,17 +1,27 @@
 import { Injectable, ErrorHandler, Injector } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '../../../node_modules/@angular/material';
+import { MatSnackBar, MatSnackBarConfig } from '../../../node_modules/@angular/material';
 import { TranslationService } from 'angular-l10n';
 
 /** Gestionnaire d'erreur par défaut */
 @Injectable()
 export class ExceptionHandler implements ErrorHandler {
 
+  private precedenteErreur: any | undefined;
+
+  private snackbarConfig: MatSnackBarConfig = { duration: 3000 };
+
   // Because the ErrorHandler is created before the providers, we’ll have to use the Injector to get them.
   constructor(private injector: Injector) { }
 
   handleError(error: any): void {
+
+    // Pour ne pas traiter deux fois la même erreur
+    if (this.precedenteErreur && this.precedenteErreur === error) {
+      return;
+    }
+    this.precedenteErreur = error;
 
     // Récupération d'un composant (sans déclencher de dépendance cyclique)
     const router = this.injector.get(Router);
@@ -24,6 +34,7 @@ export class ExceptionHandler implements ErrorHandler {
 
     // Si c'est une erreur HTTP
     let codeMessage;
+    let parametresMessage: string[] = [];
     if (error instanceof HttpErrorResponse) {
       if (!navigator.onLine) {
         codeMessage = 'erreur_aucuneConnexionInternet';
@@ -36,6 +47,9 @@ export class ExceptionHandler implements ErrorHandler {
         if (error.url && !error.url.endsWith('/login')) {
           codeMessage = 'erreur_securite';
         }
+      } else if (error.error && error.error.codeException) {
+        codeMessage = error.error.codeException;
+        parametresMessage = error.error.details;
       } else {
         codeMessage = 'erreur_http';
       }
@@ -47,8 +61,8 @@ export class ExceptionHandler implements ErrorHandler {
 
     // Affichage du message
     if (codeMessage) {
-      const message = i18n.translate(codeMessage);
-      snackBar.open(message);
+      const message = i18n.translate(codeMessage, parametresMessage);
+      snackBar.open(message, undefined, this.snackbarConfig);
     }
   }
 }

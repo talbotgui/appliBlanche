@@ -7,10 +7,10 @@ import com.guillaumetalbot.applicationblanche.exception.ExceptionId.ExceptionLev
 public class RestException extends BaseException {
 
 	public static final ExceptionId ERREUR_FORMAT_DATE = new ExceptionId("ERREUR_FORMAT_DATE",
-			"Le format de la date est incorrect (format='{0}', valeur='{1}').", ExceptionLevel.ERROR, 400);
+			"Le format de la date est incorrect (format='{{0}}', valeur='{{1}}').", ExceptionLevel.ERROR, 400);
 
 	public static final ExceptionId ERREUR_FORMAT_NOMBRE = new ExceptionId("ERREUR_FORMAT_NOMBRE",
-			"Le format du nombre est incorrect (valeur='{0}').", ExceptionLevel.ERROR, 400);
+			"Le format du nombre est incorrect (valeur='{{0}}').", ExceptionLevel.ERROR, 400);
 
 	public static final ExceptionId ERREUR_IO = new ExceptionId("ERREUR_IO", "Erreur d'écriture durant le traitement.", ExceptionLevel.ERROR, 500);
 
@@ -19,7 +19,7 @@ public class RestException extends BaseException {
 			ExceptionLevel.ERROR, 400);
 
 	public static final ExceptionId ERREUR_VALEUR_PARAMETRE = new ExceptionId("ERREUR_VALEUR_PARAMETRE",
-			"Le parametre '{0}' ne peut prendre que les valeurs '{1}' et pas la valeur '{2}'.", //
+			"Le parametre '{{0}}' ne peut prendre que les valeurs '{{1}}' et pas la valeur '{{2}}'.", //
 			ExceptionLevel.ERROR, 400);
 
 	public static final ExceptionId OBJET_INEXISTANT = new ExceptionId("OBJET_INEXISTANT", "Objet inexistant", ExceptionLevel.ERROR, 404);

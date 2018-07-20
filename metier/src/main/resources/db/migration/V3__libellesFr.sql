@@ -49,3 +49,12 @@ insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'erreur_sec
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'erreur_apiNonDisponible', 'API down', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'erreur_http', 'Erreur HTTP', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'erreur_pgm', 'Erreur de programmation', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_CLIENT_NOM_DEJA_EXISTANT', 'Un client nommé ''{{0}}'' existe déjà', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_LOGIN', 'Erreur de connexion', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_LOGIN_MDP', 'Identifiant et/ou mot de passe trop court ({{0}} caractères minimum)', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_LOGIN_VEROUILLE', 'Erreur de connexion - le compte est verrouillé', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_ROLE_NOM', 'Nom du role trop court ({{0}} caractères minimum)', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_SHA', 'Erreur de cryptage', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_OBJET_DEJA_EXISTANT', 'Objet de type {{0}} avec l''identifiant {{1}} déjà existant', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_OBJET_NON_EXISTANT', 'Objet de type {{0}} et de référence {{1}} inexistant', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_REFERENCE_NON_VALIDE', 'Référence {{0}} invalide', 'fr' from LIBELLE;

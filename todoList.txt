@@ -14,7 +14,8 @@ Sujets FRONT (partie structure) :
 	x		pagination toute simple
 	x	x	internationnalisation avec l'appel à l'API
 			internationnalisation des messages de validation de surface
-			internationnalisation des messages d'erreurs venant de l'API
+	x		internationnalisation des messages d'erreurs venant de l'API
+	x		internationnalisation des messages d'erreurs communes
 			rechercher les libelles en dur dans l'application et les ajouter dans la bdd
 			ajouter des tooltips sur les FA et les internationnaliser
 	x	x	utiliser un service depuis les pages

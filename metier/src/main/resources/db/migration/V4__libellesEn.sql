@@ -49,3 +49,12 @@ insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'erreur_sec
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'erreur_apiNonDisponible', 'API not available', 'en' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'erreur_http', 'HTTP error', 'en' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'erreur_pgm', 'Code error', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_CLIENT_NOM_DEJA_EXISTANT', 'A customer ''{{0}}'' already exists', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_LOGIN', 'Credentials error', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_LOGIN_MDP', 'Login and/or password is too short ({{0}} minimum)', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_LOGIN_VEROUILLE', 'Login error - this account is locked', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_ROLE_NOM', 'Profile name is too short ({{0}} minimum)', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_SHA', 'Encryption error', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_OBJET_DEJA_EXISTANT', 'Object of type {{0}} with id {{1}} already exists', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_OBJET_NON_EXISTANT', 'Object of type {{0}} and with reference {{1}} do not exist', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_REFERENCE_NON_VALIDE', 'Invalid reference {{0}}', 'en' from LIBELLE;
