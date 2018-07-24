@@ -1,7 +1,19 @@
 <div class="container-fluid">
 
-	<button (click)="changerLaLangueDesLibelles('en');">English</button>
-	<button (click)="changerLaLangueDesLibelles('fr');">Français</button>
+	<div class="row">
+		<div class="col-9"></div>
+		<div class="col-2">
+			
+		</div>
+		<div class="col-1 drapeaux">
+			<a href="#" (click)="changerLaLangueDesLibelles('en');">
+				<img src="/assets/images/flag_en.jpg" alt="flag_en" />
+			</a>
+			<a href="#" (click)="changerLaLangueDesLibelles('fr');">
+				<img src="/assets/images/flag_fr.jpg" alt="flag_fr" />
+			</a>
+		</div>
+	</div>
 
 	<router-outlet></router-outlet>
 </div>
