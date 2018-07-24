@@ -8,7 +8,7 @@ Sujets FRONT (partie sécurité) :
 
 Sujets FRONT (partie structure) :
 	ANG	VUE	SUJET
-			revalider le token au chargement de l'écran et rediriger vers le login quand il est invalide
+	x		revalider le token au chargement de l'écran et rediriger vers le login quand il est invalide
 	x		mise en place de drapeaux et non de boutons pour l'i18n
 			appel à une API avec un DEBOUNCE sur un INPUT
 	x	x	appel à l'API en get
