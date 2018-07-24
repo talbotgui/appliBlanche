@@ -51,7 +51,7 @@
 		<h3 l10nTranslate>client_formulaire_titre</h3>
 
 		<!-- Messages de validation de surface -->
-		<div *ngIf="!inputNom.pristine && inputNom.errors?.required" class="alert-danger">Le nom du client est obligatoire</div>
+		<div *ngIf="!inputNom.pristine && inputNom.errors?.required" class="alert-danger" l10nTranslate>client_placeholder_nom_validation</div>
 
 		<!-- Champs -->
 		<mat-form-field l10nTranslate>

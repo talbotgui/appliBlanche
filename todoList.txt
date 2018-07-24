@@ -7,16 +7,17 @@ Sujets FRONT (partie sécurité) :
 	x	x	Déconnexion
 
 Sujets FRONT (partie structure) :
-	ANG	VUE	SUJET				
+	ANG	VUE	SUJET
+			revalider le token au chargement de l'écran et rediriger vers le login quand il est invalide
 			appel à une API avec un DEBOUNCE sur un INPUT
 	x	x	appel à l'API en get
 	x	x	appel à l'API en post
 	x		pagination toute simple
 	x	x	internationnalisation avec l'appel à l'API
-			internationnalisation des messages de validation de surface
+	x		internationnalisation des messages de validation de surface
 	x		internationnalisation des messages d'erreurs venant de l'API
 	x		internationnalisation des messages d'erreurs communes
-			rechercher les libelles en dur dans l'application et les ajouter dans la bdd
+	x		rechercher les libelles en dur dans l'application et les ajouter dans la bdd
 			ajouter des tooltips sur les FA et les internationnaliser
 	x	x	utiliser un service depuis les pages
 	x	x	utiliser un style.css général

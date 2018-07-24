@@ -16,7 +16,11 @@ insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'utilisateu
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'utilisateur_entete_identifiant', 'Identifiant', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'utilisateur_entete_roles', 'Rôles', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'utilisateur_placeholder_login', 'nom d''utilisateur', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'utilisateur_placeholder_login_validation', 'Le nom d''utilisateur est obligatoire', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'utilisateur_placeholder_login_validation2', 'Le nom d''utilisateur doit faire 6 caractères au minimum', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'utilisateur_placeholder_mdp', 'mot de passe', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'utilisateur_placeholder_mdp_validation', 'Le mot de passe est obligatoire', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'utilisateur_placeholder_mdp_validation2', 'Le mot de passe doit faire 6 caractères au minimum', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'utilisateur_formulaire_titre', 'Ajouter/modifier un utilisateur', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'utilisateur_bouton_creer', 'Sauvegarder cet utilisateur', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'utilisateur_bouton_annuler', 'Annuler', 'fr' from LIBELLE;
@@ -35,6 +39,7 @@ insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'client_ent
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'client_entete_nbDemandes', 'Nombre de demandes', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'client_entete_dateCreationDernierDossier', 'Date de création du dernier dossier', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'client_placeholder_nom', 'nom', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'client_placeholder_nom_validation', 'Le nom du client est obligatoire', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'client_placeholder_ville', 'ville', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'client_formulaire_titre', 'Ajouter/modifier un client', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'client_bouton_creer', 'Sauvegarder ce client', 'fr' from LIBELLE;
@@ -58,3 +63,5 @@ insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_SHA
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_OBJET_DEJA_EXISTANT', 'Objet de type {{0}} avec l''identifiant {{1}} déjà existant', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_OBJET_NON_EXISTANT', 'Objet de type {{0}} et de référence {{1}} inexistant', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_REFERENCE_NON_VALIDE', 'Référence {{0}} invalide', 'fr' from LIBELLE;
+
+
