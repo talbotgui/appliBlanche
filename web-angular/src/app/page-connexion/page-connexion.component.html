@@ -12,10 +12,10 @@
 
   <div class="form-group">
     <mat-form-field l10nTranslate>
-      <input type="password" matInput autocomplete="current-password" [(ngModel)]="mdp" l10n-placeholder placeholder="connexion_motDePasse">
+      <input type="password" matInput autocomplete="current-password" [(ngModel)]="mdp" name="mdp" l10n-placeholder placeholder="connexion_motDePasse">
     </mat-form-field>
   </div>
 
-  <button class="btn btn-outline-secondary" (click)="connecter()" l10nTranslate>connexion_boutonConnexion</button>
+  <button class="connecter btn btn-outline-secondary" (click)="connecter()" l10nTranslate>connexion_boutonConnexion</button>
 
 </div>
