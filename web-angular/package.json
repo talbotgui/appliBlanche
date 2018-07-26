@@ -8,8 +8,6 @@
     "start": "ng serve --port=8181",
     "build": "ng build --locale fr",
     "build-prod": "ng build --prod --aot --progress=false --verbose=true --build-optimizer --locale fr",
-    "test": "ng test",
-    "test-ic": "ng test --karma-config=karma-ic.conf.js --code-coverage",
     "quality": "node node_modules/sonar-scanner/ -Dproject.settings=./sonar-applicationBlancheAngular.properties",
     "lint": "ng lint",
     "e2e": "ng e2e",
