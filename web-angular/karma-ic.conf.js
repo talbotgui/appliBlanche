@@ -8,7 +8,7 @@ module.exports = function (config) {
     // Répertoire de base permettant la résolution des chemins
     basePath: '',
     // Liste des frameworks de test à utiliser
-    frameworks: ['jasmine', '@angular/cli'],
+    frameworks: ['jasmine', '@angular-devkit/build-angular'],
     // Liste des plugins à charger
     plugins: [
       require('karma-jasmine'),
@@ -17,7 +17,7 @@ module.exports = function (config) {
       require('karma-jasmine-html-reporter'),
       require('karma-junit-reporter'),
       require('karma-coverage-istanbul-reporter'),
-      require('@angular/cli/plugins/karma')
+      require('@angular-devkit/build-angular/plugins/karma')
     ],
     // Nécessaire pour l'exécution des tests Jasmine
     client: { clearContext: false },
