@@ -1,12 +1,15 @@
 package com.guillaumetalbot.applicationblanche.rest.controleur.utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.devtools.remote.client.HttpHeaderInterceptor;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -16,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 
+import com.guillaumetalbot.applicationblanche.metier.entite.securite.Role;
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.Utilisateur;
 import com.guillaumetalbot.applicationblanche.metier.service.ChiffrementUtil;
 import com.guillaumetalbot.applicationblanche.rest.application.InitialisationDonneesService;
@@ -27,8 +31,12 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 public class JwtIntegrationWebTest extends MockedIntegrationWebTest {
 
+	@Autowired
+	protected ApplicationContext applicationContext;
+
 	/** Jeton JWT récupéré au login avant l'exécution de tout test. */
 	private String jetonJwt;
+
 	private String jetonJwtEcrase;
 
 	@Autowired
@@ -77,14 +85,23 @@ public class JwtIntegrationWebTest extends MockedIntegrationWebTest {
 
 	@BeforeClass
 	public void login() {
-
-		// Mock du service de recherche d'un utilisateur
 		final String loginMdp = InitialisationDonneesService.ADMIN_PAR_DEFAUT_LOGIN_MDP;
 		final Utilisateur u = new Utilisateur(loginMdp, ChiffrementUtil.encrypt(loginMdp));
+		final Role role = new Role(loginMdp);
+		role.setRessourcesAutorisees(new HashSet<>(InitialisationDonneesService.listerMethodesDeControleurs(this.applicationContext)));
+		u.setRoles(new HashSet<Role>(Arrays.asList(role)));
+
+		this.login(u);
+	}
+
+	protected void login(final Utilisateur u) {
+		// Mock du service de recherche d'un utilisateur
 		Mockito.doReturn(u).when(this.securiteService).chargerUtilisateurReadOnly(Mockito.anyString());
+		Mockito.doReturn(u).when(this.securiteService).chargerUtilisateurAvecRolesEtRessourcesAutoriseesReadOnly(Mockito.anyString());
 
 		// Appel au login
-		final ParametreDeConnexionDto cred = ParametreDeConnexionDto.creerInstanceSansChiffreLeMotDePassePourUsageDansTests(loginMdp, loginMdp);
+		final ParametreDeConnexionDto cred = ParametreDeConnexionDto.creerInstanceSansChiffreLeMotDePassePourUsageDansTests(u.getLogin(),
+				u.getLogin());
 		final HttpEntity<ParametreDeConnexionDto> requete = new HttpEntity<>(cred);
 		final ResponseEntity<Void> reponse = super.getREST().exchange(this.getURL() + "/login", HttpMethod.POST, requete, void.class);
 
@@ -98,6 +115,7 @@ public class JwtIntegrationWebTest extends MockedIntegrationWebTest {
 
 		// Sauvegarde du jeton dans une variable pour le réutiliser
 		this.jetonJwt = entetes.get(0);
+
 	}
 
 	/**

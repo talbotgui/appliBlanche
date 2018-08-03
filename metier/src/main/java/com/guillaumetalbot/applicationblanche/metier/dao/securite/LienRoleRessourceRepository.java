@@ -8,6 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.LienRoleRessource;
+import com.guillaumetalbot.applicationblanche.metier.entite.securite.Ressource;
 
 public interface LienRoleRessourceRepository extends CrudRepository<LienRoleRessource, Long> {
 
@@ -25,7 +26,7 @@ public interface LienRoleRessourceRepository extends CrudRepository<LienRoleRess
 			+ " and re.clef not in (select li.id.ressource.clef from LienRoleRessource li where li.id.role.nom = :nomRole)")
 	Collection<LienRoleRessource> listerLiensInexistantsAvecToutesLesRessources(@Param("nomRole") String nomRole);
 
-	@Query("delete from LienRoleRessource where id.ressource.clef in :clefs")
+	@Query("delete from LienRoleRessource where id.ressource in :ressources")
 	@Modifying
-	void supprimerParClefs(@Param("clefs") Collection<String> clefs);
+	void supprimerParRessources(@Param("ressources") Collection<Ressource> ressources);
 }

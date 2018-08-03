@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
 
@@ -182,8 +183,8 @@ public class SecuriteServiceTest {
 		this.securiteService.associerUtilisateurEtRole(login, nomRole2);
 		final String clefRessource1 = "clefRessource1";
 		final String clefRessource2 = "clefRessource2";
-		jdbc.update("insert into RESSOURCE (CLEF, DESCRIPTION) values (?,?)", clefRessource1, "description");
-		jdbc.update("insert into RESSOURCE (CLEF, DESCRIPTION) values (?,?)", clefRessource2, "description");
+		jdbc.update("insert into RESSOURCE (CLEF, CHEMIN, DESCRIPTION) values (?,?,?)", clefRessource1, "GET /chemin1", "description1");
+		jdbc.update("insert into RESSOURCE (CLEF, CHEMIN, DESCRIPTION) values (?,?,?)", clefRessource2, "GET /chemin2", "description2");
 		this.securiteService.associerRoleEtRessource(nomRole1, clefRessource1);
 		this.securiteService.associerRoleEtRessource(nomRole1, clefRessource2);
 		this.securiteService.associerRoleEtRessource(nomRole2, clefRessource1);
@@ -587,12 +588,13 @@ public class SecuriteServiceTest {
 	public void test08InitialiserOuCompleterConfigurationSecurite01BaseVide() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
-		final Collection<String> clefsRessources = Arrays.asList("r1", "r2", "r3");
+		final Collection<Ressource> ressources = Arrays.asList(new Ressource("r1", ""), new Ressource("r2", ""), new Ressource("r3", ""));
+		final Collection<String> clefs = ressources.stream().map(r -> r.getClef()).collect(Collectors.toList());
 		final String login = "loginDuPremierUtilisateur";
 		final String role = "roleDeBase";
 
 		//
-		this.securiteService.initialiserOuCompleterConfigurationSecurite(clefsRessources, login, login, role);
+		this.securiteService.initialiserOuCompleterConfigurationSecurite(ressources, login, login, role);
 
 		//
 		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from UTILISATEUR", new Object[] {}, Long.class));
@@ -603,7 +605,7 @@ public class SecuriteServiceTest {
 
 		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from UTILISATEUR where LOGIN=?", new Object[] { login }, Long.class));
 		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from ROLE where NOM=?", new Object[] { role }, Long.class));
-		Assert.assertThat(jdbc.queryForList("select CLEF from RESSOURCE", String.class), Matchers.containsInAnyOrder(clefsRessources.toArray()));
+		Assert.assertThat(jdbc.queryForList("select CLEF from RESSOURCE", String.class), Matchers.containsInAnyOrder(clefs.toArray()));
 
 	}
 
@@ -611,13 +613,14 @@ public class SecuriteServiceTest {
 	public void test08InitialiserOuCompleterConfigurationSecurite02DejaFaitIdentique() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
-		final Collection<String> clefsRessources = Arrays.asList("r1", "r2", "r3");
+		final Collection<Ressource> ressources = Arrays.asList(new Ressource("r1", ""), new Ressource("r2", ""), new Ressource("r3", ""));
+		final Collection<String> clefs = ressources.stream().map(r -> r.getClef()).collect(Collectors.toList());
 		final String login = "loginDuPremierUtilisateur";
 		final String role = "roleDeBase";
-		this.securiteService.initialiserOuCompleterConfigurationSecurite(clefsRessources, login, login, role);
+		this.securiteService.initialiserOuCompleterConfigurationSecurite(ressources, login, login, role);
 
 		//
-		this.securiteService.initialiserOuCompleterConfigurationSecurite(clefsRessources, login, login, role);
+		this.securiteService.initialiserOuCompleterConfigurationSecurite(ressources, login, login, role);
 
 		//
 		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from UTILISATEUR", new Object[] {}, Long.class));
@@ -628,25 +631,26 @@ public class SecuriteServiceTest {
 
 		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from UTILISATEUR where LOGIN=?", new Object[] { login }, Long.class));
 		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from ROLE where NOM=?", new Object[] { role }, Long.class));
-		Assert.assertThat(jdbc.queryForList("select CLEF from RESSOURCE", String.class), Matchers.containsInAnyOrder(clefsRessources.toArray()));
+		Assert.assertThat(jdbc.queryForList("select CLEF from RESSOURCE", String.class), Matchers.containsInAnyOrder(clefs.toArray()));
 		Assert.assertThat(jdbc.queryForList("select UTILISATEUR_LOGIN from LIEN_UTILISATEUR_ROLE", String.class),
 				Matchers.containsInAnyOrder(new String[] { login }));
 		Assert.assertThat(jdbc.queryForList("select RESSOURCE_CLEF from LIEN_ROLE_RESSOURCE", String.class),
-				Matchers.containsInAnyOrder(clefsRessources.toArray()));
+				Matchers.containsInAnyOrder(clefs.toArray()));
 	}
 
 	@Test
 	public void test08InitialiserOuCompleterConfigurationSecurite03DejaFaitAvecAjoutEtSuppression() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
-		final Collection<String> clefsRessources = Arrays.asList("r1", "r2", "r3");
+		final Collection<Ressource> ressources = Arrays.asList(new Ressource("r1", ""), new Ressource("r2", ""), new Ressource("r3", ""));
 		final String login = "loginDuPremierUtilisateur";
 		final String role = "roleDeBase";
-		this.securiteService.initialiserOuCompleterConfigurationSecurite(clefsRessources, login, login, role);
-		final Collection<String> clefsRessourcesModifiees = Arrays.asList("r2", "r3", "r4");
+		this.securiteService.initialiserOuCompleterConfigurationSecurite(ressources, login, login, role);
+		final Collection<Ressource> ressourcesModifiees = Arrays.asList(new Ressource("r4", ""), new Ressource("r2", ""), new Ressource("r3", ""));
+		final Collection<String> clefsModifiees = ressourcesModifiees.stream().map(r -> r.getClef()).collect(Collectors.toList());
 
 		//
-		this.securiteService.initialiserOuCompleterConfigurationSecurite(clefsRessourcesModifiees, login, login, role);
+		this.securiteService.initialiserOuCompleterConfigurationSecurite(ressourcesModifiees, login, login, role);
 
 		//
 		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from UTILISATEUR", new Object[] {}, Long.class));
@@ -656,8 +660,7 @@ public class SecuriteServiceTest {
 
 		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from UTILISATEUR where LOGIN=?", new Object[] { login }, Long.class));
 		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from ROLE where NOM=?", new Object[] { role }, Long.class));
-		Assert.assertThat(jdbc.queryForList("select CLEF from RESSOURCE", String.class),
-				Matchers.containsInAnyOrder(clefsRessourcesModifiees.toArray()));
+		Assert.assertThat(jdbc.queryForList("select CLEF from RESSOURCE", String.class), Matchers.containsInAnyOrder(clefsModifiees.toArray()));
 		Assert.assertThat(jdbc.queryForList("select UTILISATEUR_LOGIN from LIEN_UTILISATEUR_ROLE", String.class),
 				Matchers.containsInAnyOrder(new String[] { login }));
 		// Les ressources sont bien à jour. Mais un utilisateur existe déjà, les nouvelles ressources ne sont donc pas associée à un role d'office.

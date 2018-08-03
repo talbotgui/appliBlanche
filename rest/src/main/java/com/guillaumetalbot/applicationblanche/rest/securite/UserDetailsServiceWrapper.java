@@ -18,6 +18,10 @@ public class UserDetailsServiceWrapper implements UserDetailsService {
 	@Autowired
 	private SecuriteService securiteService;
 
+	public Utilisateur chargerUtilisateurAvecRolesEtRessourcesAutoriseesReadOnly(final String login) {
+		return this.securiteService.chargerUtilisateurAvecRolesEtRessourcesAutoriseesReadOnly(login);
+	}
+
 	@Override
 	public UserDetails loadUserByUsername(final String login) throws UsernameNotFoundException {
 		final Utilisateur u = this.securiteService.chargerUtilisateurReadOnly(login);

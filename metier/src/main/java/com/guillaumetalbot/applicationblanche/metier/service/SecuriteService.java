@@ -26,7 +26,7 @@ public interface SecuriteService {
 
 	void deverrouillerUtilisateur(final String login);
 
-	void initialiserOuCompleterConfigurationSecurite(Collection<String> clefsRessources, String loginAdmin, String mdpAdmin, String roleAdmin);
+	void initialiserOuCompleterConfigurationSecurite(Collection<Ressource> clefRessources, String loginAdmin, String mdpAdmin, String roleAdmin);
 
 	Page<Ressource> listerRessources(Pageable page);
 

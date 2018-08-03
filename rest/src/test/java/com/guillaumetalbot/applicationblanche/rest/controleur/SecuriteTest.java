@@ -2,6 +2,7 @@ package com.guillaumetalbot.applicationblanche.rest.controleur;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
@@ -15,6 +16,8 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import com.guillaumetalbot.applicationblanche.metier.entite.securite.Ressource;
+import com.guillaumetalbot.applicationblanche.metier.entite.securite.Role;
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.Utilisateur;
 import com.guillaumetalbot.applicationblanche.metier.service.ChiffrementUtil;
 import com.guillaumetalbot.applicationblanche.rest.application.InitialisationDonneesService;
@@ -109,13 +112,13 @@ public class SecuriteTest extends JwtIntegrationWebTest {
 				typeRetour);
 
 		// ASSERT
-		Mockito.verify(this.securiteService).listerUtilisateurs();
-		Mockito.verifyNoMoreInteractions(this.securiteService);
 		Assert.assertNotNull(utilisateurs.getBody());
 		Assert.assertEquals(utilisateurs.getBody().size(), toReturn.size());
 		Assert.assertEquals(utilisateurs.getBody().iterator().next().getLogin(), toReturn.iterator().next().getLogin());
 		Assert.assertNotNull(utilisateurs.getHeaders().getAccessControlExposeHeaders());
 		Assert.assertEquals(utilisateurs.getHeaders().getAccessControlExposeHeaders().size(), 1);
+		Mockito.verify(this.securiteService).listerUtilisateurs();
+		Mockito.verifyNoMoreInteractions(this.securiteService);
 	}
 
 	@Test
@@ -166,7 +169,11 @@ public class SecuriteTest extends JwtIntegrationWebTest {
 		//
 		final String loginMdp = InitialisationDonneesService.ADMIN_PAR_DEFAUT_LOGIN_MDP;
 		final Utilisateur u = new Utilisateur(loginMdp, ChiffrementUtil.encrypt(loginMdp));
+		final Role role = new Role(loginMdp);
+		role.setRessourcesAutorisees(new HashSet<>(InitialisationDonneesService.listerMethodesDeControleurs(super.applicationContext)));
+		u.setRoles(new HashSet<Role>(Arrays.asList(role)));
 		Mockito.doReturn(u).when(this.securiteService).chargerUtilisateurReadOnly(Mockito.anyString());
+		Mockito.doReturn(u).when(this.securiteService).chargerUtilisateurAvecRolesEtRessourcesAutoriseesReadOnly(Mockito.anyString());
 
 		super.ecraseJetonJwtNull();
 		final ParametreDeConnexionDto cred = ParametreDeConnexionDto.creerInstanceSansChiffreLeMotDePassePourUsageDansTests(loginMdp, loginMdp);
@@ -182,4 +189,117 @@ public class SecuriteTest extends JwtIntegrationWebTest {
 		Assert.assertEquals(entetes.size(), 1);
 	}
 
+	@Test
+	public void test03DroitsDaccess01UtilisateurSansRole() {
+		// ARRANGE
+		final String loginMdp = InitialisationDonneesService.ADMIN_PAR_DEFAUT_LOGIN_MDP;
+		final Utilisateur u = new Utilisateur(loginMdp, ChiffrementUtil.encrypt(loginMdp));
+		super.login(u);
+
+		// ACT
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			final ParameterizedTypeReference<Collection<Utilisateur>> typeRetour = new ParameterizedTypeReference<Collection<Utilisateur>>() {
+			};
+			this.getREST().exchange(this.getURL() + "/v1/utilisateurs", HttpMethod.GET, null, typeRetour);
+		});
+
+		// ASSERT
+		Assert.assertNotNull(thrown);
+		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.class);
+		final HttpClientErrorException e = (HttpClientErrorException) thrown;
+		Assert.assertEquals(e.getRawStatusCode(), HttpStatus.FORBIDDEN.value());
+		Mockito.verify(this.securiteService).chargerUtilisateurAvecRolesEtRessourcesAutoriseesReadOnly(Mockito.anyString());
+		Mockito.verify(this.securiteService).chargerUtilisateurReadOnly(Mockito.anyString());
+		Mockito.verify(this.securiteService).notifierConnexion(Mockito.anyString(), Mockito.anyBoolean());
+		Mockito.verifyNoMoreInteractions(this.securiteService);
+
+	}
+
+	@Test
+	public void test03DroitsDaccess02UtilisateurSansAucuneRessourceAutorisee() {
+
+		// ARRANGE
+		final String loginMdp = InitialisationDonneesService.ADMIN_PAR_DEFAUT_LOGIN_MDP;
+		final Utilisateur u = new Utilisateur(loginMdp, ChiffrementUtil.encrypt(loginMdp));
+		final Role role = new Role(loginMdp);
+		role.setRessourcesAutorisees(new HashSet<>(Arrays.asList()));
+		u.setRoles(new HashSet<Role>(Arrays.asList(role)));
+		super.login(u);
+
+		// ACT
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			final ParameterizedTypeReference<Collection<Utilisateur>> typeRetour = new ParameterizedTypeReference<Collection<Utilisateur>>() {
+			};
+			this.getREST().exchange(this.getURL() + "/v1/utilisateurs", HttpMethod.GET, null, typeRetour);
+		});
+
+		// ASSERT
+		Assert.assertNotNull(thrown);
+		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.class);
+		final HttpClientErrorException e = (HttpClientErrorException) thrown;
+		Assert.assertEquals(e.getRawStatusCode(), HttpStatus.FORBIDDEN.value());
+		Mockito.verify(this.securiteService).chargerUtilisateurAvecRolesEtRessourcesAutoriseesReadOnly(Mockito.anyString());
+		Mockito.verify(this.securiteService).chargerUtilisateurReadOnly(Mockito.anyString());
+		Mockito.verify(this.securiteService).notifierConnexion(Mockito.anyString(), Mockito.anyBoolean());
+		Mockito.verifyNoMoreInteractions(this.securiteService);
+	}
+
+	@Test
+	public void test03DroitsDaccess03UtilisateurSansCetteRessourceAutorisee() {
+
+		// ARRANGE
+		final String loginMdp = InitialisationDonneesService.ADMIN_PAR_DEFAUT_LOGIN_MDP;
+		final Utilisateur u = new Utilisateur(loginMdp, ChiffrementUtil.encrypt(loginMdp));
+		final Role role = new Role(loginMdp);
+		role.setRessourcesAutorisees(new HashSet<>(Arrays.asList(new Ressource("clef1"), new Ressource("clef2"), new Ressource("clef3"))));
+		u.setRoles(new HashSet<Role>(Arrays.asList(role)));
+		super.login(u);
+
+		// ACT
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			final ParameterizedTypeReference<Collection<Utilisateur>> typeRetour = new ParameterizedTypeReference<Collection<Utilisateur>>() {
+			};
+			this.getREST().exchange(this.getURL() + "/v1/utilisateurs", HttpMethod.GET, null, typeRetour);
+		});
+
+		// ASSERT
+		Assert.assertNotNull(thrown);
+		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.class);
+		final HttpClientErrorException e = (HttpClientErrorException) thrown;
+		Assert.assertEquals(e.getRawStatusCode(), HttpStatus.FORBIDDEN.value());
+		Mockito.verify(this.securiteService).chargerUtilisateurAvecRolesEtRessourcesAutoriseesReadOnly(Mockito.anyString());
+		Mockito.verify(this.securiteService).chargerUtilisateurReadOnly(Mockito.anyString());
+		Mockito.verify(this.securiteService).notifierConnexion(Mockito.anyString(), Mockito.anyBoolean());
+		Mockito.verifyNoMoreInteractions(this.securiteService);
+	}
+
+	@Test
+	public void test03DroitsDaccess04UtilisateurAvecUniquementCetteRessourceAutorisee() {
+
+		// ARRANGE
+		final String loginMdp = InitialisationDonneesService.ADMIN_PAR_DEFAUT_LOGIN_MDP;
+		final Utilisateur u = new Utilisateur(loginMdp, ChiffrementUtil.encrypt(loginMdp));
+		final Role role = new Role(loginMdp);
+		role.setRessourcesAutorisees(new HashSet<>(Arrays.asList(new Ressource("utilisateurRestControler.listerUtilisateur"))));
+		u.setRoles(new HashSet<Role>(Arrays.asList(role)));
+		super.login(u);
+
+		final List<Utilisateur> toReturn = Arrays.asList(new Utilisateur("l1", "m1"), new Utilisateur("l2", "m2"), new Utilisateur("l3", "m3"));
+		Mockito.doReturn(toReturn).when(this.securiteService).listerUtilisateurs();
+
+		// ACT
+		final ParameterizedTypeReference<Collection<Utilisateur>> typeRetour = new ParameterizedTypeReference<Collection<Utilisateur>>() {
+		};
+		final ResponseEntity<Collection<Utilisateur>> utilisateurs = this.getREST().exchange(this.getURL() + "/v1/utilisateurs", HttpMethod.GET, null,
+				typeRetour);
+
+		// ASSERT
+		Mockito.verify(this.securiteService).listerUtilisateurs();
+		Mockito.verify(this.securiteService).chargerUtilisateurAvecRolesEtRessourcesAutoriseesReadOnly(Mockito.anyString());
+		Mockito.verify(this.securiteService).chargerUtilisateurReadOnly(Mockito.anyString());
+		Mockito.verify(this.securiteService).notifierConnexion(Mockito.anyString(), Mockito.anyBoolean());
+		Mockito.verifyNoMoreInteractions(this.securiteService);
+		Assert.assertNotNull(utilisateurs.getBody());
+		Assert.assertEquals(utilisateurs.getBody().size(), 3);
+	}
 }

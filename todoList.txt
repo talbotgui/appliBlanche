@@ -1,4 +1,3 @@
-
 Sujets FRONT (partie sécurité) :
 	ANG	VUE	SUJET				
 	x	x	page de login
@@ -8,6 +7,9 @@ Sujets FRONT (partie sécurité) :
 
 Sujets FRONT (partie structure) :
 	ANG	VUE	SUJET
+			ajouter la sélection de roles dans l'utilisateur
+			ajouter le crud de role et l'association avec les ressources
+			utiliser angular-material pour la gestion des erreurs
 	x		revalider le token au chargement de l'écran et rediriger vers le login quand il est invalide
 	x		mise en place de drapeaux et non de boutons pour l'i18n
 			appel à une API avec un DEBOUNCE sur un INPUT
@@ -26,7 +28,7 @@ Sujets FRONT (partie structure) :
 	x		initier les tests e2e avec bonne gestion des selecteurs
 			compléter les tests e2e 
 			test e2e avec des bouchons pour pour les appels REST (https://netflix.github.io/pollyjs/#/README ou https://medium.com/pixelmatters/unit-testing-with-vue-approach-tips-and-tricks-part-1-b7d3209384dc ou https://alexjoverm.github.io/2017/09/25/Test-Methods-and-Mock-Dependencies-in-Vue-js-with-Jest/)
-			couverture de code des tests de l'application WEB
+	o		couverture de code des tests de l'application WEB
 			packaging et configuration par environnement
 
 Sujets FRONT (partie fonction&ergonomie) :
@@ -35,6 +37,7 @@ Sujets FRONT (partie fonction&ergonomie) :
 			traiter les messages d'erreur de l'API correctement
 
 Sujets BACK :
+x	ajouter le filtrage par ressources autorisées du profil
 x	JWT
 x	exploser la configuration SpringRest en plusieurs classes compréhensibles et documentées	
 x	persitence avec Hibernate 5

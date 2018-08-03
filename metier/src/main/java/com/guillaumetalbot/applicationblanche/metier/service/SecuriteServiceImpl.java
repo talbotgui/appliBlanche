@@ -2,7 +2,9 @@ package com.guillaumetalbot.applicationblanche.metier.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
@@ -119,22 +121,44 @@ public class SecuriteServiceImpl implements SecuriteService {
 	}
 
 	@Override
-	public void initialiserOuCompleterConfigurationSecurite(final Collection<String> clefsRessources, final String loginAdmin, final String mdpAdmin,
+	public void initialiserOuCompleterConfigurationSecurite(final Collection<Ressource> ressources, final String loginAdmin, final String mdpAdmin,
 			final String roleAdmin) {
 
 		// Initialisation / completion des ressources
-		final Collection<String> clefsExistantes = this.ressourceRepo.listerClefsRessources();
-		final Collection<String> clefsAcreer = new ArrayList<>(clefsRessources);
-		clefsAcreer.removeAll(clefsExistantes);
-		this.sauvegarderRessources(clefsAcreer);
+		final Collection<Ressource> ressourcesExistantes = new TreeSet<>((o1, o2) -> o1.comparerClefEtChemin(o2));
+		ressourcesExistantes.addAll((Collection<Ressource>) this.ressourceRepo.findAll());
+		final Collection<Ressource> ressourcesDansLeCode = new TreeSet<>((o1, o2) -> o1.comparerClefEtChemin(o2));
+		ressourcesDansLeCode.addAll(ressources);
 
-		final Collection<String> clefsAsupprimer = new ArrayList<>(clefsExistantes);
-		clefsAsupprimer.removeAll(clefsRessources);
-		this.supprimerRessources(clefsAsupprimer);
+		final Collection<Ressource> ressourcesAcreer = new ArrayList<>();
+		for (final Ressource r : ressources) {
+			if (!ressourcesExistantes.contains(r)) {
+				ressourcesAcreer.add(r);
+			}
+		}
+		this.ressourceRepo.saveAll(ressourcesAcreer);
+
+		final Collection<Ressource> ressourcesAsupprimer = new ArrayList<>();
+		for (final Ressource r : ressourcesExistantes) {
+			if (!ressourcesDansLeCode.contains(r)) {
+				ressourcesAsupprimer.add(r);
+			}
+		}
+		this.supprimerRessources(ressourcesAsupprimer);
 
 		// Si aucun utilisateur existant, création d'un administrateur avec tous les droits
 		if (this.utilisateurRepo.listerUtilisateur().isEmpty()) {
 			this.sauvegarderUtilisateurAvecTousLesDroits(loginAdmin, mdpAdmin, roleAdmin);
+		}
+
+		// Pour surveiller un minimum l'évolution des clefs et chemin (modification du nom de la méthode ou du path)
+		List<String> ressourcesSimilaires = this.ressourceRepo.listerRessourcesAuClefSimilaire();
+		if (!ressourcesSimilaires.isEmpty()) {
+			LOG.warn("Certaines ressources ont une même clef : {}", ressourcesSimilaires);
+		}
+		ressourcesSimilaires = this.ressourceRepo.listerRessourcesAuCheminSimilaire();
+		if (!ressourcesSimilaires.isEmpty()) {
+			LOG.warn("Certaines ressources ont un même chemin : {}", ressourcesSimilaires);
 		}
 	}
 
@@ -196,12 +220,6 @@ public class SecuriteServiceImpl implements SecuriteService {
 		this.utilisateurRepo.save(u);
 	}
 
-	private void sauvegarderRessources(final Collection<String> clefs) {
-		for (final String clef : clefs) {
-			this.ressourceRepo.save(new Ressource(clef));
-		}
-	}
-
 	@Override
 	public void sauvegarderRole(final String nomRole) {
 		if (nomRole == null || nomRole.length() < ROLE_NOM_MIN) {
@@ -249,17 +267,16 @@ public class SecuriteServiceImpl implements SecuriteService {
 		this.lienRoleRessourceRepo.saveAll(this.lienRoleRessourceRepo.listerLiensInexistantsAvecToutesLesRessources(roleAdmin));
 	}
 
-	private void supprimerRessources(final Collection<String> clefs) {
-		if (clefs.isEmpty()) {
+	private void supprimerRessources(final Collection<Ressource> ressources) {
+		if (ressources.isEmpty()) {
 			return;
 		}
 
-		// Suppression de lien entre ressources et role
-		this.lienRoleRessourceRepo.supprimerParClefs(clefs);
+		this.lienRoleRessourceRepo.supprimerParRessources(ressources);
 
 		// Suppression des ressources
-		for (final String clef : clefs) {
-			this.ressourceRepo.deleteById(clef);
+		for (final Ressource r : ressources) {
+			this.ressourceRepo.delete(r);
 		}
 	}
 
