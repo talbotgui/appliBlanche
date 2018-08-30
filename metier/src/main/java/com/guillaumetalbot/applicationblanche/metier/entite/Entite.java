@@ -12,7 +12,7 @@ import com.guillaumetalbot.applicationblanche.exception.BusinessException;
 
 @MappedSuperclass
 public class Entite implements Serializable, IdentifiableParReference {
-	private static final Pattern PATTERN_REFERENCE = Pattern.compile("^([0-9]*)-([0-9]*)$");
+	private static final Pattern PATTERN_REFERENCE = Pattern.compile("^([\\-]?[0-9]*)-([0-9]*)$");
 	public static long SEL_POUR_REFERENCE;
 
 	private static final long serialVersionUID = 1L;
