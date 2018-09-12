@@ -28,7 +28,7 @@ pipeline {
 			agent any
 			environment { JAVA_HOME = '/usr/lib/jvm/jdk-10.0.1/' }
 			steps {
-				sh "mvn -B -Dmaven.test.failure.ignore test-compile surefire:test  -Djvm=/usr/lib/jvm/jdk-10.0.1/"
+				sh "mvn -B -Dmaven.test.failure.ignore test-compile surefire:test"
 				junit '**/TEST-*Test.xml'
 			}
 		}
