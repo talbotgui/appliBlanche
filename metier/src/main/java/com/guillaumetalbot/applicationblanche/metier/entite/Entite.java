@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.guillaumetalbot.applicationblanche.exception.BusinessException;
 
 @MappedSuperclass
@@ -55,6 +56,7 @@ public class Entite implements Serializable, IdentifiableParReference {
 
 	@Id
 	@GeneratedValue
+	@JsonIgnore
 	private Long id;
 
 	public Long getId() {
