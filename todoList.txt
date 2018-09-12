@@ -1,5 +1,7 @@
 encore besoin de jackson-datatype-hibernate5 ?
 
+réactiver la qualimétrie findBug dans le parent/pom.xml (https://github.com/spotbugs/sonar-findbugs/issues/184)
+
 Sujets FRONT (partie sécurité) :
 	ANG	VUE	SUJET				
 	x	x	page de login

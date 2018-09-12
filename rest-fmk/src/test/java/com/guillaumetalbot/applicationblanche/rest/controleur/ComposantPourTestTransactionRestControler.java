@@ -24,9 +24,8 @@ public class ComposantPourTestTransactionRestControler {
 	/**
 	 * Cette URL est totalement fictive et ne fait pas partie de l'application (le présent composant est dans le répertoire src/test/java !
 	 *
-	 * @param refUtilisateur
-	 * @param login
-	 * @return
+	 * @param nom Nom du role.
+	 * @return rien car la méthode lance une exception
 	 */
 	@RequestMapping(value = "/vTest/role", method = POST)
 	public String sauvegarderRole(@RequestParam(value = "nom") final String nom) {

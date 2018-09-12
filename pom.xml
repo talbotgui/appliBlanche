@@ -11,11 +11,11 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		
 		<version.springBootDependencies>2.0.2.RELEASE</version.springBootDependencies>
-		<version.jacoco>0.8.0</version.jacoco>
+		<version.jacoco>0.8.2</version.jacoco>
 		<version.jxr>2.5</version.jxr>
-		<version.javadoc>3.0.0</version.javadoc>
-		<version.surefireReport>2.20.1</version.surefireReport>
-		<version.pmd>3.8</version.pmd>
+		<version.javadoc>3.0.1</version.javadoc>
+		<version.surefireReport>2.22.0</version.surefireReport>
+		<version.pmd>3.10.0</version.pmd>
 		<version.findbugs>3.0.5</version.findbugs>
 		<version.jdepend>2.0</version.jdepend>
 	</properties>
@@ -108,7 +108,7 @@
 					<linkXRef>true</linkXRef>
 				</configuration>
 			</plugin>
-			<plugin>
+			<!--<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
 				<version>${version.findbugs}</version>
@@ -122,7 +122,7 @@
 						</plugin>
 					</plugins>
 				</configuration>
-			</plugin>
+			</plugin>-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
@@ -156,11 +156,11 @@
 					</rulesets>
 				</configuration>
 			</plugin>
-			<plugin>
+			<!-- <plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
 				<version>${version.findbugs}</version>
-			</plugin>
+			</plugin>-->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>jdepend-maven-plugin</artifactId>

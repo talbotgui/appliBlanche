@@ -48,7 +48,7 @@ public class RestApplicationForTests {
 	/**
 	 * Méthode de démarrage de l'application
 	 *
-	 * @param args
+	 * @param args paramètres de lancement
 	 */
 	public static void main(final String[] args) {
 		ac = SpringApplication.run(RestApplicationForTests.class);
