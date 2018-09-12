@@ -21,6 +21,8 @@
 	</properties>
 
 	<modules>
+		<module>metier-fmk</module>
+		<module>rest-fmk</module>
 		<module>metier</module>
 		<module>rest</module>
 		<module>batch-simple</module>

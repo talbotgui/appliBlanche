@@ -1,3 +1,5 @@
+encore besoin de jackson-datatype-hibernate5 ?
+
 Sujets FRONT (partie sécurité) :
 	ANG	VUE	SUJET				
 	x	x	page de login

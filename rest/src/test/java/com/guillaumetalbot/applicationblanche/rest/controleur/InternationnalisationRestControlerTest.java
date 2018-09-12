@@ -10,9 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.guillaumetalbot.applicationblanche.rest.controleur.utils.JwtIntegrationWebTest;
-
-public class InternationnalisationRestControlerTest extends JwtIntegrationWebTest {
+public class InternationnalisationRestControlerTest extends BaseTestClass {
 
 	@Test
 	public void test01GetLibelleFr() {

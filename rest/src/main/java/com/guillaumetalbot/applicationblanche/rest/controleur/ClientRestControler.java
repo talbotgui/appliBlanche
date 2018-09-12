@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.guillaumetalbot.applicationblanche.metier.entite.client.Client;
 import com.guillaumetalbot.applicationblanche.metier.service.ClientService;
-import com.guillaumetalbot.applicationblanche.rest.application.RestApplication;
 import com.guillaumetalbot.applicationblanche.rest.controleur.utils.RestControlerUtils;
 
 @RestController
@@ -26,7 +25,7 @@ public class ClientRestControler {
 
 	@RequestMapping(value = "/v1/clients/{refClient}", method = GET)
 	public Client chargerClient(@RequestHeader("Accept") final String accept, @PathVariable("refClient") final String refClient) {
-		if (RestApplication.MIME_JSON_DETAILS.equals(accept)) {
+		if (RestControlerUtils.MIME_JSON_DETAILS.equals(accept)) {
 			return this.clientService.chargerClientAvecAdresseEtDossiersReadonly(refClient);
 		} else {
 			return this.clientService.chargerClientReadonly(refClient);

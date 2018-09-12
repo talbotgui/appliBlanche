@@ -23,12 +23,11 @@ import com.guillaumetalbot.applicationblanche.metier.dto.ClientDto;
 import com.guillaumetalbot.applicationblanche.metier.entite.Entite;
 import com.guillaumetalbot.applicationblanche.metier.entite.client.Client;
 import com.guillaumetalbot.applicationblanche.metier.entite.client.Dossier;
-import com.guillaumetalbot.applicationblanche.rest.application.RestApplication;
-import com.guillaumetalbot.applicationblanche.rest.controleur.dto.PageablePourLesTest;
-import com.guillaumetalbot.applicationblanche.rest.controleur.utils.ControlerTestUtil;
-import com.guillaumetalbot.applicationblanche.rest.controleur.utils.JwtIntegrationWebTest;
+import com.guillaumetalbot.applicationblanche.rest.controleur.test.ControlerTestUtil;
+import com.guillaumetalbot.applicationblanche.rest.controleur.test.PageablePourLesTest;
+import com.guillaumetalbot.applicationblanche.rest.controleur.utils.RestControlerUtils;
 
-public class ClientRestControlerTest extends JwtIntegrationWebTest {
+public class ClientRestControlerTest extends BaseTestClass {
 
 	@Test
 	public void test01GetListeClient01NonPaginee() {
@@ -143,7 +142,7 @@ public class ClientRestControlerTest extends JwtIntegrationWebTest {
 		Mockito.doReturn(toReturn).when(this.clientService).chargerClientAvecAdresseEtDossiersReadonly(refClient);
 
 		// ACT
-		final HttpEntity<?> headers = ControlerTestUtil.creerHeaders(RestApplication.MIME_JSON_DETAILS);
+		final HttpEntity<?> headers = ControlerTestUtil.creerHeaders(RestControlerUtils.MIME_JSON_DETAILS);
 		final ResponseEntity<Client> client = this.getREST().exchange(this.getURL() + "/v1/clients/" + refClient, HttpMethod.GET, headers,
 				Client.class);
 

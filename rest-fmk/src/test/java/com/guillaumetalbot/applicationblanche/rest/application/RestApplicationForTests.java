@@ -31,24 +31,19 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @EntityScan("com.guillaumetalbot.applicationblanche.metier.entite")
 @ComponentScan({ "com.guillaumetalbot.applicationblanche.rest.erreur", "com.guillaumetalbot.applicationblanche.rest.securite",
-		"com.guillaumetalbot.applicationblanche.rest.controleur", "com.guillaumetalbot.applicationblanche.metier.dao",
-		"com.guillaumetalbot.applicationblanche.metier.service" })
+		RestApplicationForTests.PACKAGE_CONTROLEUR, "com.guillaumetalbot.applicationblanche.metier.dao",
+		"com.guillaumetalbot.applicationblanche.metier.service", "com.guillaumetalbot.applicationblanche.rest.application.monitoring" })
 @EnableJpaRepositories("com.guillaumetalbot.applicationblanche.metier.dao")
 @EnableGlobalMethodSecurity
-public class RestApplication {
+public class RestApplicationForTests {
 
 	/** Contexte applicatif démarré. */
 	private static ApplicationContext ac;
 
 	/** Logger. */
-	private static final Logger LOG = LoggerFactory.getLogger(RestApplication.class);
+	private static final Logger LOG = LoggerFactory.getLogger(RestApplicationForTests.class);
 
-	/** Packages utilisés dans la configuration Spring. */
-	public static final String PACKAGE_REST_APPLICATION = "com.guillaumetalbot.applicationblanche.rest.application";
-
-	public static final String PACKAGE_REST_CONTROLEUR = "com.guillaumetalbot.applicationblanche.rest.controleur";
-	public static final String PACKAGE_REST_ERREUR = "com.guillaumetalbot.applicationblanche.rest.erreur";
-	public static final String PACKAGE_REST_SECURITE = "com.guillaumetalbot.applicationblanche.rest.securite";
+	public static final String PACKAGE_CONTROLEUR = "com.guillaumetalbot.applicationblanche.rest.controleur";
 
 	/**
 	 * Méthode de démarrage de l'application
@@ -56,7 +51,7 @@ public class RestApplication {
 	 * @param args
 	 */
 	public static void main(final String[] args) {
-		ac = SpringApplication.run(RestApplication.class);
+		ac = SpringApplication.run(RestApplicationForTests.class);
 
 		// Log pour afficher l'URL de l'API
 		final String port = ac.getEnvironment().getProperty("server.port");
