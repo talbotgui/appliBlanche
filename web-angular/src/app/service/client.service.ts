@@ -15,6 +15,11 @@ export class ClientService {
 
   constructor(private http: HttpClient, private restUtils: RestUtilsService) { }
 
+  /**
+   * Liste des clients dans un DTO particulier (pas l'objet métier) de manière paginée et triée.
+   * 
+   * @param page La page demandée (nb éléments par page, index de la page et ordre de tri)
+   */
   listerClientsDto(page: model.Page<any>): Observable<{} | model.Page<model.ClientDto>> {
 
     // Seul un tri par défaut est possible
