@@ -44,7 +44,7 @@ pipeline {
 				step([$class: 'AnalysisPublisher'])
 				// see https://docs.sonarqube.org/display/SONAR/Analysis+Parameters
 				withCredentials([string(credentialsId: 'sonarSecretKey', variable: 'SONAR_KEY')]) {
-					sh "mvn sonar:sonar -Dsonar.host.url=https://sonarqube.com/ -Dsonar.projectKey=com.github.talbotgui.applicationBlanche:applicationBlanche -Dsonar.login=${SONAR_KEY}"
+					sh "mvn sonar:sonar -Dsonar.projectKey=ApplicationBlanche -Dsonar.organization=talbotgui-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${SONAR_KEY}"
 				}
 			}
 		}
