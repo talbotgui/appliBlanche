@@ -1,10 +1,13 @@
 package com.guillaumetalbot.applicationblanche.metier.entite.securite;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class Ressource {
+public class Ressource implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	private String chemin;
 

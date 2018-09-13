@@ -23,7 +23,7 @@ public class UserDetailsServiceWrapper implements UserDetailsService {
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(final String login) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(final String login) {
 		final Utilisateur u = this.securiteService.chargerUtilisateurReadOnly(login);
 		if (u == null) {
 			throw new UsernameNotFoundException("Mauvais paramètres de connexion");

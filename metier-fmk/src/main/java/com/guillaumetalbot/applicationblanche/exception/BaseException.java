@@ -19,6 +19,8 @@ import javax.json.JsonObjectBuilder;
  */
 public abstract class BaseException extends RuntimeException {
 
+	private static final String MESSAGE_ERREUR_NB_PARAMETRE = "Le nombre de paramètres de l'exception ne correspond pas à celui dans le message";
+
 	/** Default UID. */
 	private static final long serialVersionUID = 1L;
 
@@ -170,7 +172,7 @@ public abstract class BaseException extends RuntimeException {
 		String valeur = "null";
 		if (this.parameters[i] != null) {
 			if (this.parameters[i].getClass().isArray()) {
-				final List<String> valeurs = new ArrayList<String>();
+				final List<String> valeurs = new ArrayList<>();
 				for (final Object p : (Object[]) this.parameters[i]) {
 					valeurs.add(p.toString());
 				}
@@ -192,18 +194,18 @@ public abstract class BaseException extends RuntimeException {
 
 			// si le message ne prevoit pas l'usage de tant de paramètres, erreur
 			if (positionDuDernierParametreUtilise == -1) {
-				throw new InvalidParameterException("Le nombre de paramètres de l'exception ne correspond pas à celui dans le message");
+				throw new InvalidParameterException(MESSAGE_ERREUR_NB_PARAMETRE);
 			}
 
 			// Si le message attend plus de paramètres que ceux fournis
-			if (message.indexOf("{", positionDuDernierParametreUtilise + 1) != -1) {
-				throw new InvalidParameterException("Le nombre de paramètres de l'exception ne correspond pas à celui dans le message");
+			if (message.indexOf('{', positionDuDernierParametreUtilise + 1) != -1) {
+				throw new InvalidParameterException(MESSAGE_ERREUR_NB_PARAMETRE);
 			}
 		}
 
 		// Si aucun paramètre n'a été fourni mais qu'il en faut, erreur
 		else if (message.indexOf("{0}") != -1) {
-			throw new InvalidParameterException("Le nombre de paramètres de l'exception ne correspond pas à celui dans le message");
+			throw new InvalidParameterException(MESSAGE_ERREUR_NB_PARAMETRE);
 		}
 	}
 

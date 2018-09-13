@@ -56,8 +56,9 @@ public class ClientCsvBatch extends AbstractBatch {
 
 		// Type de fichier avec séparateur
 		final DelimitedLineTokenizer dlt = new DelimitedLineTokenizer(";");
+
 		// mapping des colonnes du CSV avec le DTO
-		dlt.setNames(new String[] { COLONNE_NOM_CLIENT, COLONNE_RUE, COLONNE_CODE_POSTAL, COLONNE_VILLE });
+		dlt.setNames(COLONNE_NOM_CLIENT, COLONNE_RUE, COLONNE_CODE_POSTAL, COLONNE_VILLE);
 
 		return new FlatFileItemReaderBuilder<LigneCsvImportClient>().name(NOM_STEP_1 + BEAN_SUFFIX_SOURCE)
 				// Chemin d'accès

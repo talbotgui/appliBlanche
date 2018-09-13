@@ -10,7 +10,7 @@ public class BatchApplication {
 
 	public static final String PACKAGE_BATCH = "com.guillaumetalbot.applicationblanche.batch";
 
-	public static void main(final String[] args) throws Exception {
+	public static void main(final String[] args) {
 		SpringApplication.run(BatchApplication.class, args);
 	}
 }

@@ -81,8 +81,7 @@ public class JWTConnexionFilter extends AbstractAuthenticationProcessingFilter {
 	 * Méthode appelée quand une requête correspond à l'URL.
 	 */
 	@Override
-	public Authentication attemptAuthentication(final HttpServletRequest req, final HttpServletResponse res)
-			throws AuthenticationException, IOException, ServletException {
+	public Authentication attemptAuthentication(final HttpServletRequest req, final HttpServletResponse res) throws IOException, ServletException {
 		// lecture du corp de la requête pour y récupérer un objet de type ParametreDeConnexionDto
 		final ParametreDeConnexionDto param = new ObjectMapper().readValue(req.getInputStream(), ParametreDeConnexionDto.class);
 

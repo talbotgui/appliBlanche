@@ -85,12 +85,10 @@ public class ClientMultiDestinationBatch extends AbstractBatch {
 	@Bean(name = NOM_STEP_1 + BEAN_SUFFIX_DESTINATION)
 	@Qualifier(NOM_STEP_1 + BEAN_SUFFIX_DESTINATION)
 	public ItemWriter<LigneCsvImportClient> creer3Destination1() {
-		final String[] nomsColonnesEntete = new String[] { "nomClient", "rue", "codePostal", "ville" };
+		final String[] nomsColonnesEntete = new String[] { ATTRIBUT_NOM_CLIENT, ATTRIBUT_RUE, ATTRIBUT_CODE_POSTAL, ATTRIBUT_VILLE };
 		final String separateurDeChamps = ";";
 
-		final FlatFileHeaderCallback entete = (w) -> {
-			w.write(String.join(separateurDeChamps, nomsColonnesEntete));
-		};
+		final FlatFileHeaderCallback entete = w -> w.write(String.join(separateurDeChamps, nomsColonnesEntete));
 
 		final BeanWrapperFieldExtractor<LigneCsvImportClient> extracteurDeChamps = new BeanWrapperFieldExtractor<>();
 		extracteurDeChamps.setNames(nomsColonnesEntete);

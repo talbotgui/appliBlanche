@@ -1,5 +1,6 @@
 package com.guillaumetalbot.applicationblanche.rest.securite;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -21,7 +22,7 @@ public class UserDetailsDto implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package com.guillaumetalbot.applicationblanche.metier.entite.securite;
 
+import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -11,7 +12,8 @@ import javax.persistence.ManyToMany;
 import com.guillaumetalbot.applicationblanche.metier.entite.MutableUtil;
 
 @Entity
-public class Role {
+public class Role implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	private String nom;

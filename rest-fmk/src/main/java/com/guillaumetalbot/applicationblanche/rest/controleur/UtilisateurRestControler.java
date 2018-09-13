@@ -56,8 +56,7 @@ public class UtilisateurRestControler {
 		if (RestControlerUtils.MIME_JSON_DETAILS.equals(accept)) {
 			return this.securiteService.listerUtilisateursAvecRolesEtAutorisations();
 		} else {
-			final Collection<Utilisateur> liste = this.securiteService.listerUtilisateurs();
-			return liste;
+			return this.securiteService.listerUtilisateurs();
 		}
 	}
 

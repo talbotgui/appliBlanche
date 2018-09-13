@@ -21,9 +21,9 @@ public class MutableUtil {
 		if (set == null) {
 			return null;
 		} else if (PersistentSet.class.isInstance(set) && !Hibernate.isInitialized(set)) {
-			return new HashSet<T>();
+			return new HashSet<>();
 		} else {
-			return new HashSet<T>(set);
+			return new HashSet<>(set);
 		}
 	}
 

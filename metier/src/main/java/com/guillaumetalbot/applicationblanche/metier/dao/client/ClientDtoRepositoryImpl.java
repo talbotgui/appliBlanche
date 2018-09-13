@@ -57,7 +57,7 @@ public class ClientDtoRepositoryImpl implements ClientDtoRepository {
 		final long totalResultsCount = qCount.getSingleResult().longValue();
 
 		// renvoi d'une page de résultats
-		return new PageImpl<ClientDto>(results, requete, totalResultsCount);
+		return new PageImpl<>(results, requete, totalResultsCount);
 	}
 
 }

@@ -74,10 +74,10 @@ public class ClientServiceImpl implements ClientService {
 
 		// Validation des données
 		if (client == null) {
-			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Client", refClient);
+			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, Client.class.getSimpleName(), refClient);
 		}
 		if (adresse.getReference() != null && (client.getAdresse() == null || !client.getAdresse().getId().equals(idAdresse))) {
-			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Adresse", adresse.getReference());
+			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, Adresse.class.getSimpleName(), adresse.getReference());
 		}
 
 		// Modification des données
@@ -100,7 +100,7 @@ public class ClientServiceImpl implements ClientService {
 			client = new Client(nom);
 		} else {
 			client = this.clientRepo.findById(idClient)
-					.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Client", refClient));
+					.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, Client.class.getSimpleName(), refClient));
 			client.setNom(nom);
 		}
 		this.clientRepo.save(client);
@@ -114,7 +114,7 @@ public class ClientServiceImpl implements ClientService {
 
 		// Validation existance du dossier
 		final Dossier dossier = this.dossierRepo.findById(idDossier)
-				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Dossier", refDossier));
+				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, Dossier.class.getSimpleName(), refDossier));
 
 		// Création de la demande
 		if (idDemande == null) {
@@ -125,7 +125,7 @@ public class ClientServiceImpl implements ClientService {
 		else {
 			final Demande demandeExistante = this.demandeRepo.chargerDemandeAvecDossier(idDemande);
 			if (demandeExistante == null || demandeExistante.getDossier() == null || !demandeExistante.getDossier().getId().equals(idDossier)) {
-				throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Demande", demande.getReference());
+				throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, Demande.class.getSimpleName(), demande.getReference());
 			}
 		}
 
@@ -141,7 +141,7 @@ public class ClientServiceImpl implements ClientService {
 
 		// Validation existance du client
 		final Client client = this.clientRepo.findById(idClient)
-				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Client", refClient));
+				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, Client.class.getSimpleName(), refClient));
 
 		// Création du dossier
 		if (idDossier == null) {
@@ -153,7 +153,7 @@ public class ClientServiceImpl implements ClientService {
 		else {
 			final Dossier dossierExistant = this.dossierRepo.chargerDossierAvecClient(idDossier);
 			if (dossierExistant == null || dossierExistant.getClient() == null || !dossierExistant.getClient().getId().equals(idClient)) {
-				throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Dossier", dossier.getId());
+				throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, Dossier.class.getSimpleName(), dossier.getId());
 			}
 		}
 
@@ -170,7 +170,7 @@ public class ClientServiceImpl implements ClientService {
 
 	/**
 	 * Vérification que le nom de client n'existe pas déjà
-	 * 
+	 *
 	 * @param nom
 	 */
 	private void verifierNomClientNexistePasDeja(final String nom) {

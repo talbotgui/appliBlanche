@@ -32,7 +32,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public abstract class JwtIntegrationWebTest extends MockedIntegrationWebTest {
 
 	@Autowired
-	protected ApplicationContext applicationContext;
+	protected ApplicationContext currentTestApplicationContext;
 
 	/** Jeton JWT récupéré au login avant l'exécution de tout test. */
 	private String jetonJwt;
@@ -91,7 +91,7 @@ public abstract class JwtIntegrationWebTest extends MockedIntegrationWebTest {
 		final Utilisateur u = new Utilisateur(loginMdp, ChiffrementUtil.encrypt(loginMdp));
 		final Role role = new Role(loginMdp);
 		role.setRessourcesAutorisees(new HashSet<>(
-				InitialisationDonneesService.listerMethodesDeControleurs(this.applicationContext, this.getListePackagesDeControleur())));
+				InitialisationDonneesService.listerMethodesDeControleurs(this.currentTestApplicationContext, this.getListePackagesDeControleur())));
 		u.setRoles(new HashSet<Role>(Arrays.asList(role)));
 
 		this.login(u);

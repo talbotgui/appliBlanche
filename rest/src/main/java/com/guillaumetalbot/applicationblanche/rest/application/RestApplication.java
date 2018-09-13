@@ -37,9 +37,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableGlobalMethodSecurity
 public class RestApplication {
 
-	/** Contexte applicatif démarré. */
-	private static ApplicationContext ac;
-
 	/** Logger. */
 	private static final Logger LOG = LoggerFactory.getLogger(RestApplication.class);
 
@@ -56,7 +53,7 @@ public class RestApplication {
 	 * @param args
 	 */
 	public static void main(final String[] args) {
-		ac = SpringApplication.run(RestApplication.class);
+		final ApplicationContext ac = SpringApplication.run(RestApplication.class);
 
 		// Log pour afficher l'URL de l'API
 		final String port = ac.getEnvironment().getProperty("server.port");
@@ -89,22 +86,4 @@ public class RestApplication {
 		// hibernate5Module.enable(Feature.REQUIRE_EXPLICIT_LAZY_LOADING_MARKER);
 		return hibernate5Module;
 	}
-
-	// @Bean
-	// public EmbeddedServletContainerCustomizer creerPagesErreur() {
-	// return container -> {
-	//
-	// // Error pages
-	// final ErrorPage error401Page = new ErrorPage(HttpStatus.UNAUTHORIZED, "/401.html");
-	// final ErrorPage error403Page = new ErrorPage(HttpStatus.FORBIDDEN, "/403.html");
-	// final ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/404.html");
-	// final ErrorPage error500Page = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/500.html");
-	// final ErrorPage errorPage = new ErrorPage("/500.html");
-	// container.addErrorPages(error401Page, error403Page, error404Page, error500Page, errorPage);
-	//
-	// // Mime types
-	// final MimeMappings mappings = new MimeMappings(MimeMappings.DEFAULT);
-	// container.setMimeMappings(mappings);
-	// };
-	// }
 }

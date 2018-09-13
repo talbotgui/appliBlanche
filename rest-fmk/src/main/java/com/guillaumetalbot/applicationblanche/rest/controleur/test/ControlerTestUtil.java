@@ -19,17 +19,19 @@ public class ControlerTestUtil {
 
 	/** Intercepteur pour logger chaque requête */
 	private static final ClientHttpRequestInterceptor LOG_INTERCEPTOR = (request, body, execution) -> {
-		LOG.info("Request : {URI={}, method={}, headers={}, body={}}", request.getURI(), request.getMethod().name(), request.getHeaders(),
-				new String(body));
+		if (LOG.isInfoEnabled()) {
+			LOG.info("Request : {URI={}, method={}, headers={}, body={}}", request.getURI(), request.getMethod().name(), request.getHeaders(),
+					new String(body));
+		}
 		final ClientHttpResponse response = execution.execute(request, body);
 		LOG.info("Response : {code={}}", response.getStatusCode());
 		return response;
 	};
 
 	public static MultiValueMap<String, Object> creeMapParamRest(final Object... params) {
-		final MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<String, Object>();
+		final MultiValueMap<String, Object> requestParam = new LinkedMultiValueMap<>();
 		if (params != null) {
-			if ((params.length % 2) != 0) {
+			if (params.length % 2 != 0) {
 				throw new IllegalArgumentException("Le nombre de parametres doit être pair");
 			}
 			for (int i = 1; i < params.length; i += 2) {
@@ -51,5 +53,9 @@ public class ControlerTestUtil {
 	/** Log interceptor for all HTTP requests. */
 	public static List<ClientHttpRequestInterceptor> getRestInterceptors() {
 		return Arrays.asList(LOG_INTERCEPTOR);
+	}
+
+	private ControlerTestUtil() {
+		// Classe utilitaire
 	}
 }

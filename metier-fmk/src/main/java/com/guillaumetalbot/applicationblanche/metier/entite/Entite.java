@@ -14,7 +14,10 @@ import com.guillaumetalbot.applicationblanche.exception.BusinessException;
 @MappedSuperclass
 public class Entite implements Serializable, IdentifiableParReference {
 	private static final Pattern PATTERN_REFERENCE = Pattern.compile("^([\\-]?[0-9]*)-([0-9]*)$");
-	public static long SEL_POUR_REFERENCE;
+
+	/** Sel utilisé pour générer et lire des références */
+	/* donnée présente dans un fichier de configuration et initialisée au démarrage de l'application */
+	public static long selPourReference;
 
 	private static final long serialVersionUID = 1L;
 
@@ -31,8 +34,8 @@ public class Entite implements Serializable, IdentifiableParReference {
 		}
 
 		// Extraction des nombres
-		final long objet = Long.decode(matcher.group(1)) - SEL_POUR_REFERENCE;
-		final long id = Long.decode(matcher.group(2)) - SEL_POUR_REFERENCE;
+		final long objet = Long.decode(matcher.group(1)) - selPourReference;
+		final long id = Long.decode(matcher.group(2)) - selPourReference;
 
 		// Validation des nombres
 		if (clazz.getName().hashCode() != objet) {
@@ -51,7 +54,7 @@ public class Entite implements Serializable, IdentifiableParReference {
 		if (id == null || clazz == null) {
 			return null;
 		}
-		return SEL_POUR_REFERENCE + clazz.getName().hashCode() + "-" + (SEL_POUR_REFERENCE + id);
+		return selPourReference + clazz.getName().hashCode() + "-" + (selPourReference + id);
 	}
 
 	@Id

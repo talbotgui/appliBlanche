@@ -98,7 +98,7 @@ public class SecuriteServiceImpl implements SecuriteService {
 		if (lien != null) {
 			this.lienRoleRessourceRepo.delete(lien);
 		} else {
-			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, "LienRoleRessource", nomRole + "-" + clefRessource);
+			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, LienRoleRessource.class.getSimpleName(), nomRole + "-" + clefRessource);
 		}
 	}
 
@@ -108,14 +108,14 @@ public class SecuriteServiceImpl implements SecuriteService {
 		if (lien != null) {
 			this.lienUtilisateurRoleRepo.delete(lien);
 		} else {
-			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, "LienUtilisateurRole", login + "-" + nomRole);
+			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, LienUtilisateurRole.class.getSimpleName(), login + "-" + nomRole);
 		}
 	}
 
 	@Override
 	public void deverrouillerUtilisateur(final String login) {
 		final Utilisateur u = this.utilisateurRepo.findById(login)
-				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Utilisateur", login));
+				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, Utilisateur.class.getSimpleName(), login));
 		u.declarerConnexionReussie();
 		this.utilisateurRepo.save(u);
 	}
@@ -168,7 +168,7 @@ public class SecuriteServiceImpl implements SecuriteService {
 	 */
 	@PostConstruct
 	protected void initialiseSelPourCalculReferencesDansLesEntites() {
-		Entite.SEL_POUR_REFERENCE = this.selPourReference;
+		Entite.selPourReference = this.selPourReference;
 	}
 
 	@Override
@@ -189,7 +189,7 @@ public class SecuriteServiceImpl implements SecuriteService {
 	@Override
 	public Collection<UtilisateurAvecRolesEtAutorisations> listerUtilisateursAvecRolesEtAutorisations() {
 		return this.utilisateurRepo.listerUtilisateursAvecRolesEtAutorisations().stream()//
-				.map(u -> new UtilisateurAvecRolesEtAutorisations(u))//
+				.map(UtilisateurAvecRolesEtAutorisations::new)//
 				.collect(Collectors.toList());
 	}
 
@@ -215,7 +215,7 @@ public class SecuriteServiceImpl implements SecuriteService {
 	@Override
 	public void reinitialiserMotDePasse(final String login) {
 		final Utilisateur u = this.utilisateurRepo.findById(login)
-				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Utilisateur", login));
+				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, Utilisateur.class.getSimpleName(), login));
 		u.setMdp(ChiffrementUtil.encrypt(login));
 		this.utilisateurRepo.save(u);
 	}

@@ -169,7 +169,7 @@ public class SecuriteTest extends BaseTestClass {
 		final String loginMdp = InitialisationDonneesService.ADMIN_PAR_DEFAUT_LOGIN_MDP;
 		final Utilisateur u = new Utilisateur(loginMdp, ChiffrementUtil.encrypt(loginMdp));
 		final Role role = new Role(loginMdp);
-		role.setRessourcesAutorisees(new HashSet<>(InitialisationDonneesService.listerMethodesDeControleurs(super.applicationContext)));
+		role.setRessourcesAutorisees(new HashSet<>(InitialisationDonneesService.listerMethodesDeControleurs(super.currentTestApplicationContext)));
 		u.setRoles(new HashSet<Role>(Arrays.asList(role)));
 		Mockito.doReturn(u).when(this.securiteService).chargerUtilisateurReadOnly(Mockito.anyString());
 		Mockito.doReturn(u).when(this.securiteService).chargerUtilisateurAvecRolesEtRessourcesAutoriseesReadOnly(Mockito.anyString());

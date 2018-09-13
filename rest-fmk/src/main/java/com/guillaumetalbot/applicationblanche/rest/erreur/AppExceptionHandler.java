@@ -16,9 +16,11 @@ import com.guillaumetalbot.applicationblanche.exception.ExceptionId.ExceptionLev
 import com.guillaumetalbot.applicationblanche.exception.RestException;
 
 @ControllerAdvice
-public class GestionnaireException {
+public class AppExceptionHandler {
 
-	private static final Logger LOG = LoggerFactory.getLogger(GestionnaireException.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AppExceptionHandler.class);
+
+	private static final String LOG_MESSAGE = "Erreur traitée sur la requête {}";
 
 	@ResponseBody
 	@ExceptionHandler({ BusinessException.class, RestException.class })
@@ -26,17 +28,17 @@ public class GestionnaireException {
 
 		// Log de l'erreur
 		if (ExceptionLevel.INFORMATION.equals(e.getExceptionId().getLevel())) {
-			LOG.info("Erreur traitée sur la requête {}", req.getRequestURI());
+			LOG.info(LOG_MESSAGE, req.getRequestURI());
 		} else if (ExceptionLevel.WARNING.equals(e.getExceptionId().getLevel())) {
-			LOG.warn("Erreur traitée sur la requête {}", req.getRequestURI(), e);
+			LOG.warn(LOG_MESSAGE, req.getRequestURI(), e);
 		} else {
-			LOG.error("Erreur traitée sur la requête {}", req.getRequestURI(), e);
+			LOG.error(LOG_MESSAGE, req.getRequestURI(), e);
 		}
 
 		// Transformation de l'exception en un objet transportable
 		// Ou une String du message à défaut
 		final String erreur = e.toJson();
 
-		return new ResponseEntity<Object>(erreur, HttpStatus.valueOf(e.getExceptionId().getHttpStatusCode()));
+		return new ResponseEntity<>(erreur, HttpStatus.valueOf(e.getExceptionId().getHttpStatusCode()));
 	}
 }
