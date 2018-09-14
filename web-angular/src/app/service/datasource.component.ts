@@ -6,33 +6,42 @@ import { MatPaginator, MatSort } from '@angular/material';
 import { ClientService } from './client.service';
 import * as model from '../model/model';
 
+/** Datasource utilisé pour alimenter un tableau paginé */
 export class DataSourceComponent<T> implements DataSource<T> {
 
+  /** Vecteur permettant de manipuler les chargements de données */
   private dataSubject = new BehaviorSubject<T[]>([]);
+
+  /** BehaviorSubject informant d'un chargement en cours */
   private loadingSubject = new BehaviorSubject<boolean>(false);
+
+  /** Observable informant d'un chargement en cours */
   public loading$ = this.loadingSubject.asObservable();
+
+  /** Page envoyée au service et retournée par le service */
   public page: model.Page<T> = new model.Page<T>(5, 0);
 
+  /** Un constructeur pour se faire injecter les dépendances */
   constructor(private methodeDeChargement: (page: model.Page<T>) => Observable<{} | model.Page<T>>) { }
 
-  // Pour permettre au tableau de récupérer les données quand elles seront disponibles
+  /** Pour permettre au tableau de récupérer les données quand elles seront disponibles */
   connect(collectionViewer: CollectionViewer): Observable<T[]> {
     return this.dataSubject.asObservable();
   }
 
-  // Pour tout fermer
+  /** Pour tout fermer */
   disconnect(collectionViewer: CollectionViewer): void {
     this.dataSubject.complete();
     this.loadingSubject.complete();
   }
 
-  // Méthode récupérant les éléments de pagination d'un MatPaginator
+  /** Méthode récupérant les éléments de pagination d'un MatPaginator */
   preparerPagination(paginator: MatPaginator) {
     this.page.number = paginator.pageIndex;
     this.page.size = paginator.pageSize;
   }
 
-  // Méthode récupérant les éléments de tri d'un MatSort
+  /** Méthode récupérant les éléments de tri d'un MatSort */
   preparerTri(sorter: MatSort) {
     if (!!sorter.direction && !!sorter.active) {
       this.page.sort = new model.Sort();
@@ -43,6 +52,7 @@ export class DataSourceComponent<T> implements DataSource<T> {
     }
   }
 
+  /** Charger le données */
   load() {
 
     // Chargement en cours

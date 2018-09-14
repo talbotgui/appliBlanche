@@ -6,11 +6,18 @@ import 'rxjs/add/operator/catch';
 
 import { ExceptionHandler } from './ExceptionHandler'
 
+/** Intercepteur HTTP pour traiter systématiquement les cas d'erreurs. */
 @Injectable()
 export class IntercepteurHttp implements HttpInterceptor {
 
+  /**
+   * Un constructeur pour se faire injecter les dépendances
+   * 
+   * Because the ErrorHandler is created before the providers, we’ll have to use the Injector to get them
+   */
   constructor(private injector: Injector) { }
 
+  /** Interception de l'appel et traitement du cas d'erreur */
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     // exécution de la requête

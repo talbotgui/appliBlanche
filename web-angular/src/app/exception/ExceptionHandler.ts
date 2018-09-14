@@ -8,13 +8,20 @@ import { TranslationService } from 'angular-l10n';
 @Injectable()
 export class ExceptionHandler implements ErrorHandler {
 
+  /** Erreur traitée précédemment pour ne pas traiter deux fois la même erreur */
   private precedenteErreur: any | undefined;
 
+  /** Composant informatif */
   private snackbarConfig: MatSnackBarConfig = { duration: 3000 };
 
-  // Because the ErrorHandler is created before the providers, we’ll have to use the Injector to get them.
+  /**
+   * Un constructeur pour se faire injecter les dépendances
+   * 
+   * Because the ErrorHandler is created before the providers, we’ll have to use the Injector to get them
+   */
   constructor(private injector: Injector) { }
 
+  /** Traitement de l'erreur */
   handleError(error: any): void {
 
     // Pour ne pas traiter deux fois la même erreur

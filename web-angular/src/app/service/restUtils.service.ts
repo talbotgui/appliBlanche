@@ -8,12 +8,16 @@ import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 
 import * as model from '../model/model';
 
+/**
+ *  Composant utilitaire pour traiter les appels aux API rest en général : entête de sécurité
+ */
 @Injectable()
 export class RestUtilsService {
 
+  /** Un constructeur pour se faire injecter les dépendances */
   constructor(private http: HttpClient) { }
 
-  // Création des options d'appels REST
+  /** Création des options d'appels REST */
   public creerHeader(): { headers: HttpHeaders } | undefined {
     const headers: any = { 'Content-Type': 'application/json' }
     const jwt = localStorage.getItem('JWT');
@@ -23,7 +27,7 @@ export class RestUtilsService {
     return { headers: new HttpHeaders(headers) };
   }
 
-  // Création des options d'appels REST pour les POST
+  /** Création des options d'appels REST pour les POST */
   public creerHeaderPost(): { headers: HttpHeaders } | undefined {
     const headers: any = {}
     const jwt = localStorage.getItem('JWT');

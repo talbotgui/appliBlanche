@@ -10,6 +10,7 @@ import { PageConnexionComponent } from './page-connexion/page-connexion.componen
 import { PageUtilisateurComponent } from './administration/page-utilisateur/page-utilisateur.component';
 import { PageClientComponent } from './page-client/page-client.component';
 
+/** Toutes les routes */
 const routes: Routes = [
   // pour rediriger par défaut sur le dashboard
   { path: '', redirectTo: '/page-accueil-route', pathMatch: 'full' },
@@ -23,4 +24,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule]
 })
+/** Module de déclaration des routes */
 export class AppRoutingModule { }

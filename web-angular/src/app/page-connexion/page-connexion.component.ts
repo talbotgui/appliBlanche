@@ -6,25 +6,33 @@ import { map } from 'rxjs/operators';
 import { UtilisateurService } from '../service/utilisateur.service';
 import * as model from '../model/model';
 
+/** Page de connexion */
 @Component({ selector: 'page-connexion', templateUrl: './page-connexion.component.html', styleUrls: ['./page-connexion.component.css'] })
 export class PageConnexionComponent implements OnInit {
 
+  /** Login de l'utilisateur */
   login: string = 'adminAsupprimer';
+
+  /** Mot de passe de l'utilisateur */
   mdp: string = 'adminAsupprimer';
+
+  /** Flag erreur de connexion */
   messageErreurConnexion: boolean = false;
 
-  // Url de redirection à utiliser à la sortie de la connexion
+  /** Url de redirection à utiliser à la sortie de la connexion */
   redirectionPostConnexion: string | undefined = undefined;
 
-  // Un constructeur pour se faire injecter les dépendances
+  /** Un constructeur pour se faire injecter les dépendances */
   constructor(private router: Router, private utilisateurService: UtilisateurService, private route: ActivatedRoute) { }
 
+  /** A l'initialisation */
   ngOnInit() {
     // Lecture des paramètres de l'URL
     this.route.queryParamMap.pipe(map(params => params.get('redirect') || undefined))
       .subscribe(redirect => this.redirectionPostConnexion = redirect);
   }
 
+  /** Tentative de connexion */
   connecter(): void {
 
     // Suppression du message d'erreur
@@ -44,6 +52,4 @@ export class PageConnexionComponent implements OnInit {
         this.messageErreurConnexion = true;
       });
   }
-
-
 }

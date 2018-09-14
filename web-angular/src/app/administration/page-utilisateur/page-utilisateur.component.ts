@@ -4,22 +4,25 @@ import { ActivatedRoute } from '@angular/router';
 import { UtilisateurService } from '../../service/utilisateur.service';
 import * as model from '../../model/model';
 
+/**
+ * Page de visualisation et création des utilisateurs
+ */
 @Component({ selector: 'page-utilisateur', templateUrl: './page-utilisateur.component.html', styleUrls: ['./page-utilisateur.component.css'] })
 export class PageUtilisateurComponent implements OnInit {
 
-  // Liste des utilisateurs à afficher
+  /** Liste des utilisateurs à afficher */
   utilisateurs: model.Utilisateur[];
 
-  // Utilisateur en cours d'édition
+  /** Utilisateur en cours d'édition */
   utilisateurSelectionne: model.Utilisateur | undefined;
 
-  // Flag permettant de savoir si c'est une création ou une modification (pour bloquer le login)
+  /** Flag permettant de savoir si c'est une création ou une modification (pour bloquer le login) */
   creation: boolean = false;
 
-  // Un constructeur pour se faire injecter les dépendances
+  /** Un constructeur pour se faire injecter les dépendances */
   constructor(private route: ActivatedRoute, private utilisateurService: UtilisateurService) { }
 
-  // Appel au service à l'initialisation du composant
+  /** Appel au service à l'initialisation du composant */
   ngOnInit(): void {
 
     this.chargerDonnees();
@@ -37,7 +40,7 @@ export class PageUtilisateurComponent implements OnInit {
     });
   }
 
-  // Chargement de la liste des utilisateurs
+  /** Chargement de la liste des utilisateurs */
   chargerDonnees() {
 
     // Chargement de la liste des utilisateurs
@@ -49,15 +52,18 @@ export class PageUtilisateurComponent implements OnInit {
     this.annulerCreationUtilisateur();
   }
 
+  /** On annule la creation en masquant le formulaire */
   annulerCreationUtilisateur() {
     this.utilisateurSelectionne = undefined;
   }
 
+  /** Initialisation de l'objet Utilisateur pour accueillir les données du formulaire */
   creerUtilisateur() {
     this.utilisateurSelectionne = new model.Utilisateur();
     this.creation = true;
   }
 
+  /** Appel au service de sauvegarde puis rechargement des données */
   sauvegarderUtilisateur() {
     if (this.utilisateurSelectionne) {
       this.utilisateurService.sauvegarderUtilisateur(this.utilisateurSelectionne)
@@ -65,13 +71,13 @@ export class PageUtilisateurComponent implements OnInit {
     }
   }
 
-  // A la sélection
+  /** A la sélection */
   selectionnerUtilisateur(utilisateur: model.Utilisateur) {
     this.utilisateurSelectionne = utilisateur;
     this.creation = false;
   }
 
-  // A la suppression 
+  /** A la suppression  */
   supprimerUtilisateur(utilisateur: model.Utilisateur) {
     this.utilisateurService.supprimerUtilisateur(utilisateur)
       .subscribe(retour => { this.chargerDonnees(); });

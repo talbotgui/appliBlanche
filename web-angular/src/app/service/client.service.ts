@@ -10,9 +10,11 @@ import { RestUtilsService } from './restUtils.service';
 
 import * as model from '../model/model';
 
+/** Composant TS d'interface avec les API Back de manipulation des clients */
 @Injectable()
 export class ClientService {
 
+  /** Constructeur avec injection */
   constructor(private http: HttpClient, private restUtils: RestUtilsService) { }
 
   /**
@@ -37,6 +39,7 @@ export class ClientService {
     return this.http.get<model.Page<model.ClientDto>>(url, this.restUtils.creerHeader());
   }
 
+  /** Sauvegarde d'un client via l'API */
   sauvegarderClient(client: model.ClientDto): Observable<{} | void> {
     let donnees = new HttpParams().set('nom', client.nomClient);
     if (client.reference) {
@@ -47,6 +50,7 @@ export class ClientService {
     return this.http.post<void>(url, donnees, this.restUtils.creerHeaderPost());
   }
 
+  /** Suppression d'un client via l'API */
   supprimerClient(client: model.ClientDto): Observable<{} | void> {
     const url = 'http://localhost:9090/applicationBlanche/v1/clients/' + client.reference;
     return this.http.delete<void>(url, this.restUtils.creerHeader());

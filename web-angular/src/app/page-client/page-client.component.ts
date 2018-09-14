@@ -8,29 +8,29 @@ import { DataSourceComponent } from '../service/datasource.component';
 import { ClientService } from '../service/client.service';
 import * as model from '../model/model';
 
+/** Page listant les clients et permettant leur création, modification et suppression */
 @Component({ selector: 'page-client', templateUrl: './page-client.component.html', styleUrls: ['./page-client.component.css'] })
 export class PageClientComponent implements OnInit {
 
-  // Liste des colonnes à afficher dans le tableau
+  /** Liste des colonnes à afficher dans le tableau */
   displayedColumns: string[] = ['nomClient', 'ville', 'nbDossiers', 'nbDemandes', 'dateCreationDernierDossier', 'actions'];
 
-  // Data source à utiliser
-  // initialisé dans le onInit
+  /** DataSource du tableau (initialisé dans le onInit) */
   dataSource: DataSourceComponent<model.ClientDto>;
 
-  // Composant de pagination
+  /** Composant de pagination */
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  // Composant de tri
+  /** Composant de tri */
   @ViewChild(MatSort) sorter: MatSort;
 
-  // Client en cours d'édition
+  /** Client en cours d'édition */
   clientSelectionne: model.ClientDto | undefined;
 
-  // Un constructeur pour se faire injecter les dépendances
+  /** Un constructeur pour se faire injecter les dépendances */
   constructor(private route: ActivatedRoute, private clientService: ClientService) { }
 
-  // Initialisation des composants de la page
+  /** Initialisation des composants de la page */
   ngOnInit(): void {
     // Creation du datasource
     this.dataSource = new DataSourceComponent<model.ClientDto>(page => this.clientService.listerClientsDto(page));
@@ -42,7 +42,7 @@ export class PageClientComponent implements OnInit {
     this.annulerCreation();
   }
 
-  // Binding des évènements des composants de la page
+  /** Binding des évènements des composants de la page */
   ngAfterViewInit() {
 
     // au changement de tri, on recharge les données en revenant en première page
@@ -59,17 +59,17 @@ export class PageClientComponent implements OnInit {
       .subscribe();
   }
 
-  // Reset et masquage du formulaire de modification/création
+  /** Reset et masquage du formulaire de modification/création */
   annulerCreation() {
     this.clientSelectionne = undefined;
   }
 
-  // Initialiser le formulaire de création
+  /** Initialiser le formulaire de création */
   creer() {
     this.clientSelectionne = new model.ClientDto();
   }
 
-  // sauvegarder un client et recharger les données sans changer la pagination
+  /** sauvegarder un client et recharger les données sans changer la pagination */
   sauvegarder() {
     if (this.clientSelectionne) {
       this.clientService.sauvegarderClient(this.clientSelectionne)
@@ -80,9 +80,11 @@ export class PageClientComponent implements OnInit {
     }
   }
 
-  // supprimer un client
-  // et recharger les données en retournant en première page
-  // (pour éviter de rester sur une page vide)
+  /**
+   *  supprimer un client
+   * et recharger les données en retournant en première page
+   * (pour éviter de rester sur une page vide)
+   */
   supprimer(client: model.ClientDto) {
     this.clientService.supprimerClient(client)
       .subscribe(retour => {
@@ -97,7 +99,7 @@ export class PageClientComponent implements OnInit {
       });
   }
 
-  // A la sélection d'un élève
+  /** A la sélection d'un élève */
   selectionner(client: model.ClientDto) {
     this.clientSelectionne = client;
   }

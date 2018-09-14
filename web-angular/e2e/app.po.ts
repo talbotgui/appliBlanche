@@ -4,6 +4,8 @@ import * as fs from 'fs';
 
 export class ApplicationPage {
   private identifiant: string;
+
+  /** Constructeur simple sans paramètres */
   constructor() {
     this.identifiant = '' + (new Date()).getTime();
   }

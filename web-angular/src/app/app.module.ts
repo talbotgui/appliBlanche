@@ -43,7 +43,7 @@ import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 registerLocaleData(localeFr, 'fr');
 
-// Configuration de l'internationnalisation
+/** Configuration de l'internationnalisation */
 const l10nConfig: L10nConfig = {
   locale: {
     // Liste des langues disponibles
@@ -114,7 +114,10 @@ const l10nConfig: L10nConfig = {
     TranslationModule.forRoot(l10nConfig)
   ]
 })
+/** Module principal */
 export class AppModule {
+
+  /** Constructeur avec injection */
   constructor(public l10nLoader: L10nLoader) {
     // Initialisation de l'i18n au démarrage de l'application
     this.l10nLoader.load();

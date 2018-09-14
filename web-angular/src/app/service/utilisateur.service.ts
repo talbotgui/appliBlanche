@@ -10,11 +10,14 @@ import { RestUtilsService } from './restUtils.service';
 
 import * as model from '../model/model';
 
+/** Composant TS d'interface avec les API Back de manipulation des utilisateurs */
 @Injectable()
 export class UtilisateurService {
 
+  /** Un constructeur pour se faire injecter les dépendances */
   constructor(private http: HttpClient, private restUtils: RestUtilsService) { }
 
+  /** Tentative de connexion d'un utilisateur */
   connecter(login: string, mdp: string, callback: Function, callbackErreurParametresConnexion: Function): void {
 
     // Pour lever le flag sur le cache de la méthode estConnecte()
@@ -51,12 +54,14 @@ export class UtilisateurService {
       })
   }
 
+  /** Demande de déconnexion */
   private aDemandeLaDeconnexion = false;
   deconnecter(): void {
     this.aDemandeLaDeconnexion = true;
     localStorage.removeItem('JWT');
   }
 
+  /** Informe si l'utilisateur est bien connecté */
   private tokenDejaValide = false;
   estConnecte(): Observable<{} | boolean> {
     if (this.aDemandeLaDeconnexion) {
@@ -69,11 +74,17 @@ export class UtilisateurService {
     }
   }
 
+  /** Lit la liste complète des utilisateurs */
   listerUtilisateurs(): Observable<{} | model.Utilisateur[]> {
     const url = 'http://localhost:9090/applicationBlanche/v1/utilisateurs';
     return this.http.get<model.Utilisateur[]>(url, this.restUtils.creerHeader());
   }
 
+  /**
+   * Appel à l'API REST /utilisateurs/moi et vérification de l'expiration du token
+   * 
+   * S'il est encore bon, rien ne se passe. Sinon, le localStorage est vidé.
+   */
   invaliderTokenSiPresentEtExpire(): Observable<{} | model.Utilisateur> {
     const url = 'http://localhost:9090/applicationBlanche/v1/utilisateurs/moi';
     return this.http.get<model.Utilisateur>(url, this.restUtils.creerHeader()).pipe(catchError<any, boolean>(() => {
@@ -82,6 +93,7 @@ export class UtilisateurService {
     }));
   }
 
+  /** Création d'un utilisateur */
   sauvegarderUtilisateur(utilisateur: model.Utilisateur): Observable<{} | void> {
     const donnees = new HttpParams()
       .set('login', utilisateur.login)
@@ -91,6 +103,7 @@ export class UtilisateurService {
     return this.http.post<void>(url, donnees, this.restUtils.creerHeaderPost());
   }
 
+  /** Suppression d'un utilisateur */
   supprimerUtilisateur(utilisateur: model.Utilisateur): Observable<{} | void> {
     const url = 'http://localhost:9090/applicationBlanche/v1/utilisateurs/' + utilisateur.login;
     return this.http.delete<void>(url, this.restUtils.creerHeaderPost());
