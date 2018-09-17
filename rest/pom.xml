@@ -22,6 +22,8 @@
 
 		<version.testng>6.13.1</version.testng>
 		<version.mockito>2.13.0</version.mockito>
+
+		<dependency.locations.enabled>false</dependency.locations.enabled>
 	</properties>
 
 	<build>

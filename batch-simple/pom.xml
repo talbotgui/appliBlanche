@@ -19,6 +19,8 @@
 
 		<version.flyway>5.0.5</version.flyway>
 		<version.sun-jaxb>2.3.0</version.sun-jaxb>
+		
+		<dependency.locations.enabled>false</dependency.locations.enabled>
 	</properties>
 
 

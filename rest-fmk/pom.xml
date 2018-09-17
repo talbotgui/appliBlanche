@@ -22,6 +22,8 @@
 		<version.springfox>2.8.0</version.springfox>
 		<version.jjwt>0.9.1</version.jjwt>
 		<version.jacksonHib>2.9.5</version.jacksonHib>
+
+		<dependency.locations.enabled>false</dependency.locations.enabled>
 	</properties>
 
 	<build>

@@ -16,6 +16,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+
+		<dependency.locations.enabled>false</dependency.locations.enabled>
 	</properties>
 
 	<build>
@@ -149,4 +151,42 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>site</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.github.eirslett</groupId>
+						<artifactId>frontend-maven-plugin</artifactId>
+						<version>1.5</version>
+						<executions>
+							<!-- Qualimétrie -->
+							<execution>
+								<id>npm run lint</id>
+								<goals><goal>npm</goal></goals>
+								<phase>integration-test</phase>
+								<configuration><arguments>run lint</arguments></configuration>
+							</execution>
+							<!-- Génération de la documentation -->
+							<execution>
+								<id>npm run doc</id>
+								<goals><goal>npm</goal></goals>
+								<phase>integration-test</phase>
+								<configuration><arguments>run doc</arguments></configuration>
+							</execution>
+							<!-- Threshold pour la documentation -->
+							<execution>
+								<id>npm run quality-doc</id>
+								<goals><goal>npm</goal></goals>
+								<phase>integration-test</phase>
+								<configuration><arguments>run quality-doc</arguments></configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>

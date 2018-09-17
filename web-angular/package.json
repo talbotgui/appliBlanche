@@ -6,14 +6,15 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port=8181",
-    "build": "ng build --locale fr",
+    "build": "ng build",
     "build-prod": "ng build --prod --aot --progress=false --verbose=true --build-optimizer --locale fr",
     "quality": "node node_modules/sonar-scanner/ -Dproject.settings=./sonar-applicationBlancheAngular.properties",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "debug-e2e": "ng e2e --specs=e2e/unTestEnParticulier.e2e-spec.ts --serve=false",
     "e2e-ic": "ng e2e --protractor-config=protractor-ic.conf.js",
-    "doc": "./node_modules/.bin/compodoc -p src/tsconfig.app.json -d ./target/documentation --coverageMinimumPerFile 50 --disablePrivate"
+    "doc": "./node_modules/.bin/compodoc -p src/tsconfig.app.json -d ./target/documentation",
+    "quality-doc": "./node_modules/.bin/compodoc -p src/tsconfig.app.json --coverageMinimumPerFile 50"
   },
   "private": true,
   "dependencies": {

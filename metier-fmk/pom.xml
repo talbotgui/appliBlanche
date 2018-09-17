@@ -25,6 +25,8 @@
 		<version.jaxb>2.3.0</version.jaxb>
 		<version.querydsl>4.2.1</version.querydsl>
 		<version.javaxJson>1.1.2</version.javaxJson>
+
+		<dependency.locations.enabled>false</dependency.locations.enabled>
 	</properties>
 
 	<build>
