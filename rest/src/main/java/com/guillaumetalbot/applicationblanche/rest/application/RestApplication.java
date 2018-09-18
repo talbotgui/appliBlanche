@@ -30,8 +30,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @EnableSwagger2
 @EntityScan("com.guillaumetalbot.applicationblanche.metier.entite")
-@ComponentScan({ "com.guillaumetalbot.applicationblanche.rest.erreur", "com.guillaumetalbot.applicationblanche.rest.securite",
-		"com.guillaumetalbot.applicationblanche.rest.controleur", "com.guillaumetalbot.applicationblanche.metier.dao",
+@ComponentScan({ RestApplication.PACKAGE_REST_ERREUR, RestApplication.PACKAGE_REST_SECURITE, RestApplication.PACKAGE_REST_CONTROLEUR,
+		RestApplication.PACKAGE_REST_APPLICATION, "com.guillaumetalbot.applicationblanche.metier.dao",
 		"com.guillaumetalbot.applicationblanche.metier.service" })
 @EnableJpaRepositories("com.guillaumetalbot.applicationblanche.metier.dao")
 @EnableGlobalMethodSecurity
@@ -40,9 +40,8 @@ public class RestApplication {
 	/** Logger. */
 	private static final Logger LOG = LoggerFactory.getLogger(RestApplication.class);
 
-	/** Packages utilisés dans la configuration Spring. */
+	/** Packages utilisés dans la configuration Spring . */
 	public static final String PACKAGE_REST_APPLICATION = "com.guillaumetalbot.applicationblanche.rest.application";
-
 	public static final String PACKAGE_REST_CONTROLEUR = "com.guillaumetalbot.applicationblanche.rest.controleur";
 	public static final String PACKAGE_REST_ERREUR = "com.guillaumetalbot.applicationblanche.rest.erreur";
 	public static final String PACKAGE_REST_SECURITE = "com.guillaumetalbot.applicationblanche.rest.securite";
