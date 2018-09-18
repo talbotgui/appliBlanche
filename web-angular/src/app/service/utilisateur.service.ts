@@ -14,19 +14,22 @@ import * as model from '../model/model';
 @Injectable()
 export class UtilisateurService {
 
+  private aDemandeLaDeconnexion = false;
+  private tokenDejaValide = false;
+
   /** Un constructeur pour se faire injecter les dépendances */
   constructor(private http: HttpClient, private restUtils: RestUtilsService) { }
 
   /** Tentative de connexion d'un utilisateur */
-  connecter(login: string, mdp: string, callback: Function, callbackErreurParametresConnexion: Function): void {
+  connecter(login: string, mdp: string, callback: () => void, callbackErreurParametresConnexion: (error: any) => void): void {
 
     // Pour lever le flag sur le cache de la méthode estConnecte()
     this.aDemandeLaDeconnexion = false;
 
     // Appel au login
-    const donnees = { login: login, mdp: mdp };
+    const donnees = { login, mdp };
     this.http.post<void>('http://localhost:9090/applicationBlanche/login', donnees, { observe: 'response' })
-      .pipe(catchError<any>(error => {
+      .pipe(catchError<any>((error) => {
         // Suppression du token si le login est une erreur
         localStorage.removeItem('JWT');
 
@@ -51,18 +54,16 @@ export class UtilisateurService {
 
         // Appel à la callback
         callback();
-      })
+      });
   }
 
   /** Demande de déconnexion */
-  private aDemandeLaDeconnexion = false;
   deconnecter(): void {
     this.aDemandeLaDeconnexion = true;
     localStorage.removeItem('JWT');
   }
 
   /** Informe si l'utilisateur est bien connecté */
-  private tokenDejaValide = false;
   estConnecte(): Observable<{} | boolean> {
     if (this.aDemandeLaDeconnexion) {
       return Observable.of(false);
@@ -82,7 +83,7 @@ export class UtilisateurService {
 
   /**
    * Appel à l'API REST /utilisateurs/moi et vérification de l'expiration du token
-   * 
+   *
    * S'il est encore bon, rien ne se passe. Sinon, le localStorage est vidé.
    */
   invaliderTokenSiPresentEtExpire(): Observable<{} | model.Utilisateur> {

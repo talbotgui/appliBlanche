@@ -12,7 +12,7 @@ export class MyDateAdapter extends NativeDateAdapter {
      * Transformation de l'input en date.
      * @param value une chaine mm/jj/yyyy (dans ce cas, retournera 00h00m00s) ou une valeur numérique
      * @return une date ou null
-     * */
+     */
     parse(value: any): Date | null {
         if ((typeof value === 'string') && (value.indexOf('/') > -1)) {
             const str = value.split('/');

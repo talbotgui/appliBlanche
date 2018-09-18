@@ -29,13 +29,14 @@ export class PageUtilisateurComponent implements OnInit {
 
     // Si des paramètres sont présents, initialisation du formulaire avec les données de l'objet indiqué
     this.route.params.subscribe((params: { [key: string]: any }) => {
+      /* tslint:disable-next-line */
       const loginUtilisateur = params['loginUtilisateur'];
       if (loginUtilisateur) {
-        this.utilisateurs.forEach(u => {
-          if (u.login == loginUtilisateur) {
+        this.utilisateurs.forEach((u) => {
+          if (u.login === loginUtilisateur) {
             this.utilisateurSelectionne = u;
           }
-        })
+        });
       }
     });
   }
@@ -67,7 +68,7 @@ export class PageUtilisateurComponent implements OnInit {
   sauvegarderUtilisateur() {
     if (this.utilisateurSelectionne) {
       this.utilisateurService.sauvegarderUtilisateur(this.utilisateurSelectionne)
-        .subscribe(retour => { this.chargerDonnees(); });
+        .subscribe((retour) => { this.chargerDonnees(); });
     }
   }
 
@@ -80,7 +81,7 @@ export class PageUtilisateurComponent implements OnInit {
   /** A la suppression  */
   supprimerUtilisateur(utilisateur: model.Utilisateur) {
     this.utilisateurService.supprimerUtilisateur(utilisateur)
-      .subscribe(retour => { this.chargerDonnees(); });
+      .subscribe((retour) => { this.chargerDonnees(); });
   }
 
 }

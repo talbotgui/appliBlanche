@@ -33,7 +33,7 @@ export class PageClientComponent implements OnInit {
   /** Initialisation des composants de la page */
   ngOnInit(): void {
     // Creation du datasource
-    this.dataSource = new DataSourceComponent<model.ClientDto>(page => this.clientService.listerClientsDto(page));
+    this.dataSource = new DataSourceComponent<model.ClientDto>((page) => this.clientService.listerClientsDto(page));
 
     // Chargement des données avec les paramètres par défaut (nb éléments par page par défaut défini dans le DataSource)
     this.dataSource.load();
@@ -53,7 +53,7 @@ export class PageClientComponent implements OnInit {
       .pipe(tap(() => {
         this.dataSource.preparerPagination(this.paginator);
         this.dataSource.preparerTri(this.sorter);
-        this.dataSource.load()
+        this.dataSource.load();
       })
       )
       .subscribe();
@@ -73,7 +73,7 @@ export class PageClientComponent implements OnInit {
   sauvegarder() {
     if (this.clientSelectionne) {
       this.clientService.sauvegarderClient(this.clientSelectionne)
-        .subscribe(retour => {
+        .subscribe((retour) => {
           this.dataSource.load();
           this.annulerCreation();
         });
@@ -87,7 +87,7 @@ export class PageClientComponent implements OnInit {
    */
   supprimer(client: model.ClientDto) {
     this.clientService.supprimerClient(client)
-      .subscribe(retour => {
+      .subscribe((retour) => {
         // retour à la première page si on est pas en page 1
         if (this.paginator.hasPreviousPage()) {
           this.paginator.firstPage();

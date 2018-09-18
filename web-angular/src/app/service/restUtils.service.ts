@@ -19,7 +19,7 @@ export class RestUtilsService {
 
   /** Création des options d'appels REST */
   public creerHeader(): { headers: HttpHeaders } | undefined {
-    const headers: any = { 'Content-Type': 'application/json' }
+    const headers: any = { 'Content-Type': 'application/json' };
     const jwt = localStorage.getItem('JWT');
     if (jwt) {
       headers.Authorization = jwt;
@@ -29,7 +29,7 @@ export class RestUtilsService {
 
   /** Création des options d'appels REST pour les POST */
   public creerHeaderPost(): { headers: HttpHeaders } | undefined {
-    const headers: any = {}
+    const headers: any = {};
     const jwt = localStorage.getItem('JWT');
     if (jwt) {
       headers.Authorization = jwt;

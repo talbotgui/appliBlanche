@@ -28,8 +28,8 @@ export class PageConnexionComponent implements OnInit {
   /** A l'initialisation */
   ngOnInit() {
     // Lecture des paramètres de l'URL
-    this.route.queryParamMap.pipe(map(params => params.get('redirect') || undefined))
-      .subscribe(redirect => this.redirectionPostConnexion = redirect);
+    this.route.queryParamMap.pipe(map((params) => params.get('redirect') || undefined))
+      .subscribe((redirect) => this.redirectionPostConnexion = redirect);
   }
 
   /** Tentative de connexion */
@@ -39,17 +39,13 @@ export class PageConnexionComponent implements OnInit {
     this.messageErreurConnexion = false;
 
     // Connexion
-    this.utilisateurService.connecter(this.login, this.mdp,
-      () => {
-        // redirection vers la page demandée ou la page d'accueil
-        if (this.redirectionPostConnexion) {
-          this.router.navigate([this.redirectionPostConnexion]);
-        } else {
-          this.router.navigate(['page-accueil-route']);
-        }
-      },
-      () => {
-        this.messageErreurConnexion = true;
-      });
+    this.utilisateurService.connecter(this.login, this.mdp, () => {
+      // redirection vers la page demandée ou la page d'accueil
+      if (this.redirectionPostConnexion) {
+        this.router.navigate([this.redirectionPostConnexion]);
+      } else {
+        this.router.navigate(['page-accueil-route']);
+      }
+    }, () => { this.messageErreurConnexion = true; });
   }
 }

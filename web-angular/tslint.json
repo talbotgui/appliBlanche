@@ -10,6 +10,6 @@
 		"max-classes-per-file": [false],
 		"ordered-imports": [false],
 		"only-arrow-functions": [true,"allow-named-functions"],
-		"align": [true, "arguments", "statements", "elements", "members"]
+		"align": [true, "statements", "elements", "members"]
 	}
 }

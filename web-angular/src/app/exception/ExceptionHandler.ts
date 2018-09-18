@@ -16,7 +16,7 @@ export class ExceptionHandler implements ErrorHandler {
 
   /**
    * Un constructeur pour se faire injecter les dépendances
-   * 
+   *
    * Because the ErrorHandler is created before the providers, we’ll have to use the Injector to get them
    */
   constructor(private injector: Injector) { }
@@ -35,8 +35,10 @@ export class ExceptionHandler implements ErrorHandler {
     const snackBar = this.injector.get(MatSnackBar);
     const i18n = this.injector.get(TranslationService);
 
-    // Log de l'erreur
+    // Log de l'erreur (nécessaire pour tracer l'erreur)
+    /* tslint:disable-next-line */
     console.info('Traitement d\'une erreur');
+    /* tslint:disable-next-line */
     console.error(error);
 
     // Si c'est une erreur HTTP

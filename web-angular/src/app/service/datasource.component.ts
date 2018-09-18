@@ -1,4 +1,4 @@
-import { CollectionViewer, DataSource } from "@angular/cdk/collections";
+import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { Observable, of, BehaviorSubject } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
 import { MatPaginator, MatSort } from '@angular/material';
@@ -9,17 +9,17 @@ import * as model from '../model/model';
 /** Datasource utilisé pour alimenter un tableau paginé */
 export class DataSourceComponent<T> implements DataSource<T> {
 
-  /** Vecteur permettant de manipuler les chargements de données */
-  private dataSubject = new BehaviorSubject<T[]>([]);
-
   /** BehaviorSubject informant d'un chargement en cours */
-  private loadingSubject = new BehaviorSubject<boolean>(false);
+  public loadingSubject = new BehaviorSubject<boolean>(false);
 
   /** Observable informant d'un chargement en cours */
   public loading$ = this.loadingSubject.asObservable();
 
   /** Page envoyée au service et retournée par le service */
   public page: model.Page<T> = new model.Page<T>(5, 0);
+
+  /** Vecteur permettant de manipuler les chargements de données */
+  private dataSubject = new BehaviorSubject<T[]>([]);
 
   /** Un constructeur pour se faire injecter les dépendances */
   constructor(private methodeDeChargement: (page: model.Page<T>) => Observable<{} | model.Page<T>>) { }

@@ -11,8 +11,6 @@ export class Sort {
 }
 /** Page de résultats (identique à la classe de Spring) */
 export class Page<T> {
-  /** Constructeur */
-  constructor(public size: number, public number: number) { }
   /** Elements de la page */
   content: T[];
   /** Nombre d'éléments dans la page */
@@ -23,6 +21,10 @@ export class Page<T> {
   totalPages: number;
   /** Paramètres de tri */
   sort: Sort | undefined;
+  /** Constructeur (number est le nom de l'attribut dans la classe Java de Spring) */
+  constructor(public size: number,
+    /* tslint:disable-next-line */
+    public number: number) { }
 }
 
 /** DTO pour un client */
@@ -82,4 +84,3 @@ export class Ressource {
   /** Description */
   description: string;
 }
-

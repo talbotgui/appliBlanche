@@ -12,11 +12,11 @@ export class AuthGuard implements CanActivate {
 
   /** Garde contre l'accès d'un utilisateur non connecté (renvoi à la route de connexion si nécessaire) */
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    return this.utilisateurService.estConnecte().map(b => {
+    return this.utilisateurService.estConnecte().map((b) => {
       if (!!b) {
         return true;
       } else {
-        const navigationExtras: NavigationExtras = { queryParams: { 'redirect': state.url } };
+        const navigationExtras: NavigationExtras = { queryParams: { redirect: state.url } };
         this.router.navigate(['page-connexion-route'], navigationExtras);
         return false;
       }
