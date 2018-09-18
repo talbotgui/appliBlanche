@@ -19,7 +19,7 @@
 		<version.findbugs>3.0.5</version.findbugs>
 		<version.jdepend>2.0</version.jdepend>
 		<version.site>3.3</version.site>
-		<version.infoReports>3.0.0</version.infoReports>
+		<version.infoReports>2.7</version.infoReports>
 
 		<dependency.locations.enabled>false</dependency.locations.enabled>
 	</properties>

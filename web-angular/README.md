@@ -1,22 +1,3 @@
-# web
+L'application PWA fonctionne si les entête HTTP paramétrés sur le serveur sont worker-src *; default-src * 'unsafe-inline' 'unsafe-eval'; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src * 'unsafe-inline'; img-src * data: blob: 'unsafe-inline'; frame-src *; style-src * 'unsafe-inline';
 
-> Application WEB de l'application blanche
-
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run serve
-
-# build for production with minification
-npm run build
-
-# run unit tests
-npm run test
-
-# run e2e tests
-npm run e2e
-```
+/!\ Attention, ces entêtes sont trop permissifs et doivent être retravaillés
