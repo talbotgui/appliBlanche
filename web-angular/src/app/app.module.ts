@@ -38,6 +38,10 @@ import { ClientService } from './service/client.service';
 // Le composant contenant les routes
 import { AppRoutingModule } from './app-routing.module';
 
+// Pour faire de l'application une PWA
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
+
 // Gestion des locales et des formats de date pour Angular 5
 // @see https://angular.io/guide/i18n#i18n-pipes
 import { registerLocaleData } from '@angular/common';
@@ -112,7 +116,10 @@ const l10nConfig: L10nConfig = {
     AlertModule.forRoot(),
 
     // Gestion de l'internationnalisation
-    TranslationModule.forRoot(l10nConfig)
+    TranslationModule.forRoot(l10nConfig),
+
+    // Pour faire de l'application une PWA
+    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
   ]
 })
 /** Module principal */
