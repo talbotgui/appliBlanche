@@ -194,14 +194,17 @@ public class SecuriteServiceImpl implements SecuriteService {
 	}
 
 	@Override
-	public void notifierConnexion(final String login, final boolean status) {
+	public void notifierConnexion(final String login, final boolean statut) {
 		// Chargement de l'utilisateur
-		final Utilisateur u = this.utilisateurRepo.findById(login)
-				// Si pas d'utilisateur correspondant
-				.orElseThrow(() -> new BusinessException(BusinessException.ERREUR_LOGIN));
+		final Utilisateur u = this.utilisateurRepo.findById(login).orElse(null);
+
+		// Si le statut est false et qu'aucun utilisateur n'existe, on ne cherche pas à sauvegarder la donnée
+		if (!statut && u == null) {
+			return;
+		}
 
 		// Enregistrement des echecs ou nettoyage des echecs
-		if (status) {
+		if (statut) {
 			u.declarerConnexionReussie();
 		} else {
 			u.declarerConnexionEnEchec();
