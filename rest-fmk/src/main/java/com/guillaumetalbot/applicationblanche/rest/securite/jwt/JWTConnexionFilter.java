@@ -151,7 +151,7 @@ public class JWTConnexionFilter extends AbstractAuthenticationProcessingFilter {
 		this.securiteService.notifierConnexion(login, false);
 
 		// Log
-		LOG.debug("Connexion de {} échousée", login);
+		LOG.debug("Connexion de {} échouée", login);
 	}
 
 }
