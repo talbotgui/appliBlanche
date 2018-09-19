@@ -14,9 +14,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 
-import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
-import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module.Feature;
-
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.Tag;
@@ -76,30 +73,4 @@ public class RestApplicationForTests {
 				.enableUrlTemplating(true)//
 				.tags(new Tag("API Application blanche", "Description de l'API REST"));
 	}
-
-	@Bean
-	public com.fasterxml.jackson.databind.Module configurerJackson() {
-		final Hibernate5Module hibernate5Module = new Hibernate5Module();
-		hibernate5Module.enable(Feature.REPLACE_PERSISTENT_COLLECTIONS);
-		// hibernate5Module.enable(Feature.REQUIRE_EXPLICIT_LAZY_LOADING_MARKER);
-		return hibernate5Module;
-	}
-
-	// @Bean
-	// public EmbeddedServletContainerCustomizer creerPagesErreur() {
-	// return container -> {
-	//
-	// // Error pages
-	// final ErrorPage error401Page = new ErrorPage(HttpStatus.UNAUTHORIZED, "/401.html");
-	// final ErrorPage error403Page = new ErrorPage(HttpStatus.FORBIDDEN, "/403.html");
-	// final ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/404.html");
-	// final ErrorPage error500Page = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/500.html");
-	// final ErrorPage errorPage = new ErrorPage("/500.html");
-	// container.addErrorPages(error401Page, error403Page, error404Page, error500Page, errorPage);
-	//
-	// // Mime types
-	// final MimeMappings mappings = new MimeMappings(MimeMappings.DEFAULT);
-	// container.setMimeMappings(mappings);
-	// };
-	// }
 }

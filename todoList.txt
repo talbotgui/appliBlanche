@@ -1,5 +1,3 @@
-encore besoin de jackson-datatype-hibernate5 ?
-
 réactiver la qualimétrie findBug dans le parent/pom.xml (https://github.com/spotbugs/sonar-findbugs/issues/184)
 
 Sujets FRONT (partie sécurité) :
@@ -41,6 +39,7 @@ Sujets FRONT (partie fonction&ergonomie) :
 			traiter les messages d'erreur de l'API correctement
 
 Sujets BACK :
+x	encore besoin de jackson-datatype-hibernate5 ?
 x	ajouter le filtrage par ressources autorisées du profil
 x	JWT
 x	exploser la configuration SpringRest en plusieurs classes compréhensibles et documentées	

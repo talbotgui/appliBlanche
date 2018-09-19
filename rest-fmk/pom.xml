@@ -21,7 +21,6 @@
 		<version.mockito>2.13.0</version.mockito>
 		<version.springfox>2.8.0</version.springfox>
 		<version.jjwt>0.9.1</version.jjwt>
-		<version.jacksonHib>2.9.5</version.jacksonHib>
 
 		<dependency.locations.enabled>false</dependency.locations.enabled>
 	</properties>
@@ -55,11 +54,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.datatype</groupId>
-			<artifactId>jackson-datatype-hibernate5</artifactId>
-			<version>${version.jacksonHib}</version>
-		</dependency> 
 		
 		<!-- Spring Security -->
 		<dependency>
