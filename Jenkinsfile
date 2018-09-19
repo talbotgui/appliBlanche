@@ -48,5 +48,21 @@ pipeline {
 				}
 			}
 		}
+
+		stage ('Deploy') {
+			agent any
+			environment { JAVA_HOME = '/usr/lib/jvm/jdk-10.0.1/' }
+			steps {
+				script {
+					sh "/var/lib/deployJava/stopApplicationBlanche.sh"
+					sh "rm -rf /var/www/html/applicationBlanche/* || true"
+					sh "cp -r ./web-angular/dist/* /var/www/html/applicationBlanche"
+					sh "rm /var/lib/deployJava/applicationBlancheRest.jar || true"
+					sh "cp ./rest/target/rest-1.0.0.jar /var/lib/deployJava/applicationBlancheRest.jar"
+					// @see https://issues.jenkins-ci.org/browse/JENKINS-28182
+					sh "BUILD_ID=dontKillMe JENKINS_NODE_COOKIE=dontKillMe /var/lib/deployJava/startApplicationBlanche.sh"
+				}
+			}
+		}
 	}
 }

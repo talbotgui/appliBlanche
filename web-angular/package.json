@@ -6,7 +6,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port=8181",
-    "build-prod": "ng build --prod --aot --progress=false --verbose=true --build-optimizer",
+    "build-prod": "ng build --prod --aot --progress=false --verbose=true --build-optimizer --base-href /applicationBlanche/",
     "start-prod": "http-server -p 8282 -c-1 dist/",
     "quality": "node node_modules/sonar-scanner/ -Dproject.settings=./sonar-applicationBlancheAngular.properties",
     "lint": "ng lint",
