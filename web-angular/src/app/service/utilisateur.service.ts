@@ -2,11 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
-import { map, filter, catchError, mergeMap } from 'rxjs/operators';
-import { throwError } from 'rxjs';
-import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
+import { catchError } from 'rxjs/operators';
 
 import { RestUtilsService } from './restUtils.service';
+import { environment } from '../../environments/environment';
 
 import * as model from '../model/model';
 
@@ -28,7 +27,7 @@ export class UtilisateurService {
 
     // Appel au login
     const donnees = { login, mdp };
-    this.http.post<void>('http://localhost:9090/applicationBlanche/login', donnees, { observe: 'response' })
+    this.http.post<void>(environment.baseUrl + '/login', donnees, { observe: 'response' })
       .pipe(catchError<any>((error) => {
         // Suppression du token si le login est une erreur
         localStorage.removeItem('JWT');
@@ -77,7 +76,7 @@ export class UtilisateurService {
 
   /** Lit la liste complète des utilisateurs */
   listerUtilisateurs(): Observable<{} | model.Utilisateur[]> {
-    const url = 'http://localhost:9090/applicationBlanche/v1/utilisateurs';
+    const url = environment.baseUrl + '/v1/utilisateurs';
     return this.http.get<model.Utilisateur[]>(url, this.restUtils.creerHeader());
   }
 
@@ -87,7 +86,7 @@ export class UtilisateurService {
    * S'il est encore bon, rien ne se passe. Sinon, le localStorage est vidé.
    */
   invaliderTokenSiPresentEtExpire(): Observable<{} | model.Utilisateur> {
-    const url = 'http://localhost:9090/applicationBlanche/v1/utilisateurs/moi';
+    const url = environment.baseUrl + '/v1/utilisateurs/moi';
     return this.http.get<model.Utilisateur>(url, this.restUtils.creerHeader()).pipe(catchError<any, boolean>(() => {
       localStorage.removeItem('JWT');
       return Observable.of(false);
@@ -100,13 +99,13 @@ export class UtilisateurService {
       .set('login', utilisateur.login)
       .set('mdp', utilisateur.mdp);
 
-    const url = 'http://localhost:9090/applicationBlanche/v1/utilisateurs';
+    const url = environment.baseUrl + '/v1/utilisateurs';
     return this.http.post<void>(url, donnees, this.restUtils.creerHeaderPost());
   }
 
   /** Suppression d'un utilisateur */
   supprimerUtilisateur(utilisateur: model.Utilisateur): Observable<{} | void> {
-    const url = 'http://localhost:9090/applicationBlanche/v1/utilisateurs/' + utilisateur.login;
+    const url = environment.baseUrl + '/v1/utilisateurs/' + utilisateur.login;
     return this.http.delete<void>(url, this.restUtils.creerHeaderPost());
   }
 }

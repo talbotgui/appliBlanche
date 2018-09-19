@@ -31,7 +31,7 @@ Sujets FRONT (partie structure) :
 			compléter les tests e2e 
 			test e2e avec des bouchons pour pour les appels REST (https://netflix.github.io/pollyjs/#/README ou https://medium.com/pixelmatters/unit-testing-with-vue-approach-tips-and-tricks-part-1-b7d3209384dc ou https://alexjoverm.github.io/2017/09/25/Test-Methods-and-Mock-Dependencies-in-Vue-js-with-Jest/)
 	o		couverture de code des tests de l'application WEB
-			packaging et configuration par environnement
+	x		packaging et configuration par environnement
 
 Sujets FRONT (partie fonction&ergonomie) :
 	ANG	VUE	SUJET				
@@ -52,7 +52,7 @@ x	extraire le sel utilisé pour la création des références Entite.SEL_POUR_RE
 x	services transactionnels
 x	négociation de contenu pour exposer une même données en différentes structures
 x	masquage des identifiants techniques (id:Long => reference:String)
-	packaging et configuration par environnement
+x	packaging et configuration par environnement
 x	gestion de transaction dans les controleurs ?
 x	Utiliser l'injection automatique des mock dans tout le context Spring pour les XxxControlerTest
 x	remplacer les java.util.Date par des LocalDateTime

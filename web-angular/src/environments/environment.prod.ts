@@ -1,4 +1,5 @@
 /** Variables de production */
 export const environment = {
-  production: true
+  production: true,
+  baseUrl: 'https://me.guillaumetalbot.com/applicationBlancheRest'
 };
