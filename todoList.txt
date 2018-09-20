@@ -23,7 +23,7 @@ Sujets FRONT (partie structure) :
 	x		internationnalisation des messages d'erreurs venant de l'API
 	x		internationnalisation des messages d'erreurs communes
 	x		rechercher les libelles en dur dans l'application et les ajouter dans la bdd
-			ajouter des tooltips sur les FA et les internationnaliser
+	x		ajouter des tooltips sur les FA et les internationnaliser
 	x	x	utiliser un service depuis les pages
 	x	x	utiliser un style.css général
 	x	x	utiliser le bon logo en favicon

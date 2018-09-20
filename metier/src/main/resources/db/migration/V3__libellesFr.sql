@@ -46,6 +46,11 @@ insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'client_bou
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'client_bouton_annuler', 'Annuler', 'fr' from LIBELLE;
 -- Libellés communs à plusieurs pages 
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'commun_entete_actions', 'Actions', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'commun_tooltip_flagFr', 'Passer en Français', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'commun_tooltip_flagEn', 'Switch to English', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'commun_tooltip_ajouter', 'Ajouter un élément', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'commun_tooltip_editer', 'Editer l''élément', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'commun_tooltip_supprimer', 'Supprimer l''élément', 'fr' from LIBELLE;
 -- Messages d'erreur génériques
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'erreur_connexion', 'Paramètres de connexion incorrects', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'erreur_aucuneConnexionInternet', 'Aucune connexion Internet disponible', 'fr' from LIBELLE;

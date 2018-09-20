@@ -12,7 +12,8 @@
 			<th scope="col" l10nTranslate>utilisateur_entete_roles</th>
 			<th scope="col">
 				<span l10nTranslate>commun_entete_actions</span>
-				<em class="actionDansUnEntete fa fa-plus" (click)="creerUtilisateur(); utilisateurForm.reset(utilisateurSelectionne);"></em>
+				<em class="actionDansUnEntete fa fa-plus" (click)="creerUtilisateur(); utilisateurForm.reset(utilisateurSelectionne);"
+				 matTooltip="{{ 'commun_tooltip_ajouter' | translate: lang }}"></em>
 			</th>
 		</tr>
 	</thead>
@@ -23,8 +24,8 @@
 				<span *ngFor="let role of utilisateur.roles">{{role.nom}}</span>
 			</td>
 			<td>
-				<em class="fa fa-edit" (click)="selectionnerUtilisateur(utilisateur)"></em>
-				<em class="fa fa-remove" (click)="supprimerUtilisateur(utilisateur)"></em>
+				<em class="fa fa-edit" (click)="selectionnerUtilisateur(utilisateur)" matTooltip="{{ 'commun_tooltip_editer' | translate: lang }}"></em>
+				<em class="fa fa-remove" (click)="supprimerUtilisateur(utilisateur)" matTooltip="{{ 'commun_tooltip_supprimer' | translate: lang }}"></em>
 			</td>
 		</tr>
 	</tbody>
@@ -35,7 +36,7 @@
 	<div *ngIf="utilisateurSelectionne">
 
 		<!-- Titre -->
-		<hr/>
+		<hr />
 		<h3 l10nTranslate>utilisateur_formulaire_titre</h3>
 
 		<!-- Messages de validation de surface -->
@@ -47,16 +48,17 @@
 
 		<!-- Champs -->
 		<mat-form-field l10nTranslate>
-			<input matInput required minlength="6" #inputLogin="ngModel" [(ngModel)]="utilisateurSelectionne.login" name="login" l10n-placeholder
-			 placeholder="utilisateur_placeholder_login" disabled="{{!creation}}">
+			<input matInput required minlength="6" #inputLogin="ngModel" [(ngModel)]="utilisateurSelectionne.login" name="login"
+			 l10n-placeholder placeholder="utilisateur_placeholder_login" disabled="{{!creation}}">
 		</mat-form-field>
 		<mat-form-field l10nTranslate>
-			<input matInput required minlength="6" type="password" #inputMdp="ngModel" [(ngModel)]="utilisateurSelectionne.mdp" name="mdp"
-			 l10n-placeholder placeholder="utilisateur_placeholder_mdp">
+			<input matInput required minlength="6" type="password" #inputMdp="ngModel" [(ngModel)]="utilisateurSelectionne.mdp"
+			 name="mdp" l10n-placeholder placeholder="utilisateur_placeholder_mdp">
 		</mat-form-field>
 
 		<!-- Boutons -->
-		<button matButton type="submit" class="btn btn-outline-secondary" (click)="annulerCreationUtilisateur()" l10nTranslate>utilisateur_bouton_annuler</button>
+		<button matButton type="submit" class="btn btn-outline-secondary" (click)="annulerCreationUtilisateur()"
+		 l10nTranslate>utilisateur_bouton_annuler</button>
 		<button matButton type="submit" class="btn btn-outline-secondary" [disabled]="!utilisateurForm.form.valid" (click)="sauvegarderUtilisateur()"
 		 l10nTranslate>utilisateur_bouton_creer</button>
 	</div>

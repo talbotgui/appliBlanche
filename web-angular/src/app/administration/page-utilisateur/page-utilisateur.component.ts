@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Language } from 'angular-l10n';
 
 import { UtilisateurService } from '../../service/utilisateur.service';
 import * as model from '../../model/model';
@@ -9,6 +10,9 @@ import * as model from '../../model/model';
  */
 @Component({ selector: 'page-utilisateur', templateUrl: './page-utilisateur.component.html', styleUrls: ['./page-utilisateur.component.css'] })
 export class PageUtilisateurComponent implements OnInit {
+
+  /** Decorateur nécessaire aux libellés internationnalisés dans des tooltips */
+  @Language() lang: string;
 
   /** Liste des utilisateurs à afficher */
   utilisateurs: model.Utilisateur[];

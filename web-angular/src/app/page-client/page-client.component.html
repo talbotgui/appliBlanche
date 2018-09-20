@@ -28,11 +28,11 @@
 	</ng-container>
 	<ng-container matColumnDef="actions">
 		<th mat-header-cell *matHeaderCellDef l10nTranslate>commun_entete_actions
-			<em class="actionDansUnEntete fa fa-plus" (click)="creer(); leForm.reset(clientSelectionne);"></em>
+			<em class="actionDansUnEntete fa fa-plus" (click)="creer(); leForm.reset(clientSelectionne);" matTooltip="{{ 'commun_tooltip_ajouter' | translate: lang }}"></em>
 		</th>
 		<td mat-cell *matCellDef="let element">
-			<em class="fa fa-edit" (click)="selectionner(element); "></em>
-			<em class="fa fa-remove" (click)="supprimer(element); "></em>
+			<em class="fa fa-edit" (click)="selectionner(element);" matTooltip="{{ 'commun_tooltip_editer' | translate: lang }}"></em>
+			<em class="fa fa-remove" (click)="supprimer(element);" matTooltip="{{ 'commun_tooltip_supprimer' | translate: lang }}"></em>
 		</td>
 	</ng-container>
 
@@ -47,7 +47,7 @@
 	<div *ngIf="clientSelectionne">
 
 		<!-- Titre -->
-		<hr/>
+		<hr />
 		<h3 l10nTranslate>client_formulaire_titre</h3>
 
 		<!-- Messages de validation de surface -->
@@ -55,14 +55,17 @@
 
 		<!-- Champs -->
 		<mat-form-field l10nTranslate>
-			<input matInput required #inputNom="ngModel" [(ngModel)]="clientSelectionne.nomClient" name="nom" l10n-placeholder placeholder="client_placeholder_nom">
+			<input matInput required #inputNom="ngModel" [(ngModel)]="clientSelectionne.nomClient" name="nom" l10n-placeholder
+			 placeholder="client_placeholder_nom">
 		</mat-form-field>
 		<mat-form-field l10nTranslate>
-			<input matInput type="text" #inputVille="ngModel" [(ngModel)]="clientSelectionne.ville" name="ville" l10n-placeholder placeholder="client_placeholder_ville">
+			<input matInput type="text" #inputVille="ngModel" [(ngModel)]="clientSelectionne.ville" name="ville"
+			 l10n-placeholder placeholder="client_placeholder_ville">
 		</mat-form-field>
 
 		<!-- Boutons -->
 		<button type="submit" class="btn btn-outline-secondary" (click)="annulerCreation()" l10nTranslate>client_bouton_annuler</button>
-		<button type="submit" class="btn btn-outline-secondary" [disabled]="!leForm.form.valid" (click)="sauvegarder()" l10nTranslate>client_bouton_creer</button>
+		<button type="submit" class="btn btn-outline-secondary" [disabled]="!leForm.form.valid" (click)="sauvegarder()"
+		 l10nTranslate>client_bouton_creer</button>
 	</div>
 </form>
