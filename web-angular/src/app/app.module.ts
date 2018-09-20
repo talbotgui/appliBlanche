@@ -19,6 +19,9 @@ import { MyDateAdapter } from './dateformat.component';
 // Import de bootstrap
 import { AlertModule } from 'ngx-bootstrap';
 
+// La configuration de l'application
+import { environment } from '../environments/environment';
+
 // Tous les composants applicatifs de l'application
 import { AppComponent } from './app.component';
 import { PageAccueilComponent } from './page-accueil/page-accueil.component';
@@ -40,7 +43,6 @@ import { AppRoutingModule } from './app-routing.module';
 
 // Pour faire de l'application une PWA
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
 
 // Gestion des locales et des formats de date pour Angular 5
 // @see https://angular.io/guide/i18n#i18n-pipes
@@ -60,7 +62,7 @@ const l10nConfig: L10nConfig = {
   },
   translation: {
     // Source des libellés
-    providers: [{ type: ProviderType.WebAPI, path: 'http://localhost:9090/applicationBlanche/i18n/' }],
+    providers: [{ type: ProviderType.WebAPI, path: environment.baseUrl + '/i18n/' }],
     // cache
     caching: true,
     // Libellé par défaut si manquant
