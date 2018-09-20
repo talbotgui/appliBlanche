@@ -112,7 +112,7 @@
 					<skipPoms>false</skipPoms>
 					<format>json</format>
 					<generateGitPropertiesFile>true</generateGitPropertiesFile>
-					<generateGitPropertiesFilename>${project.basedir}/dist/git.json</generateGitPropertiesFilename>
+					<generateGitPropertiesFilename>${project.basedir}/dist/applicationBlanche/git.json</generateGitPropertiesFilename>
 				</configuration>
 			</plugin>
 			<!-- Génération d'un war minimal contenant l'application WEB -->
