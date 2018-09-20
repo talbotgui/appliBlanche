@@ -1,4 +1,11 @@
-réactiver la qualimétrie findBug dans le parent/pom.xml (https://github.com/spotbugs/sonar-findbugs/issues/184)
+Sujets DOCUMENTATION :
+	description de l'architecture
+	description du poste de développemnt
+	règles de développement BACK
+	règles de développement BATCH
+	règles de développement FRONT-ANGULAR
+	règles de développement FRONT-VUEJS
+	règles de conception globales
 
 Sujets FRONT (partie sécurité) :
 	ANG	VUE	SUJET				
@@ -59,6 +66,7 @@ x	remplacer les java.util.Date par des LocalDateTime
 x	rassembler l'initialisation des entêtes (dans JWTAuthenticationFilter & JWTConnexionFilter) dans un même filtre ou un même paramètre
 x	ajouter MonitoringAdvisor
 	masquer les détails des erreurs techniques dans les réponses REST (test à faire avec une requête HQL pourrie)
+	réactiver la qualimétrie findBug dans le parent/pom.xml (https://github.com/spotbugs/sonar-findbugs/issues/184)
 
 Sujets BATCH :
 x	destination SQL avec une requête
@@ -72,15 +80,6 @@ x	lire du XML en fichier complet
 	produire du CSV à la ligne
 	produire du XML par morceau
 	produire du JSON
-
-Sujets DOCUMENTATION :
-	description de l'architecture
-	description du poste de développemnt
-	règles de développement BACK
-	règles de développement BATCH
-	règles de développement FRONT-ANGULAR
-	règles de développement FRONT-VUEJS
-	règles de conception globales
 
 Sujets Indus :
 	mettre des règles checkstyle custom pour interdire :

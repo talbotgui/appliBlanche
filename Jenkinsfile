@@ -56,7 +56,7 @@ pipeline {
 				script {
 					sh "/var/lib/deployJava/stopApplicationBlanche.sh"
 					sh "rm -rf /var/www/html/applicationBlanche/* || true"
-					sh "cp -r ./web-angular/dist/* /var/www/html/applicationBlanche"
+					sh "cp -r ./web-angular/dist/applicationBlanche/* /var/www/html/applicationBlanche"
 					sh "rm /var/lib/deployJava/applicationBlancheRest.jar || true"
 					sh "cp ./rest/target/rest-1.0.0.jar /var/lib/deployJava/applicationBlancheRest.jar"
 					// @see https://issues.jenkins-ci.org/browse/JENKINS-28182

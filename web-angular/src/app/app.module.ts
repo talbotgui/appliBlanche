@@ -121,7 +121,7 @@ const l10nConfig: L10nConfig = {
     TranslationModule.forRoot(l10nConfig),
 
     // Pour faire de l'application une PWA
-    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('/' + environment.baseUri + '/ngsw-worker.js', { enabled: environment.production })
   ]
 })
 /** Module principal */

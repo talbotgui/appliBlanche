@@ -6,5 +6,6 @@
 /** Variables de développement */
 export const environment = {
   production: false,
+  baseUri: 'applicationBlanche',
   baseUrl: 'http://localhost:9090/applicationBlanche'
 };
