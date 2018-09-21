@@ -11,21 +11,20 @@ export class PwaService {
   /** Contructeur avec injection des dépendances */
   constructor(private swUpdate: SwUpdate) {
 
-    // Ajout d'un listener sur l'évènement envoyé par le navigateur si l'application 
+    // Ajout d'un listener sur l'évènement envoyé par le navigateur si l'application
     // répond aux critères d'installation d'une PWA sur le terminal
-    window.addEventListener('beforeinstallprompt', event => {
+    window.addEventListener('beforeinstallprompt', (event) => {
       this.promptEvent = event;
     });
   }
 
   /** L'application, dans ses conditions d'utilisation, est-elle éligible à l'installation */
   estInstallationPwaAutorisee(): boolean {
-    return !!this.promptEvent
+    return !!this.promptEvent;
   }
 
   /** Installation de l'application PWA */
   installerPwa() {
     this.promptEvent.prompt();
   }
-
 }
