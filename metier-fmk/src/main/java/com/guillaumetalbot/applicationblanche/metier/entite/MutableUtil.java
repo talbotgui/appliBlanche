@@ -7,7 +7,7 @@ import java.util.Set;
 import org.hibernate.Hibernate;
 import org.hibernate.collection.internal.PersistentSet;
 
-public class MutableUtil {
+public final class MutableUtil {
 
 	public static Date getMutable(final Date date) {
 		if (date == null) {

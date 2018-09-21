@@ -6,7 +6,7 @@ import java.security.NoSuchAlgorithmException;
 
 import com.guillaumetalbot.applicationblanche.exception.BusinessException;
 
-public class ChiffrementUtil {
+public final class ChiffrementUtil {
 	public static String encrypt(final String mdp) {
 		try {
 			final MessageDigest md = MessageDigest.getInstance("SHA-256");

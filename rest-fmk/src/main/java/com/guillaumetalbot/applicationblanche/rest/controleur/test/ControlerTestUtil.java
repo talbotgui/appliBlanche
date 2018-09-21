@@ -12,7 +12,7 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-public class ControlerTestUtil {
+public final class ControlerTestUtil {
 
 	/** Logger. */
 	private static final Logger LOG = LoggerFactory.getLogger(ControlerTestUtil.class);

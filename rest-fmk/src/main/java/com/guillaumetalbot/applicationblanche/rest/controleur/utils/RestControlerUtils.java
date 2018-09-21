@@ -7,7 +7,7 @@ import org.springframework.data.querydsl.QSort;
 
 import com.guillaumetalbot.applicationblanche.exception.RestException;
 
-public class RestControlerUtils {
+public final class RestControlerUtils {
 
 	/** Custom MIME-TYPE pour fournir un type mime différent du JSON et renvoyer un type d'objet différent sur la même URL. */
 	public static final String MIME_JSON_DETAILS = "application/json;details";

@@ -61,7 +61,7 @@ public class Utilisateur implements Serializable {
 
 	public Utilisateur(final String login, final String mdp) {
 		this(login);
-		this.setMdp(mdp);
+		this.mdp = mdp;
 	}
 
 	public void declarerConnexionEnEchec() {
