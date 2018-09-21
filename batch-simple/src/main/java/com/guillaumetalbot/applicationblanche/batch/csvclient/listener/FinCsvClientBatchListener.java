@@ -16,7 +16,7 @@ public class FinCsvClientBatchListener extends JobExecutionListenerSupport {
 	private static final Logger LOG = LoggerFactory.getLogger(FinCsvClientBatchListener.class);
 
 	@Autowired
-	private DataSource ds;
+	private DataSource datasource;
 
 	@Override
 	public void afterJob(final JobExecution jobExecution) {
@@ -24,7 +24,7 @@ public class FinCsvClientBatchListener extends JobExecutionListenerSupport {
 
 		final String nomJob = jobExecution.getJobInstance().getJobName();
 
-		final JdbcTemplate jdbc = new JdbcTemplate(this.ds);
+		final JdbcTemplate jdbc = new JdbcTemplate(this.datasource);
 		final Long nbLignesClientInserees = jdbc.queryForObject("select count(*) from CLIENT", Long.class);
 		final Long nbLignesAdresseInserees = jdbc.queryForObject("select count(*) from ADRESSE", Long.class);
 
