@@ -37,6 +37,7 @@ import { AuthGuard } from './service/auth-guard.service';
 import { RestUtilsService } from './service/restUtils.service';
 import { UtilisateurService } from './service/utilisateur.service';
 import { ClientService } from './service/client.service';
+import { PwaService } from './service/pwa.service';
 
 // Le composant contenant les routes
 import { AppRoutingModule } from './app-routing.module';
@@ -96,7 +97,7 @@ const l10nConfig: L10nConfig = {
     { provide: HTTP_INTERCEPTORS, useClass: IntercepteurHttp, multi: true },
 
     // Les composants injectables
-    RestUtilsService, UtilisateurService, ClientService, RestUtilsService, AuthGuard
+    RestUtilsService, UtilisateurService, ClientService, RestUtilsService, AuthGuard, PwaService
 
   ],
 

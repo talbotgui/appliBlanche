@@ -16,4 +16,9 @@
 	</div>
 
 	<router-outlet></router-outlet>
+
+	<div class="row installerPwa" *ngIf="installationPwaAutorisee">
+		<span>Cette application est disponible hors connexion.</span>
+		<button class="btn btn-outline-secondary" (click)="installerPwa()">Cliquer pour installer</button>
+	</div>
 </div>
