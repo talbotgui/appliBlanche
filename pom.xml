@@ -10,7 +10,10 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		
+		<!-- Version de Spring à utiliser -->
 		<version.springBootDependencies>2.0.2.RELEASE</version.springBootDependencies>
+		
+		<!-- Version des plugins utilisés par maven:site -->
 		<version.jacoco>0.8.2</version.jacoco>
 		<version.jxr>2.5</version.jxr>
 		<version.javadoc>3.0.1</version.javadoc>
@@ -20,7 +23,7 @@
 		<version.jdepend>2.0</version.jdepend>
 		<version.site>3.3</version.site>
 		<version.infoReports>2.7</version.infoReports>
-
+		
 		<dependency.locations.enabled>false</dependency.locations.enabled>
 	</properties>
 
