@@ -1,3 +1,12 @@
+Sujets Indus :
+	ajouter dans le site les liens vers GitHub et Sonarqube
+	ajouter le publishHTML pour publier les sites Maven, le site CompoDoc, les rapports de test, ...
+	mettre des règles checkstyle custom pour interdire :
+		- partout, l'usage de "java.util.Date"
+		- partout, l'usage de "SimplDateFormat"
+		- dans les DAO, bloquer "+ [a-z]" (pour ne pas concaténer avec des variables)
+		- dans les DAO, bloquer "append([a-z]" (pour ne pas concaténer avec des variables)
+
 Sujets DOCUMENTATION :
 	description de l'architecture
 	description du poste de développemnt
@@ -81,9 +90,3 @@ x	lire du XML en fichier complet
 	produire du XML par morceau
 	produire du JSON
 
-Sujets Indus :
-	mettre des règles checkstyle custom pour interdire :
-		- partout, l'usage de "java.util.Date"
-		- partout, l'usage de "SimplDateFormat"
-		- dans les DAO, bloquer "+ [a-z]" (pour ne pas concaténer avec des variables)
-		- dans les DAO, bloquer "append([a-z]" (pour ne pas concaténer avec des variables)

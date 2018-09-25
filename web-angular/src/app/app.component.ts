@@ -19,9 +19,19 @@ export class AppComponent {
     this.locale.setCurrentLanguage(language);
   }
 
-  /** L'application, dans ses conditions d'utilisation, est-elle éligible à l'installation */
-  get installationPwaAutorisee(): boolean {
-    return this.pwaService.estInstallationPwaAutorisee();
+  /** L'application, dans ses conditions d'utilisation, est-elle éligible à l'installation semi-automatique */
+  get installationPwaSemiAutomatiqueAutorisee(): boolean {
+    return this.pwaService.installationPwaSemiAutomatiqueAutorisee();
+  }
+
+  /** L'application, dans ses conditions d'utilisation, est-elle éligible à l'installation sur IOS */
+  get installationPwaManuelleIosAutorisee(): boolean {
+    return this.pwaService.installationPwaManuelleIosAutorisee();
+  }
+
+  /** Le navigateur ne supporte pas les PWA */
+  get installationPwaImpossible(): boolean {
+    return this.pwaService.installationPwaImpossible();
   }
 
   /** Installer l'application comme une application mobile */
