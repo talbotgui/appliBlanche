@@ -70,7 +70,6 @@
 			<version>${version.querydsl}</version>
 		</dependency>
 
-
 		<!-- Utility classes -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -99,10 +98,12 @@
 		</dependency>
 
 		<!-- In-memory database -->
+		<!-- Pas de flyway dans metier-fmk car les tables sont créées dans les tests par hbm2ddl -->
 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
 			<version>${version.hsqldb}</version>
+			<scope>test</scope>
 		</dependency>
 
 		<!-- Utilitaire pour tester des exceptions dans les TU -->

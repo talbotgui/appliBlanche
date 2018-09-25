@@ -23,14 +23,17 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * Une configuration Spring-boot pour l'application. Cette classe remplace le traditionnel fichier XML.
+ *
+ * Cette classe ne doit pas être utilisée en mode développement car la dépendance à la base de données n'est pas définie dans le profil par défaut.
+ *
+ * Il faut utiliser la classe RestApplicationForTests pour démarrer l'application en mode développement.
  */
 @SpringBootApplication
 @EnableSwagger2
-@EntityScan("com.guillaumetalbot.applicationblanche.metier.entite")
+@EntityScan(RestApplication.PACKAGE_METIER_ENTITE)
 @ComponentScan({ RestApplication.PACKAGE_REST_ERREUR, RestApplication.PACKAGE_REST_SECURITE, RestApplication.PACKAGE_REST_CONTROLEUR,
-		RestApplication.PACKAGE_REST_APPLICATION, "com.guillaumetalbot.applicationblanche.metier.dao",
-		"com.guillaumetalbot.applicationblanche.metier.service" })
-@EnableJpaRepositories("com.guillaumetalbot.applicationblanche.metier.dao")
+		RestApplication.PACKAGE_REST_APPLICATION, RestApplication.PACKAGE_METIER_DAO, RestApplication.PACKAGE_METIER_SERVICE })
+@EnableJpaRepositories(RestApplication.PACKAGE_METIER_DAO)
 @EnableGlobalMethodSecurity
 public class RestApplication {
 
@@ -38,6 +41,9 @@ public class RestApplication {
 	private static final Logger LOG = LoggerFactory.getLogger(RestApplication.class);
 
 	/** Packages utilisés dans la configuration Spring . */
+	public static final String PACKAGE_METIER_DAO = "com.guillaumetalbot.applicationblanche.metier.dao";
+	public static final String PACKAGE_METIER_ENTITE = "com.guillaumetalbot.applicationblanche.metier.entite";
+	public static final String PACKAGE_METIER_SERVICE = "com.guillaumetalbot.applicationblanche.metier.service";
 	public static final String PACKAGE_REST_APPLICATION = "com.guillaumetalbot.applicationblanche.rest.application";
 	public static final String PACKAGE_REST_CONTROLEUR = "com.guillaumetalbot.applicationblanche.rest.controleur";
 	public static final String PACKAGE_REST_ERREUR = "com.guillaumetalbot.applicationblanche.rest.erreur";

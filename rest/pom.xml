@@ -21,6 +21,7 @@
 		<maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
 
 		<version.testng>6.13.1</version.testng>
+		<version.hsqldb>2.4.0</version.hsqldb>
 		<version.mockito>2.13.0</version.mockito>
 
 		<dependency.locations.enabled>false</dependency.locations.enabled>
@@ -82,7 +83,6 @@
 			<artifactId>metier</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-
 		
 		<!-- Testing starter -->
 		<dependency>
@@ -112,5 +112,54 @@
 			<version>${version.mockito}</version>
 			<scope>test</scope>
 		</dependency>
+		
+		<!-- In-memory database -->
+		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>${version.hsqldb}</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
+	
+	<profiles>
+		<profile>
+			<id>standAlone</id>
+			<dependencies>
+				<!-- In-memory database en mode nominal/production -->
+				<dependency>
+					<groupId>org.hsqldb</groupId>
+					<artifactId>hsqldb</artifactId>
+					<version>${version.hsqldb}</version>
+				</dependency>
+			</dependencies>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-resources-plugin</artifactId>
+						<version>3.1.0</version>
+						<executions>
+							<execution>
+								<id>copy-properties</id>
+								<phase>compile</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<overwrite>true</overwrite>
+									<outputDirectory>${basedir}/target/classes/</outputDirectory>
+									<resources>
+										<resource>
+											<directory>src/main/resources-standAlone/</directory>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>

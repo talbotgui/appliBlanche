@@ -17,6 +17,7 @@
 		<maven.compiler.target>10</maven.compiler.target>
 
 		<version.flyway>5.0.5</version.flyway>
+		<version.hsqldb>2.4.0</version.hsqldb>
 		<version.testng>6.13.1</version.testng>
 		<version.mockito>2.13.0</version.mockito>
 		<version.springfox>2.8.0</version.springfox>
@@ -102,7 +103,16 @@
 			<version>${version.springfox}</version>
 		</dependency>
 
+		<!-- In-memory database -->
+		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>${version.hsqldb}</version>
+			<scope>test</scope>
+		</dependency>
+		
 		<!-- Utilitaire pour la mise à jour du modèle de base de données -->
+		<!-- Flyway est nécessaire dans rest-fmk car les tables ne sont pas créées dans les tests par hbm2ddl -->
 		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>

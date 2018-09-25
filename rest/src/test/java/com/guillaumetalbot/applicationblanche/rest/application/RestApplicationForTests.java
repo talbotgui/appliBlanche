@@ -23,14 +23,17 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * Une configuration Spring-boot pour l'application. Cette classe remplace le traditionnel fichier XML.
+ *
+ * Cette classe est faite pour être démarrée en mode développement. Sa présence dans le répertoire src/test/java lui permet d'avoir accès à la
+ * dépendance de la base de données (qui est en scope 'test').
  */
 @SpringBootApplication
 @EnableSwagger2
-@EntityScan("com.guillaumetalbot.applicationblanche.metier.entite")
-@ComponentScan({ "com.guillaumetalbot.applicationblanche.rest.erreur", "com.guillaumetalbot.applicationblanche.rest.securite",
-		RestApplicationForTests.PACKAGE_CONTROLEUR, "com.guillaumetalbot.applicationblanche.metier.dao",
-		"com.guillaumetalbot.applicationblanche.metier.service", "com.guillaumetalbot.applicationblanche.rest.application.monitoring" })
-@EnableJpaRepositories("com.guillaumetalbot.applicationblanche.metier.dao")
+@EntityScan(RestApplication.PACKAGE_METIER_ENTITE)
+@ComponentScan({ RestApplication.PACKAGE_REST_ERREUR, RestApplication.PACKAGE_REST_SECURITE, RestApplication.PACKAGE_REST_CONTROLEUR,
+		RestApplication.PACKAGE_METIER_DAO, RestApplication.PACKAGE_METIER_SERVICE,
+		"com.guillaumetalbot.applicationblanche.rest.application.monitoring" })
+@EnableJpaRepositories(RestApplication.PACKAGE_METIER_DAO)
 @EnableGlobalMethodSecurity
 public class RestApplicationForTests {
 
@@ -39,8 +42,6 @@ public class RestApplicationForTests {
 
 	/** Logger. */
 	private static final Logger LOG = LoggerFactory.getLogger(RestApplicationForTests.class);
-
-	public static final String PACKAGE_CONTROLEUR = "com.guillaumetalbot.applicationblanche.rest.controleur";
 
 	/**
 	 * Méthode de démarrage de l'application

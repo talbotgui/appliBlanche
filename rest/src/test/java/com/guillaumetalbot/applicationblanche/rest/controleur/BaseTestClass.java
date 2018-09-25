@@ -8,6 +8,7 @@ import org.springframework.test.context.TestPropertySource;
 
 import com.guillaumetalbot.applicationblanche.metier.service.ClientService;
 import com.guillaumetalbot.applicationblanche.metier.service.LibelleService;
+import com.guillaumetalbot.applicationblanche.rest.application.RestApplication;
 import com.guillaumetalbot.applicationblanche.rest.application.RestApplicationForTests;
 import com.guillaumetalbot.applicationblanche.rest.controleur.test.JwtIntegrationWebTest;
 
@@ -25,7 +26,7 @@ public class BaseTestClass extends JwtIntegrationWebTest {
 
 	@Override
 	protected String getListePackagesDeControleur() {
-		return RestApplicationForTests.PACKAGE_CONTROLEUR;
+		return RestApplication.PACKAGE_REST_CONTROLEUR;
 	}
 
 	@Override
