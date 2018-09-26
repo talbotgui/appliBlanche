@@ -21,6 +21,8 @@
 	</properties>
 
 	<build>
+		<!-- Définition du répertoire de source pour que Sonar les trouve -->
+		<sourceDirectory>src</sourceDirectory>
 		<plugins>
 			<!-- Nettoyage des répertoires générés par maven et npm -->
 			<plugin>
