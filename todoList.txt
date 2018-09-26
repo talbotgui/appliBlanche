@@ -16,6 +16,10 @@ Sujets DOCUMENTATION :
 	règles de développement FRONT-VUEJS
 	règles de conception globales
 
+Refaire le tour des résultats dans Sonar
+
+sur Angular, exécuter un "npm audit fix" pour faire des MaJ et éliminer des failles
+
 Sujets FRONT (partie sécurité) :
 	ANG	VUE	SUJET				
 	x	x	page de login
@@ -47,6 +51,7 @@ Sujets FRONT (partie structure) :
 			compléter les tests e2e 
 			test e2e avec des bouchons pour pour les appels REST (https://netflix.github.io/pollyjs/#/README ou https://medium.com/pixelmatters/unit-testing-with-vue-approach-tips-and-tricks-part-1-b7d3209384dc ou https://alexjoverm.github.io/2017/09/25/Test-Methods-and-Mock-Dependencies-in-Vue-js-with-Jest/)
 	o		couverture de code des tests de l'application WEB
+			test e2e sans API Java qui tourne
 	x		packaging et configuration par environnement
 
 Sujets FRONT (partie fonction&ergonomie) :

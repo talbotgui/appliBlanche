@@ -39,6 +39,8 @@ import { UtilisateurService } from './service/utilisateur.service';
 import { ClientService } from './service/client.service';
 import { PwaService } from './service/pwa.service';
 import { BrowserComponent } from './service/browser.component';
+import { HttpProxy } from './service/httpProxy.component';
+import { MyTranslationProvider } from './service/myTranslationProvider.component'
 
 // Le composant contenant les routes
 import { AppRoutingModule } from './app-routing.module';
@@ -98,7 +100,8 @@ const l10nConfig: L10nConfig = {
     { provide: HTTP_INTERCEPTORS, useClass: IntercepteurHttp, multi: true },
 
     // Les composants injectables
-    RestUtilsService, UtilisateurService, ClientService, RestUtilsService, AuthGuard, PwaService, BrowserComponent
+    RestUtilsService, UtilisateurService, ClientService, RestUtilsService,
+    AuthGuard, PwaService, BrowserComponent, HttpProxy, MyTranslationProvider
 
   ],
 
@@ -120,7 +123,7 @@ const l10nConfig: L10nConfig = {
     AlertModule.forRoot(),
 
     // Gestion de l'internationnalisation
-    TranslationModule.forRoot(l10nConfig),
+    TranslationModule.forRoot(l10nConfig, { translationProvider: MyTranslationProvider }),
 
     // Pour faire de l'application une PWA
     ServiceWorkerModule.register('/' + environment.baseUri + '/ngsw-worker.js', { enabled: environment.production })

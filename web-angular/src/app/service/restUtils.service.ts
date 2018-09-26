@@ -1,12 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
-
-import { Observable } from 'rxjs/Observable';
-import { map, filter, catchError, mergeMap } from 'rxjs/operators';
-import { throwError } from 'rxjs';
-import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
-
-import * as model from '../model/model';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 /**
  *  Composant utilitaire pour traiter les appels aux API rest en général : entête de sécurité

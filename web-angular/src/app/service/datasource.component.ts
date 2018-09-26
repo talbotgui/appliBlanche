@@ -1,5 +1,6 @@
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { Observable, of, BehaviorSubject } from 'rxjs';
+import { of, BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs/Observable'
 import { catchError, finalize } from 'rxjs/operators';
 import { MatPaginator, MatSort } from '@angular/material';
 

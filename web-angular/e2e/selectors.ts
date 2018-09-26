@@ -8,8 +8,8 @@ export class APP {
 export class PageLogin {
   static TITRE = by.css('.container-fluid > h2');
 
-  static CHAMP_LOGIN = by.xpath('//input[@name='login']');
-  static CHAMP_MDP = by.xpath('//input[@name='mdp']');
+  static CHAMP_LOGIN = by.xpath('//input[@name="login"]');
+  static CHAMP_MDP = by.xpath('//input[@name="mdp"]');
 
   static BOUTON_CONNECTER = by.css('button.connecter');
 

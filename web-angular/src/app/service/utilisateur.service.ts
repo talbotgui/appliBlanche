@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpParams, HttpResponse } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 import { RestUtilsService } from './restUtils.service';
 import { environment } from '../../environments/environment';
+import { HttpProxy } from './httpProxy.component';
 
 import * as model from '../model/model';
 
@@ -17,7 +19,7 @@ export class UtilisateurService {
   private tokenDejaValide = false;
 
   /** Un constructeur pour se faire injecter les dépendances */
-  constructor(private http: HttpClient, private restUtils: RestUtilsService) { }
+  constructor(private http: HttpProxy, private restUtils: RestUtilsService) { }
 
   /** Tentative de connexion d'un utilisateur */
   connecter(login: string, mdp: string, callback: () => void, callbackErreurParametresConnexion: (error: any) => void): void {
@@ -27,7 +29,7 @@ export class UtilisateurService {
 
     // Appel au login
     const donnees = { login, mdp };
-    this.http.post<void>(environment.baseUrl + '/login', donnees, { observe: 'response' })
+    this.http.postForResponse<void>(environment.baseUrl + '/login', donnees, { observe: 'response' })
       .pipe(catchError<any>((error) => {
         // Suppression du token si le login est une erreur
         localStorage.removeItem('JWT');
@@ -65,10 +67,10 @@ export class UtilisateurService {
   /** Informe si l'utilisateur est bien connecté */
   estConnecte(): Observable<{} | boolean> {
     if (this.aDemandeLaDeconnexion) {
-      return Observable.of(false);
+      return of(false);
     } else if (this.tokenDejaValide) {
       const token = localStorage.getItem('JWT');
-      return Observable.of(!!token);
+      return of(!!token);
     } else {
       return this.invaliderTokenSiPresentEtExpire();
     }
@@ -89,7 +91,7 @@ export class UtilisateurService {
     const url = environment.baseUrl + '/v1/utilisateurs/moi';
     return this.http.get<model.Utilisateur>(url, this.restUtils.creerHeader()).pipe(catchError<any, boolean>(() => {
       localStorage.removeItem('JWT');
-      return Observable.of(false);
+      return of(false);
     }));
   }
 

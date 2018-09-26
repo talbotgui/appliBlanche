@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../../environments/environment';
 
 import { RestUtilsService } from './restUtils.service';
+import { HttpProxy } from './httpProxy.component';
 
 import * as model from '../model/model';
 
@@ -13,7 +14,7 @@ import * as model from '../model/model';
 export class ClientService {
 
   /** Constructeur avec injection */
-  constructor(private http: HttpClient, private restUtils: RestUtilsService) { }
+  constructor(private http: HttpProxy, private restUtils: RestUtilsService) { }
 
   /**
    * Liste des clients dans un DTO particulier (pas l'objet métier) de manière paginée et triée.
