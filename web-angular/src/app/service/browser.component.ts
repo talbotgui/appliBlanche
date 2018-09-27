@@ -23,38 +23,47 @@ export class BrowserComponent {
     let ix;
 
     // In Opera, the true version is after "Opera" or after "Version"
-    if ((verOffset = nAgt.indexOf('Opera')) !== -1) {
+    if (nAgt.indexOf('Opera') !== -1) {
+      verOffset = nAgt.indexOf('Opera');
       this.browserName = 'Opera';
       this.fullVersion = nAgt.substring(verOffset + 6);
-      if ((verOffset = nAgt.indexOf('Version')) !== -1) {
+      if (nAgt.indexOf('Version') !== -1) {
+        verOffset = nAgt.indexOf('Version');
         this.fullVersion = nAgt.substring(verOffset + 8);
       }
     }
     // In MSIE, the true version is after "MSIE" in userAgent
-    else if ((verOffset = nAgt.indexOf('MSIE')) !== -1) {
+    else if (nAgt.indexOf('MSIE') !== -1) {
+      verOffset = nAgt.indexOf('MSIE');
       this.browserName = 'Microsoft Internet Explorer';
       this.fullVersion = nAgt.substring(verOffset + 5);
     }
     // In Chrome, the true version is after "Chrome"
-    else if ((verOffset = nAgt.indexOf('Chrome')) !== -1) {
+    else if (nAgt.indexOf('Chrome') !== -1) {
+      verOffset = nAgt.indexOf('Chrome');
       this.browserName = 'Chrome';
       this.fullVersion = nAgt.substring(verOffset + 7);
     }
     // In Safari, the true version is after "Safari" or after "Version"
-    else if ((verOffset = nAgt.indexOf('Safari')) !== -1) {
+    else if (nAgt.indexOf('Safari') !== -1) {
+      verOffset = nAgt.indexOf('Safari');
       this.browserName = 'Safari';
       this.fullVersion = nAgt.substring(verOffset + 7);
-      if ((verOffset = nAgt.indexOf('Version')) !== -1) {
+      if (nAgt.indexOf('Version') !== -1) {
+        verOffset = nAgt.indexOf('Version');
         this.fullVersion = nAgt.substring(verOffset + 8);
       }
     }
     // In Firefox, the true version is after "Firefox"
-    else if ((verOffset = nAgt.indexOf('Firefox')) !== -1) {
+    else if (nAgt.indexOf('Firefox') !== -1) {
+      verOffset = nAgt.indexOf('Firefox');
       this.browserName = 'Firefox';
       this.fullVersion = nAgt.substring(verOffset + 8);
     }
     // In most other browsers, "name/version" is at the end of userAgent
-    else if ((nameOffset = nAgt.lastIndexOf(' ') + 1) < (verOffset = nAgt.lastIndexOf('/'))) {
+    else if (nAgt.lastIndexOf(' ') + 1 < nAgt.lastIndexOf('/')) {
+      nameOffset = nAgt.lastIndexOf(' ') + 1;
+      verOffset = nAgt.lastIndexOf('/');
       this.browserName = nAgt.substring(nameOffset, verOffset);
       this.fullVersion = nAgt.substring(verOffset + 1);
       if (this.browserName.toLowerCase() === this.browserName.toUpperCase()) {
@@ -62,10 +71,12 @@ export class BrowserComponent {
       }
     }
     // trim the fullVersion string at semicolon/space if present
-    if ((ix = this.fullVersion.indexOf(';')) !== -1) {
+    if (this.fullVersion.indexOf(';') !== -1) {
+      ix = this.fullVersion.indexOf(';');
       this.fullVersion = this.fullVersion.substring(0, ix);
     }
-    if ((ix = this.fullVersion.indexOf(' ')) !== -1) {
+    if (this.fullVersion.indexOf(' ') !== -1) {
+      ix = this.fullVersion.indexOf(' ');
       this.fullVersion = this.fullVersion.substring(0, ix);
     }
 
