@@ -10,6 +10,11 @@ export class HttpProxy {
   /** Un constructeur pour se faire injecter les dépendances */
   constructor(private http: HttpClient) { }
 
+  /**
+     * Construct a DELETE request which interprets the body as JSON and returns it.
+     *
+     * @return an `Observable` of the body as type `T`.
+     */
   delete<T>(
     url: string, options?: {
       headers?: HttpHeaders | { [header: string]: string | string[]; }; observe?: 'body';
@@ -19,6 +24,11 @@ export class HttpProxy {
     return this.http.delete<T>(url, options);
   }
 
+  /**
+     * Construct a GET request which interprets the body as JSON and returns it.
+     *
+     * @return an `Observable` of the body as type `T`.
+     */
   get<T>(
     url: string, options?: {
       headers?: HttpHeaders | { [header: string]: string | string[]; }; observe?: 'body';
@@ -28,6 +38,11 @@ export class HttpProxy {
     return this.http.get<T>(url, options);
   }
 
+  /**
+     * Construct a POST request which interprets the body as JSON and returns it.
+     *
+     * @return an `Observable` of the body as type `T`.
+     */
   post<T>(
     url: string, body: any | null, options?: {
       headers?: HttpHeaders | { [header: string]: string | string[]; }; observe?: 'body';
@@ -37,6 +52,11 @@ export class HttpProxy {
     return this.http.post<T>(url, body, options);
   }
 
+  /**
+     * Construct a POST request which interprets the body as JSON and returns the full response.
+     *
+     * @return an `Observable` of the `HttpResponse` for the request, with a body type of `T`.
+     */
   postForResponse<T>(
     url: string, body: any | null, options: {
       headers?: HttpHeaders | { [header: string]: string | string[]; }; observe: 'response';
