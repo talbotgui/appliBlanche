@@ -204,15 +204,16 @@ public class SecuriteServiceImpl implements SecuriteService {
 		}
 
 		// Enregistrement des echecs ou nettoyage des echecs
-		if (statut) {
-			u.declarerConnexionReussie();
-		} else {
-			u.declarerConnexionEnEchec();
+		if (u != null) {
+			if (statut) {
+				u.declarerConnexionReussie();
+			} else {
+				u.declarerConnexionEnEchec();
+			}
+
+			// Enregistrement des modifications
+			this.utilisateurRepo.save(u);
 		}
-
-		// Enregistrement des modifications
-		this.utilisateurRepo.save(u);
-
 	}
 
 	@Override
