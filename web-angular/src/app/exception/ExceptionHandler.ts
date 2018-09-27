@@ -1,6 +1,5 @@
 import { Injectable, ErrorHandler, Injector } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { MatSnackBar, MatSnackBarConfig } from '../../../node_modules/@angular/material';
 import { TranslationService } from 'angular-l10n';
 
@@ -31,7 +30,6 @@ export class ExceptionHandler implements ErrorHandler {
     this.precedenteErreur = error;
 
     // Récupération d'un composant (sans déclencher de dépendance cyclique)
-    const router = this.injector.get(Router);
     const snackBar = this.injector.get(MatSnackBar);
     const i18n = this.injector.get(TranslationService);
 

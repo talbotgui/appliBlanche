@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 
 import { HttpProxy } from '../src/app/service/httpProxy.component';
 
-import { JeuxDeDonnees } from './jeuxDeDonnees'
+import { JeuxDeDonnees } from './jeuxDeDonnees';
 
 /**
  * Pour que chaque test soit autonome, chaque test contient un scénario qui redémarre de l'ouverture de la page.
@@ -33,8 +33,7 @@ describe('Page de login', () => {
 
   it('Premier accès', () => {
     //
-    mockito.when(httpProxyMock.get("http://localhost:9090/applicationBlanche/i18n/fr", mockito.anything()))
-      .thenReturn(of(JeuxDeDonnees.LIBELLES_FR));
+    mockito.when(httpProxyMock.get('http://localhost:9090/applicationBlanche/i18n/fr', mockito.anything())).thenReturn(of(JeuxDeDonnees.LIBELLES_FR));
     //
     page.navigateToRoot();
     //

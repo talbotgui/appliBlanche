@@ -40,7 +40,7 @@ import { ClientService } from './service/client.service';
 import { PwaService } from './service/pwa.service';
 import { BrowserComponent } from './service/browser.component';
 import { HttpProxy } from './service/httpProxy.component';
-import { MyTranslationProvider } from './service/myTranslationProvider.component'
+import { MyTranslationProvider } from './service/myTranslationProvider.component';
 
 // Le composant contenant les routes
 import { AppRoutingModule } from './app-routing.module';

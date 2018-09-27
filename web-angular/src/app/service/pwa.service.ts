@@ -20,13 +20,13 @@ export class PwaService {
   }
 
   installationPwaManuelleIosAutorisee(): boolean {
-    // Safari sur IOS>=11.3    
+    // Safari sur IOS>=11.3
     return this.browserComponent.nomNavigateur === 'Safari' && this.browserComponent.nomOs === 'IOS' && parseFloat(this.browserComponent.versionOs) > 11.2;
   }
 
   /** L'application, dans ses conditions d'utilisation, est-elle éligible à l'installation */
   installationPwaSemiAutomatiqueAutorisee(): boolean {
-    //il ne faut pas que l'event ait déjà été traité
+    // il ne faut pas que l'event ait déjà été traité
     return !!this.promptEvent && (
       // chrome avant la 68 (depuis le navigateur affiche un message automatiquement)
       this.browserComponent.nomNavigateur === 'Chrome' && this.browserComponent.versionMajeurNavigateur < 68
@@ -38,7 +38,7 @@ export class PwaService {
     // Chrome depuis la 68
     return !(
       (this.browserComponent.nomNavigateur === 'Chrome' && this.browserComponent.versionMajeurNavigateur > 67)
-      // Safari sur IOS>=11.3    
+      // Safari sur IOS>=11.3
       || (this.browserComponent.nomNavigateur === 'Safari' && this.browserComponent.nomOs === 'IOS' && parseFloat(this.browserComponent.versionOs) > 11.2)
     );
 

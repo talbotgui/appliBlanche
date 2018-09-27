@@ -40,7 +40,7 @@
 		<h3 l10nTranslate>utilisateur_formulaire_titre</h3>
 
 		<!-- Messages de validation de surface -->
-		<!-- Pour faire du l10nTranslate avec un paramètre : <div ... [l10nTranslate]="['Le nom de l\'utilisateur']">CLEF_I18N</div>-->
+		<!-- Pour faire du l10nTranslate avec un paramètre : < div ... [l10nTranslate]="['Le nom de l\'utilisateur']">CLEF_I18N< / div > -->
 		<div *ngIf="inputLogin && !inputLogin.pristine && inputLogin.errors?.required" class="alert-danger" l10nTranslate>utilisateur_placeholder_login_validation</div>
 		<div *ngIf="inputLogin && !inputLogin.pristine && inputLogin.errors?.minlength" class="alert-danger" l10nTranslate>utilisateur_placeholder_login_validation2</div>
 		<div *ngIf="!inputMdp.pristine && inputMdp.errors?.required" class="alert-danger" l10nTranslate>utilisateur_placeholder_mdp_validation</div>

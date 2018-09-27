@@ -21,5 +21,4 @@ import { environment } from '../../environments/environment';
   public getTranslation(language: string, args: any): Observable<any> {
     return this.http.get<{ [key: string]: string; }>(environment.baseUrl + '/i18n/' + language);
   }
-
 }
