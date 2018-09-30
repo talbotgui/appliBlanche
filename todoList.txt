@@ -1,3 +1,9 @@
+Sujet GCP :
+	déployer l'application blanche dans GCP avec un profile
+	sécuriser l'application en remplaçant les comptes en bdd par des comptes Google (uniquement ceux explicitement autorisés)
+	faire appel à une API en utilisant la sécurité décrite ici https://docs.spring.io/spring-cloud-gcp/docs/1.1.0.M1/reference/htmlsingle/#_credentials
+		Récupérer un document dans le storage (https://docs.spring.io/spring-cloud-gcp/docs/1.1.0.M1/reference/htmlsingle/#_google_cloud_storage)
+
 Sujets Indus :
 	ajouter dans le site les liens vers GitHub et Sonarqube
 	ajouter le publishHTML pour publier les sites Maven, le site CompoDoc, les rapports de test, ...

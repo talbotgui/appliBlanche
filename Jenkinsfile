@@ -20,7 +20,7 @@ pipeline {
 			agent any
 			environment { JAVA_HOME = '/usr/lib/jvm/jdk-10.0.1/' }
 			steps {
-				script { currentBuild.displayName = currentBuild.number + "-build échoué" }
+				script { currentBuild.displayName = currentBuild.number + "-build" }
 				sh "mvn clean install -Dmaven.test.skip=true"
 			}
 		}
@@ -29,7 +29,7 @@ pipeline {
 			agent any
 			environment { JAVA_HOME = '/usr/lib/jvm/jdk-10.0.1/' }
 			steps {
-				script { currentBuild.displayName = currentBuild.number + "-tests échoués" }
+				script { currentBuild.displayName = currentBuild.number + "-tests" }
 				sh "mvn -B -Dmaven.test.failure.ignore test-compile surefire:test"
 				junit '**/TEST-*Test.xml'
 			}
@@ -39,14 +39,14 @@ pipeline {
 			agent any
 			environment { JAVA_HOME = '/usr/lib/jvm/jdk-10.0.1/' }
 			steps {
-				script { currentBuild.displayName = currentBuild.number + "-qualimétrie Maven échouée" }
+				script { currentBuild.displayName = currentBuild.number + "-qualimétrie Maven" }
 				sh "mvn clean install site -Psite"
 				step([$class: 'FindBugsPublisher'])
 				step([$class: 'CheckStylePublisher'])
 				step([$class: 'PmdPublisher', canComputeNew: false, defaultEncoding: '', healthy: '', pattern: '**/pmd.xml', unHealthy: ''])
 				step([$class: 'AnalysisPublisher'])
 				// see https://docs.sonarqube.org/display/SONAR/Analysis+Parameters
-				script { currentBuild.displayName = currentBuild.number + "-qualimétrie Sonar échouée" }
+				script { currentBuild.displayName = currentBuild.number + "-qualimétrie Sonar" }
 				withCredentials([string(credentialsId: 'sonarSecretKey', variable: 'SONAR_KEY')]) {
 					sh "mvn sonar:sonar -Dsonar.projectKey=ApplicationBlanche -Dsonar.organization=talbotgui-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${SONAR_KEY}"
 				}
@@ -58,7 +58,7 @@ pipeline {
 			environment { JAVA_HOME = '/usr/lib/jvm/jdk-10.0.1/' }
 			steps {
 				script {
-					currentBuild.displayName = currentBuild.number + "-déploiement échouée"
+					currentBuild.displayName = currentBuild.number + "-déploiement"
 					sh "/var/lib/deployJava/stopApplicationBlanche.sh"
 					sh "rm -rf /var/www/html/applicationBlanche/* || true"
 					sh "cp -r ./web-angular/dist/applicationBlanche/* /var/www/html/applicationBlanche"
