@@ -1,19 +1,17 @@
 package com.guillaumetalbot.applicationblanche.rest.controleur;
 
-import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
-import static org.springframework.web.bind.annotation.RequestMethod.PUT;
-
 import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,7 +27,7 @@ public class UtilisateurRestControler {
 	@Autowired
 	private SecuriteService securiteService;
 
-	@RequestMapping(value = "/v1/utilisateurs/{login}/changeMdp", method = POST)
+	@PostMapping(value = "/v1/utilisateurs/{login}/changeMdp")
 	public void changerMotDePasseUtilisateur(//
 			@PathVariable(value = "login") final String login, //
 			@RequestParam(value = "mdp", required = false) final String mdp) {
@@ -41,17 +39,17 @@ public class UtilisateurRestControler {
 		this.securiteService.sauvegarderUtilisateur(u.getLogin(), mdp);
 	}
 
-	@RequestMapping(value = "/v1/utilisateurs/moi", method = GET)
+	@GetMapping(value = "/v1/utilisateurs/moi")
 	public Utilisateur chargerUtilisateurMoi(final HttpServletRequest request) {
 		return this.securiteService.chargerUtilisateurReadOnly(request.getRemoteUser());
 	}
 
-	@RequestMapping(value = "/v1/utilisateurs/{login}/deverrouille", method = PUT)
+	@PutMapping(value = "/v1/utilisateurs/{login}/deverrouille")
 	public void deverrouillerUtilisateur(@PathVariable(value = "login") final String login, final HttpServletRequest request) {
 		this.securiteService.deverrouillerUtilisateur(login);
 	}
 
-	@RequestMapping(value = "/v1/utilisateurs", method = GET, produces = { "application/json", "application/json;details" })
+	@GetMapping(value = "/v1/utilisateurs", produces = { "application/json", "application/json;details" })
 	public Collection<?> listerUtilisateur(@RequestHeader("Accept") final String accept) {
 		if (RestControlerUtils.MIME_JSON_DETAILS.equals(accept)) {
 			return this.securiteService.listerUtilisateursAvecRolesEtAutorisations();
@@ -60,12 +58,12 @@ public class UtilisateurRestControler {
 		}
 	}
 
-	@RequestMapping(value = "/v1/utilisateurs/{login}/reset", method = PUT)
+	@PutMapping(value = "/v1/utilisateurs/{login}/reset")
 	public void resetPassword(@PathVariable(value = "login") final String login, final HttpServletRequest request) {
 		this.securiteService.reinitialiserMotDePasse(login);
 	}
 
-	@RequestMapping(value = "/v1/utilisateurs", method = POST)
+	@PostMapping(value = "/v1/utilisateurs")
 	public void sauvegarderUtilisateur(//
 			@RequestParam(value = "login") final String login, //
 			@RequestParam(value = "mdp", required = false) final String mdp) {
@@ -77,7 +75,7 @@ public class UtilisateurRestControler {
 		this.securiteService.sauvegarderUtilisateur(login, mdp);
 	}
 
-	@RequestMapping(value = "/v1/utilisateurs/{login}", method = DELETE)
+	@DeleteMapping(value = "/v1/utilisateurs/{login}")
 	public void supprimerUtilisateur(@PathVariable(value = "login") final String login) {
 		this.securiteService.supprimerUtilisateur(login);
 	}

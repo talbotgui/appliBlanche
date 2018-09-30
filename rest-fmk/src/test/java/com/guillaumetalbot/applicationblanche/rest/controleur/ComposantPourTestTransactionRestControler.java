@@ -1,9 +1,7 @@
 package com.guillaumetalbot.applicationblanche.rest.controleur;
 
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,10 +22,11 @@ public class ComposantPourTestTransactionRestControler {
 	/**
 	 * Cette URL est totalement fictive et ne fait pas partie de l'application (le présent composant est dans le répertoire src/test/java !
 	 *
-	 * @param nom Nom du role.
+	 * @param nom
+	 *            Nom du role.
 	 * @return rien car la méthode lance une exception
 	 */
-	@RequestMapping(value = "/vTest/role", method = POST)
+	@PostMapping(value = "/vTest/role")
 	public String sauvegarderRole(@RequestParam(value = "nom") final String nom) {
 
 		// appel à une méthode transactionnelle

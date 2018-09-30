@@ -1,12 +1,10 @@
 package com.guillaumetalbot.applicationblanche.rest.controleur;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.guillaumetalbot.applicationblanche.rest.dto.ElementMonitoring;
@@ -25,7 +23,7 @@ public class MonitoringRestControler {
 	private static final String CLEF_A_EXCLURE_3 = "java.sql.SQLFeatureNotSupportedException";
 
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "/monitoring", method = GET)
+	@GetMapping(value = "/monitoring")
 	public Collection<ElementMonitoring> lireDonneesDuMonitoring() {
 
 		final Collection<ElementMonitoring> resultats = new ArrayList<>();
