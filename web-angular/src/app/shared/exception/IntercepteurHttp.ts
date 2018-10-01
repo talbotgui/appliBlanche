@@ -4,8 +4,6 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
 
-import { ExceptionHandler } from './ExceptionHandler';
-
 /** Intercepteur HTTP pour traiter systématiquement les cas d'erreurs. */
 @Injectable()
 export class IntercepteurHttp implements HttpInterceptor {

@@ -4,8 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { catchError, finalize } from 'rxjs/operators';
 import { MatPaginator, MatSort } from '@angular/material';
 
-import { ClientService } from './client.service';
-import * as model from '../model/model';
+import * as model from '../../model/model';
 
 /** Datasource utilisé pour alimenter un tableau paginé */
 export class DataSourceComponent<T> implements DataSource<T> {

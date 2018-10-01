@@ -1,6 +1,6 @@
 import { Injectable, ErrorHandler, Injector } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { MatSnackBar, MatSnackBarConfig } from '../../../node_modules/@angular/material';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
 import { TranslationService } from 'angular-l10n';
 
 /** Gestionnaire d'erreur par défaut */

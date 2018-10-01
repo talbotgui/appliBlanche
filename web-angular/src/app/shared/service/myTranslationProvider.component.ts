@@ -5,7 +5,7 @@ import { TranslationProvider } from 'angular-l10n';
 import { HttpProxy } from './httpProxy.component';
 
 // La configuration de l'application
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 
 @Injectable() export class MyTranslationProvider implements TranslationProvider {
 

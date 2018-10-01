@@ -4,7 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import * as mockito from 'ts-mockito';
 import { of } from 'rxjs';
 
-import { HttpProxy } from '../src/app/service/httpProxy.component';
+import { HttpProxy } from '../src/app/shared/service/httpProxy.component';
 
 import { JeuxDeDonnees } from './jeuxDeDonnees';
 

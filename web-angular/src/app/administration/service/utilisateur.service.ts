@@ -3,9 +3,9 @@ import { HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 
-import { RestUtilsService } from '../../service/restUtils.service';
+import { RestUtilsService } from '../../shared/service/restUtils.service';
 import { environment } from '../../../environments/environment';
-import { HttpProxy } from '../../service/httpProxy.component';
+import { HttpProxy } from '../../shared/service/httpProxy.component';
 
 import * as model from '../../model/model';
 
