@@ -1,8 +1,9 @@
-Sujet GCP :
-	déployer l'application blanche dans GCP avec un profile
-	sécuriser l'application en remplaçant les comptes en bdd par des comptes Google (uniquement ceux explicitement autorisés)
-	faire appel à une API en utilisant la sécurité décrite ici https://docs.spring.io/spring-cloud-gcp/docs/1.1.0.M1/reference/htmlsingle/#_credentials
-		Récupérer un document dans le storage (https://docs.spring.io/spring-cloud-gcp/docs/1.1.0.M1/reference/htmlsingle/#_google_cloud_storage)
+Tester les dates envoyées depuis l'application WEB vers l'API
+Tester les dates envoyées depuis l'API vers l'application WEB 
+
+Reservation :
+	créer un sous module Angular et un "module commun" (cf doc officielle)
+	
 
 Sujets Indus :
 	ajouter dans le site les liens vers GitHub et Sonarqube
