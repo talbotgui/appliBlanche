@@ -2,7 +2,7 @@
 
 import { Injectable } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
-import { BrowserComponent } from './browser.component';
+import { BrowserComponent } from '../shared/service/browser.component';
 
 @Injectable()
 export class PwaService {

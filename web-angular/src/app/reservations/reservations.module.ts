@@ -2,7 +2,7 @@
 import { NgModule } from '@angular/core';
 
 // Import du module partagé
-import { SharedModule } from '../shared.module';
+import { SharedModule } from '../shared/shared.module';
 
 // Tous les composants applicatifs de l'application
 import { PageReservationsComponent } from './page-reservations/page-reservations.component';

@@ -5,9 +5,9 @@ import { Observable } from 'rxjs/Observable';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
-import { RestUtilsService } from './restUtils.service';
+import { RestUtilsService } from '../shared/service/restUtils.service';
 import { environment } from '../../environments/environment';
-import { HttpProxy } from './httpProxy.component';
+import { HttpProxy } from '../shared/service/httpProxy.component';
 
 import * as model from '../model/model';
 

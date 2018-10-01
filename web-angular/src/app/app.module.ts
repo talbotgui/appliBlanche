@@ -1,38 +1,29 @@
 // Les modules Angular importés
 import { NgModule } from '@angular/core';
 
-// Import de bootstrap
-import { AlertModule } from 'ngx-bootstrap';
-
-// Les composants l10n
-import { TranslationModule } from 'angular-l10n';
-import { MyTranslationProvider } from './service/myTranslationProvider.component';
-
 // La configuration de l'application
 import { environment } from '../environments/environment';
-
-// Pour faire de l'application une PWA
-import { ServiceWorkerModule } from '@angular/service-worker';
 
 // Tous les composants applicatifs de ce module
 import { AppComponent } from './app.component';
 import { PageAccueilComponent } from './page-accueil/page-accueil.component';
 import { PageConnexionComponent } from './page-connexion/page-connexion.component';
 import { CadreMenuComponent } from './cadre-menu/cadre-menu.component';
-import { PageUtilisateurComponent } from './administration/page-utilisateur/page-utilisateur.component';
-import { PageClientComponent } from './page-client/page-client.component';
 
 // Les composants injectabables de ce module
 import { SecuriteService } from './service/securite.service';
-import { ClientService } from './service/client.service';
+import { PwaService } from './service/pwa.service';
+import { AuthGuard } from './service/auth-guard.service';
 
 // Import des modules
-import { SharedModule, l10nConfig } from './shared.module';
+import { SharedModule, l10nConfig } from './shared/shared.module';
 import { ReservationsModule } from './reservations/reservations.module';
 import { AdministrationModule } from './administration/administration.module';
 
 // Le composant contenant les routes
 import { AppRoutingModule } from './app-routing.module';
+import { AdministrationRoutingModule } from './administration/administration-routing.module';
+import { ReservationsRoutingModule } from './reservations/reservations-routing.module';
 
 // Déclaration du module
 @NgModule({
@@ -41,19 +32,10 @@ import { AppRoutingModule } from './app-routing.module';
   bootstrap: [AppComponent],
 
   // Tous les composants applicatifs de ce module
-  declarations: [AppComponent, PageAccueilComponent, PageConnexionComponent, CadreMenuComponent, PageUtilisateurComponent, PageClientComponent],
+  declarations: [AppComponent, PageAccueilComponent, PageConnexionComponent, CadreMenuComponent],
 
   // Les modules importés
   imports: [
-
-    // Import de bootstrap
-    AlertModule.forRoot(),
-
-    // Gestion de l'internationnalisation
-    TranslationModule.forRoot(l10nConfig, { translationProvider: MyTranslationProvider }),
-
-    // Pour faire de l'application une PWA
-    ServiceWorkerModule.register('/' + environment.baseUri + '/ngsw-worker.js', { enabled: environment.production }),
 
     // Le module partagé
     SharedModule,
@@ -62,12 +44,13 @@ import { AppRoutingModule } from './app-routing.module';
     ReservationsModule, AdministrationModule,
 
     // Déclaration des routes
-    AppRoutingModule,
+    AppRoutingModule, AdministrationRoutingModule, ReservationsRoutingModule
   ],
 
   // Les composants injectables
   providers: [
-
+    // Les services propre à ce module
+    SecuriteService, PwaService, AuthGuard, PwaService
   ]
 })
 

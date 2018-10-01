@@ -5,9 +5,9 @@ import { tap } from 'rxjs/operators';
 import { merge } from 'rxjs';
 import { Language } from 'angular-l10n';
 
-import { DataSourceComponent } from '../service/datasource.component';
+import { DataSourceComponent } from '../../shared/service/datasource.component';
 import { ClientService } from '../service/client.service';
-import * as model from '../model/model';
+import * as model from '../../model/model';
 
 /** Page listant les clients et permettant leur création, modification et suppression */
 @Component({ selector: 'page-client', templateUrl: './page-client.component.html', styleUrls: ['./page-client.component.css'] })

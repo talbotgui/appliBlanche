@@ -1,8 +1,19 @@
 <div id="menu" class="row">
   <nav mat-tab-nav-bar>
-    <a class="col-md-4" mat-tab-link routerLink="/page-accueil-route" class="navAccueil" routerLinkActive="active" l10nTranslate>menu_accueil</a>
-    <a class="col-md-4" mat-tab-link routerLink="/page-utilisateur-route" class="navUtilisateur" routerLinkActive="active" l10nTranslate>menu_utilisateur</a>
-    <a class="col-md-4" mat-tab-link routerLink="/page-client-route" class="navUtilisateur" routerLinkActive="active" l10nTranslate>menu_client</a>
+    <!-- App module -->
+    <a class="col-md-4" mat-tab-link routerLink="/page-accueil-route" class="navAccueil" routerLinkActive="active"
+      l10nTranslate>menu_accueil</a>
+
+    <!-- Administration module -->
+    <a class="col-md-4" mat-tab-link routerLink="/page-utilisateur-route" class="navUtilisateur" routerLinkActive="active"
+      l10nTranslate>menu_utilisateur</a>
+    <a class="col-md-4" mat-tab-link routerLink="/page-client-route" class="navUtilisateur" routerLinkActive="active"
+      l10nTranslate>menu_client</a>
+
+    <!-- Reservations module -->
+    <a class="col-md-4" mat-tab-link routerLink="/page-reservations-route" class="navUtilisateur" routerLinkActive="active"
+      l10nTranslate>menu_reservations</a>
+
     <a class="col-md-4" mat-tab-link href="#" class="navDeconnexion" (click)="deconnecter()" l10nTranslate>menu_deconnexion</a>
   </nav>
 </div>

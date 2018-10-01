@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs'
 
-import { RestUtilsService } from '../../service/restUtils.service';
-import { HttpProxy } from '../../service/httpProxy.component';
+import { RestUtilsService } from '../../shared/service/restUtils.service';
+import { HttpProxy } from '../../shared/service/httpProxy.component';
 
 import * as model from '../model/model';
 

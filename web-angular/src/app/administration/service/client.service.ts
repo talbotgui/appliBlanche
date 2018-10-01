@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 
-import { RestUtilsService } from './restUtils.service';
-import { HttpProxy } from './httpProxy.component';
+import { RestUtilsService } from '../../shared/service/restUtils.service';
+import { HttpProxy } from '../../shared/service/httpProxy.component';
 
-import * as model from '../model/model';
+import * as model from '../../model/model';
 
 /** Composant TS d'interface avec les API Back de manipulation des clients */
 @Injectable()
