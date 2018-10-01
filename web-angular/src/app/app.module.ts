@@ -23,12 +23,13 @@ import { PageUtilisateurComponent } from './administration/page-utilisateur/page
 import { PageClientComponent } from './page-client/page-client.component';
 
 // Les composants injectabables de ce module
-import { UtilisateurService } from './service/utilisateur.service';
+import { SecuriteService } from './service/securite.service';
 import { ClientService } from './service/client.service';
 
 // Import des modules
 import { SharedModule, l10nConfig } from './shared.module';
 import { ReservationsModule } from './reservations/reservations.module';
+import { AdministrationModule } from './administration/administration.module';
 
 // Le composant contenant les routes
 import { AppRoutingModule } from './app-routing.module';
@@ -45,7 +46,6 @@ import { AppRoutingModule } from './app-routing.module';
   // Les modules importés
   imports: [
 
-
     // Import de bootstrap
     AlertModule.forRoot(),
 
@@ -59,7 +59,7 @@ import { AppRoutingModule } from './app-routing.module';
     SharedModule,
 
     // Déclaration des modules applicatifs
-    ReservationsModule,
+    ReservationsModule, AdministrationModule,
 
     // Déclaration des routes
     AppRoutingModule,
@@ -67,7 +67,7 @@ import { AppRoutingModule } from './app-routing.module';
 
   // Les composants injectables
   providers: [
-    UtilisateurService, ClientService
+
   ]
 })
 

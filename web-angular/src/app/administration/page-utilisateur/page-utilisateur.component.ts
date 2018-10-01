@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Language } from 'angular-l10n';
 
-import { UtilisateurService } from '../../service/utilisateur.service';
+import { UtilisateurService } from '../service/utilisateur.service';
 import * as model from '../../model/model';
 
 /**

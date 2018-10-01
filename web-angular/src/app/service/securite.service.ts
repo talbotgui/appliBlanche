@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpResponse } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import { catchError } from 'rxjs/operators';
@@ -11,9 +11,9 @@ import { HttpProxy } from './httpProxy.component';
 
 import * as model from '../model/model';
 
-/** Composant TS d'interface avec les API Back de manipulation des utilisateurs */
+/** Composant TS de gestion de la sécurité */
 @Injectable()
-export class UtilisateurService {
+export class SecuriteService {
 
   private aDemandeLaDeconnexion = false;
   private tokenDejaValide = false;
@@ -76,12 +76,6 @@ export class UtilisateurService {
     }
   }
 
-  /** Lit la liste complète des utilisateurs */
-  listerUtilisateurs(): Observable<{} | model.Utilisateur[]> {
-    const url = environment.baseUrl + '/v1/utilisateurs';
-    return this.http.get<model.Utilisateur[]>(url, this.restUtils.creerHeader());
-  }
-
   /**
    * Appel à l'API REST /utilisateurs/moi et vérification de l'expiration du token
    *
@@ -93,21 +87,5 @@ export class UtilisateurService {
       localStorage.removeItem('JWT');
       return of(false);
     }));
-  }
-
-  /** Création d'un utilisateur */
-  sauvegarderUtilisateur(utilisateur: model.Utilisateur): Observable<{} | void> {
-    const donnees = new HttpParams()
-      .set('login', utilisateur.login)
-      .set('mdp', utilisateur.mdp);
-
-    const url = environment.baseUrl + '/v1/utilisateurs';
-    return this.http.post<void>(url, donnees, this.restUtils.creerHeaderPost());
-  }
-
-  /** Suppression d'un utilisateur */
-  supprimerUtilisateur(utilisateur: model.Utilisateur): Observable<{} | void> {
-    const url = environment.baseUrl + '/v1/utilisateurs/' + utilisateur.login;
-    return this.http.delete<void>(url, this.restUtils.creerHeaderPost());
   }
 }

@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
 
-import { UtilisateurService } from '../service/utilisateur.service';
+import { SecuriteService } from '../service/securite.service';
 import * as model from '../model/model';
 
 /** Page de connexion */
@@ -23,7 +23,7 @@ export class PageConnexionComponent implements OnInit {
   redirectionPostConnexion: string | undefined = undefined;
 
   /** Un constructeur pour se faire injecter les dépendances */
-  constructor(private router: Router, private utilisateurService: UtilisateurService, private route: ActivatedRoute) { }
+  constructor(private router: Router, private securiteService: SecuriteService, private route: ActivatedRoute) { }
 
   /** A l'initialisation */
   ngOnInit() {
@@ -39,7 +39,7 @@ export class PageConnexionComponent implements OnInit {
     this.messageErreurConnexion = false;
 
     // Connexion
-    this.utilisateurService.connecter(this.login, this.mdp, () => {
+    this.securiteService.connecter(this.login, this.mdp, () => {
       // redirection vers la page demandée ou la page d'accueil
       if (this.redirectionPostConnexion) {
         this.router.navigate([this.redirectionPostConnexion]);
