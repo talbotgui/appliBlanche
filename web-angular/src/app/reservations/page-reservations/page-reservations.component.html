@@ -2,8 +2,8 @@
 
   <!-- Entete -->
   <div class="row">
-    <div class="col-2">Début : {{dateDebut | date:short}}</div>
-    <div class="col-2">Fin : {{dateFin | date:short}}</div>
+    <div class="col-2">Début : {{dateDebut | date:shortDate}}</div>
+    <div class="col-2">Fin : {{dateFin | date:shortDate}}</div>
   </div>
   <div class="row">
     <div class="col-2">Date</div>
@@ -11,10 +11,10 @@
   </div>
 
   <!-- Tableau de données-->
-  <div class="row" *ngFor="let j of jours">
-    <div class="col-2">{{j | date:short}}</div>
+  <div [class]="(j.getDay()==0||j.getDay()==6)?'row weekend':'row'" *ngFor="let j of jours">
+    <div class="col-2">{{j | date:'dd/MM'}}</div>
     <div class="col-2" *ngFor="let c of chambres;">
-      <span>{{reservations[c.reference][j.toISOString()]?reservations[c.reference][j.toISOString()].client:''}}</span>
+      <span class="reservation">{{reservations[c.reference][j.toISOString()]?reservations[c.reference][j.toISOString()].client:''}}</span>
     </div>
   </div>
 </div>
