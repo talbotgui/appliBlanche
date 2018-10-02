@@ -1,1 +1,18 @@
-page des réservations
+<div class="container-fluid">
+
+  <!-- Entete -->
+  <div class="row">
+    <div class="col-2">Début : {{dateDebut | date:short}}</div>
+    <div class="col-2">Fin : {{dateFin | date:short}}</div>
+  </div>
+  <div class="row">
+    <div class="col-2">Date</div>
+    <div class="col-2" *ngFor="let c of chambres">{{c.nom}}</div>
+  </div>
+
+  <!-- Tableau de données-->
+  <div class="row" *ngFor="let j of jours">
+    <div class="col-2">{{j | date:short}}</div>
+    <div class="col-2" *ngFor="let c of chambres;">{{getReservation(c, j)}}</div>
+  </div>
+</div>

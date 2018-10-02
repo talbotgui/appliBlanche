@@ -23,11 +23,11 @@ export class ReservationService {
   /** Liste des réservations entre deux dates. */
   rechercherReservations(dateDebut: Date, dateFin: Date): Observable<model.Reservation[]> {
     const liste: model.Reservation[] = [
-      new model.Reservation("R1", new Date(2018, 10, 1), new Date(2018, 10, 3), "ClientR1-2N-C1", this.CHAMBRES[0]),
-      new model.Reservation("R2", new Date(2018, 10, 2), new Date(2018, 10, 3), "ClientR2-1N-C2", this.CHAMBRES[1]),
-      new model.Reservation("R3", new Date(2018, 9, 30), new Date(2018, 11, 1), "ClientR3-1M-C3", this.CHAMBRES[2]),
-      new model.Reservation("R4", new Date(2018, 10, 4), new Date(2018, 10, 6), "ClientR4-2N-C1", this.CHAMBRES[0]),
-      new model.Reservation("R5", new Date(2018, 10, 5), new Date(2018, 10, 9), "ClientR5-4N-C2", this.CHAMBRES[1])
+      new model.Reservation("R1", new Date(2018, 9, 1), new Date(2018, 9, 3), "ClientR1-2N-C1", this.CHAMBRES[0]),
+      new model.Reservation("R2", new Date(2018, 9, 2), new Date(2018, 9, 3), "ClientR2-1N-C2", this.CHAMBRES[1]),
+      new model.Reservation("R3", new Date(2018, 8, 30), new Date(2018, 10, 1), "ClientR3-1M-C3", this.CHAMBRES[2]),
+      new model.Reservation("R4", new Date(2018, 9, 4), new Date(2018, 9, 6), "ClientR4-2N-C1", this.CHAMBRES[0]),
+      new model.Reservation("R5", new Date(2018, 9, 5), new Date(2018, 9, 9), "ClientR5-4N-C2", this.CHAMBRES[1])
     ];
     return of(liste);
   }

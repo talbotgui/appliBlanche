@@ -4,7 +4,7 @@ export class Chambre {
    * @param reference Identifiant unique
    * @param nom Nom
    */
-  constructor(reference: string, nom: string) { }
+  constructor(public reference: string, public nom: string) { }
 }
 
 /** Objet métier Reservation */
@@ -18,9 +18,9 @@ export class Reservation {
    * @param chambre Chambre
    */
   constructor(
-    reference: string,
-    dateDebut: Date,
-    dateFin: Date,
-    client: string,
-    chambre: Chambre) { }
+    public reference: string,
+    public dateDebut: Date,
+    public dateFin: Date,
+    public client: string,
+    public chambre: Chambre) { }
 }
