@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/rest/src/test/java/com/guillaumetalbot/applicationblanche/rest/application/RestApplicationForTests.java"/>
+<listEntry value="/rest/src/test/java/com/guillaumetalbot/applicationblanche/rest/application/RunApplicationLocal.java"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="1"/>
@@ -18,7 +18,7 @@
 </listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.m2e.launchconfig.classpathProvider"/>
 <booleanAttribute key="org.eclipse.jdt.launching.DEFAULT_CLASSPATH" value="false"/>
-<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.guillaumetalbot.applicationblanche.rest.application.RestApplicationForTests"/>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.guillaumetalbot.applicationblanche.rest.application.RunApplicationLocal"/>
 <listAttribute key="org.eclipse.jdt.launching.MODULEPATH"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="rest"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.m2e.launchconfig.sourcepathProvider"/>
