@@ -10,11 +10,11 @@ export class Chambre {
 /** Objet métier Reservation */
 export class Reservation {
 
-  /** Constructeur. 
+  /** Constructeur.
    * @param reference Identifiant unique
    * @param dateDebut Date de debut
-   * @param dateFin Date de fin 
-   * @param client Client 
+   * @param dateFin Date de fin
+   * @param client Client
    * @param chambre Chambre
    */
   constructor(
@@ -23,4 +23,8 @@ export class Reservation {
     public dateFin: Date,
     public client: string,
     public chambre: Chambre) { }
+}
+
+export interface IStringToAnyMap<T> {
+  [key: string]: T;
 }

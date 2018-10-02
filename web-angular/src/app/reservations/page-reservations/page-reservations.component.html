@@ -13,6 +13,8 @@
   <!-- Tableau de données-->
   <div class="row" *ngFor="let j of jours">
     <div class="col-2">{{j | date:short}}</div>
-    <div class="col-2" *ngFor="let c of chambres;">{{getReservation(c, j)}}</div>
+    <div class="col-2" *ngFor="let c of chambres;">
+      <span>{{reservations[c.reference][j.toISOString()]?reservations[c.reference][j.toISOString()].client:''}}</span>
+    </div>
   </div>
 </div>

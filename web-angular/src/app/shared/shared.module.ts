@@ -71,7 +71,7 @@ export const l10nConfig: L10nConfig = {
     // Déclaration des composants présents dans le code et réutilisables
     declarations: [
         // Les pipes réutilisables
-        AttributesToMapPipe, MapValuesPipe,
+        AttributesToMapPipe, MapValuesPipe
     ],
 
     providers: [
@@ -100,7 +100,7 @@ export const l10nConfig: L10nConfig = {
         TranslationModule.forRoot(l10nConfig, { translationProvider: MyTranslationProvider }),
 
         // Import du module ServiceWorker pour faire de l'application une PWA
-        ServiceWorkerModule.register('/' + environment.baseUri + '/ngsw-worker.js', { enabled: environment.production }),
+        ServiceWorkerModule.register('/' + environment.baseUri + '/ngsw-worker.js', { enabled: environment.production })
     ],
 
     // Modules exportés par le module partagé et utilisable dans ceux qui importe le module partagé
