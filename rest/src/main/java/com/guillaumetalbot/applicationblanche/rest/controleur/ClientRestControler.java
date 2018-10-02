@@ -55,10 +55,10 @@ public class ClientRestControler {
 	}
 
 	@PostMapping(value = "/v1/clients")
-	public void sauvegarderClient(//
+	public String sauvegarderClient(//
 			@RequestParam(required = false, value = "reference") final String reference, //
 			@RequestParam(value = "nom") final String nom) {
-		this.clientService.sauvegarderClient(reference, nom);
+		return '"' + this.clientService.sauvegarderClient(reference, nom) + '"';
 	}
 
 	@DeleteMapping(value = "/v1/clients/{refClient}")

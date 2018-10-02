@@ -183,11 +183,12 @@ public class ClientRestControlerTest extends BaseTestClass {
 		// ACT
 		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("nom", nomClient);
 		final Map<String, Object> uriVars = new HashMap<String, Object>();
-		this.getREST().postForObject(this.getURL() + "/v1/clients", requestParam, String.class, uriVars);
+		final String ref = this.getREST().postForObject(this.getURL() + "/v1/clients", requestParam, String.class, uriVars);
 
 		// ASSERT
 		Mockito.verify(this.clientService).sauvegarderClient(null, nomClient);
 		Mockito.verifyNoMoreInteractions(this.clientService);
+		Assert.assertEquals(ref, '"' + refClient + '"');
 	}
 
 	@Test
