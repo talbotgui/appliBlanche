@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Language } from 'angular-l10n';
 
 import { ReservationService } from '../service/reservation.service';
 import * as model from '../model/model';
@@ -6,6 +7,9 @@ import * as model from '../model/model';
 /** Page de gestion des reservations */
 @Component({ selector: 'page-reservations', templateUrl: './page-reservations.component.html', styleUrls: ['./page-reservations.component.css'] })
 export class PageReservationsComponent implements OnInit {
+
+  /** Decorateur nécessaire aux libellés internationnalisés dans des tooltips */
+  @Language() lang: string;
 
   /** Filtre d'affichage - debut */
   dateDebut: Date;
@@ -22,6 +26,9 @@ export class PageReservationsComponent implements OnInit {
   /** Liste des jours */
   jours: Date[];
 
+  /** Reservation dans le détail */
+  reservationSelectionnee: model.Reservation;
+
   /** Un constructeur pour se faire injecter les dépendances */
   constructor(private reservationsService: ReservationService) { }
 
@@ -37,8 +44,22 @@ export class PageReservationsComponent implements OnInit {
     this.chargerDonnees();
   }
 
+  /** Déplacement des dates du filtre en jour */
+  deplacerDateParJour(n: number) {
+    // Déplacement des dates du filtre
+    this.dateDebut = new Date(this.dateDebut.getTime() + (n * 1000 * 3600 * 24));
+    this.dateFin = new Date(this.dateFin.getTime() + (n * 1000 * 3600 * 24));
+
+    // Chargement des données
+    this.chargerDonnees();
+  }
+
+  afficherDetail(reservation: model.Reservation) {
+    this.reservationSelectionnee = reservation;
+  }
+
   /** Chargement de la liste des chambres, puis des réservations et calcul du tableau de données */
-  private chargerDonnees() {
+  chargerDonnees() {
 
     // Chargement des chambres
     this.reservationsService.listerChambres().subscribe(
@@ -70,7 +91,6 @@ export class PageReservationsComponent implements OnInit {
                 }
               }
             }
-            console.debug(this.reservations);
           }
         );
       }

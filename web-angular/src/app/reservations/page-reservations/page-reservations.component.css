@@ -1,2 +1,7 @@
+/** Placement des spans dans l'entete */
+span.boutonsAction em { margin: 0px 10px; }
+span.libelleDatePicker { margin-right: 10px; }
+
+/** mise en forme des données du tableau de réservation */
 div.weekend { background-color: lightgray; }
 span.reservation { font-size: 10px; }

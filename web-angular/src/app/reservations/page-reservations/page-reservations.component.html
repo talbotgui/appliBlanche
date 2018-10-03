@@ -1,20 +1,89 @@
 <div class="container-fluid">
-
-  <!-- Entete -->
   <div class="row">
-    <div class="col-2">Début : {{dateDebut | date:shortDate}}</div>
-    <div class="col-2">Fin : {{dateFin | date:shortDate}}</div>
-  </div>
-  <div class="row">
-    <div class="col-2">Date</div>
-    <div class="col-2" *ngFor="let c of chambres">{{c.nom}}</div>
-  </div>
 
-  <!-- Tableau de données-->
-  <div [class]="(j.getDay()==0||j.getDay()==6)?'row weekend':'row'" *ngFor="let j of jours">
-    <div class="col-2">{{j | date:'dd/MM'}}</div>
-    <div class="col-2" *ngFor="let c of chambres;">
-      <span class="reservation">{{reservations[c.reference][j.toISOString()]?reservations[c.reference][j.toISOString()].client:''}}</span>
+    <!-- Le tableau -->
+    <div class="col-6">
+
+      <!-- Entete -->
+      <div class="row">
+        <div class="col-12">
+
+          <!-- Date de début -->
+          <span class="libelleDatePicker">Du</span>
+          <mat-form-field>
+            <input matInput name="dateDebutPick" [matDatepicker]="dateDebutPick" [max]="dateFin" [(ngModel)]="dateDebut"
+              required>
+            <mat-datepicker-toggle matSuffix [for]="dateDebutPick"></mat-datepicker-toggle>
+            <mat-datepicker #dateDebutPick disabled="false"></mat-datepicker>
+          </mat-form-field>
+
+          <!-- Date de fin -->
+          <span class="libelleDatePicker">Au</span>
+          <mat-form-field>
+            <input matInput name="dateFinPick" [matDatepicker]="dateFinPick" [min]="dateDebut" [(ngModel)]="dateFin"
+              required>
+            <mat-datepicker-toggle matSuffix [for]="dateFinPick"></mat-datepicker-toggle>
+            <mat-datepicker #dateFinPick disabled="false"></mat-datepicker>
+          </mat-form-field>
+
+          <span class="boutonsAction">
+            <em class="fa fa-angle-double-left" (click)="deplacerDateParJour(-14);"></em>
+            <em class="fa fa-angle-left" (click)="deplacerDateParJour(-7);"></em>
+            <em class="fa fa-search" (click)="chargerDonnees();" matTooltip="{{ 'commun_tooltip_rechercher' | translate: lang }}"></em>
+            <em class="fa fa-angle-right" (click)="deplacerDateParJour(7);"></em>
+            <em class="fa fa-angle-double-right" (click)="deplacerDateParJour(14);"></em>
+          </span>
+        </div>
+      </div>
+
+      <!-- Ligne des chambres -->
+      <div class="row">
+        <div class="col-2">Date</div>
+        <div class="col-2" *ngFor="let c of chambres">{{c.nom}}</div>
+      </div>
+
+      <!-- Tableau de données-->
+      <div [class]="(j.getDay()==0||j.getDay()==6)?'row weekend':'row'" *ngFor="let j of jours">
+        <div class="col-2">{{j | date:'dd/MM'}}</div>
+        <div class="col-2" *ngFor="let c of chambres;" (click)="afficherDetail(reservations[c.reference][j.toISOString()])">
+          <span class="reservation">{{reservations[c.reference][j.toISOString()]?reservations[c.reference][j.toISOString()].client:''}}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Le formulaire de détail -->
+    <div class="col-6" *ngIf="!!reservationSelectionnee">
+      <div class="row titreDetail">Détails de la réservation {{reservationSelectionnee.reference}}</div>
+      <form novalidate #leForm="ngForm">
+        <div class="row">
+          <mat-form-field>
+            <input matInput name="dateDebutPickDetail" [matDatepicker]="dateDebutPickDetail" [max]="reservationSelectionnee.dateFin"
+              [(ngModel)]="reservationSelectionnee.dateDebut" placeholder="{{ 'utilisateur_placeholder_dateDebut' | translate: lang }}"
+              required>
+            <mat-datepicker-toggle matSuffix [for]="dateDebutPickDetail"></mat-datepicker-toggle>
+            <mat-datepicker #dateDebutPickDetail disabled="false"></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <mat-form-field>
+            <input matInput name="dateFinPickDetail" [matDatepicker]="dateFinPickDetail" [min]="reservationSelectionnee.dateDebut"
+              [(ngModel)]="reservationSelectionnee.dateFin" placeholder="{{ 'utilisateur_placeholder_dateFin' | translate: lang }}"
+              required>
+            <mat-datepicker-toggle matSuffix [for]="dateFinPickDetail"></mat-datepicker-toggle>
+            <mat-datepicker #dateFinPickDetail disabled="false"></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <mat-form-field>
+            <input matInput name="client" [(ngModel)]="reservationSelectionnee.client" placeholder="{{ 'utilisateur_placeholder_client' | translate: lang }}"
+              required>
+          </mat-form-field>
+        </div>
+
+        <div class="row">
+          <button type="submit" class="btn btn-outline-secondary" [disabled]="!leForm.form.valid" l10nTranslate>utilisateur_bouton_enregistrer</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

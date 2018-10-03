@@ -52,6 +52,7 @@ insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'commun_too
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'commun_tooltip_ajouter', 'Add an item', 'en' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'commun_tooltip_editer', 'Edit this item', 'en' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'commun_tooltip_supprimer', 'Delete fhis item', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'commun_tooltip_rechercher', 'Search', 'fr' from LIBELLE;
 -- Messages d'erreur génériques
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'erreur_connexion', 'Invalid credentials', 'en' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'erreur_aucuneConnexionInternet', 'No Internet connexion', 'en' from LIBELLE;
@@ -69,5 +70,8 @@ insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_SHA
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_OBJET_DEJA_EXISTANT', 'Object of type {{0}} with id {{1}} already exists', 'en' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_OBJET_NON_EXISTANT', 'Object of type {{0}} and with reference {{1}} do not exist', 'en' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_REFERENCE_NON_VALIDE', 'Invalid reference {{0}}', 'en' from LIBELLE;
--- Messages de validation de surface
-insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'VALIDATION_OBLIGATOIRE', 'is mandatory', 'en' from LIBELLE;
+-- Page de réservation
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'utilisateur_placeholder_dateDebut', 'Date de début', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'utilisateur_placeholder_dateFin', 'Date de fin', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'utilisateur_placeholder_client', 'Nom du client', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'utilisateur_bouton_enregistrer', 'Enregistrer', 'fr' from LIBELLE;
