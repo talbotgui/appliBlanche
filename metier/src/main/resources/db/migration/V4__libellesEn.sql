@@ -71,7 +71,8 @@ insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_OBJ
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_OBJET_NON_EXISTANT', 'Object of type {{0}} and with reference {{1}} do not exist', 'en' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_REFERENCE_NON_VALIDE', 'Invalid reference {{0}}', 'en' from LIBELLE;
 -- Page de réservation
-insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'utilisateur_placeholder_dateDebut', 'Date de début', 'fr' from LIBELLE;
-insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'utilisateur_placeholder_dateFin', 'Date de fin', 'fr' from LIBELLE;
-insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'utilisateur_placeholder_client', 'Nom du client', 'fr' from LIBELLE;
-insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'utilisateur_bouton_enregistrer', 'Enregistrer', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'reservation_placeholder_dateDebut', 'Start date', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'reservation_placeholder_dateFin', 'End date', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'reservation_placeholder_client', 'Customer', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'reservation_placeholder_chambre', 'Room', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'reservation_bouton_enregistrer', 'Save', 'en' from LIBELLE;

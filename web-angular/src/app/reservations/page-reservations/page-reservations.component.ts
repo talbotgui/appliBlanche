@@ -17,6 +17,12 @@ export class PageReservationsComponent implements OnInit {
   /** Filtre d'affichage - fin */
   dateFin: Date;
 
+  /** Flag permettant la saisie de dates sur une période personnalisée */
+  flagSaisieDatesPersonalisees: boolean = false;
+
+  /** Largeur de la colonne d'une chambre */
+  nbColParChambre = 2;
+
   /** Liste des réservations à afficher. */
   reservations: model.IStringToAnyMap<model.IStringToAnyMap<model.Reservation>> = {};
 
@@ -44,6 +50,11 @@ export class PageReservationsComponent implements OnInit {
     this.chargerDonnees();
   }
 
+  /** Initialisation d'une nouvelle réservation */
+  initaliserNouvelleReservation() {
+    this.reservationSelectionnee = new model.Reservation('', this.dateDebut, this.dateFin, '', new model.Chambre('', ''));
+  }
+
   /** Déplacement des dates du filtre en jour */
   deplacerDateParJour(n: number) {
     // Déplacement des dates du filtre
@@ -65,6 +76,7 @@ export class PageReservationsComponent implements OnInit {
     this.reservationsService.listerChambres().subscribe(
       (chambres) => {
         this.chambres = chambres;
+        this.nbColParChambre = Math.floor((12 - 2) / chambres.length);
 
         // Chargement des réservations
         this.reservationsService.rechercherReservations(this.dateDebut, this.dateFin).subscribe(
@@ -82,10 +94,10 @@ export class PageReservationsComponent implements OnInit {
             for (const j of this.jours) {
               for (const r of reservations) {
                 for (const c of this.chambres) {
+                  if (!this.reservations[c.reference]) {
+                    this.reservations[c.reference] = {};
+                  }
                   if (r.chambre.reference === c.reference && r.dateDebut <= j && j <= r.dateFin) {
-                    if (!this.reservations[c.reference]) {
-                      this.reservations[c.reference] = {};
-                    }
                     this.reservations[c.reference][j.toISOString()] = r;
                   }
                 }

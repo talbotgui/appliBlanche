@@ -11,7 +11,7 @@ import * as model from '../model/model';
 @Injectable()
 export class ReservationService {
 
-  private CHAMBRES = [new model.Chambre('ch1', 'Chambre1'), new model.Chambre('ch2', 'Chambre2'), new model.Chambre('ch3', 'Chambre3')];
+  private CHAMBRES = [new model.Chambre('ch1', 'Chambre1'), new model.Chambre('ch2', 'Chambre2'), new model.Chambre('ch3', 'Chambre3'), new model.Chambre('ch4', 'Chambre4'), new model.Chambre('ch5', 'Chambre5')];
 
   /** Constructeur avec injection */
   constructor(private http: HttpProxy, private restUtils: RestUtilsService) { }

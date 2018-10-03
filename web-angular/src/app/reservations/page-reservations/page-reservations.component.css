@@ -1,7 +1,14 @@
+/** Structure */
+div.tableauDonnees { text-align: center; }
+div.tableauDonnees .col-1, div.tableauDonnees .col-2, div.tableauDonnees .col-3 {  padding:0px!important; }
+div.entete { font-size: 1.3em; margin-bottom: 15px; }
+div.enteteTableau { font-size: 1em; margin-bottom: 5px; }
+div.divFormulaireDetails div { margin-left: 15px; }
+
 /** Placement des spans dans l'entete */
 span.boutonsAction em { margin: 0px 10px; }
 span.libelleDatePicker { margin-right: 10px; }
 
 /** mise en forme des données du tableau de réservation */
-div.weekend { background-color: lightgray; }
-span.reservation { font-size: 10px; }
+div.weekend > div { background-color: lightgray; }
+span.reservation { font-size: 0.8em; }
