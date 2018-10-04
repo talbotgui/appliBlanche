@@ -69,7 +69,6 @@ public class ClientServiceTest {
 
 		//
 		Assert.assertNotNull(refClient);
-		Assert.assertEquals(Entite.genererReference(Client.class, 1L), refClient);
 		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from CLIENT", Long.class));
 	}
 
