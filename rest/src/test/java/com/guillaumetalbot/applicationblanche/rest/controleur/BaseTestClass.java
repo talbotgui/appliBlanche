@@ -8,6 +8,7 @@ import org.springframework.test.context.TestPropertySource;
 
 import com.guillaumetalbot.applicationblanche.metier.service.ClientService;
 import com.guillaumetalbot.applicationblanche.metier.service.LibelleService;
+import com.guillaumetalbot.applicationblanche.metier.service.ReservationService;
 import com.guillaumetalbot.applicationblanche.rest.application.RestApplication;
 import com.guillaumetalbot.applicationblanche.rest.application.RestApplicationForTests;
 import com.guillaumetalbot.applicationblanche.rest.controleur.test.JwtIntegrationWebTest;
@@ -23,6 +24,9 @@ public class BaseTestClass extends JwtIntegrationWebTest {
 	/** Mock de service créé par Mockito. */
 	@MockBean
 	protected LibelleService libelleService;
+
+	@MockBean
+	protected ReservationService reservationService;
 
 	@Override
 	protected String getListePackagesDeControleur() {
