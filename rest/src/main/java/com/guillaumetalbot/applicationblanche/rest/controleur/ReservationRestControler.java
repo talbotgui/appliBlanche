@@ -5,6 +5,8 @@ import java.util.Collection;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,8 +47,8 @@ public class ReservationRestControler {
 
 	@GetMapping("/reservations")
 	Collection<Reservation> rechercherReservations(//
-			@RequestParam(name = "dateDebut", required = true) final LocalDate dateDebut, //
-			@RequestParam(name = "dateFin", required = true) final LocalDate dateFin) {
+			@RequestParam(name = "dateDebut", required = true) @DateTimeFormat(iso = ISO.DATE) final LocalDate dateDebut, //
+			@RequestParam(name = "dateFin", required = true) @DateTimeFormat(iso = ISO.DATE) final LocalDate dateFin) {
 		return this.reservationService.rechercherReservations(dateDebut, dateFin);
 	}
 

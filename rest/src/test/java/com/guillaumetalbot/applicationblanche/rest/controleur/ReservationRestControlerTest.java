@@ -4,7 +4,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mockito.Mockito;
 import org.springframework.core.ParameterizedTypeReference;
@@ -100,8 +102,11 @@ public class ReservationRestControlerTest extends BaseTestClass {
 		// ACT
 		final ParameterizedTypeReference<Collection<Reservation>> typeRetour = new ParameterizedTypeReference<Collection<Reservation>>() {
 		};
-		final String uri = "/v1/reservations";// ?dateDebut=" + dateDebut + "&dateFin=" + dateFin;
-		final ResponseEntity<Collection<Reservation>> produits = this.getREST().exchange(this.getURL() + uri, HttpMethod.GET, null, typeRetour);
+		final Map<String, Object> uriVars = new HashMap<String, Object>();
+		uriVars.put("dateDebut", debut);
+		uriVars.put("dateFin", dateFin);
+		final ResponseEntity<Collection<Reservation>> produits = this.getREST()
+				.exchange(this.getURL() + "/v1/reservations?dateDebut={dateDebut}&dateFin={dateFin}", HttpMethod.GET, null, typeRetour, uriVars);
 
 		// ASSERT
 		Mockito.verify(this.reservationService).rechercherReservations(debut, fin);
