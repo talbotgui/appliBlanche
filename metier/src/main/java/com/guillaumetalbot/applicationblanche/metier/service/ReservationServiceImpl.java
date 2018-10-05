@@ -11,12 +11,12 @@ import org.springframework.stereotype.Service;
 
 import com.guillaumetalbot.applicationblanche.exception.BusinessException;
 import com.guillaumetalbot.applicationblanche.metier.dao.reservation.ChambreRepository;
-import com.guillaumetalbot.applicationblanche.metier.dao.reservation.ConsomationRepository;
+import com.guillaumetalbot.applicationblanche.metier.dao.reservation.ConsommationRepository;
 import com.guillaumetalbot.applicationblanche.metier.dao.reservation.ProduitRepository;
 import com.guillaumetalbot.applicationblanche.metier.dao.reservation.ReservationRepository;
 import com.guillaumetalbot.applicationblanche.metier.entite.Entite;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Chambre;
-import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Consomation;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Consommation;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Produit;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservation;
 
@@ -28,7 +28,7 @@ public class ReservationServiceImpl implements ReservationService {
 	private ChambreRepository chambreRepo;
 
 	@Autowired
-	private ConsomationRepository consomationRepo;
+	private ConsommationRepository consommationRepo;
 
 	@Autowired
 	private ProduitRepository produitRepo;
@@ -47,9 +47,9 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override
-	public Collection<Consomation> rechercherConsomationsDuneReservation(final String referenceReservation) {
+	public Collection<Consommation> rechercherConsommationsDuneReservation(final String referenceReservation) {
 		final Long idReservation = Entite.extraireIdentifiant(referenceReservation, Reservation.class);
-		return this.consomationRepo.rechercherConsomationsDuneReservation(idReservation);
+		return this.consommationRepo.rechercherConsommationsDuneReservation(idReservation);
 	}
 
 	@Override
@@ -69,24 +69,24 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override
-	public String sauvegarderConsomation(final Consomation consomation) {
+	public String sauvegarderConsommation(final Consommation consommation) {
 
 		// Vérifier le produit
-		final Long idProduit = Entite.extraireIdentifiant(consomation.getProduit().getReference(), Produit.class);
+		final Long idProduit = Entite.extraireIdentifiant(consommation.getProduit().getReference(), Produit.class);
 		final Optional<Produit> produit = this.produitRepo.findById(idProduit);
-		produit.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Produit", consomation.getProduit().getReference()));
+		produit.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Produit", consommation.getProduit().getReference()));
 
 		// Vérifier la réservation
-		final Long idReservation = Entite.extraireIdentifiant(consomation.getReservation().getReference(), Reservation.class);
+		final Long idReservation = Entite.extraireIdentifiant(consommation.getReservation().getReference(), Reservation.class);
 		this.reservationRepo.findById(idReservation).orElseThrow(
-				() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Reservation", consomation.getReservation().getReference()));
+				() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Reservation", consommation.getReservation().getReference()));
 
-		// Si le prix de la consomation n'est pas renseigné (pas de remise), on prend le prix du produit
-		if (consomation.getPrixPaye() == null) {
-			consomation.setPrixPaye(produit.get().getPrix());
+		// Si le prix de la consommation n'est pas renseigné (pas de remise), on prend le prix du produit
+		if (consommation.getPrixPaye() == null) {
+			consommation.setPrixPaye(produit.get().getPrix());
 		}
 
-		return this.consomationRepo.save(consomation).getReference();
+		return this.consommationRepo.save(consommation).getReference();
 	}
 
 	@Override
@@ -121,9 +121,9 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override
-	public void supprimerConsomation(final String referenceConsomation) {
-		final Long idConsomation = Entite.extraireIdentifiant(referenceConsomation, Consomation.class);
-		this.consomationRepo.deleteById(idConsomation);
+	public void supprimerConsommation(final String referenceConsommation) {
+		final Long idConsommation = Entite.extraireIdentifiant(referenceConsommation, Consommation.class);
+		this.consommationRepo.deleteById(idConsommation);
 	}
 
 	@Override

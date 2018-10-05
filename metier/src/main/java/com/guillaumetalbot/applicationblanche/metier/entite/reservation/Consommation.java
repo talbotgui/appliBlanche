@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 import com.guillaumetalbot.applicationblanche.metier.entite.Entite;
 
 @Entity
-public class Consomation extends Entite {
+public class Consommation extends Entite {
 	private static final long serialVersionUID = 1L;
 
 	private LocalDate dateCreation;
@@ -26,11 +26,11 @@ public class Consomation extends Entite {
 	@JoinColumn(name = "RESERVATION_ID")
 	private Reservation reservation;
 
-	public Consomation() {
+	public Consommation() {
 		super();
 	}
 
-	public Consomation(final Reservation reservation, final Produit produit, final Double prixPaye, final Integer quantite) {
+	public Consommation(final Reservation reservation, final Produit produit, final Double prixPaye, final Integer quantite) {
 		super();
 		this.reservation = reservation;
 		this.produit = produit;

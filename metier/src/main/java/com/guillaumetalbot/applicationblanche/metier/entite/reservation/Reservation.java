@@ -22,7 +22,7 @@ public class Reservation extends Entite {
 	private String client;
 
 	@OneToMany(mappedBy = "reservation")
-	private Set<Consomation> consomations = new HashSet<>();
+	private Set<Consommation> consommations = new HashSet<>();
 
 	private LocalDate dateDebut;
 
@@ -48,8 +48,8 @@ public class Reservation extends Entite {
 		return this.client;
 	}
 
-	public Set<Consomation> getConsomations() {
-		return new HashSet<>(this.consomations);
+	public Set<Consommation> getConsommations() {
+		return new HashSet<>(this.consommations);
 	}
 
 	public LocalDate getDateDebut() {
@@ -68,8 +68,8 @@ public class Reservation extends Entite {
 		this.client = client;
 	}
 
-	public void setConsomations(final Set<Consomation> consomations) {
-		this.consomations = new HashSet<>(consomations);
+	public void setConsommations(final Set<Consommation> consommations) {
+		this.consommations = new HashSet<>(consommations);
 	}
 
 	public void setDateDebut(final LocalDate dateDebut) {

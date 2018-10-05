@@ -70,7 +70,7 @@ insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_SHA
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_OBJET_DEJA_EXISTANT', 'Object of type {{0}} with id {{1}} already exists', 'en' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_OBJET_NON_EXISTANT', 'Object of type {{0}} and with reference {{1}} do not exist', 'en' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_REFERENCE_NON_VALIDE', 'Invalid reference {{0}}', 'en' from LIBELLE;
-insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_PRODUIT_NOM_DEJA_EXISTANT', 'A product ''{{0}}'' already exists', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_OBJET_FONCTIONNELEMENT_EN_DOUBLE', 'An object of type ''{{0}}'' already exists with attribute''{{1}}'' and value ''{{2}}'', 'fr' from LIBELLE;
 -- Page de réservation
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'reservation_placeholder_dateDebut', 'Start date', 'en' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'reservation_placeholder_dateFin', 'End date', 'en' from LIBELLE;

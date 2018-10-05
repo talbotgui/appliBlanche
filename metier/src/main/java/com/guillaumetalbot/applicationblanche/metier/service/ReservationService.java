@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.Collection;
 
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Chambre;
-import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Consomation;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Consommation;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Produit;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservation;
 
@@ -14,19 +14,19 @@ public interface ReservationService {
 
 	Collection<Produit> listerProduits();
 
-	Collection<Consomation> rechercherConsomationsDuneReservation(String referenceReservation);
+	Collection<Consommation> rechercherConsommationsDuneReservation(String referenceReservation);
 
 	Collection<Reservation> rechercherReservations(LocalDate dateDebut, LocalDate dateFin);
 
 	String sauvegarderChambre(Chambre chambre);
 
-	String sauvegarderConsomation(Consomation consomation);
+	String sauvegarderConsommation(Consommation consommation);
 
 	String sauvegarderProduit(Produit produit);
 
 	String sauvegarderReservation(Reservation reservation);
 
-	void supprimerConsomation(String referenceConsomation);
+	void supprimerConsommation(String referenceConsommation);
 
 	void supprimerProduit(String referenceProduit);
 

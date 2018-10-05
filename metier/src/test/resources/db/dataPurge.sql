@@ -8,7 +8,7 @@ delete from DEMANDE;
 delete from DOSSIER;
 delete from CLIENT;
 delete from ADRESSE;
-delete from consomation;
+delete from consommation;
 delete from reservation;
 delete from chambre;
 delete from produit;
