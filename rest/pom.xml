@@ -118,7 +118,6 @@
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
 			<version>${version.hsqldb}</version>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	
