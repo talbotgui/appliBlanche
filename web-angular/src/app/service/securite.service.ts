@@ -15,7 +15,10 @@ import * as model from '../model/model';
 @Injectable()
 export class SecuriteService {
 
+  /** Flag indiquant que l'utilisateur s'est déconnecté */
   private aDemandeLaDeconnexion = false;
+
+  /** Flag evitant l'appel REST pour valider le token */
   private tokenDejaValide = false;
 
   /** Un constructeur pour se faire injecter les dépendances */
@@ -51,6 +54,7 @@ export class SecuriteService {
         // Sauvegarde du token dans le localstorage
         if (token) {
           localStorage.setItem('JWT', token);
+          this.tokenDejaValide = true;
         }
 
         // Appel à la callback
