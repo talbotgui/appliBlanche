@@ -16,21 +16,12 @@ pipeline {
 			}
 		}
 
-		stage ('Build') {
+		stage ('Build & Tests') {
 			agent any
 			environment { JAVA_HOME = '/usr/lib/jvm/jdk-10.0.1/' }
 			steps {
 				script { currentBuild.displayName = currentBuild.number + "-build" }
-				sh "mvn clean install -Dmaven.test.skip=true"
-			}
-		}
-
-		stage ('Developement test') {
-			agent any
-			environment { JAVA_HOME = '/usr/lib/jvm/jdk-10.0.1/' }
-			steps {
-				script { currentBuild.displayName = currentBuild.number + "-tests" }
-				sh "mvn -B -Dmaven.test.failure.ignore test-compile surefire:test"
+				sh "mvn clean install"
 				junit '**/TEST-*Test.xml'
 			}
 		}
@@ -40,7 +31,7 @@ pipeline {
 			environment { JAVA_HOME = '/usr/lib/jvm/jdk-10.0.1/' }
 			steps {
 				script { currentBuild.displayName = currentBuild.number + "-qualimétrie Maven" }
-				sh "mvn clean install site -Psite"
+				sh "mvn clean install site -Pqualimetrie"
 				step([$class: 'FindBugsPublisher'])
 				step([$class: 'CheckStylePublisher'])
 				step([$class: 'PmdPublisher', canComputeNew: false, defaultEncoding: '', healthy: '', pattern: '**/pmd.xml', unHealthy: ''])
@@ -53,12 +44,15 @@ pipeline {
 			}
 		}
 
-		stage ('Deploy') {
+		stage ('Deploy Unix') {
 			agent any
 			environment { JAVA_HOME = '/usr/lib/jvm/jdk-10.0.1/' }
 			steps {
 				script {
 					currentBuild.displayName = currentBuild.number + "-déploiement"
+
+					sh "mvn clean install -Dmaven.test.skip=true -Punix"
+
 					sh "/var/lib/deployJava/stopApplicationBlanche.sh"
 					sh "rm -rf /var/www/html/applicationBlanche/* || true"
 					sh "cp -r ./web-angular/dist/applicationBlanche/* /var/www/html/applicationBlanche"
@@ -66,6 +60,7 @@ pipeline {
 					sh "cp ./rest/target/rest-1.0.0.jar /var/lib/deployJava/applicationBlancheRest.jar"
 					// @see https://issues.jenkins-ci.org/browse/JENKINS-28182
 					sh "BUILD_ID=dontKillMe JENKINS_NODE_COOKIE=dontKillMe /var/lib/deployJava/startApplicationBlanche.sh"
+
 					currentBuild.displayName = "#" + currentBuild.number
 				}
 			}

@@ -40,7 +40,7 @@
 
 	<profiles>
 		<profile>
-			<id>site</id>
+			<id>qualimetrie</id>
 			<build>
 				<plugins>
 					<!-- Couverture de code à chaque exécution de test -->

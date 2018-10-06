@@ -118,12 +118,13 @@
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
 			<version>${version.hsqldb}</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	
 	<profiles>
 		<profile>
-			<id>standAlone</id>
+			<id>unix</id>
 			<dependencies>
 				<!-- In-memory database en mode nominal/production -->
 				<dependency>
@@ -132,33 +133,6 @@
 					<version>${version.hsqldb}</version>
 				</dependency>
 			</dependencies>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-resources-plugin</artifactId>
-						<version>3.1.0</version>
-						<executions>
-							<execution>
-								<id>copy-properties</id>
-								<phase>compile</phase>
-								<goals>
-									<goal>copy-resources</goal>
-								</goals>
-								<configuration>
-									<overwrite>true</overwrite>
-									<outputDirectory>${basedir}/target/classes/</outputDirectory>
-									<resources>
-										<resource>
-											<directory>src/main/resources-standAlone/</directory>
-										</resource>
-									</resources>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
 		</profile>
 	</profiles>
 </project>
