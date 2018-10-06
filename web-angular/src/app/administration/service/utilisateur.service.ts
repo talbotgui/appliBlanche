@@ -13,9 +13,6 @@ import * as model from '../../model/model';
 @Injectable()
 export class UtilisateurService {
 
-  private aDemandeLaDeconnexion = false;
-  private tokenDejaValide = false;
-
   /** Un constructeur pour se faire injecter les dépendances */
   constructor(private http: HttpProxy, private restUtils: RestUtilsService) { }
 

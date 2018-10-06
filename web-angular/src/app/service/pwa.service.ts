@@ -4,9 +4,11 @@ import { Injectable } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { BrowserComponent } from '../shared/service/browser.component';
 
+/** Classe gérant l'installation PWA. */
 @Injectable()
 export class PwaService {
 
+  /** Evenement reçu. */
   private promptEvent: any;
 
   /** Contructeur avec injection des dépendances */
@@ -19,6 +21,7 @@ export class PwaService {
     });
   }
 
+  /** Flag autorisant l'installation sur IOS */
   installationPwaManuelleIosAutorisee(): boolean {
     // Safari sur IOS>=11.3
     return this.browserComponent.nomNavigateur === 'Safari' && this.browserComponent.nomOs === 'IOS' && parseFloat(this.browserComponent.versionOs) > 11.2;

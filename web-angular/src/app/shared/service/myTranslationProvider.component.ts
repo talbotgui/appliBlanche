@@ -7,6 +7,7 @@ import { HttpProxy } from './httpProxy.component';
 // La configuration de l'application
 import { environment } from '../../../environments/environment';
 
+/** Fournisseur de traduction pour le plugin l10n */
 @Injectable() export class MyTranslationProvider implements TranslationProvider {
 
   /** Constructeur avec injection */

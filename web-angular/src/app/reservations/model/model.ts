@@ -1,30 +1,36 @@
+/** Chambre */
 export class Chambre {
   /**
    * Constructeur.
    * @param reference Identifiant unique
    * @param nom Nom
    */
-  constructor(public reference: string, public nom: string) { }
+  constructor(
+    /** référence unique */
+    public reference: string,
+    /** Nom de la chambre */
+    public nom: string) { }
 }
 
 /** Objet métier Reservation */
 export class Reservation {
 
-  /** Constructeur.
-   * @param reference Identifiant unique
-   * @param dateDebut Date de debut
-   * @param dateFin Date de fin
-   * @param client Client
-   * @param chambre Chambre
-   */
+  /** Constructeur. */
   constructor(
+    /** référence unique */
     public reference: string,
+    /** Date de début de la réservation */
     public dateDebut: Date,
+    /** Date de fin de la réservation */
     public dateFin: Date,
+    /** Nom du client */
     public client: string,
+    /** Chambre associée */
     public chambre: Chambre) { }
 }
 
+/** Map<String, T> */
 export interface IStringToAnyMap<T> {
+  /** clef de type String et valeur paramétrée */
   [key: string]: T;
 }

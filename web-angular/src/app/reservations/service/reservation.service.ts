@@ -19,6 +19,7 @@ export class ReservationService {
   /** Constructeur avec injection */
   constructor(private http: HttpProxy, private restUtils: RestUtilsService) { }
 
+  /** Liste des chambres */
   listerChambres(): Observable<model.Chambre[]> {
     return of(this.CHAMBRES);
   }
