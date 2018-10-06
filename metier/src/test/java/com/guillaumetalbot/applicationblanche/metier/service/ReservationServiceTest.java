@@ -77,7 +77,6 @@ public class ReservationServiceTest {
 
 		//
 		Assert.assertNotNull(ref);
-		Assert.assertEquals(Entite.genererReference(Produit.class, 1L), ref);
 		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from PRODUIT", Long.class));
 	}
 

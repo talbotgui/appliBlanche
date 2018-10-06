@@ -53,8 +53,8 @@ public class IntercepteurDesRessourcesAutorisees implements HandlerInterceptor {
 
 			return result;
 		} else {
-			LOG.warn("Le HANDLER n'est pas un HandlerMethod");
-			this.renvoyerUneErreurDeSecurite(response);
+			LOG.warn("Le HANDLER n'est pas un HandlerMethod (la route '" + request.getRequestURI() + "' existe-t-elle bien ?");
+			response.setStatus(HttpStatus.NOT_FOUND.value());
 			return false;
 		}
 	}

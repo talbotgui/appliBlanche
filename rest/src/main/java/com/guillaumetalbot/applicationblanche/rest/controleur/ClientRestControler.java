@@ -43,7 +43,7 @@ public class ClientRestControler {
 	 *            Tri par le nom du client
 	 * @return
 	 */
-	@GetMapping(value = "/")
+	@GetMapping(value = "")
 	public Object listerClientDto(@RequestParam(required = false, value = "pageSize") final Integer pageSize,
 			@RequestParam(required = false, value = "pageNumber") final Integer pageNumber,
 			@RequestParam(required = false, value = "triParNom") final Boolean triParNom) {
@@ -56,7 +56,7 @@ public class ClientRestControler {
 		}
 	}
 
-	@PostMapping(value = "/")
+	@PostMapping(value = "")
 	public String sauvegarderClient(//
 			@RequestParam(required = false, value = "reference") final String reference, //
 			@RequestParam(value = "nom") final String nom) {
