@@ -65,4 +65,22 @@ export class HttpProxy {
   ): Observable<HttpResponse<T>> {
     return this.http.post<T>(url, body, options);
   }
+
+  /** Format une Date en chaine de caractères */
+  formatDate(laDate: Date): string {
+    if (laDate) {
+      return laDate.getFullYear() + '-' + this.formatNombre(laDate.getMonth() + 1) + '-' + this.formatNombre(laDate.getDay());
+    } else {
+      return '';
+    }
+  }
+
+  /** Retourne un nombre sur 2 caractères */
+  private formatNombre(n: number): string {
+    if (n < 10) {
+      return '0' + n;
+    } else {
+      return '' + n;
+    }
+  }
 }

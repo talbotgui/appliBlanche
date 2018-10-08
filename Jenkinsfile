@@ -47,19 +47,48 @@ pipeline {
 		stage ('Deploy Unix') {
 			agent any
 			environment { JAVA_HOME = '/usr/lib/jvm/jdk-10.0.1/' }
+			when { branch 'master' }
 			steps {
 				script {
-					currentBuild.displayName = currentBuild.number + "-déploiement"
+					currentBuild.displayName = currentBuild.number + "-déploiementUnix"
 
-					sh "mvn clean install -Dmaven.test.skip=true -Punix"
+					// Rebuild de tout pour ne plus avoir d'instrumentation
+					sh "mvn clean install -Dmaven.test.skip=true -Punix -pl !web-angular,!web-vuejs"
 
+					// Déploiement sur le serveur Unix des APIs
 					sh "/var/lib/deployJava/stopApplicationBlanche.sh"
-					sh "rm -rf /var/www/html/applicationBlanche/* || true"
-					sh "cp -r ./web-angular/dist/applicationBlanche/* /var/www/html/applicationBlanche"
 					sh "rm /var/lib/deployJava/applicationBlancheRest.jar || true"
 					sh "cp ./rest/target/rest-1.0.0.jar /var/lib/deployJava/applicationBlancheRest.jar"
+
+					// Déploiement sur le serveur Unix de l'application Angular
+					sh "rm -rf /var/www/html/applicationBlanche/* || true"
+					sh "cp -r ./web-angular/dist/unix/applicationBlanche/* /var/www/html/applicationBlanche"
+
+					// Démarrage de l'application
 					// @see https://issues.jenkins-ci.org/browse/JENKINS-28182
 					sh "BUILD_ID=dontKillMe JENKINS_NODE_COOKIE=dontKillMe /var/lib/deployJava/startApplicationBlanche.sh"
+
+					currentBuild.displayName = "#" + currentBuild.number
+				}
+			}
+		}
+
+		stage ('Deploy GCloud') {
+			agent any
+			environment { JAVA_HOME = '/usr/lib/jvm/java-8-openjdk-amd64/' }
+			when { branch 'master' }
+			steps {
+				script {
+					currentBuild.displayName = currentBuild.number + "-déploiementGcloud"
+
+					// Rebuild avec le profil gcloud et en Java8
+					sh "mvn clean install -Dmaven.test.skip -Pgcloud -Dmaven.compiler.source=8 -Dmaven.compiler.target=8 -pl !web-angular,!web-vuejs"
+
+					// Déploiement du back sur le could
+					sh "mvn appengine:deploy -Dmaven.test.skip=true -Pgcloud -f rest/pom.xml -Dmaven.compiler.source=8 -Dmaven.compiler.target=8"
+					
+					// Déploiement du front sur le cloud
+					sh "/opt/gcloud/google-cloud-sdk/bin/gcloud app deploy web-angular/app.yaml -q"
 
 					currentBuild.displayName = "#" + currentBuild.number
 				}

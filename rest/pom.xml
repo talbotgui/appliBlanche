@@ -23,6 +23,9 @@
 		<version.testng>6.13.1</version.testng>
 		<version.hsqldb>2.4.0</version.hsqldb>
 		<version.mockito>2.13.0</version.mockito>
+		<version.appengine>1.3.1</version.appengine>
+		<version.postgresql>42.2.5</version.postgresql>
+		<version.postgresSocket>1.0.11</version.postgresSocket>
 
 		<dependency.locations.enabled>false</dependency.locations.enabled>
 	</properties>
@@ -133,6 +136,44 @@
 					<version>${version.hsqldb}</version>
 				</dependency>
 			</dependencies>
+		</profile>
+		<profile>
+			<id>gcloud</id>
+			<dependencies>
+				<!-- Base de données -->
+				<dependency>
+					<groupId>org.postgresql</groupId>
+					<artifactId>postgresql</artifactId>
+					<version>${version.postgresql}</version>
+				</dependency>
+				<dependency>
+					<groupId>com.google.cloud.sql</groupId>
+					<artifactId>postgres-socket-factory</artifactId>
+					<version>${version.postgresSocket}</version>
+				</dependency>
+				<!-- Exclusion de Tomcat -->
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+					<scope>provided</scope>
+				</dependency>
+				<!-- Exclusion de JUL-to-slf4j -->
+				<dependency>
+					<groupId>org.slf4j</groupId>
+					<artifactId>jul-to-slf4j</artifactId>
+					<scope>provided</scope>
+				</dependency>
+			</dependencies>
+			<build>
+				<plugins>
+					<!-- Plugin de deploiement -->
+					<plugin>
+						<groupId>com.google.cloud.tools</groupId>
+						<artifactId>appengine-maven-plugin</artifactId>
+						<version>${version.appengine}</version>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 	</profiles>
 </project>

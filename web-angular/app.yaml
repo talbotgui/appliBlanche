@@ -1,0 +1,22 @@
+service: 'applicationblanche-web'
+runtime: python27
+threadsafe: true
+skip_files:
+- .git
+- .settings
+- .vscode
+- e2e
+- platforms
+- node_modules
+- node
+- resources
+- target
+- src
+- ^(.*/)?\.(.*/)?\$
+handlers:
+- url: /(.+)
+  static_files: dist/gcloud/applicationBlanche/\1
+  upload: dist/gcloud/applicationBlanche/(.*)(|\.map)
+- url: /(.*)
+  static_files: dist/gcloud/applicationBlanche/index.html
+  upload: dist/gcloud/applicationBlanche/index.html

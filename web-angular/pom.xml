@@ -33,6 +33,7 @@
 						<fileset><directory>dist</directory></fileset>
 						<fileset><directory>node</directory></fileset>
 						<fileset><directory>node_modules</directory></fileset>
+						<fileset><directory>target</directory></fileset>
 					</filesets>
 				</configuration>
 			</plugin>
@@ -91,10 +92,17 @@
 					</execution>
 					<!-- Packaging de l'application par NPM -->
 					<execution>
-						<id>npm run build</id>
+						<id>npm run build unix</id>
 						<goals><goal>npm</goal></goals>
 						<phase>compile</phase>
 						<configuration><arguments>run build-prod</arguments></configuration>
+					</execution>
+					<!-- Packaging de l'application par NPM -->
+					<execution>
+						<id>npm run build gcloud</id>
+						<goals><goal>npm</goal></goals>
+						<phase>compile</phase>
+						<configuration><arguments>run build-gcloud</arguments></configuration>
 					</execution>
 				</executions>
 			</plugin>
@@ -105,16 +113,26 @@
 				<version>2.2.4</version>
 				<executions>
 					<execution>
-						<id>default</id>
+						<id>unix</id>
 						<goals><goal>revision</goal></goals>
 						<phase>generate-sources</phase>
+						<configuration>
+							<generateGitPropertiesFilename>${project.basedir}/dist/unix/applicationBlanche/git.json</generateGitPropertiesFilename>
+						</configuration>
+					</execution>
+					<execution>
+						<id>gcloud</id>
+						<goals><goal>revision</goal></goals>
+						<phase>generate-sources</phase>
+						<configuration>
+							<generateGitPropertiesFilename>${project.basedir}/dist/gcloud/applicationBlanche/git.json</generateGitPropertiesFilename>
+						</configuration>
 					</execution>
 				</executions>
 				<configuration>
 					<skipPoms>false</skipPoms>
 					<format>json</format>
 					<generateGitPropertiesFile>true</generateGitPropertiesFile>
-					<generateGitPropertiesFilename>${project.basedir}/dist/applicationBlanche/git.json</generateGitPropertiesFilename>
 				</configuration>
 			</plugin>
 			<!-- Génération d'un war minimal contenant l'application WEB -->

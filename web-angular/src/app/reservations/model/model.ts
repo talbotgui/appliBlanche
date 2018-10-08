@@ -29,6 +29,42 @@ export class Reservation {
     public chambre: Chambre) { }
 }
 
+
+/** Objet métier Consommation */
+export class Consommation {
+
+  /** Constructeur. */
+  constructor(
+    /** référence unique */
+    public reference: string,
+    /** Date de saisie de la consommation */
+    public dateCreation: Date,
+    /** Prix */
+    public prixPaye: number,
+    /** Quantite */
+    public quantite: number,
+    /** Reservation associee */
+    public reservation: Reservation,
+    /** Produit associe */
+    public produit: Produit
+  ) { }
+}
+
+/** un produit */
+export class Produit {
+
+  /** Constructeur. */
+  constructor(
+    /** référence unique */
+    public reference: string,
+    /** couleur à utiliser */
+    public couleur: string,
+    /** Nom  */
+    public nom: string,
+    /** Prix */
+    public prix: number) { }
+}
+
 /** Map<String, T> */
 export interface IStringToAnyMap<T> {
   /** clef de type String et valeur paramétrée */

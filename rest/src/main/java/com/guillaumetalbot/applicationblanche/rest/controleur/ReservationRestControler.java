@@ -52,19 +52,12 @@ public class ReservationRestControler {
 		return this.reservationService.rechercherReservations(dateDebut, dateFin);
 	}
 
-	@PostMapping("/chambres")
-	String sauvegarderChambre(@RequestBody final Chambre chambre) {
+	@PostMapping("/reservations/{referenceReservation}/consommations")
+	String sauvegarderConsommation(@PathVariable("referenceReservation") final String referenceReservation, //
+			@RequestBody final Consommation consommation) {
 
 		// TODO: controles de surface
-
-		final String reference = this.reservationService.sauvegarderChambre(chambre);
-		return '"' + reference + '"';
-	}
-
-	@PostMapping("/consommation")
-	String sauvegarderConsommation(@RequestBody final Consommation consommation) {
-
-		// TODO: controles de surface
+		// TODO: controle de la ref et de ses dates vis-à-vis de la date du jour
 
 		final String reference = this.reservationService.sauvegarderConsommation(consommation);
 		return '"' + reference + '"';
@@ -106,17 +99,22 @@ public class ReservationRestControler {
 		return '"' + reference + '"';
 	}
 
-	@DeleteMapping("/consommations/{referenceConsommation}")
-	void supprimerConsommation(@PathVariable("referenceConsommation") final String referenceConsommation) {
+	@DeleteMapping("/reservations/{referenceReservation}/consommations/{referenceConsommation}")
+	void supprimerConsommation(@PathVariable("referenceReservation") final String referenceReservation, //
+			@PathVariable("referenceConsommation") final String referenceConsommation) {
+				
+		// TODO: valider les references l'une vis-à-vis de l'autre
+		
+		// Sauvegarde
 		this.reservationService.supprimerConsommation(referenceConsommation);
 	}
 
-	@DeleteMapping("/produits/{referenceConsommation}")
+	@DeleteMapping("/produits/{referenceProduit}")
 	void supprimerProduit(@PathVariable("referenceProduit") final String referenceProduit) {
 		this.reservationService.supprimerProduit(referenceProduit);
 	}
 
-	@DeleteMapping("/reservations/{referenceConsommation}")
+	@DeleteMapping("/reservations/{referenceReservation}")
 	void supprimerReservation(@PathVariable("referenceReservation") final String referenceReservation) {
 		this.reservationService.supprimerReservation(referenceReservation);
 	}
