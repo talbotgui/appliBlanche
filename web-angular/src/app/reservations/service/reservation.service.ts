@@ -71,6 +71,4 @@ export class ReservationService {
     const url = environment.baseUrl + '/v1/produits/' + referenceProduit;
     return this.http.delete<void>(url, this.restUtils.creerHeader());
   }
-
-
 }

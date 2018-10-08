@@ -29,7 +29,6 @@ export class Reservation {
     public chambre: Chambre) { }
 }
 
-
 /** Objet métier Consommation */
 export class Consommation {
 
