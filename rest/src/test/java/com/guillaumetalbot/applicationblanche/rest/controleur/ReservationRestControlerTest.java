@@ -24,7 +24,7 @@ import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservat
 public class ReservationRestControlerTest extends BaseTestClass {
 
 	@Test
-	public void test01ListerChambre() {
+	public void test01Chambre01Lister() {
 
 		// ARRANGE
 		final List<Chambre> toReturn = Arrays.asList(new Chambre("CH1"), new Chambre("CH2"), new Chambre("CH3"), new Chambre("CH4"));
@@ -45,7 +45,22 @@ public class ReservationRestControlerTest extends BaseTestClass {
 	}
 
 	@Test
-	public void test02ListerProduits() {
+	public void test02Produit03Supprimer() {
+		final String ref = Entite.genererReference(Produit.class, 1L);
+
+		// ARRANGE
+		Mockito.doNothing().when(this.reservationService).supprimerProduit(ref);
+
+		// ACT
+		this.getREST().delete(this.getURL() + "/v1/produits/" + ref);
+
+		// ASSERT
+		Mockito.verify(this.reservationService).supprimerProduit(ref);
+		Mockito.verifyNoMoreInteractions(this.reservationService);
+	}
+
+	@Test
+	public void test02Produits01Lister() {
 
 		// ARRANGE
 		final List<Produit> toReturn = Arrays.asList(new Produit("P1", 1.0, "c1"), new Produit("P2", 2.0, "c2"), new Produit("P3", 3.0, "c3"));
@@ -66,7 +81,23 @@ public class ReservationRestControlerTest extends BaseTestClass {
 	}
 
 	@Test
-	public void test03ListerConsommations() {
+	public void test03Consommation03Supprimer() {
+		final String refReservation = Entite.genererReference(Reservation.class, 1L);
+		final String ref = Entite.genererReference(Consommation.class, 1L);
+
+		// ARRANGE
+		Mockito.doNothing().when(this.reservationService).supprimerConsommation(ref);
+
+		// ACT
+		this.getREST().delete(this.getURL() + "/v1/reservations/" + refReservation + "/consommations/" + ref);
+
+		// ASSERT
+		Mockito.verify(this.reservationService).supprimerConsommation(ref);
+		Mockito.verifyNoMoreInteractions(this.reservationService);
+	}
+
+	@Test
+	public void test03Consommations01Lister() {
 
 		// ARRANGE
 		final List<Consommation> toReturn = Arrays.asList(new Consommation(new Reservation(), new Produit(), 1.0, 1),
@@ -88,7 +119,22 @@ public class ReservationRestControlerTest extends BaseTestClass {
 	}
 
 	@Test
-	public void test03ListerReservations() {
+	public void test03Reservation03Supprimer() {
+		final String ref = Entite.genererReference(Reservation.class, 1L);
+
+		// ARRANGE
+		Mockito.doNothing().when(this.reservationService).supprimerReservation(ref);
+
+		// ACT
+		this.getREST().delete(this.getURL() + "/v1/reservations/" + ref);
+
+		// ASSERT
+		Mockito.verify(this.reservationService).supprimerReservation(ref);
+		Mockito.verifyNoMoreInteractions(this.reservationService);
+	}
+
+	@Test
+	public void test03Reservations01Lister() {
 
 		// ARRANGE
 		final String dateDebut = "2019-02-10";
@@ -114,4 +160,5 @@ public class ReservationRestControlerTest extends BaseTestClass {
 		Assert.assertNotNull(produits.getBody());
 		Assert.assertEquals(produits.getBody().size(), toReturn.size());
 	}
+
 }

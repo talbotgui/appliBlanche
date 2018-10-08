@@ -13,12 +13,14 @@
 <mapEntry key="com.guillaumetalbot.applicationblanche.rest.controleur.BaseTestClass" value=""/>
 <mapEntry key="com.guillaumetalbot.applicationblanche.rest.controleur.ClientRestControlerTest" value=""/>
 <mapEntry key="com.guillaumetalbot.applicationblanche.rest.controleur.InternationnalisationRestControlerTest" value=""/>
+<mapEntry key="com.guillaumetalbot.applicationblanche.rest.controleur.ReservationRestControlerTest" value=""/>
 </mapAttribute>
 <listAttribute key="org.testng.eclipse.CLASS_TEST_LIST">
 <listEntry value="com.guillaumetalbot.applicationblanche.rest.controleur.BaseTestClass"/>
 <listEntry value="com.guillaumetalbot.applicationblanche.rest.controleur.ClientRestControlerTest"/>
 <listEntry value="com.guillaumetalbot.applicationblanche.rest.application.RestApplicationForTests"/>
 <listEntry value="com.guillaumetalbot.applicationblanche.rest.controleur.InternationnalisationRestControlerTest"/>
+<listEntry value="com.guillaumetalbot.applicationblanche.rest.controleur.ReservationRestControlerTest"/>
 </listAttribute>
 <booleanAttribute key="org.testng.eclipse.DEBUG" value="false"/>
 <listAttribute key="org.testng.eclipse.GROUP_LIST"/>
