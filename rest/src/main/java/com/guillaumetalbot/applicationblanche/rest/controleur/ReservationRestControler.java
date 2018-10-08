@@ -36,24 +36,24 @@ public class ReservationRestControler {
 	}
 
 	@GetMapping("/produits")
-	Collection<Produit> listerProduits() {
+	public Collection<Produit> listerProduits() {
 		return this.reservationService.listerProduits();
 	}
 
 	@GetMapping("/reservations/{referenceReservation}/consommations")
-	Collection<Consommation> rechercherConsommationsDuneReservation(@PathVariable("referenceReservation") final String referenceReservation) {
+	public Collection<Consommation> rechercherConsommationsDuneReservation(@PathVariable("referenceReservation") final String referenceReservation) {
 		return this.reservationService.rechercherConsommationsDuneReservation(referenceReservation);
 	}
 
 	@GetMapping("/reservations")
-	Collection<Reservation> rechercherReservations(//
+	public Collection<Reservation> rechercherReservations(//
 			@RequestParam(name = "dateDebut", required = true) @DateTimeFormat(iso = ISO.DATE) final LocalDate dateDebut, //
 			@RequestParam(name = "dateFin", required = true) @DateTimeFormat(iso = ISO.DATE) final LocalDate dateFin) {
 		return this.reservationService.rechercherReservations(dateDebut, dateFin);
 	}
 
 	@PostMapping("/reservations/{referenceReservation}/consommations")
-	String sauvegarderConsommation(@PathVariable("referenceReservation") final String referenceReservation, //
+	public String sauvegarderConsommation(@PathVariable("referenceReservation") final String referenceReservation, //
 			@RequestBody final Consommation consommation) {
 
 		// TODO: controles de surface
@@ -64,7 +64,7 @@ public class ReservationRestControler {
 	}
 
 	@PostMapping("/produits")
-	String sauvegarderProduit(@RequestBody final Produit produit) {
+	public String sauvegarderProduit(@RequestBody final Produit produit) {
 
 		// Contrôles de surface
 		if (StringUtils.isEmpty(produit.getCouleur())) {
@@ -82,7 +82,7 @@ public class ReservationRestControler {
 	}
 
 	@PostMapping("/reservations")
-	String sauvegarderReservation(@RequestBody final Reservation reservation) {
+	public String sauvegarderReservation(@RequestBody final Reservation reservation) {
 
 		// Contrôles de surface
 		if (reservation.getChambre() == null || StringUtils.isEmpty(reservation.getChambre().getReference())) {
@@ -100,22 +100,22 @@ public class ReservationRestControler {
 	}
 
 	@DeleteMapping("/reservations/{referenceReservation}/consommations/{referenceConsommation}")
-	void supprimerConsommation(@PathVariable("referenceReservation") final String referenceReservation, //
+	public void supprimerConsommation(@PathVariable("referenceReservation") final String referenceReservation, //
 			@PathVariable("referenceConsommation") final String referenceConsommation) {
-				
+
 		// TODO: valider les references l'une vis-à-vis de l'autre
-		
+
 		// Sauvegarde
 		this.reservationService.supprimerConsommation(referenceConsommation);
 	}
 
 	@DeleteMapping("/produits/{referenceProduit}")
-	void supprimerProduit(@PathVariable("referenceProduit") final String referenceProduit) {
+	public void supprimerProduit(@PathVariable("referenceProduit") final String referenceProduit) {
 		this.reservationService.supprimerProduit(referenceProduit);
 	}
 
 	@DeleteMapping("/reservations/{referenceReservation}")
-	void supprimerReservation(@PathVariable("referenceReservation") final String referenceReservation) {
+	public void supprimerReservation(@PathVariable("referenceReservation") final String referenceReservation) {
 		this.reservationService.supprimerReservation(referenceReservation);
 	}
 
