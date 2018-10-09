@@ -1,4 +1,4 @@
-service: 'appliblanche-rest'
+service: 'applicationblanche-rest'
 runtime: java
 api_version: '1.0'
 env: flex
