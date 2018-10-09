@@ -35,7 +35,7 @@ public class BaseTestClass extends JwtIntegrationWebTest {
 
 	@Override
 	protected Object[] getListeServices() {
-		return Arrays.array(super.securiteService, this.clientService, this.libelleService);
+		return Arrays.array(super.securiteService, this.clientService, this.libelleService, this.reservationService);
 	}
 
 }

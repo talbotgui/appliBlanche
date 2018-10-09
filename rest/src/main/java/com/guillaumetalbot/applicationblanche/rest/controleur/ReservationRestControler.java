@@ -56,8 +56,22 @@ public class ReservationRestControler {
 	public String sauvegarderConsommation(@PathVariable("referenceReservation") final String referenceReservation, //
 			@RequestBody final Consommation consommation) {
 
-		// TODO: controles de surface
-		// TODO: controle de la ref et de ses dates vis-à-vis de la date du jour
+		// Controles de surface
+		if (consommation.getProduit() == null || StringUtils.isNotEmpty(consommation.getProduit().getReference())) {
+			throw new RestException(RestException.ERREUR_PARAMETRE_MANQUANT, "produit");
+		}
+		if (consommation.getQuantite() == null || consommation.getQuantite() <= 0) {
+			throw new RestException(RestException.ERREUR_PARAMETRE_MANQUANT, "quantite");
+		}
+
+		// Si la référence de réservation n'est pas dans la consommation
+		if (consommation.getReservation() == null) {
+			consommation.setReservation(new Reservation());
+		}
+		if (StringUtils.isEmpty(consommation.getReservation().getReference())) {
+			consommation.getReservation().setReference(referenceReservation);
+
+		}
 
 		final String reference = this.reservationService.sauvegarderConsommation(consommation);
 		return '"' + reference + '"';

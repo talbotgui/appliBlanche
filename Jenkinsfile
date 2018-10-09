@@ -84,6 +84,11 @@ pipeline {
 					// Rebuild avec le profil gcloud et en Java8
 					sh "mvn clean install -Dmaven.test.skip -Pgcloud -Dmaven.compiler.source=8 -Dmaven.compiler.target=8 -pl !web-angular,!web-vuejs"
 
+					// Mise en place du fichier de configuration stocké dans Jenkins
+                    withCredentials([file(credentialsId: 'APPLICATIONBLANCHE-GCLOUD-APP-PROPERTIES', variable: 'applicationblancheGcloudAppProperties')]) {
+                        sh "cp -f \$applicationblancheGcloudAppProperties $WORKSPACE/rest/src/main/resources/application.properties"
+                    }
+
 					// Déploiement du back sur le could
 					sh "gcloud auth activate-service-account --key-file=/var/lib/deployJava/gcloud-applicationblanche.json"
 					sh "gcloud config set project applicationblanche"

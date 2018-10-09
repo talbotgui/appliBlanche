@@ -30,9 +30,11 @@ public class BusinessException extends BaseException {
 
 	public static final ExceptionId OBJET_NON_EXISTANT = new ExceptionId("ERREUR_OBJET_NON_EXISTANT",
 			"Objet de type {{0}} et de référence {{1}} inexistant", ExceptionLevel.INFORMATION, 404);
-
 	public static final ExceptionId REFERENCE_NON_VALIDE = new ExceptionId("ERREUR_REFERENCE_NON_VALIDE", "Référence {{0}} non valide",
 			ExceptionLevel.INFORMATION, 404);
+
+	public static final ExceptionId RESERVATION_PAS_EN_COURS = new ExceptionId("RESERVATION_PAS_EN_COURS",
+			"La réservation '{{0}}' n'est pas en cours", ExceptionLevel.INFORMATION, 400);
 
 	/** Default UID. */
 	private static final long serialVersionUID = 1L;

@@ -76,10 +76,17 @@ public class ReservationServiceImpl implements ReservationService {
 		final Optional<Produit> produit = this.produitRepo.findById(idProduit);
 		produit.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Produit", consommation.getProduit().getReference()));
 
-		// Vérifier la réservation
+		// Vérifier la présence de la réservation
 		final Long idReservation = Entite.extraireIdentifiant(consommation.getReservation().getReference(), Reservation.class);
-		this.reservationRepo.findById(idReservation).orElseThrow(
+		final Optional<Reservation> resaOpt = this.reservationRepo.findById(idReservation);
+		resaOpt.orElseThrow(
 				() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Reservation", consommation.getReservation().getReference()));
+
+		// Vérifier les dates de la réservation
+		final Reservation reservation = resaOpt.get();
+		if (reservation.getDateDebut().isAfter(LocalDate.now()) || reservation.getDateFin().isBefore(LocalDate.now())) {
+			throw new BusinessException(BusinessException.RESERVATION_PAS_EN_COURS, consommation.getReservation().getReference());
+		}
 
 		// Si le prix de la consommation n'est pas renseigné (pas de remise), on prend le prix du produit
 		if (consommation.getPrixPaye() == null) {
