@@ -3,9 +3,9 @@ https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/aut
 Tester les dates envoyées depuis l'application WEB vers l'API
 Tester les dates envoyées depuis l'API vers l'application WEB 
 
-Reservation :
-	créer un sous module Angular et un "module commun" (cf doc officielle)
-	
+Sujets GCloud :
+	arrêter toutes les versions chaque soir (https://stackoverflow.com/questions/48964843/whats-the-recommended-way-to-stop-the-current-version-of-app-engine-using-gclou/49125995)
+	démarrer la dernière version chaque matin
 
 Sujets Indus :
 	ajouter dans le site les liens vers GitHub et Sonarqube
@@ -24,8 +24,6 @@ Sujets DOCUMENTATION :
 	règles de développement FRONT-ANGULAR
 	règles de développement FRONT-VUEJS
 	règles de conception globales
-
-Refaire le tour des résultats dans Sonar
 
 Sujets FRONT (partie sécurité) :
 	ANG	VUE	SUJET				

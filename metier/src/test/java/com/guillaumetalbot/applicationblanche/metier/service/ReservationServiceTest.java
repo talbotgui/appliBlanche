@@ -397,4 +397,26 @@ public class ReservationServiceTest {
 		//
 		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from CONSOMMATION", Long.class));
 	}
+
+	@Test
+	public void test04Consommation07CreationKoReservationPasEnCours() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final String refChambre = this.reservationService.sauvegarderChambre(new Chambre("nom"));
+		final Reservation reservation = new Reservation();
+		reservation.setReference(this.sauvegarderUneReservation("client", refChambre, 7, 8));
+		final Produit produit = new Produit();
+		final Double prixProduit = 2.00;
+		produit.setReference(this.reservationService.sauvegarderProduit(new Produit("produit", prixProduit, "rouge")));
+
+		//
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.reservationService.sauvegarderConsommation(new Consommation(reservation, produit, null, 2));
+		});
+
+		//
+		Assert.assertNotNull(thrown);
+		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.RESERVATION_PAS_EN_COURS));
+		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from CONSOMMATION", Long.class));
+	}
 }
