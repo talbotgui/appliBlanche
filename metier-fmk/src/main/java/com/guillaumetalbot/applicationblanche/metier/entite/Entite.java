@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.guillaumetalbot.applicationblanche.exception.BusinessException;
 
@@ -23,7 +25,7 @@ public class Entite implements Serializable, IdentifiableParReference {
 
 	public static Long extraireIdentifiant(final String reference, final Class<? extends IdentifiableParReference> clazz) {
 		// Si la référence est nulle
-		if (reference == null) {
+		if (StringUtils.isEmpty(reference)) {
 			return null;
 		}
 
