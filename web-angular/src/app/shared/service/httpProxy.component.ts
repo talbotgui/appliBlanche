@@ -69,7 +69,7 @@ export class HttpProxy {
   /** Format une Date en chaine de caractères */
   formatDate(laDate: Date): string {
     if (laDate) {
-      return laDate.getFullYear() + '-' + this.formatNombre(laDate.getMonth() + 1) + '-' + this.formatNombre(laDate.getDay());
+      return laDate.getFullYear() + '-' + this.formatNombre(laDate.getMonth() + 1) + '-' + this.formatNombre(laDate.getDate());
     } else {
       return '';
     }
