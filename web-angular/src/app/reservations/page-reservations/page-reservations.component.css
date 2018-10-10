@@ -6,7 +6,7 @@ div.enteteTableau { font-size: 1em; margin-bottom: 5px; }
 .formulaireDetails div { margin-left: 15px; }
 
 /** Placement des spans dans l'entete */
-span.boutonsAction em { margin: 0px 10px; }
+span.boutonsAction em { margin: 0px 5px; }
 span.libelleDatePicker { margin-right: 10px; }
 
 /** mise en forme des données du tableau de réservation */

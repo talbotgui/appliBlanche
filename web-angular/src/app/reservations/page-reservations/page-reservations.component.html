@@ -8,7 +8,7 @@
 
         <!-- Entete principal-->
         <div class="row entete" *ngIf="!flagSaisieDatesPersonalisees">
-          <div [class]="'col-'+ ( 2 + nbColParChambre * chambres.length)">
+          <div class="col-12">
 
             <span class="boutonsAction">
               <em class="fa fa-angle-double-left" (click)="deplacerDateParJour(-14);"></em>
@@ -29,11 +29,11 @@
 
         <!-- Entete secondaire-->
         <div class="row entete" *ngIf="flagSaisieDatesPersonalisees">
-          <div [class]="'col-'+ ( 2 + nbColParChambre * chambres.length)">
+          <div class="col-12">
 
             <!-- Date de début -->
             <span class="libelleDatePicker">Du</span>
-            <mat-form-field>
+            <mat-form-field class="datePickerLargeurAdaptee">
               <input matInput name="dateDebutPick" [matDatepicker]="dateDebutPick" [max]="dateFin" [(ngModel)]="dateDebut"
                 required>
               <mat-datepicker-toggle matSuffix [for]="dateDebutPick"></mat-datepicker-toggle>
@@ -42,7 +42,7 @@
 
             <!-- Date de fin -->
             <span class="libelleDatePicker">Au</span>
-            <mat-form-field>
+            <mat-form-field class="datePickerLargeurAdaptee">
               <input matInput name="dateFinPick" [matDatepicker]="dateFinPick" [min]="dateDebut" [(ngModel)]="dateFin"
                 required>
               <mat-datepicker-toggle matSuffix [for]="dateFinPick"></mat-datepicker-toggle>

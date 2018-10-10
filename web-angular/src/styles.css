@@ -10,3 +10,9 @@ em.fa.actionDansUnEntete { margin-left: 5px; }
 
 /* Pour les FA en général */
 .fa { cursor: pointer; }
+
+/* Réduction du padding des cartes Material */
+.mat-card { padding: 10px; }
+
+/* Diminution de la largeur des input de datePicker */
+mat-form-field.datePickerLargeurAdaptee { max-width: 100px; }

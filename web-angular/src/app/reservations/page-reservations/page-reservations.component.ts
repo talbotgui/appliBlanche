@@ -41,10 +41,10 @@ export class PageReservationsComponent implements OnInit {
   /** A l'initialisation */
   ngOnInit() {
 
-    // Initialisation des dates de filtrage
+    // Initialisation des dates de filtrage (de J-3 à J+12)
     const dateDuJour = new Date();
-    this.dateDebut = new Date(dateDuJour.getFullYear(), dateDuJour.getMonth(), 1);
-    this.dateFin = new Date(dateDuJour.getFullYear(), dateDuJour.getMonth() + 1, 1);
+    this.dateDebut = new Date(dateDuJour.getTime() - (3 * 1000 * 3600 * 24));
+    this.dateFin = new Date(dateDuJour.getTime() + (12 * 1000 * 3600 * 24));
 
     // Chargement des données
     this.chargerDonnees();
