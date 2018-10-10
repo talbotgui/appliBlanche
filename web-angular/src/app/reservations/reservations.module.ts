@@ -6,6 +6,7 @@ import { SharedModule } from '../shared/shared.module';
 
 // Tous les composants applicatifs de l'application
 import { PageReservationsComponent } from './page-reservations/page-reservations.component';
+import { PageAdminReservationsComponent } from './page-adminreservations/page-adminreservations.component';
 
 // Les composants injectables
 import { ReservationService } from './service/reservation.service';
@@ -18,7 +19,7 @@ import { ReservationService } from './service/reservation.service';
 
   // Tous les composants applicatifs du module
   declarations: [
-    PageReservationsComponent
+    PageReservationsComponent, PageAdminReservationsComponent
   ],
 
   // Les services

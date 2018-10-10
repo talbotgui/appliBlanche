@@ -52,6 +52,18 @@ public class ReservationRestControler {
 		return this.reservationService.rechercherReservations(dateDebut, dateFin);
 	}
 
+	@PostMapping("/chambres")
+	public String sauvegarderChambre(@RequestBody final Chambre chambre) {
+
+		// Contrôles de surface
+		if (StringUtils.isEmpty(chambre.getNom())) {
+			throw new RestException(RestException.ERREUR_PARAMETRE_MANQUANT, "nom");
+		}
+
+		final String reference = this.reservationService.sauvegarderChambre(chambre);
+		return '"' + reference + '"';
+	}
+
 	@PostMapping("/reservations/{referenceReservation}/consommations")
 	public String sauvegarderConsommation(@PathVariable("referenceReservation") final String referenceReservation, //
 			@RequestBody final Consommation consommation) {

@@ -49,6 +49,42 @@ public class ReservationRestControlerTest extends BaseTestClass {
 	}
 
 	@Test
+	public void test01Chambre02SauvegarderOk() {
+
+		// ARRANGE
+		final String refRetournee = Entite.genererReference(Chambre.class, 1L);
+		final Chambre chambre = new Chambre("C1");
+		Mockito.doReturn(refRetournee).when(this.reservationService).sauvegarderChambre(Mockito.any(Chambre.class));
+
+		// ACT
+		final String ref = this.getREST().postForObject(this.getURL() + "/v1/chambres", chambre, String.class);
+
+		// ASSERT
+		Mockito.verify(this.reservationService).sauvegarderChambre(Mockito.any(Chambre.class));
+		Mockito.verifyNoMoreInteractions(this.reservationService);
+		Assert.assertEquals(ref, '"' + refRetournee + '"');
+	}
+
+	@Test
+	public void test01Chambre03SauvegarderKo() {
+
+		// ARRANGE
+		final Chambre chambre = new Chambre("");
+
+		// ACT
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.getREST().postForObject(this.getURL() + "/v1/chambres", chambre, String.class);
+		});
+
+		// ASSERT
+		Assert.assertNotNull(thrown);
+		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.class);
+		final HttpClientErrorException e = (HttpClientErrorException) thrown;
+		Assert.assertEquals(e.getRawStatusCode(), HttpStatus.BAD_REQUEST.value());
+		Mockito.verifyNoMoreInteractions(this.reservationService);
+	}
+
+	@Test
 	public void test02Produits01Lister() {
 
 		// ARRANGE
@@ -443,5 +479,4 @@ public class ReservationRestControlerTest extends BaseTestClass {
 		Mockito.verifyNoMoreInteractions(this.reservationService);
 		Assert.assertEquals(ref, '"' + refRetournee + '"');
 	}
-
 }
