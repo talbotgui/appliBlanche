@@ -1,18 +1,25 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-6">
-      <div class="titre">
+
+    <!-- Liste des chambres -->
+    <mat-card class="col-md-6 col-xs-12">
+      <mat-card-title>
         <span>Liste des chambres</span>
-        <em class="fa fa-plus" (click)="proposerAjoutChambre()"></em></div>
-      <ul>
-        <li *ngFor="let c of chambres">{{c.nom}}</li>
-        <li *ngIf="nouvelleChambre">
-          <mat-form-field>
-            <input matInput name="nom" [(ngModel)]="nouvelleChambre.nom" required>
-          </mat-form-field>
-          <em class="fa fa-check" (click)="validerAjoutChambre()"></em>
-        </li>
-      </ul>
-    </div>
+        <em class="fa fa-plus" (click)="proposerAjoutChambre()"></em>
+      </mat-card-title>
+      <mat-card-content>
+        <ul>
+          <li *ngFor="let c of chambres">{{c.nom}}</li>
+          <li *ngIf="nouvelleChambre">
+            <mat-form-field>
+              <input matInput name="nom" [(ngModel)]="nouvelleChambre.nom" required>
+            </mat-form-field>
+            <em class="fa fa-check" (click)="validerAjoutChambre()"></em>
+          </li>
+        </ul>
+      </mat-card-content>
+    </mat-card>
+
+
   </div>
 </div>
