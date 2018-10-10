@@ -1,9 +1,9 @@
 /** Structure */
-div.tableauDonnees { text-align: center; }
-div.tableauDonnees .col-1, div.tableauDonnees .col-2, div.tableauDonnees .col-3 {  padding:0px!important; }
+.tableauDonnees { text-align: center; }
+.tableauDonnees .col-1, .tableauDonnees .col-2, .tableauDonnees .col-3 {  padding:0px!important; }
 div.entete { font-size: 1.3em; margin-bottom: 15px; }
 div.enteteTableau { font-size: 1em; margin-bottom: 5px; }
-div.divFormulaireDetails div { margin-left: 15px; }
+.formulaireDetails div { margin-left: 15px; }
 
 /** Placement des spans dans l'entete */
 span.boutonsAction em { margin: 0px 10px; }

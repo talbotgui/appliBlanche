@@ -27,7 +27,7 @@ export class PageReservationsComponent implements OnInit {
   reservations: model.IStringToAnyMap<model.IStringToAnyMap<model.Reservation>> = {};
 
   /** Liste des chambres */
-  chambres: model.Chambre[];
+  chambres: model.Chambre[] = [];
 
   /** Liste des jours */
   jours: Date[];
@@ -75,8 +75,13 @@ export class PageReservationsComponent implements OnInit {
     // Chargement des chambres
     this.reservationsService.listerChambres().subscribe(
       (chambres) => {
-        this.chambres = chambres;
-        this.nbColParChambre = Math.floor((12 - 2) / chambres.length);
+        if (chambres && chambres.length > 0) {
+          this.chambres = chambres;
+          this.nbColParChambre = Math.floor((12 - 2) / chambres.length);
+        } else {
+          this.chambres = [];
+          this.nbColParChambre = 1;
+        }
 
         // Chargement des réservations
         this.reservationsService.rechercherReservations(this.dateDebut, this.dateFin).subscribe(
@@ -92,11 +97,11 @@ export class PageReservationsComponent implements OnInit {
 
             // Calcul du tableau de données
             for (const j of this.jours) {
-              for (const r of reservations) {
-                for (const c of this.chambres) {
-                  if (!this.reservations[c.reference]) {
-                    this.reservations[c.reference] = {};
-                  }
+              for (const c of this.chambres) {
+                if (!this.reservations[c.reference]) {
+                  this.reservations[c.reference] = {};
+                }
+                for (const r of reservations) {
                   if (r.chambre.reference === c.reference && r.dateDebut <= j && j <= r.dateFin) {
                     this.reservations[c.reference][j.toISOString()] = r;
                   }

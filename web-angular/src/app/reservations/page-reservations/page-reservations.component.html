@@ -1,115 +1,120 @@
 <div class="container-fluid">
   <div class="row">
 
-    <!-- Le tableau -->
-    <div class="col-6 tableauDonnees">
+    <!-- Le tableau des réservations-->
+    <mat-card class="col-md-6 col-xs-12">
+      <mat-card-title>Tableau des réservations</mat-card-title>
+      <mat-card-content class="tableauDonnees">
 
-      <!-- Entete principal-->
-      <div class="row entete" *ngIf="!flagSaisieDatesPersonalisees">
-        <div [class]="'col-'+ ( 2 + nbColParChambre * chambres.length)">
+        <!-- Entete principal-->
+        <div class="row entete" *ngIf="!flagSaisieDatesPersonalisees">
+          <div [class]="'col-'+ ( 2 + nbColParChambre * chambres.length)">
 
-          <span class="boutonsAction">
-            <em class="fa fa-angle-double-left" (click)="deplacerDateParJour(-14);"></em>
-            <em class="fa fa-angle-left" (click)="deplacerDateParJour(-7);"></em>
-          </span>
+            <span class="boutonsAction">
+              <em class="fa fa-angle-double-left" (click)="deplacerDateParJour(-14);"></em>
+              <em class="fa fa-angle-left" (click)="deplacerDateParJour(-7);"></em>
+            </span>
 
-          <!-- Dates de début et fin-->
-          <span>Du {{dateDebut | date:'dd/MM'}} au {{dateFin | date:'dd/MM'}}</span>
+            <!-- Dates de début et fin-->
+            <span>Du {{dateDebut | date:'dd/MM'}} au {{dateFin | date:'dd/MM'}}</span>
 
-          <span class="boutonsAction">
-            <em class="fa fa-angle-right" (click)="deplacerDateParJour(7);"></em>
-            <em class="fa fa-angle-double-right" (click)="deplacerDateParJour(14);"></em>
-            <em class="fa fa-search" (click)="flagSaisieDatesPersonalisees=true" matTooltip="{{ 'commun_tooltip_rechercher' | translate: lang }}"></em>
-            <em class="fa fa-plus" (click)="initaliserNouvelleReservation()" matTooltip="{{ 'commun_tooltip_ajouter' | translate: lang }}"></em>
-          </span>
+            <span class="boutonsAction">
+              <em class="fa fa-angle-right" (click)="deplacerDateParJour(7);"></em>
+              <em class="fa fa-angle-double-right" (click)="deplacerDateParJour(14);"></em>
+              <em class="fa fa-search" (click)="flagSaisieDatesPersonalisees=true" matTooltip="{{ 'commun_tooltip_rechercher' | translate: lang }}"></em>
+              <em class="fa fa-plus" (click)="initaliserNouvelleReservation()" matTooltip="{{ 'commun_tooltip_ajouter' | translate: lang }}"></em>
+            </span>
+          </div>
         </div>
-      </div>
 
-      <!-- Entete secondaire-->
-      <div class="row entete" *ngIf="flagSaisieDatesPersonalisees">
-        <div [class]="'col-'+ ( 2 + nbColParChambre * chambres.length)">
+        <!-- Entete secondaire-->
+        <div class="row entete" *ngIf="flagSaisieDatesPersonalisees">
+          <div [class]="'col-'+ ( 2 + nbColParChambre * chambres.length)">
 
-          <!-- Date de début -->
-          <span class="libelleDatePicker">Du</span>
-          <mat-form-field>
-            <input matInput name="dateDebutPick" [matDatepicker]="dateDebutPick" [max]="dateFin" [(ngModel)]="dateDebut"
-              required>
-            <mat-datepicker-toggle matSuffix [for]="dateDebutPick"></mat-datepicker-toggle>
-            <mat-datepicker #dateDebutPick disabled="false"></mat-datepicker>
-          </mat-form-field>
+            <!-- Date de début -->
+            <span class="libelleDatePicker">Du</span>
+            <mat-form-field>
+              <input matInput name="dateDebutPick" [matDatepicker]="dateDebutPick" [max]="dateFin" [(ngModel)]="dateDebut"
+                required>
+              <mat-datepicker-toggle matSuffix [for]="dateDebutPick"></mat-datepicker-toggle>
+              <mat-datepicker #dateDebutPick disabled="false"></mat-datepicker>
+            </mat-form-field>
 
-          <!-- Date de fin -->
-          <span class="libelleDatePicker">Au</span>
-          <mat-form-field>
-            <input matInput name="dateFinPick" [matDatepicker]="dateFinPick" [min]="dateDebut" [(ngModel)]="dateFin"
-              required>
-            <mat-datepicker-toggle matSuffix [for]="dateFinPick"></mat-datepicker-toggle>
-            <mat-datepicker #dateFinPick disabled="false"></mat-datepicker>
-          </mat-form-field>
+            <!-- Date de fin -->
+            <span class="libelleDatePicker">Au</span>
+            <mat-form-field>
+              <input matInput name="dateFinPick" [matDatepicker]="dateFinPick" [min]="dateDebut" [(ngModel)]="dateFin"
+                required>
+              <mat-datepicker-toggle matSuffix [for]="dateFinPick"></mat-datepicker-toggle>
+              <mat-datepicker #dateFinPick disabled="false"></mat-datepicker>
+            </mat-form-field>
 
-          <span class="boutonsAction">
-            <em class="fa fa-search" (click)="chargerDonnees();" matTooltip="{{ 'commun_tooltip_rechercher' | translate: lang }}"></em>
-            <em class="fa fa-ban" (click)="flagSaisieDatesPersonalisees=false" matTooltip="{{ 'commun_tooltip_annuler' | translate: lang }}"></em>
-            <em class="fa fa-plus" (click)="initaliserNouvelleReservation()" matTooltip="{{ 'commun_tooltip_ajouter' | translate: lang }}"></em>
-          </span>
+            <span class="boutonsAction">
+              <em class="fa fa-search" (click)="chargerDonnees();" matTooltip="{{ 'commun_tooltip_rechercher' | translate: lang }}"></em>
+              <em class="fa fa-ban" (click)="flagSaisieDatesPersonalisees=false" matTooltip="{{ 'commun_tooltip_annuler' | translate: lang }}"></em>
+              <em class="fa fa-plus" (click)="initaliserNouvelleReservation()" matTooltip="{{ 'commun_tooltip_ajouter' | translate: lang }}"></em>
+            </span>
+          </div>
         </div>
-      </div>
 
-      <!-- Ligne des chambres -->
-      <div class="row enteteTableau">
-        <div class="col-2">Date</div>
-        <div [class]="'col-' + nbColParChambre" *ngFor="let c of chambres">{{c.nom}}</div>
-      </div>
-
-      <!-- Tableau de données-->
-      <div [class]="(j.getDay()==0||j.getDay()==6)?'row weekend':'row'" *ngFor="let j of jours">
-        <div class="col-2">{{j | date:'dd/MM'}}</div>
-        <div [class]="'col-' + nbColParChambre" *ngFor="let c of chambres;" (click)="afficherDetail(reservations[c.reference][j.toISOString()])">
-          <span class="reservation">{{reservations[c.reference][j.toISOString()]?reservations[c.reference][j.toISOString()].client:''}}</span>
+        <!-- Ligne des chambres -->
+        <div class="row enteteTableau">
+          <div class="col-2">Date</div>
+          <div [class]="'col-' + nbColParChambre" *ngFor="let c of chambres">{{c.nom}}</div>
         </div>
-      </div>
-    </div>
+
+        <!-- Tableau de données-->
+        <div [class]="(j.getDay()==0||j.getDay()==6)?'row weekend':'row'" *ngFor="let j of jours">
+          <div class="col-2">{{j | date:'dd/MM'}}</div>
+          <div [class]="'col-' + nbColParChambre" *ngFor="let c of chambres;" (click)="afficherDetail(reservations[c.reference][j.toISOString()])">
+            <span class="reservation">{{reservations[c.reference][j.toISOString()]?reservations[c.reference][j.toISOString()].client:''}}</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
 
     <!-- Le formulaire de détail -->
-    <div class="col-6 divFormulaireDetails" *ngIf="!!reservationSelectionnee">
-      <div class="row entete">Détails de la réservation {{reservationSelectionnee.reference}}</div>
-      <form novalidate #leForm="ngForm">
-        <div class="row">
-          <mat-form-field>
-            <input matInput name="dateDebutPickDetail" [matDatepicker]="dateDebutPickDetail" [max]="reservationSelectionnee.dateFin"
-              [(ngModel)]="reservationSelectionnee.dateDebut" placeholder="{{ 'reservation_placeholder_dateDebut' | translate: lang }}"
-              required>
-            <mat-datepicker-toggle matSuffix [for]="dateDebutPickDetail"></mat-datepicker-toggle>
-            <mat-datepicker #dateDebutPickDetail disabled="false"></mat-datepicker>
-          </mat-form-field>
-        </div>
-        <div class="row">
-          <mat-form-field>
-            <input matInput name="dateFinPickDetail" [matDatepicker]="dateFinPickDetail" [min]="reservationSelectionnee.dateDebut"
-              [(ngModel)]="reservationSelectionnee.dateFin" placeholder="{{ 'reservation_placeholder_dateFin' | translate: lang }}"
-              required>
-            <mat-datepicker-toggle matSuffix [for]="dateFinPickDetail"></mat-datepicker-toggle>
-            <mat-datepicker #dateFinPickDetail disabled="false"></mat-datepicker>
-          </mat-form-field>
-        </div>
-        <div class="row">
-          <mat-form-field>
-            <input matInput name="client" [(ngModel)]="reservationSelectionnee.client" placeholder="{{ 'reservation_placeholder_client' | translate: lang }}"
-              required>
-          </mat-form-field>
-        </div>
-        <div class="row">
-          <mat-form-field>
-            <mat-select [(ngModel)]="reservationSelectionnee.chambre.reference" name="chambre" placeholder="{{ 'reservation_placeholder_chambre' | translate: lang }}"
-              required>
-              <mat-option *ngFor="let c of chambres" [value]="c.reference">{{c.nom}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div class="row">
-          <button type="submit" class="btn btn-outline-secondary" [disabled]="!leForm.form.valid" l10nTranslate>reservation_bouton_enregistrer</button>
-        </div>
-      </form>
-    </div>
+    <mat-card class="col-md-6 col-xs-12" *ngIf="!!reservationSelectionnee">
+      <mat-card-title>Détails de la réservation {{reservationSelectionnee.reference}}</mat-card-title>
+      <mat-card-content>
+        <form novalidate #leForm="ngForm">
+          <div class="row">
+            <mat-form-field>
+              <input matInput name="dateDebutPickDetail" [matDatepicker]="dateDebutPickDetail" [max]="reservationSelectionnee.dateFin"
+                [(ngModel)]="reservationSelectionnee.dateDebut" placeholder="{{ 'reservation_placeholder_dateDebut' | translate: lang }}"
+                required>
+              <mat-datepicker-toggle matSuffix [for]="dateDebutPickDetail"></mat-datepicker-toggle>
+              <mat-datepicker #dateDebutPickDetail disabled="false"></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field>
+              <input matInput name="dateFinPickDetail" [matDatepicker]="dateFinPickDetail" [min]="reservationSelectionnee.dateDebut"
+                [(ngModel)]="reservationSelectionnee.dateFin" placeholder="{{ 'reservation_placeholder_dateFin' | translate: lang }}"
+                required>
+              <mat-datepicker-toggle matSuffix [for]="dateFinPickDetail"></mat-datepicker-toggle>
+              <mat-datepicker #dateFinPickDetail disabled="false"></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field>
+              <input matInput name="client" [(ngModel)]="reservationSelectionnee.client" placeholder="{{ 'reservation_placeholder_client' | translate: lang }}"
+                required>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field>
+              <mat-select [(ngModel)]="reservationSelectionnee.chambre.reference" name="chambre" placeholder="{{ 'reservation_placeholder_chambre' | translate: lang }}"
+                required>
+                <mat-option *ngFor="let c of chambres" [value]="c.reference">{{c.nom}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <button type="submit" class="btn btn-outline-secondary" [disabled]="!leForm.form.valid" l10nTranslate>reservation_bouton_enregistrer</button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
   </div>
 </div>
