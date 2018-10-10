@@ -61,6 +61,7 @@ Sujets FRONT (partie structure) :
 
 Sujets FRONT (partie fonction&ergonomie) :
 	ANG	VUE	SUJET				
+			refaire une passe sur les libelles i18n
 	x	x	faire de la validation de formulaire (disable de bouton ou autre)
 			traiter les messages d'erreur de l'API correctement
 

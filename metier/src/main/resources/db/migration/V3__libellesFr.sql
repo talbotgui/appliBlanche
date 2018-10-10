@@ -7,10 +7,13 @@ insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'connexion_
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'accueil_message', 'Bienvenue dans l''application blanche avec ', 'fr' from LIBELLE;
 -- Composant de menu
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'menu_accueil', 'Accueil', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'menu_titre_administration', 'Administration', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'menu_utilisateur', 'Utilisateurs', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'menu_role', 'Rôles', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'menu_client', 'Clients', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'menu_titre_reservation', 'Réservations', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'menu_reservations', 'Réservations', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'menu_adminreservations', 'Paramètres Réservations', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'menu_deconnexion', 'Déconnexion', 'fr' from LIBELLE;
 -- Page de gestion des utilisateurs
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'utilisateur_titre', 'Administration des utilisateurs', 'fr' from LIBELLE;
