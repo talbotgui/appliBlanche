@@ -1,19 +1,33 @@
-<div id="menu" class="row">
-  <nav mat-tab-nav-bar>
-    <!-- App module -->
-    <a class="col-md-4" mat-tab-link routerLink="/page-accueil-route" class="navAccueil" routerLinkActive="active"
-      l10nTranslate>menu_accueil</a>
+<div id="menu">
+  <div class="topnav" id="myTopnav">
 
-    <!-- Administration module -->
-    <a class="col-md-4" mat-tab-link routerLink="/page-utilisateur-route" class="navUtilisateur" routerLinkActive="active"
-      l10nTranslate>menu_utilisateur</a>
-    <a class="col-md-4" mat-tab-link routerLink="/page-client-route" class="navUtilisateur" routerLinkActive="active"
-      l10nTranslate>menu_client</a>
+    <!-- Accueil -->
+    <a href="#home" routerLink="/page-accueil-route" routerLinkActive="active" l10nTranslate>menu_accueil</a>
 
-    <!-- Reservations module -->
-    <a class="col-md-4" mat-tab-link routerLink="/page-reservations-route" class="navUtilisateur" routerLinkActive="active"
-      l10nTranslate>menu_reservations</a>
+    <!-- Module administration-->
+    <div class="dropdown">
+      <button class="dropbtn" l10nTranslate>menu_titre_administration
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-content">
+        <a href="#" routerLink="/page-utilisateur-route" routerLinkActive="active" l10nTranslate>menu_utilisateur</a>
+        <a href="#" routerLink="/page-client-route" routerLinkActive="active" l10nTranslate>menu_client</a>
+      </div>
+    </div>
 
-    <a class="col-md-4" mat-tab-link href="#" class="navDeconnexion" (click)="deconnecter()" l10nTranslate>menu_deconnexion</a>
-  </nav>
+    <!-- Module reservation-->
+    <div class="dropdown">
+      <button class="dropbtn" l10nTranslate>menu_titre_reservation
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-content">
+        <a href="#" routerLink="/page-reservations-route" routerLinkActive="active" l10nTranslate>menu_reservations</a>
+        <a href="#" routerLink="/page-adminreservations-route" routerLinkActive="active" l10nTranslate>menu_adminreservations</a>
+      </div>
+    </div>
+
+    <!-- Déconnexion-->
+    <a href="#" (click)="deconnecter()" l10nTranslate>menu_deconnexion</a>
+
+  </div>
 </div>
