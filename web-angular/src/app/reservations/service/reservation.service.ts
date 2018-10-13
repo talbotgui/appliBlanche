@@ -48,7 +48,6 @@ export class ReservationService {
     return this.http.post<void>(url, consommation, this.restUtils.creerHeaderPost());
   }
 
-
   /** Sauvegarde d'une chambre via l'API */
   sauvegarderChambre(chambre: model.Chambre): Observable<{} | void> {
     const url = environment.baseUrl + '/v1/chambres';

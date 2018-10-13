@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators'
+import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
@@ -37,47 +37,6 @@ export class HttpProxy {
     }
   ): Observable<T> {
     return this.http.get<T>(url, options).pipe(map((r) => this.transformerLesDatesDansLesObjetsEnVraiDate(r)));
-  }
-
-  /** Parcours l'objet et transforme les dates en String */
-  private transformerLesDatesEnString(obj: any) {
-
-    // Parcours des attributs
-    for (const attr in obj) {
-
-      // Si c'est une string
-      if (obj[attr] && obj[attr] instanceof Date) {
-        obj[attr] = this.formaterDate(obj[attr] as Date);
-      }
-
-      // Si c'est un objet
-      else if (obj[attr] && obj[attr] instanceof Object) {
-        this.transformerLesDatesDansLesObjetsEnVraiDate(obj[attr]);
-      }
-    }
-    return obj;
-  }
-
-  /** Parcours l'objet et transforme les string contenant des dates en Date */
-  private transformerLesDatesDansLesObjetsEnVraiDate(obj: any) {
-
-    // Parcours des attributs
-    for (const attr in obj) {
-
-      // Si c'est une string
-      if (obj[attr] && typeof obj[attr] === 'string') {
-        const s: string = (obj[attr] as string);
-        if (s.charAt(4) === '-' && s.charAt(7) === '-') {
-          obj[attr] = new Date(s);
-        }
-      }
-
-      // Si c'est un objet
-      else if (obj[attr] && obj[attr] instanceof Object) {
-        this.transformerLesDatesDansLesObjetsEnVraiDate(obj[attr]);
-      }
-    }
-    return obj;
   }
 
   /**
@@ -126,5 +85,46 @@ export class HttpProxy {
     } else {
       return '' + n;
     }
+  }
+
+  /** Parcours l'objet et transforme les dates en String */
+  private transformerLesDatesEnString(obj: any) {
+
+    // Parcours des attributs
+    for (const attr in obj) {
+
+      // Si c'est une string
+      if (obj[attr] && obj[attr] instanceof Date) {
+        obj[attr] = this.formaterDate(obj[attr] as Date);
+      }
+
+      // Si c'est un objet
+      else if (obj[attr] && obj[attr] instanceof Object) {
+        this.transformerLesDatesDansLesObjetsEnVraiDate(obj[attr]);
+      }
+    }
+    return obj;
+  }
+
+  /** Parcours l'objet et transforme les string contenant des dates en Date */
+  private transformerLesDatesDansLesObjetsEnVraiDate(obj: any) {
+
+    // Parcours des attributs
+    for (const attr in obj) {
+
+      // Si c'est une string
+      if (obj[attr] && typeof obj[attr] === 'string') {
+        const s: string = (obj[attr] as string);
+        if (s.charAt(4) === '-' && s.charAt(7) === '-') {
+          obj[attr] = new Date(s);
+        }
+      }
+
+      // Si c'est un objet
+      else if (obj[attr] && obj[attr] instanceof Object) {
+        this.transformerLesDatesDansLesObjetsEnVraiDate(obj[attr]);
+      }
+    }
+    return obj;
   }
 }

@@ -33,10 +33,6 @@ export class PageAdminReservationsComponent implements OnInit {
     this.chargerChambres();
   }
 
-  /** Chargement des chambres */
-  private chargerChambres() {
-    this.reservationsService.listerChambres().subscribe((chambres) => this.chambres = chambres);
-  }
   /** Affichage du formulaire d'ajout de chambre */
   proposerAjoutChambre() {
     this.nouvelleChambre = new model.Chambre('', '');
@@ -50,5 +46,10 @@ export class PageAdminReservationsComponent implements OnInit {
         this.chargerChambres();
       });
     }
+  }
+
+  /** Chargement des chambres */
+  private chargerChambres() {
+    this.reservationsService.listerChambres().subscribe((chambres) => this.chambres = chambres);
   }
 }
