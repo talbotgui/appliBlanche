@@ -39,6 +39,25 @@ export class HttpProxy {
     return this.http.get<T>(url, options).pipe(map((r) => this.transformerLesDatesDansLesObjetsEnVraiDate(r)));
   }
 
+  /** Parcours l'objet et transforme les dates en String */
+  private transformerLesDatesEnString(obj: any) {
+
+    // Parcours des attributs
+    for (const attr in obj) {
+
+      // Si c'est une string
+      if (obj[attr] && obj[attr] instanceof Date) {
+        obj[attr] = this.formaterDate(obj[attr] as Date);
+      }
+
+      // Si c'est un objet
+      else if (obj[attr] && obj[attr] instanceof Object) {
+        this.transformerLesDatesDansLesObjetsEnVraiDate(obj[attr]);
+      }
+    }
+    return obj;
+  }
+
   /** Parcours l'objet et transforme les string contenant des dates en Date */
   private transformerLesDatesDansLesObjetsEnVraiDate(obj: any) {
 
@@ -72,7 +91,8 @@ export class HttpProxy {
       params?: HttpParams | { [param: string]: string | string[]; }; reportProgress?: boolean; responseType?: 'json'; withCredentials?: boolean;
     }
   ): Observable<T> | Observable<HttpResponse<T>> {
-    return this.http.post<T>(url, body, options);
+    const bodyTransforme = this.transformerLesDatesEnString(body);
+    return this.http.post<T>(url, bodyTransforme, options);
   }
 
   /**
@@ -86,7 +106,8 @@ export class HttpProxy {
       params?: HttpParams | { [param: string]: string | string[]; }; reportProgress?: boolean; responseType?: 'json'; withCredentials?: boolean;
     }
   ): Observable<HttpResponse<T>> {
-    return this.http.post<T>(url, body, options);
+    const bodyTransforme = this.transformerLesDatesEnString(body);
+    return this.http.post<T>(url, bodyTransforme, options);
   }
 
   /** Format une Date en chaine de caractères */
