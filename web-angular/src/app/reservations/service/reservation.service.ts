@@ -36,8 +36,8 @@ export class ReservationService {
 
   /** Liste des réservations entre deux dates. */
   rechercherReservations(dateDebut: Date, dateFin: Date): Observable<model.Reservation[]> {
-    const debut = this.http.formatDate(dateDebut);
-    const fin = this.http.formatDate(dateFin);
+    const debut = this.http.formaterDate(dateDebut);
+    const fin = this.http.formaterDate(dateFin);
     const url = environment.baseUrl + '/v1/reservations?dateDebut=' + debut + '&dateFin=' + fin;
     return this.http.get<model.Reservation[]>(url, this.restUtils.creerHeader());
   }

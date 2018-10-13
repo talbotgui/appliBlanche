@@ -1,4 +1,5 @@
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators'
 import { Injectable } from '@angular/core';
 
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
@@ -35,7 +36,29 @@ export class HttpProxy {
       params?: HttpParams | { [param: string]: string | string[]; }; reportProgress?: boolean; responseType?: 'json'; withCredentials?: boolean;
     }
   ): Observable<T> {
-    return this.http.get<T>(url, options);
+    return this.http.get<T>(url, options).pipe(map((r) => this.transformerLesDatesDansLesObjetsEnVraiDate(r)));
+  }
+
+  /** Parcours l'objet et transforme les string contenant des dates en Date */
+  private transformerLesDatesDansLesObjetsEnVraiDate(obj: any) {
+
+    // Parcours des attributs
+    for (const attr in obj) {
+
+      // Si c'est une string
+      if (obj[attr] && typeof obj[attr] === 'string') {
+        const s: string = (obj[attr] as string);
+        if (s.charAt(4) === '-' && s.charAt(7) === '-') {
+          obj[attr] = new Date(s);
+        }
+      }
+
+      // Si c'est un objet
+      else if (obj[attr] && obj[attr] instanceof Object) {
+        this.transformerLesDatesDansLesObjetsEnVraiDate(obj[attr]);
+      }
+    }
+    return obj;
   }
 
   /**
@@ -67,7 +90,7 @@ export class HttpProxy {
   }
 
   /** Format une Date en chaine de caractères */
-  formatDate(laDate: Date): string {
+  formaterDate(laDate: Date): string {
     if (laDate) {
       return laDate.getFullYear() + '-' + this.formatNombre(laDate.getMonth() + 1) + '-' + this.formatNombre(laDate.getDate());
     } else {
