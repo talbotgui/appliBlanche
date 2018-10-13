@@ -275,6 +275,24 @@ public class ReservationServiceTest {
 	}
 
 	@Test
+	public void test03Reservation07CreationKoDatesDejaPrises() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final String refChambre = this.reservationService.sauvegarderChambre(new Chambre("C1"));
+		this.sauvegarderUneReservation("client1", refChambre, 2, 4);
+
+		//
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.sauvegarderUneReservation("client2", refChambre, 3, 8);
+		});
+
+		//
+		Assert.assertNotNull(thrown);
+		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.RESERVATION_DEJA_EXISTANTE));
+		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from CHAMBRE", Long.class));
+	}
+
+	@Test
 	public void test04Consommation01CreationSansRemise() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);

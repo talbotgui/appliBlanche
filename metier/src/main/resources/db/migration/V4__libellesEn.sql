@@ -76,6 +76,7 @@ insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_REF
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_OBJET_FONCTIONNELEMENT_EN_DOUBLE', 'An object of type ''{{0}}'' already exists with attribute''{{1}}'' and value ''{{2}}''', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_PARAMETRE_MANQUANT', 'Parameter ''{{0}}'' is required.', 'en' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_DATES_INCOHERENTES', 'Parameters ''{{0}}'' and ''{{1}}'' are not valide.', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'RESERVATION_DEJA_EXISTANTE', 'A reservation already exists those days', 'en' from LIBELLE;
 -- Page de réservation
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'reservation_placeholder_dateDebut', 'Start date', 'en' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'reservation_placeholder_dateFin', 'End date', 'en' from LIBELLE;

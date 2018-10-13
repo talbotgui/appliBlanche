@@ -124,6 +124,13 @@ public class ReservationServiceImpl implements ReservationService {
 		this.chambreRepo.findById(idChambre)
 				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "chambre", reservation.getChambre().getReference()));
 
+		// Vérification qu'aucune reservation n'existe à ces dates
+		final Long nbReservations = this.reservationRepo.compterReservationsDeLaChambre(reservation.getDateDebut(), reservation.getDateFin(),
+				reservation.getChambre().getId());
+		if (nbReservations > 0) {
+			throw new BusinessException(BusinessException.RESERVATION_DEJA_EXISTANTE);
+		}
+
 		return this.reservationRepo.save(reservation).getReference();
 	}
 
