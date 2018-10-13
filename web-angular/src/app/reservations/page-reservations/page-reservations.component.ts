@@ -33,7 +33,7 @@ export class PageReservationsComponent implements OnInit {
   jours: Date[];
 
   /** Reservation dans le détail */
-  reservationSelectionnee: model.Reservation;
+  reservationSelectionnee: model.Reservation | undefined;
 
   /** Un constructeur pour se faire injecter les dépendances */
   constructor(private reservationsService: ReservationService) { }
@@ -112,5 +112,14 @@ export class PageReservationsComponent implements OnInit {
         );
       }
     );
+  }
+
+  enregistrerReservationSelectionnee() {
+    if (this.reservationSelectionnee) {
+      this.reservationsService.sauvegarderReservation(this.reservationSelectionnee).subscribe(() => {
+        this.reservationSelectionnee = undefined;
+        this.chargerDonnees();
+      });
+    }
   }
 }

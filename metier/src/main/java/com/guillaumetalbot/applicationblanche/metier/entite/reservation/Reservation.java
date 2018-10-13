@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.guillaumetalbot.applicationblanche.metier.entite.Entite;
+import com.guillaumetalbot.applicationblanche.metier.entite.MutableUtil;
 
 @Entity
 public class Reservation extends Entite {
@@ -49,7 +50,7 @@ public class Reservation extends Entite {
 	}
 
 	public Set<Consommation> getConsommations() {
-		return new HashSet<>(this.consommations);
+		return MutableUtil.getMutable(this.consommations);
 	}
 
 	public LocalDate getDateDebut() {
