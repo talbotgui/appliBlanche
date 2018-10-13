@@ -2,6 +2,7 @@
 
 import { Injectable } from '@angular/core';
 
+/** Classe permettant la détection du navigateur et de l'OS */
 @Injectable()
 export class BrowserComponent {
 
