@@ -38,6 +38,16 @@ export class PageAdminReservationsComponent implements OnInit {
     this.nouvelleChambre = new model.Chambre('', '');
   }
 
+  /** Edition d'une chambre existante */
+  modifierChambre(c: model.Chambre) {
+    this.nouvelleChambre = c;
+  }
+
+  /** Annulation de la modification de la chambre */
+  annulerModificationChambre() {
+    this.nouvelleChambre = undefined;
+  }
+
   /** Sauvegarde de la chambre */
   validerAjoutChambre() {
     if (this.nouvelleChambre) {

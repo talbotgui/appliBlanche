@@ -7,7 +7,7 @@
 .topnav a { float: left; display: block; color: #f2f2f2; text-align: center; padding: 14px 16px; text-decoration: none; font-size: 17px; }
 
 /* Add an active class to highlight the current page */
-.active { background-color: #4CAF50; color: white; }
+.active { background-color: dimgrey; color: white; }
 
 /* Hide the link that should open and close the topnav on small screens */
 .topnav .icon { display: none; }

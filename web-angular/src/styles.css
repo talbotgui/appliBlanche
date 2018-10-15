@@ -8,6 +8,9 @@ input.ng-valid { border-left: solid 2px green; }
 /* Pour les boutons FA dans un entete de tableau */
 em.fa.actionDansUnEntete { margin-left: 5px; }
 
+/** Réduction des boutons d'action dans les titres de carte */
+.mat-card-title em.fa { font-size: 18px; }
+
 /* Pour les FA en général */
 .fa { cursor: pointer; }
 
