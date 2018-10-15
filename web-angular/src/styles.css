@@ -18,4 +18,4 @@ em.fa.actionDansUnEntete { margin-left: 5px; }
 .mat-card { padding: 10px; }
 
 /* Diminution de la largeur des input de datePicker */
-mat-form-field.datePickerLargeurAdaptee { max-width: 100px; }
+.datePickerLargeurAdaptee { max-width: 100px; }

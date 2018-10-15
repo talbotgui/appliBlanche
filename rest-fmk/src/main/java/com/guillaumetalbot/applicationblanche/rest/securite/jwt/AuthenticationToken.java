@@ -3,6 +3,7 @@ package com.guillaumetalbot.applicationblanche.rest.securite.jwt;
 import java.util.Collection;
 import java.util.Collections;
 
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 /**
@@ -19,8 +20,21 @@ public class AuthenticationToken extends UsernamePasswordAuthenticationToken {
 		this.ressourcesAutorisees = ressourcesAutorisees;
 	}
 
+	@Override
+	public boolean equals(final Object obj) {
+		return obj != null && AuthenticationToken.class.isInstance(obj) && obj.hashCode() == this.hashCode();
+	}
+
 	public Collection<String> getRessourcesAutorisees() {
 		return this.ressourcesAutorisees;
+	}
+
+	@Override
+	public int hashCode() {
+		final HashCodeBuilder hcb = new HashCodeBuilder();
+		hcb.append(super.hashCode());
+		hcb.append(this.ressourcesAutorisees);
+		return hcb.toHashCode();
 	}
 
 }

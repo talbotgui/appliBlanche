@@ -27,8 +27,7 @@ public class RoleEtRessourceRestControler {
 
 	@GetMapping(value = "/v1/roles")
 	public Collection<Role> listerRole() {
-		final Collection<Role> liste = this.securiteService.listerRoles();
-		return liste;
+		return this.securiteService.listerRoles();
 	}
 
 	@PostMapping(value = "/v1/roles")

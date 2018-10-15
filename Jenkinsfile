@@ -39,7 +39,7 @@ pipeline {
 				// see https://docs.sonarqube.org/display/SONAR/Analysis+Parameters
 				script { currentBuild.displayName = currentBuild.number + "-qualimétrie Sonar" }
 				withCredentials([string(credentialsId: 'sonarSecretKey', variable: 'SONAR_KEY')]) {
-					sh "mvn sonar:sonar -Dsonar.projectKey=ApplicationBlanche -Dsonar.organization=talbotgui-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${SONAR_KEY}"
+					sh "mvn sonar:sonar -Dsonar.projectKey=ApplicationBlanche -Dsonar.organization=talbotgui-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${SONAR_KEY} -Dsonar.java.coveragePlugin=jacoco"
 				}
 			}
 		}

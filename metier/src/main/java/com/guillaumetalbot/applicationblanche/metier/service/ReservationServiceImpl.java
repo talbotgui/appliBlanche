@@ -61,7 +61,7 @@ public class ReservationServiceImpl implements ReservationService {
 	public String sauvegarderChambre(final Chambre chambre) {
 
 		// Validation pas de chambre en double
-		this.chambreRepo.rechercherChambreParNom(chambre.getNom()).ifPresent((p) -> {
+		this.chambreRepo.rechercherChambreParNom(chambre.getNom()).ifPresent(p -> {
 			throw new BusinessException(BusinessException.OBJET_FONCTIONNELEMENT_EN_DOUBLE, "chambre", "nom", chambre.getNom());
 		});
 
@@ -73,24 +73,24 @@ public class ReservationServiceImpl implements ReservationService {
 
 		// Vérifier le produit
 		final Long idProduit = Entite.extraireIdentifiant(consommation.getProduit().getReference(), Produit.class);
-		final Optional<Produit> produit = this.produitRepo.findById(idProduit);
-		produit.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Produit", consommation.getProduit().getReference()));
+		final Produit produit = this.produitRepo.findById(idProduit)//
+				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Produit", consommation.getProduit().getReference()));
 
 		// Vérifier la présence de la réservation
 		final Long idReservation = Entite.extraireIdentifiant(consommation.getReservation().getReference(), Reservation.class);
 		final Optional<Reservation> resaOpt = this.reservationRepo.findById(idReservation);
-		resaOpt.orElseThrow(
-				() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Reservation", consommation.getReservation().getReference()));
+		final Reservation reservation = resaOpt//
+				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Reservation",
+						consommation.getReservation().getReference()));
 
 		// Vérifier les dates de la réservation
-		final Reservation reservation = resaOpt.get();
 		if (reservation.getDateDebut().isAfter(LocalDate.now()) || reservation.getDateFin().isBefore(LocalDate.now())) {
 			throw new BusinessException(BusinessException.RESERVATION_PAS_EN_COURS, consommation.getReservation().getReference());
 		}
 
 		// Si le prix de la consommation n'est pas renseigné (pas de remise), on prend le prix du produit
 		if (consommation.getPrixPaye() == null) {
-			consommation.setPrixPaye(produit.get().getPrix());
+			consommation.setPrixPaye(produit.getPrix());
 		}
 
 		return this.consommationRepo.save(consommation).getReference();
@@ -106,7 +106,7 @@ public class ReservationServiceImpl implements ReservationService {
 		produit.setPrix(Math.floor(produit.getPrix() * 100) / 100);
 
 		// Validation pas de produit en double
-		this.produitRepo.rechercherProduitManagedParNom(produit.getNom()).ifPresent((p) -> {
+		this.produitRepo.rechercherProduitManagedParNom(produit.getNom()).ifPresent(p -> {
 			if (!p.getReference().equals(produit.getReference())) {
 				throw new BusinessException(BusinessException.OBJET_FONCTIONNELEMENT_EN_DOUBLE, "produit", "nom", produit.getNom());
 			}
@@ -123,12 +123,12 @@ public class ReservationServiceImpl implements ReservationService {
 
 		// Validation de la chambre
 		final Long idChambre = Entite.extraireIdentifiant(reservation.getChambre().getReference(), Chambre.class);
-		this.chambreRepo.findById(idChambre)
+		final Chambre chambre = this.chambreRepo.findById(idChambre)
 				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "chambre", reservation.getChambre().getReference()));
 
 		// Vérification qu'aucune reservation n'existe à ces dates
 		final Long nbReservations = this.reservationRepo.compterReservationsDeLaChambre(reservation.getDateDebut(), reservation.getDateFin(),
-				reservation.getChambre().getId());
+				chambre.getId());
 		if (nbReservations > 0) {
 			throw new BusinessException(BusinessException.RESERVATION_DEJA_EXISTANTE);
 		}
