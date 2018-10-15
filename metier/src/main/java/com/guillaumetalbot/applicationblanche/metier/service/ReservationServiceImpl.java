@@ -106,7 +106,7 @@ public class ReservationServiceImpl implements ReservationService {
 		produit.setPrix(Math.floor(produit.getPrix() * 100) / 100);
 
 		// Validation pas de produit en double
-		this.produitRepo.rechercherProduitParNom(produit.getNom()).ifPresent((p) -> {
+		this.produitRepo.rechercherProduitManagedParNom(produit.getNom()).ifPresent((p) -> {
 			if (!p.getReference().equals(produit.getReference())) {
 				throw new BusinessException(BusinessException.OBJET_FONCTIONNELEMENT_EN_DOUBLE, "produit", "nom", produit.getNom());
 			}

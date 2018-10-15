@@ -1,7 +1,7 @@
 import { Injectable, ErrorHandler, Injector } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
-import { TranslationService } from 'angular-l10n';
+import { TranslationService, LocaleService } from 'angular-l10n';
 
 /** Gestionnaire d'erreur par défaut */
 @Injectable()
@@ -32,6 +32,7 @@ export class ExceptionHandler implements ErrorHandler {
     // Récupération d'un composant (sans déclencher de dépendance cyclique)
     const snackBar = this.injector.get(MatSnackBar);
     const i18n = this.injector.get(TranslationService);
+    const locale = this.injector.get(LocaleService);
 
     // Log de l'erreur (nécessaire pour tracer l'erreur)
     /* tslint:disable-next-line */
@@ -68,7 +69,7 @@ export class ExceptionHandler implements ErrorHandler {
 
     // Affichage du message
     if (codeMessage) {
-      const message = i18n.translate(codeMessage, parametresMessage);
+      const message = i18n.translate(codeMessage, parametresMessage, locale.getCurrentLanguage());
       snackBar.open(message, undefined, this.snackbarConfig);
     }
   }

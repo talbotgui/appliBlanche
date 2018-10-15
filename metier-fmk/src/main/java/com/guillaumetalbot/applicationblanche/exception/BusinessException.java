@@ -25,7 +25,7 @@ public class BusinessException extends BaseException {
 	public static final ExceptionId OBJET_DEJA_EXISTANT = new ExceptionId("ERREUR_OBJET_DEJA_EXISTANT",
 			"Objet de type {{0}} avec l'identifiant {{1}} déjà existant", ExceptionLevel.INFORMATION, 400);
 
-	public static final ExceptionId OBJET_FONCTIONNELEMENT_EN_DOUBLE = new ExceptionId("ERREUR_OBJET_FONCTIONNELEMNT_EN_DOUBLE",
+	public static final ExceptionId OBJET_FONCTIONNELEMENT_EN_DOUBLE = new ExceptionId("ERREUR_OBJET_FONCTIONNELEMENT_EN_DOUBLE",
 			"L'objet de type '{{0}}' existe déjà avec l'attribut '{{1}}' et la valeur '{{2}}'", ExceptionLevel.INFORMATION, 400);
 
 	public static final ExceptionId OBJET_NON_EXISTANT = new ExceptionId("ERREUR_OBJET_NON_EXISTANT",
