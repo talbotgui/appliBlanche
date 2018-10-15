@@ -43,7 +43,7 @@ export class PageAdminReservationsComponent implements OnInit {
   /** Affichage du formulaire d'ajout de chambre */
   proposerAjoutChambre() { this.nouvelleChambre = new model.Chambre('', ''); }
   /** Edition d'une chambre existante */
-  modifierChambre(c: model.Chambre) { this.nouvelleChambre = c; }
+  modifierChambre(c: model.Chambre) { this.nouvelleChambre = new model.Chambre(c.reference, c.nom) }
   /** Annulation de la modification de la chambre */
   annulerModificationChambre() { this.nouvelleChambre = undefined; }
   /** Sauvegarde de la chambre */
@@ -59,7 +59,7 @@ export class PageAdminReservationsComponent implements OnInit {
   /** Affichage du formulaire d'ajout de produit */
   proposerAjoutProduit() { this.nouveauProduit = new model.Produit('', '', '', 0); }
   /** Edition d'un produit existant */
-  modifierProduit(p: model.Produit) { this.nouveauProduit = p; }
+  modifierProduit(p: model.Produit) { this.nouveauProduit = new model.Produit(p.reference, p.couleur, p.nom, p.prix); }
   /** Annulation de la modification du produit */
   annulerModificationProduit() { this.nouveauProduit = undefined; }
   /** Sauvegarde du produit */
