@@ -133,11 +133,7 @@ public class ReservationRestControler {
 	@DeleteMapping("/reservations/{referenceReservation}/consommations/{referenceConsommation}")
 	public void supprimerConsommation(@PathVariable("referenceReservation") final String referenceReservation, //
 			@PathVariable("referenceConsommation") final String referenceConsommation) {
-
-		// TODO: valider les references l'une vis-à-vis de l'autre
-
-		// Sauvegarde
-		this.reservationService.supprimerConsommation(referenceConsommation);
+		this.reservationService.supprimerConsommation(referenceReservation, referenceConsommation);
 	}
 
 	@DeleteMapping("/produits/{referenceProduit}")

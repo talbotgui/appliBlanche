@@ -151,8 +151,15 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override
-	public void supprimerConsommation(final String referenceConsommation) {
+	public void supprimerConsommation(final String referenceReservation, final String referenceConsommation) {
 		final Long idConsommation = Entite.extraireIdentifiant(referenceConsommation, Consommation.class);
+		final Long idReservation = Entite.extraireIdentifiant(referenceReservation, Reservation.class);
+
+		// Valide les ids entre eux
+		if (!this.consommationRepo.getIdReservationByIdConsommation(idConsommation).equals(idReservation)) {
+			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Reservation", referenceReservation);
+		}
+
 		this.consommationRepo.deleteById(idConsommation);
 	}
 

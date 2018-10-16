@@ -477,7 +477,7 @@ public class ReservationServiceTest {
 	}
 
 	@Test
-	public void test04Consommation06Suppression() {
+	public void test04Consommation06SuppressionOk() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		final String refChambre = this.reservationService.sauvegarderChambre(new Chambre("nom"));
@@ -489,7 +489,7 @@ public class ReservationServiceTest {
 		final String ref = this.reservationService.sauvegarderConsommation(new Consommation(reservation, produit, null, 2));
 
 		//
-		this.reservationService.supprimerConsommation(ref);
+		this.reservationService.supprimerConsommation(reservation.getReference(), ref);
 
 		//
 		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from CONSOMMATION", Long.class));
@@ -515,5 +515,29 @@ public class ReservationServiceTest {
 		Assert.assertNotNull(thrown);
 		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.RESERVATION_PAS_EN_COURS));
 		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from CONSOMMATION", Long.class));
+	}
+
+	@Test
+	public void test04Consommation07SuppressionKo() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final String refChambre = this.reservationService.sauvegarderChambre(new Chambre("nom"));
+		final Reservation reservation = new Reservation();
+		reservation.setReference(this.sauvegarderUneReservation("client", refChambre, 0, 8));
+		final Produit produit = new Produit();
+		final Double prixProduit = 2.00;
+		produit.setReference(this.reservationService.sauvegarderProduit(new Produit("produit", prixProduit, "rouge")));
+		final String ref = this.reservationService.sauvegarderConsommation(new Consommation(reservation, produit, null, 2));
+		final String mauvaiseReferenceResa = Entite.genererReference(Reservation.class, 99L);
+
+		//
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.reservationService.supprimerConsommation(mauvaiseReferenceResa, ref);
+		});
+
+		//
+		Assert.assertNotNull(thrown);
+		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_NON_EXISTANT));
+		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from CONSOMMATION", Long.class));
 	}
 }

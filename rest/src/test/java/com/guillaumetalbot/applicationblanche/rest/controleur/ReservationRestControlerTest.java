@@ -237,13 +237,13 @@ public class ReservationRestControlerTest extends BaseTestClass {
 		final String ref = Entite.genererReference(Consommation.class, 1L);
 
 		// ARRANGE
-		Mockito.doNothing().when(this.reservationService).supprimerConsommation(ref);
+		Mockito.doNothing().when(this.reservationService).supprimerConsommation(refReservation, ref);
 
 		// ACT
 		this.getREST().delete(this.getURL() + "/v1/reservations/" + refReservation + "/consommations/" + ref);
 
 		// ASSERT
-		Mockito.verify(this.reservationService).supprimerConsommation(ref);
+		Mockito.verify(this.reservationService).supprimerConsommation(refReservation, ref);
 		Mockito.verifyNoMoreInteractions(this.reservationService);
 	}
 
