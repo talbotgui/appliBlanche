@@ -6,6 +6,8 @@ import { SharedModule } from '../shared/shared.module';
 
 // Tous les composants applicatifs de l'application
 import { PageReservationsComponent } from './page-reservations/page-reservations.component';
+import { CadreCalendrierComponent } from './page-reservations/cadre-calendrier/cadre-calendrier.component';
+import { CadreReservationComponent } from './page-reservations/cadre-reservation/cadre-reservation.component';
 import { PageAdminReservationsComponent } from './page-adminreservations/page-adminreservations.component';
 import { CadreProduitsComponent } from './page-adminreservations/cadre-produits/cadre-produits.component';
 import { CadreChambresComponent } from './page-adminreservations/cadre-chambres/cadre-chambres.component';
@@ -21,7 +23,8 @@ import { ReservationService } from './service/reservation.service';
 
   // Tous les composants applicatifs du module
   declarations: [
-    PageReservationsComponent, PageAdminReservationsComponent, CadreProduitsComponent, CadreChambresComponent
+    PageAdminReservationsComponent, CadreProduitsComponent, CadreChambresComponent,
+    PageReservationsComponent, CadreCalendrierComponent, CadreReservationComponent
   ],
 
   // Les services

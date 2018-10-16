@@ -1,0 +1,71 @@
+<!-- Le tableau des réservations-->
+<mat-card>
+  <mat-card-title>Tableau des réservations</mat-card-title>
+  <mat-card-content class="tableauDonnees">
+
+    <!-- Entete principal-->
+    <div class="row entete" *ngIf="!flagSaisieDatesPersonalisees">
+      <div class="col-12">
+
+        <span class="boutonsAction">
+          <em class="fa fa-angle-double-left" (click)="deplacerDateParJour(-14);"></em>
+          <em class="fa fa-angle-left" (click)="deplacerDateParJour(-7);"></em>
+        </span>
+
+        <!-- Dates de début et fin-->
+        <span>Du {{dateDebut | date:'dd/MM'}} au {{dateFin | date:'dd/MM'}}</span>
+
+        <span class="boutonsAction">
+          <em class="fa fa-angle-right" (click)="deplacerDateParJour(7);"></em>
+          <em class="fa fa-angle-double-right" (click)="deplacerDateParJour(14);"></em>
+          <em class="fa fa-search" (click)="flagSaisieDatesPersonalisees=true" matTooltip="{{ 'commun_tooltip_rechercher' | translate: lang }}"></em>
+          <em class="fa fa-plus" (click)="initaliserNouvelleReservation()" matTooltip="{{ 'commun_tooltip_ajouter' | translate: lang }}"></em>
+        </span>
+      </div>
+    </div>
+
+    <!-- Entete secondaire-->
+    <div class="row entete" *ngIf="flagSaisieDatesPersonalisees">
+      <div class="col-12">
+
+        <!-- Date de début -->
+        <span class="libelleDatePicker">Du</span>
+        <mat-form-field class="datePickerLargeurAdaptee">
+          <input matInput name="dateDebutPick" [matDatepicker]="dateDebutPick" [max]="dateFin" [(ngModel)]="dateDebut"
+            required>
+          <mat-datepicker-toggle matSuffix [for]="dateDebutPick"></mat-datepicker-toggle>
+          <mat-datepicker #dateDebutPick disabled="false"></mat-datepicker>
+        </mat-form-field>
+
+        <!-- Date de fin -->
+        <span class="libelleDatePicker">Au</span>
+        <mat-form-field class="datePickerLargeurAdaptee">
+          <input matInput name="dateFinPick" [matDatepicker]="dateFinPick" [min]="dateDebut" [(ngModel)]="dateFin"
+            required>
+          <mat-datepicker-toggle matSuffix [for]="dateFinPick"></mat-datepicker-toggle>
+          <mat-datepicker #dateFinPick disabled="false"></mat-datepicker>
+        </mat-form-field>
+
+        <span class="boutonsAction">
+          <em class="fa fa-search" (click)="chargerDonnees();" matTooltip="{{ 'commun_tooltip_rechercher' | translate: lang }}"></em>
+          <em class="fa fa-ban" (click)="flagSaisieDatesPersonalisees=false" matTooltip="{{ 'commun_tooltip_annuler' | translate: lang }}"></em>
+          <em class="fa fa-plus" (click)="initaliserNouvelleReservation()" matTooltip="{{ 'commun_tooltip_ajouter' | translate: lang }}"></em>
+        </span>
+      </div>
+    </div>
+
+    <!-- Ligne des chambres -->
+    <div class="row enteteTableau">
+      <div class="col-2">Date</div>
+      <div [class]="'col-' + nbColParChambre" *ngFor="let c of chambres">{{c.nom}}</div>
+    </div>
+
+    <!-- Tableau de données-->
+    <div [class]="(j.getDay()==0||j.getDay()==6)?'row weekend':'row'" *ngFor="let j of jours">
+      <div class="col-2">{{j | date:'dd/MM'}}</div>
+      <div [class]="'col-' + nbColParChambre" *ngFor="let c of chambres;" (click)="afficherDetail(reservations[c.reference][j.toISOString()])">
+        <span class="reservation">{{(reservations[c.reference])?(reservations[c.reference][j.toISOString()]?reservations[c.reference][j.toISOString()].client:''):''}}</span>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

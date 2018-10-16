@@ -1,0 +1,44 @@
+<!-- Le formulaire de détail -->
+<mat-card *ngIf="!!reservationSelectionnee">
+  <mat-card-title>Détails de la réservation {{reservationSelectionnee.reference}}</mat-card-title>
+  <mat-card-content>
+    <form novalidate #leForm="ngForm">
+      <div class="row">
+        <mat-form-field>
+          <input matInput name="dateDebutPickDetail" [matDatepicker]="dateDebutPickDetail" [max]="reservationSelectionnee.dateFin"
+            [(ngModel)]="reservationSelectionnee.dateDebut" placeholder="{{ 'reservation_placeholder_dateDebut' | translate: lang }}"
+            required>
+          <mat-datepicker-toggle matSuffix [for]="dateDebutPickDetail"></mat-datepicker-toggle>
+          <mat-datepicker #dateDebutPickDetail disabled="false"></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field>
+          <input matInput name="dateFinPickDetail" [matDatepicker]="dateFinPickDetail" [min]="reservationSelectionnee.dateDebut"
+            [(ngModel)]="reservationSelectionnee.dateFin" placeholder="{{ 'reservation_placeholder_dateFin' | translate: lang }}"
+            required>
+          <mat-datepicker-toggle matSuffix [for]="dateFinPickDetail"></mat-datepicker-toggle>
+          <mat-datepicker #dateFinPickDetail disabled="false"></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field>
+          <input matInput name="client" [(ngModel)]="reservationSelectionnee.client" placeholder="{{ 'reservation_placeholder_client' | translate: lang }}"
+            required>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field>
+          <mat-select [(ngModel)]="reservationSelectionnee.chambre.reference" name="chambre" placeholder="{{ 'reservation_placeholder_chambre' | translate: lang }}"
+            required>
+            <mat-option *ngFor="let c of chambres" [value]="c.reference">{{c.nom}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <button type="submit" (click)="enregistrerReservationSelectionnee()" class="btn btn-outline-secondary"
+          [disabled]="!leForm.form.valid" l10nTranslate>reservation_bouton_enregistrer</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
