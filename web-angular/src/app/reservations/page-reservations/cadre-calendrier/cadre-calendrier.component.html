@@ -8,16 +8,17 @@
       <div class="col-12">
 
         <span class="boutonsAction">
-          <em class="fa fa-angle-double-left" (click)="deplacerDateParJour(-14);"></em>
-          <em class="fa fa-angle-left" (click)="deplacerDateParJour(-7);"></em>
+          <em class="fa fa-angle-double-left" (click)="deplacerDateParJour(-14);" matTooltip="{{ 'calendrier_tooltip_moinsMoins' | translate: lang }}"></em>
+          <em class="fa fa-angle-left" (click)="deplacerDateParJour(-7);" matTooltip="{{ 'calendrier_tooltip_moins' | translate: lang }}"></em>
         </span>
 
         <!-- Dates de début et fin-->
         <span>Du {{dateDebut | date:'dd/MM'}} au {{dateFin | date:'dd/MM'}}</span>
 
         <span class="boutonsAction">
-          <em class="fa fa-angle-right" (click)="deplacerDateParJour(7);"></em>
-          <em class="fa fa-angle-double-right" (click)="deplacerDateParJour(14);"></em>
+          <em class="fa fa-angle-right" (click)="deplacerDateParJour(7);" matTooltip="{{ 'calendrier_tooltip_plus' | translate: lang }}"></em>
+          <em class="fa fa-angle-double-right" (click)="deplacerDateParJour(14);" matTooltip="{{ 'calendrier_tooltip_plusPlus' | translate: lang }}"></em>
+          <em class="fa fa-calendar" (click)="deplacerDateParDefaut();" matTooltip="{{ 'calendrier_tooltip_dateParDefaut' | translate: lang }}"></em>
           <em class="fa fa-search" (click)="flagSaisieDatesPersonalisees=true" matTooltip="{{ 'commun_tooltip_rechercher' | translate: lang }}"></em>
           <em class="fa fa-plus" (click)="initaliserNouvelleReservation()" matTooltip="{{ 'commun_tooltip_ajouter' | translate: lang }}"></em>
         </span>

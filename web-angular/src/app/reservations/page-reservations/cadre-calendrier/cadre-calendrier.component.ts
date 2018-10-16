@@ -42,6 +42,12 @@ export class CadreCalendrierComponent implements OnInit {
   ngOnInit() {
 
     // Initialisation des dates de filtrage (de J-3 à J+12)
+    this.deplacerDateParDefaut();
+
+  }
+
+  /** revenir aux dates par défaut */
+  deplacerDateParDefaut() {
     const dateDuJour = new Date();
     this.dateDebut = new Date(dateDuJour.getTime() - (3 * 1000 * 3600 * 24));
     this.dateFin = new Date(dateDuJour.getTime() + (12 * 1000 * 3600 * 24));
@@ -49,7 +55,6 @@ export class CadreCalendrierComponent implements OnInit {
     // Chargement des données
     this.chargerDonnees();
   }
-
 
   /** Déplacement des dates du filtre en jour */
   deplacerDateParJour(n: number) {
@@ -72,7 +77,6 @@ export class CadreCalendrierComponent implements OnInit {
     // Pour prévenir le composant parent qu'une réservation est sélectionnée
     this.busDeMessage.emit(new model.Reservation('', new Date(), new Date(), '', new model.Chambre('', '')));
   }
-
 
   /** Chargement de la liste des chambres, puis des réservations et calcul du tableau de données */
   chargerDonnees() {
