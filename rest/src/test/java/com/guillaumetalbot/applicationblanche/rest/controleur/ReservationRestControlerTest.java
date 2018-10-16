@@ -85,6 +85,21 @@ public class ReservationRestControlerTest extends BaseTestClass {
 	}
 
 	@Test
+	public void test01Chambre04Supprimer() {
+
+		// ARRANGE
+		final String ref = Entite.genererReference(Chambre.class, 2L);
+		Mockito.doNothing().when(this.reservationService).supprimerChambre(ref);
+
+		// ACT
+		this.getREST().delete(this.getURL() + "/v1/chambres/" + ref);
+
+		// ASSERT
+		Mockito.verify(this.reservationService).supprimerChambre(ref);
+		Mockito.verifyNoMoreInteractions(this.reservationService);
+	}
+
+	@Test
 	public void test02Produits01Lister() {
 
 		// ARRANGE

@@ -77,4 +77,10 @@ export class ReservationService {
     const url = environment.baseUrl + '/v1/produits/' + referenceProduit;
     return this.http.delete<void>(url, this.restUtils.creerHeader());
   }
+
+  /** Suppression d'un chambre via l'API */
+  supprimerChambre(referenceChambre: string): Observable<{} | void> {
+    const url = environment.baseUrl + '/v1/chambres/' + referenceChambre;
+    return this.http.delete<void>(url, this.restUtils.creerHeader());
+  }
 }

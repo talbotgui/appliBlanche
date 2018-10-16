@@ -18,6 +18,9 @@ public interface ReservationRepository extends CrudRepository<Reservation, Long>
 	Long compterReservationsDeLaChambre(@Param("dateDebut") LocalDate dateDebut, @Param("dateFin") LocalDate dateFin,
 			@Param("chambreId") Long chambreId);
 
+	@Query("select count(r) from Reservation r where r.chambre.id = :chambreId")
+	Long compterReservationsDeLaChambre(@Param("chambreId") Long chambreId);
+
 	@Query("select r from Reservation r where r.dateDebut<:dateFin and r.dateFin>:dateDebut order by r.dateDebut, r.chambre.nom")
 	@QueryHints(value = { @QueryHint(name = org.hibernate.jpa.QueryHints.HINT_READONLY, value = "true") })
 	Collection<Reservation> rechercherReservations(@Param("dateDebut") LocalDate dateDebut, @Param("dateFin") LocalDate dateFin);

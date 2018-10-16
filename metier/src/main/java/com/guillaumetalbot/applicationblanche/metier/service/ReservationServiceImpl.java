@@ -61,8 +61,10 @@ public class ReservationServiceImpl implements ReservationService {
 	public String sauvegarderChambre(final Chambre chambre) {
 
 		// Validation pas de chambre en double
-		this.chambreRepo.rechercherChambreParNom(chambre.getNom()).ifPresent(p -> {
-			throw new BusinessException(BusinessException.OBJET_FONCTIONNELEMENT_EN_DOUBLE, "chambre", "nom", chambre.getNom());
+		this.chambreRepo.rechercherChambreParNom(chambre.getNom()).ifPresent(c -> {
+			if (!c.getReference().equals(chambre.getReference())) {
+				throw new BusinessException(BusinessException.OBJET_FONCTIONNELEMENT_EN_DOUBLE, "chambre", "nom", chambre.getNom());
+			}
 		});
 
 		return this.chambreRepo.save(chambre).getReference();
@@ -137,6 +139,18 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override
+	public void supprimerChambre(final String reference) {
+		final Long id = Entite.extraireIdentifiant(reference, Chambre.class);
+
+		// Suppression impossible si des réservations sont associées
+		if (this.reservationRepo.compterReservationsDeLaChambre(id) > 0) {
+			throw new BusinessException(BusinessException.SUPPRESSION_IMPOSSIBLE_OBJETS_LIES, "Reservation");
+		}
+
+		this.chambreRepo.deleteById(id);
+	}
+
+	@Override
 	public void supprimerConsommation(final String referenceConsommation) {
 		final Long idConsommation = Entite.extraireIdentifiant(referenceConsommation, Consommation.class);
 		this.consommationRepo.deleteById(idConsommation);
@@ -145,12 +159,24 @@ public class ReservationServiceImpl implements ReservationService {
 	@Override
 	public void supprimerProduit(final String referenceProduit) {
 		final Long idProduit = Entite.extraireIdentifiant(referenceProduit, Produit.class);
+
+		// Suppression impossible si des consommations sont associées
+		if (this.consommationRepo.compterConsommationDuProduit(idProduit) > 0) {
+			throw new BusinessException(BusinessException.SUPPRESSION_IMPOSSIBLE_OBJETS_LIES, "Consommation");
+		}
+
 		this.produitRepo.deleteById(idProduit);
 	}
 
 	@Override
 	public void supprimerReservation(final String referenceReservation) {
 		final Long idReservation = Entite.extraireIdentifiant(referenceReservation, Reservation.class);
+
+		// Suppression impossible si des consommations sont associées
+		if (this.consommationRepo.compterConsommationDeLaReservation(idReservation) > 0) {
+			throw new BusinessException(BusinessException.SUPPRESSION_IMPOSSIBLE_OBJETS_LIES, "Consommation");
+		}
+
 		this.reservationRepo.deleteById(idReservation);
 	}
 }

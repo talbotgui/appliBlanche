@@ -55,6 +55,13 @@ export class PageAdminReservationsComponent implements OnInit {
       });
     }
   }
+  /** Suppression chambre */
+  supprimerChambre(c: model.Chambre) {
+    this.reservationsService.supprimerChambre(c.reference).subscribe(() => {
+      this.nouvelleChambre = undefined;
+      this.chargerChambres();
+    });
+  }
 
   /** Affichage du formulaire d'ajout de produit */
   proposerAjoutProduit() { this.nouveauProduit = new model.Produit('', '', '', 0); }
@@ -70,6 +77,13 @@ export class PageAdminReservationsComponent implements OnInit {
         this.chargerProduits();
       });
     }
+  }
+  /** Suppression produit */
+  supprimerProduit(p: model.Produit) {
+    this.reservationsService.supprimerProduit(p.reference).subscribe(() => {
+      this.nouveauProduit = undefined;
+      this.chargerProduits();
+    });
   }
 
   /** Chargement des chambres */

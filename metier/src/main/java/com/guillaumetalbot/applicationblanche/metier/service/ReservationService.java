@@ -26,6 +26,8 @@ public interface ReservationService {
 
 	String sauvegarderReservation(Reservation reservation);
 
+	void supprimerChambre(final String reference);
+
 	void supprimerConsommation(String referenceConsommation);
 
 	void supprimerProduit(String referenceProduit);

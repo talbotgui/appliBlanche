@@ -13,6 +13,7 @@
             <span>{{c.nom}}</span>
             <em class="fa fa-edit" (click)="modifierChambre(c)" *ngIf="!nouvelleChambre || c.reference !== nouvelleChambre.reference"></em>
             <em class="fa fa-ban" (click)="annulerModificationChambre()" *ngIf="nouvelleChambre && c.reference === nouvelleChambre.reference"></em>
+            <em class="fa fa-remove" (click)="supprimerChambre(c)" *ngIf="!nouvelleChambre || c.reference !== nouvelleChambre.reference"></em>
           </li>
           <li *ngIf="nouvelleChambre">
             <mat-form-field>
@@ -37,6 +38,7 @@
             <span [style.color]="p.couleur">{{p.nom}} {{p.prix}} €</span>
             <em class="fa fa-edit" (click)="modifierProduit(p)" *ngIf="!nouveauProduit || p.reference !== nouveauProduit.reference"></em>
             <em class="fa fa-ban" (click)="annulerModificationProduit()" *ngIf="nouveauProduit && p.reference === nouveauProduit.reference"></em>
+            <em class="fa fa-remove" (click)="supprimerProduit(p)" *ngIf="!nouveauProduit || p.reference !== nouveauProduit.reference"></em>
           </li>
           <li *ngIf="nouveauProduit">
             <mat-form-field>

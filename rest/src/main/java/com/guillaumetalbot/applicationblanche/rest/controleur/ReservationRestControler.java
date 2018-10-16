@@ -125,6 +125,11 @@ public class ReservationRestControler {
 		return '"' + reference + '"';
 	}
 
+	@DeleteMapping("/chambres/{referenceChambre}")
+	public void supprimerChambre(@PathVariable("referenceChambre") final String referenceChambre) {
+		this.reservationService.supprimerChambre(referenceChambre);
+	}
+
 	@DeleteMapping("/reservations/{referenceReservation}/consommations/{referenceConsommation}")
 	public void supprimerConsommation(@PathVariable("referenceReservation") final String referenceReservation, //
 			@PathVariable("referenceConsommation") final String referenceConsommation) {

@@ -127,6 +127,30 @@ public class ReservationServiceTest {
 	}
 
 	@Test
+	public void test01Produit04SuppressionKo() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final String refProduit = this.reservationService.sauvegarderProduit(new Produit("nom", 1.2, "rouge"));
+		final String refChambre = this.reservationService.sauvegarderChambre(new Chambre("nomC"));
+		final String refResa = this.sauvegarderUneReservation("client", refChambre, -1, 2);
+		final Reservation resa = new Reservation();
+		resa.setReference(refResa);
+		final Produit produit = new Produit();
+		produit.setReference(refProduit);
+		this.reservationService.sauvegarderConsommation(new Consommation(resa, produit, 2.0, 1));
+
+		//
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.reservationService.supprimerProduit(refProduit);
+		});
+
+		//
+		Assert.assertNotNull(thrown);
+		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.SUPPRESSION_IMPOSSIBLE_OBJETS_LIES));
+		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from PRODUIT", Long.class));
+	}
+
+	@Test
 	public void test02Chambre01CreationOk() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
@@ -170,6 +194,37 @@ public class ReservationServiceTest {
 		//
 		Assert.assertNotNull(chambres);
 		Assertions.assertThat(chambres.stream().map((c) -> c.getNom()).collect(Collectors.toList())).containsExactlyElementsOf(nomDesChambres);
+	}
+
+	@Test
+	public void test02Chambre03SuppressionOk() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final String refChambre = this.reservationService.sauvegarderChambre(new Chambre("nomC"));
+
+		//
+		this.reservationService.supprimerChambre(refChambre);
+
+		//
+		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from CHAMBRE", Long.class));
+	}
+
+	@Test
+	public void test02Chambre04SuppressionKo() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final String refChambre = this.reservationService.sauvegarderChambre(new Chambre("nomC"));
+		this.sauvegarderUneReservation("client", refChambre, -1, 2);
+
+		//
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.reservationService.supprimerChambre(refChambre);
+		});
+
+		//
+		Assert.assertNotNull(thrown);
+		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.SUPPRESSION_IMPOSSIBLE_OBJETS_LIES));
+		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from CHAMBRE", Long.class));
 	}
 
 	@Test
@@ -230,6 +285,30 @@ public class ReservationServiceTest {
 		//
 		Assert.assertNotNull(reservations);
 		Assert.assertEquals(0, reservations.size());
+	}
+
+	@Test
+	public void test03Reservation04SuppressionKo() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final String refProduit = this.reservationService.sauvegarderProduit(new Produit("nom", 1.2, "rouge"));
+		final String refChambre = this.reservationService.sauvegarderChambre(new Chambre("nomC"));
+		final String refResa = this.sauvegarderUneReservation("client", refChambre, -1, 2);
+		final Reservation resa = new Reservation();
+		resa.setReference(refResa);
+		final Produit produit = new Produit();
+		produit.setReference(refProduit);
+		this.reservationService.sauvegarderConsommation(new Consommation(resa, produit, 2.0, 1));
+
+		//
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.reservationService.supprimerReservation(refResa);
+		});
+
+		//
+		Assert.assertNotNull(thrown);
+		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.SUPPRESSION_IMPOSSIBLE_OBJETS_LIES));
+		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from RESERVATION", Long.class));
 	}
 
 	@Test

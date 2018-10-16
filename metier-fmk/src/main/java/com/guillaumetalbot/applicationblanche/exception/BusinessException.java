@@ -42,6 +42,9 @@ public class BusinessException extends BaseException {
 	/** Default UID. */
 	private static final long serialVersionUID = 1L;
 
+	public static final ExceptionId SUPPRESSION_IMPOSSIBLE_OBJETS_LIES = new ExceptionId("SUPPRESSION_IMPOSSIBLE_OBJETS_LIES",
+			"Suppression impossible car un ou plusieurs objets de type '{{0}}' sont liés", ExceptionLevel.INFORMATION, 400);
+
 	public BusinessException(final ExceptionId exceptionId) {
 		super(exceptionId);
 	}
