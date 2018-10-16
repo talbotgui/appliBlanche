@@ -20,7 +20,7 @@
           <input type="color" matInput name="couleur" [(ngModel)]="nouveauProduit.couleur" placeholder="Couleur"
             required>
         </mat-form-field>
-        <mat-form-field>
+        <mat-form-field class="inputPrix">
           <input type="number" matInput name="prix" [(ngModel)]="nouveauProduit.prix" placeholder="Prix" required>
         </mat-form-field>
         <em class="fa fa-check" (click)="validerAjoutProduit()"></em>
