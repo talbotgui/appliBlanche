@@ -8,6 +8,11 @@ import { NativeDateAdapter } from '@angular/material';
  */
 export class MyDateAdapter extends NativeDateAdapter {
 
+    /** Pour forcer le DatePicker à utiliser le LUNDI comme premier jour de la semaine */
+    getFirstDayOfWeek(): number {
+        return 1;
+    }
+
     /**
      * Transformation de l'input en date.
      * @param value une chaine mm/jj/yyyy (dans ce cas, retournera 00h00m00s) ou une valeur numérique
