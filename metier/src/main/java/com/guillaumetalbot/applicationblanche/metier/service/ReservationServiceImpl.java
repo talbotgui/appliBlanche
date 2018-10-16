@@ -130,7 +130,7 @@ public class ReservationServiceImpl implements ReservationService {
 
 		// Vérification qu'aucune reservation n'existe à ces dates
 		final Long nbReservations = this.reservationRepo.compterReservationsDeLaChambre(reservation.getDateDebut(), reservation.getDateFin(),
-				chambre.getId());
+				chambre.getId(), reservation.getId());
 		if (nbReservations > 0) {
 			throw new BusinessException(BusinessException.RESERVATION_DEJA_EXISTANTE);
 		}
