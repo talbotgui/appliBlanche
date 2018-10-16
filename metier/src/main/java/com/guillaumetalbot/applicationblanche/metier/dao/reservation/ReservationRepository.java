@@ -14,7 +14,7 @@ import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservat
 
 public interface ReservationRepository extends CrudRepository<Reservation, Long> {
 
-	@Query("select count(r) from Reservation r where r.dateDebut < :dateFin and :dateDebut < r.dateFin and r.chambre.id = :chambreId and r.id<>:reservationId")
+	@Query("select count(r) from Reservation r where r.dateDebut < :dateFin and :dateDebut < r.dateFin and r.chambre.id = :chambreId and (r.id <> :reservationId or :reservationId is null)")
 	Long compterReservationsDeLaChambre(@Param("dateDebut") LocalDate dateDebut, @Param("dateFin") LocalDate dateFin,
 			@Param("chambreId") Long chambreId, @Param("reservationId") Long reservationId);
 
