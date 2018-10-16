@@ -1,0 +1,24 @@
+<!-- Liste des chambres -->
+<mat-card>
+  <mat-card-title>
+    <span>Liste des chambres</span>
+    <em class="fa fa-plus" (click)="proposerAjoutChambre()"></em>
+  </mat-card-title>
+  <mat-card-content>
+    <ul>
+      <li *ngFor="let c of chambres">
+        <span>{{c.nom}}</span>
+        <em class="fa fa-edit" (click)="modifierChambre(c)" *ngIf="!nouvelleChambre || c.reference !== nouvelleChambre.reference"></em>
+        <em class="fa fa-ban" (click)="annulerModificationChambre()" *ngIf="nouvelleChambre && c.reference === nouvelleChambre.reference"></em>
+        <em class="fa fa-remove" (click)="supprimerChambre(c)" *ngIf="!nouvelleChambre || c.reference !== nouvelleChambre.reference"></em>
+      </li>
+      <li *ngIf="nouvelleChambre">
+        <mat-form-field>
+          <input matInput name="nom" [(ngModel)]="nouvelleChambre.nom" placeholder="Nom de la chambre" required>
+        </mat-form-field>
+        <em class="fa fa-check" (click)="validerAjoutChambre()"></em>
+        <em class="fa fa-ban" (click)="annulerModificationChambre()"></em>
+      </li>
+    </ul>
+  </mat-card-content>
+</mat-card>

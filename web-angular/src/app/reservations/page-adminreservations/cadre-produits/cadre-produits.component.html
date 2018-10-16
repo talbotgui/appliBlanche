@@ -1,0 +1,31 @@
+<!-- Liste des produits -->
+<mat-card>
+  <mat-card-title>
+    <span>Liste des produits</span>
+    <em class="fa fa-plus" (click)="proposerAjoutProduit()"></em>
+  </mat-card-title>
+  <mat-card-content>
+    <ul>
+      <li *ngFor="let p of produits">
+        <span [style.color]="p.couleur">{{p.nom}} {{p.prix}} €</span>
+        <em class="fa fa-edit" (click)="modifierProduit(p)" *ngIf="!nouveauProduit || p.reference !== nouveauProduit.reference"></em>
+        <em class="fa fa-ban" (click)="annulerModificationProduit()" *ngIf="nouveauProduit && p.reference === nouveauProduit.reference"></em>
+        <em class="fa fa-remove" (click)="supprimerProduit(p)" *ngIf="!nouveauProduit || p.reference !== nouveauProduit.reference"></em>
+      </li>
+      <li *ngIf="nouveauProduit">
+        <mat-form-field>
+          <input type="text" matInput name="nom" [(ngModel)]="nouveauProduit.nom" placeholder="Nom du produit" required>
+        </mat-form-field>
+        <mat-form-field>
+          <input type="color" matInput name="couleur" [(ngModel)]="nouveauProduit.couleur" placeholder="Couleur"
+            required>
+        </mat-form-field>
+        <mat-form-field>
+          <input type="number" matInput name="prix" [(ngModel)]="nouveauProduit.prix" placeholder="Prix" required>
+        </mat-form-field>
+        <em class="fa fa-check" (click)="validerAjoutProduit()"></em>
+        <em class="fa fa-ban" (click)="annulerModificationProduit()"></em>
+      </li>
+    </ul>
+  </mat-card-content>
+</mat-card>
