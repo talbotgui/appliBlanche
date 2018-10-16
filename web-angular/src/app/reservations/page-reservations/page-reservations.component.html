@@ -67,7 +67,7 @@
         <div [class]="(j.getDay()==0||j.getDay()==6)?'row weekend':'row'" *ngFor="let j of jours">
           <div class="col-2">{{j | date:'dd/MM'}}</div>
           <div [class]="'col-' + nbColParChambre" *ngFor="let c of chambres;" (click)="afficherDetail(reservations[c.reference][j.toISOString()])">
-            <span class="reservation">{{reservations[c.reference][j.toISOString()]?reservations[c.reference][j.toISOString()].client:''}}</span>
+            <span class="reservation">{{(reservations[c.reference])?(reservations[c.reference][j.toISOString()]?reservations[c.reference][j.toISOString()].client:''):''}}</span>
           </div>
         </div>
       </mat-card-content>
