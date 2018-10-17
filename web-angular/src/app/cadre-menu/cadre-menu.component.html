@@ -1,5 +1,5 @@
 <div id="menu">
-  <div class="topnav" id="myTopnav">
+  <div class="topnav" id="myTopnav" #myTopNav>
 
     <!-- Accueil -->
     <a href="#home" routerLink="/page-accueil-route" routerLinkActive="active" l10nTranslate>menu_accueil</a>
@@ -29,5 +29,7 @@
     <!-- Déconnexion-->
     <a href="#" (click)="deconnecter()" l10nTranslate>menu_deconnexion</a>
 
+    <!-- Bouton du menu en petit écran -->
+    <a href="javascript:void(0);" class="icon" (click)="myTopNav.className=(myTopNav.className==='topnav')?'topnav responsive':'topnav'">&#9776;</a>
   </div>
 </div>
