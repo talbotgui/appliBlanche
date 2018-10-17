@@ -1,11 +1,14 @@
 package com.guillaumetalbot.applicationblanche.metier.entite.reservation;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -29,6 +32,20 @@ public class Reservation extends Entite {
 
 	private LocalDate dateFin;
 
+	@ManyToOne
+	@JoinColumn(name = "FORMULE_ID")
+	private Formule formule;
+
+	/**
+	 * Association en lecture seule directement vers les options. Mais, pour manipuler les ajouts/retraits, il faut passer par la création/suppression
+	 * d'OptionReservee.
+	 */
+	@ManyToMany
+	@JoinTable(name = "OPTION_RESERVEE", joinColumns = {
+			@JoinColumn(name = "RESERVATION_ID", insertable = false, updatable = false) }, inverseJoinColumns = {
+					@JoinColumn(name = "OPTION_ID", insertable = false, updatable = false) })
+	private Collection<Option> options;
+
 	public Reservation() {
 		super();
 	}
@@ -39,6 +56,11 @@ public class Reservation extends Entite {
 		this.chambre = chambre;
 		this.dateDebut = dateDebut;
 		this.dateFin = dateFin;
+	}
+
+	public Reservation(final String client, final Chambre chambre, final LocalDate dateDebut, final LocalDate dateFin, final Formule formule) {
+		this(client, chambre, dateDebut, dateFin);
+		this.formule = formule;
 	}
 
 	public Chambre getChambre() {
@@ -61,6 +83,10 @@ public class Reservation extends Entite {
 		return this.dateFin;
 	}
 
+	public Formule getFormule() {
+		return this.formule;
+	}
+
 	public void setChambre(final Chambre chambre) {
 		this.chambre = chambre;
 	}
@@ -79,6 +105,10 @@ public class Reservation extends Entite {
 
 	public void setDateFin(final LocalDate dateFin) {
 		this.dateFin = dateFin;
+	}
+
+	public void setFormule(final Formule formule) {
+		this.formule = formule;
 	}
 
 }

@@ -17,9 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.guillaumetalbot.applicationblanche.exception.RestException;
-import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Chambre;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Consommation;
-import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Produit;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservation;
 import com.guillaumetalbot.applicationblanche.metier.service.ReservationService;
 
@@ -29,16 +27,6 @@ public class ReservationRestControler {
 
 	@Autowired
 	private ReservationService reservationService;
-
-	@GetMapping("/chambres")
-	public Collection<Chambre> listerChambres() {
-		return this.reservationService.listerChambres();
-	}
-
-	@GetMapping("/produits")
-	public Collection<Produit> listerProduits() {
-		return this.reservationService.listerProduits();
-	}
 
 	@GetMapping("/reservations/{referenceReservation}/consommations")
 	public Collection<Consommation> rechercherConsommationsDuneReservation(@PathVariable("referenceReservation") final String referenceReservation) {
@@ -50,18 +38,6 @@ public class ReservationRestControler {
 			@RequestParam(name = "dateDebut", required = true) @DateTimeFormat(iso = ISO.DATE) final LocalDate dateDebut, //
 			@RequestParam(name = "dateFin", required = true) @DateTimeFormat(iso = ISO.DATE) final LocalDate dateFin) {
 		return this.reservationService.rechercherReservations(dateDebut, dateFin);
-	}
-
-	@PostMapping("/chambres")
-	public String sauvegarderChambre(@RequestBody final Chambre chambre) {
-
-		// Contrôles de surface
-		if (StringUtils.isEmpty(chambre.getNom())) {
-			throw new RestException(RestException.ERREUR_PARAMETRE_MANQUANT, "nom");
-		}
-
-		final String reference = this.reservationService.sauvegarderChambre(chambre);
-		return '"' + reference + '"';
 	}
 
 	@PostMapping("/reservations/{referenceReservation}/consommations")
@@ -89,24 +65,6 @@ public class ReservationRestControler {
 		return '"' + reference + '"';
 	}
 
-	@PostMapping("/produits")
-	public String sauvegarderProduit(@RequestBody final Produit produit) {
-
-		// Contrôles de surface
-		if (StringUtils.isEmpty(produit.getCouleur())) {
-			throw new RestException(RestException.ERREUR_PARAMETRE_MANQUANT, "couleur");
-		}
-		if (StringUtils.isEmpty(produit.getNom())) {
-			throw new RestException(RestException.ERREUR_PARAMETRE_MANQUANT, "nom");
-		}
-		if (produit.getPrix() == null) {
-			throw new RestException(RestException.ERREUR_PARAMETRE_MANQUANT, "prix");
-		}
-
-		final String reference = this.reservationService.sauvegarderProduit(produit);
-		return '"' + reference + '"';
-	}
-
 	@PostMapping("/reservations")
 	public String sauvegarderReservation(@RequestBody final Reservation reservation) {
 
@@ -125,20 +83,10 @@ public class ReservationRestControler {
 		return '"' + reference + '"';
 	}
 
-	@DeleteMapping("/chambres/{referenceChambre}")
-	public void supprimerChambre(@PathVariable("referenceChambre") final String referenceChambre) {
-		this.reservationService.supprimerChambre(referenceChambre);
-	}
-
 	@DeleteMapping("/reservations/{referenceReservation}/consommations/{referenceConsommation}")
 	public void supprimerConsommation(@PathVariable("referenceReservation") final String referenceReservation, //
 			@PathVariable("referenceConsommation") final String referenceConsommation) {
 		this.reservationService.supprimerConsommation(referenceReservation, referenceConsommation);
-	}
-
-	@DeleteMapping("/produits/{referenceProduit}")
-	public void supprimerProduit(@PathVariable("referenceProduit") final String referenceProduit) {
-		this.reservationService.supprimerProduit(referenceProduit);
 	}
 
 	@DeleteMapping("/reservations/{referenceReservation}")

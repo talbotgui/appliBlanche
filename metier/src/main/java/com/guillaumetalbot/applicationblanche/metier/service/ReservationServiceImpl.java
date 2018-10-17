@@ -37,16 +37,6 @@ public class ReservationServiceImpl implements ReservationService {
 	private ReservationRepository reservationRepo;
 
 	@Override
-	public Collection<Chambre> listerChambres() {
-		return this.chambreRepo.listerChambres();
-	}
-
-	@Override
-	public Collection<Produit> listerProduits() {
-		return this.produitRepo.listerProduits();
-	}
-
-	@Override
 	public Collection<Consommation> rechercherConsommationsDuneReservation(final String referenceReservation) {
 		final Long idReservation = Entite.extraireIdentifiant(referenceReservation, Reservation.class);
 		return this.consommationRepo.rechercherConsommationsDuneReservation(idReservation);
@@ -55,19 +45,6 @@ public class ReservationServiceImpl implements ReservationService {
 	@Override
 	public Collection<Reservation> rechercherReservations(final LocalDate dateDebut, final LocalDate dateFin) {
 		return this.reservationRepo.rechercherReservations(dateDebut, dateFin);
-	}
-
-	@Override
-	public String sauvegarderChambre(final Chambre chambre) {
-
-		// Validation pas de chambre en double
-		this.chambreRepo.rechercherChambreParNom(chambre.getNom()).ifPresent(c -> {
-			if (!c.getReference().equals(chambre.getReference())) {
-				throw new BusinessException(BusinessException.OBJET_FONCTIONNELEMENT_EN_DOUBLE, "chambre", "nom", chambre.getNom());
-			}
-		});
-
-		return this.chambreRepo.save(chambre).getReference();
 	}
 
 	@Override
@@ -99,25 +76,6 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override
-	public String sauvegarderProduit(final Produit produit) {
-
-		// Trim du nom pour éviter les problèmes de frappe
-		produit.setNom(produit.getNom().trim());
-
-		// Arrondit du prix
-		produit.setPrix(Math.floor(produit.getPrix() * 100) / 100);
-
-		// Validation pas de produit en double
-		this.produitRepo.rechercherProduitManagedParNom(produit.getNom()).ifPresent(p -> {
-			if (!p.getReference().equals(produit.getReference())) {
-				throw new BusinessException(BusinessException.OBJET_FONCTIONNELEMENT_EN_DOUBLE, "produit", "nom", produit.getNom());
-			}
-		});
-
-		return this.produitRepo.save(produit).getReference();
-	}
-
-	@Override
 	public String sauvegarderReservation(final Reservation reservation) {
 
 		// Trim du nom du client pour éviter les problèmes de frappe
@@ -139,18 +97,6 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override
-	public void supprimerChambre(final String reference) {
-		final Long id = Entite.extraireIdentifiant(reference, Chambre.class);
-
-		// Suppression impossible si des réservations sont associées
-		if (this.reservationRepo.compterReservationsDeLaChambre(id) > 0) {
-			throw new BusinessException(BusinessException.SUPPRESSION_IMPOSSIBLE_OBJETS_LIES, "Reservation");
-		}
-
-		this.chambreRepo.deleteById(id);
-	}
-
-	@Override
 	public void supprimerConsommation(final String referenceReservation, final String referenceConsommation) {
 		final Long idConsommation = Entite.extraireIdentifiant(referenceConsommation, Consommation.class);
 		final Long idReservation = Entite.extraireIdentifiant(referenceReservation, Reservation.class);
@@ -161,18 +107,6 @@ public class ReservationServiceImpl implements ReservationService {
 		}
 
 		this.consommationRepo.deleteById(idConsommation);
-	}
-
-	@Override
-	public void supprimerProduit(final String referenceProduit) {
-		final Long idProduit = Entite.extraireIdentifiant(referenceProduit, Produit.class);
-
-		// Suppression impossible si des consommations sont associées
-		if (this.consommationRepo.compterConsommationDuProduit(idProduit) > 0) {
-			throw new BusinessException(BusinessException.SUPPRESSION_IMPOSSIBLE_OBJETS_LIES, "Consommation");
-		}
-
-		this.produitRepo.deleteById(idProduit);
 	}
 
 	@Override
