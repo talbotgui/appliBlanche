@@ -14,7 +14,7 @@ import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Produit;
 
 public interface ProduitRepository extends CrudRepository<Produit, Long> {
 
-	@Query("select p from Produit p order by p.nom")
+	@Query("select p from Produit p order by upper(p.nom)")
 	@QueryHints(value = { @QueryHint(name = org.hibernate.jpa.QueryHints.HINT_READONLY, value = "true") })
 	Collection<Produit> listerProduits();
 

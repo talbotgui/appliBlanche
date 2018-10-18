@@ -14,7 +14,7 @@ import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Formule;
 
 public interface FormuleRepository extends CrudRepository<Formule, Long> {
 
-	@Query("select f from Formule f order by f.nom")
+	@Query("select f from Formule f order by upper(f.nom)")
 	@QueryHints(value = { @QueryHint(name = org.hibernate.jpa.QueryHints.HINT_READONLY, value = "true") })
 	Collection<Formule> listerFormules();
 

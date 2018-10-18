@@ -14,7 +14,7 @@ import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Option;
 
 public interface OptionRepository extends CrudRepository<Option, Long> {
 
-	@Query("select o from Option o order by o.nom")
+	@Query("select o from Option o order by upper(o.nom)")
 	@QueryHints(value = { @QueryHint(name = org.hibernate.jpa.QueryHints.HINT_READONLY, value = "true") })
 	Collection<Option> listerOptions();
 

@@ -14,7 +14,7 @@ import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Chambre;
 
 public interface ChambreRepository extends CrudRepository<Chambre, Long> {
 
-	@Query("select c from Chambre c order by c.nom")
+	@Query("select c from Chambre c order by upper(c.nom)")
 	@QueryHints(value = { @QueryHint(name = org.hibernate.jpa.QueryHints.HINT_READONLY, value = "true") })
 	Collection<Chambre> listerChambres();
 
