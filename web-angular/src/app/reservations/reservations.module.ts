@@ -9,8 +9,9 @@ import { PageReservationsComponent } from './page-reservations/page-reservations
 import { CadreCalendrierComponent } from './page-reservations/cadre-calendrier/cadre-calendrier.component';
 import { CadreReservationComponent } from './page-reservations/cadre-reservation/cadre-reservation.component';
 import { PageAdminReservationsComponent } from './page-adminreservations/page-adminreservations.component';
-import { CadreProduitsComponent } from './page-adminreservations/cadre-produits/cadre-produits.component';
+import { PageAdminConsommationsComponent } from './page-adminconsommations/page-adminconsommations.component';
 import { CadreChambresComponent } from './page-adminreservations/cadre-chambres/cadre-chambres.component';
+import { CadreProduitsComponent } from './page-adminconsommations/cadre-produits/cadre-produits.component';
 
 // Les composants injectables
 import { ReservationService } from './service/reservation.service';
@@ -23,7 +24,8 @@ import { ReservationService } from './service/reservation.service';
 
   // Tous les composants applicatifs du module
   declarations: [
-    PageAdminReservationsComponent, CadreProduitsComponent, CadreChambresComponent,
+    PageAdminReservationsComponent, CadreChambresComponent,
+    PageAdminConsommationsComponent, CadreProduitsComponent,
     PageReservationsComponent, CadreCalendrierComponent, CadreReservationComponent
   ],
 
