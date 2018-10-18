@@ -16,6 +16,8 @@ import org.testng.annotations.Test;
 
 import com.guillaumetalbot.applicationblanche.metier.entite.Entite;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Chambre;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Formule;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Option;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Produit;
 
 public class ReservationParametresRestControlerTest extends BaseTestClass {
@@ -201,4 +203,149 @@ public class ReservationParametresRestControlerTest extends BaseTestClass {
 		Mockito.verifyNoMoreInteractions(this.reservationParametresService);
 		Assert.assertEquals(ref, '"' + refRetournee + '"');
 	}
+
+	@Test
+	public void test03Formule01Lister() {
+
+		// ARRANGE
+		final List<Formule> toReturn = Arrays.asList(new Formule("F1", 1.2), new Formule("F2", 2.3), new Formule("F3", 2.1), new Formule("F4", 4.3));
+		Mockito.doReturn(toReturn).when(this.reservationParametresService).listerFormules();
+
+		// ACT
+		final ParameterizedTypeReference<Collection<Formule>> typeRetour = new ParameterizedTypeReference<Collection<Formule>>() {
+		};
+		final ResponseEntity<Collection<Formule>> formuless = this.getREST().exchange(this.getURL() + "/v1/formules", HttpMethod.GET, null,
+				typeRetour);
+
+		// ASSERT
+		Mockito.verify(this.reservationParametresService).listerFormules();
+		Mockito.verifyNoMoreInteractions(this.reservationParametresService);
+		Assert.assertNotNull(formuless.getBody());
+		Assert.assertEquals(formuless.getBody().size(), toReturn.size());
+		Assert.assertEquals(formuless.getBody().iterator().next().getNom(), toReturn.iterator().next().getNom());
+	}
+
+	@Test
+	public void test03Formule02SauvegarderOk() {
+
+		// ARRANGE
+		final String refRetournee = Entite.genererReference(Formule.class, 1L);
+		final Formule formule = new Formule("F1", 2.1);
+		Mockito.doReturn(refRetournee).when(this.reservationParametresService).sauvegarderFormule(Mockito.any(Formule.class));
+
+		// ACT
+		final String ref = this.getREST().postForObject(this.getURL() + "/v1/formules", formule, String.class);
+
+		// ASSERT
+		Mockito.verify(this.reservationParametresService).sauvegarderFormule(Mockito.any(Formule.class));
+		Mockito.verifyNoMoreInteractions(this.reservationParametresService);
+		Assert.assertEquals(ref, '"' + refRetournee + '"');
+	}
+
+	@Test
+	public void test03Formule03SauvegarderKo() {
+
+		// ARRANGE
+		final Formule formule = new Formule();
+
+		// ACT
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.getREST().postForObject(this.getURL() + "/v1/formules", formule, String.class);
+		});
+
+		// ASSERT
+		Assert.assertNotNull(thrown);
+		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.class);
+		final HttpClientErrorException e = (HttpClientErrorException) thrown;
+		Assert.assertEquals(e.getRawStatusCode(), HttpStatus.BAD_REQUEST.value());
+		Mockito.verifyNoMoreInteractions(this.reservationParametresService);
+	}
+
+	@Test
+	public void test03Formule04Supprimer() {
+
+		// ARRANGE
+		final String ref = Entite.genererReference(Formule.class, 2L);
+		Mockito.doNothing().when(this.reservationParametresService).supprimerFormule(ref);
+
+		// ACT
+		this.getREST().delete(this.getURL() + "/v1/formules/" + ref);
+
+		// ASSERT
+		Mockito.verify(this.reservationParametresService).supprimerFormule(ref);
+		Mockito.verifyNoMoreInteractions(this.reservationParametresService);
+	}
+
+	@Test
+	public void test03Option01Lister() {
+
+		// ARRANGE
+		final List<Option> toReturn = Arrays.asList(new Option("F1", 1.2, false, true), new Option("F2", 2.3, false, true),
+				new Option("F3", 2.1, false, true), new Option("F4", 4.3, false, true));
+		Mockito.doReturn(toReturn).when(this.reservationParametresService).listerOptions();
+
+		// ACT
+		final ParameterizedTypeReference<Collection<Option>> typeRetour = new ParameterizedTypeReference<Collection<Option>>() {
+		};
+		final ResponseEntity<Collection<Option>> optionss = this.getREST().exchange(this.getURL() + "/v1/options", HttpMethod.GET, null, typeRetour);
+
+		// ASSERT
+		Mockito.verify(this.reservationParametresService).listerOptions();
+		Mockito.verifyNoMoreInteractions(this.reservationParametresService);
+		Assert.assertNotNull(optionss.getBody());
+		Assert.assertEquals(optionss.getBody().size(), toReturn.size());
+		Assert.assertEquals(optionss.getBody().iterator().next().getNom(), toReturn.iterator().next().getNom());
+	}
+
+	@Test
+	public void test03Option02SauvegarderOk() {
+
+		// ARRANGE
+		final String refRetournee = Entite.genererReference(Option.class, 1L);
+		final Option option = new Option("F1", 2.1, false, true);
+		Mockito.doReturn(refRetournee).when(this.reservationParametresService).sauvegarderOption(Mockito.any(Option.class));
+
+		// ACT
+		final String ref = this.getREST().postForObject(this.getURL() + "/v1/options", option, String.class);
+
+		// ASSERT
+		Mockito.verify(this.reservationParametresService).sauvegarderOption(Mockito.any(Option.class));
+		Mockito.verifyNoMoreInteractions(this.reservationParametresService);
+		Assert.assertEquals(ref, '"' + refRetournee + '"');
+	}
+
+	@Test
+	public void test03Option03SauvegarderKo() {
+
+		// ARRANGE
+		final Option option = new Option();
+
+		// ACT
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.getREST().postForObject(this.getURL() + "/v1/options", option, String.class);
+		});
+
+		// ASSERT
+		Assert.assertNotNull(thrown);
+		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.class);
+		final HttpClientErrorException e = (HttpClientErrorException) thrown;
+		Assert.assertEquals(e.getRawStatusCode(), HttpStatus.BAD_REQUEST.value());
+		Mockito.verifyNoMoreInteractions(this.reservationParametresService);
+	}
+
+	@Test
+	public void test03Option04Supprimer() {
+
+		// ARRANGE
+		final String ref = Entite.genererReference(Option.class, 2L);
+		Mockito.doNothing().when(this.reservationParametresService).supprimerOption(ref);
+
+		// ACT
+		this.getREST().delete(this.getURL() + "/v1/options/" + ref);
+
+		// ASSERT
+		Mockito.verify(this.reservationParametresService).supprimerOption(ref);
+		Mockito.verifyNoMoreInteractions(this.reservationParametresService);
+	}
+
 }

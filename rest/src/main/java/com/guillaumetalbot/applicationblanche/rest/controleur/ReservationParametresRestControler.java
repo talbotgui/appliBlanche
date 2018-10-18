@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.guillaumetalbot.applicationblanche.exception.RestException;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Chambre;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Formule;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Option;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Produit;
 import com.guillaumetalbot.applicationblanche.metier.service.ReservationParametresService;
 
@@ -27,6 +29,16 @@ public class ReservationParametresRestControler {
 	@GetMapping("/chambres")
 	public Collection<Chambre> listerChambres() {
 		return this.reservationParametresService.listerChambres();
+	}
+
+	@GetMapping("/formules")
+	public Collection<Formule> listerFormules() {
+		return this.reservationParametresService.listerFormules();
+	}
+
+	@GetMapping("/options")
+	public Collection<Option> listerOptions() {
+		return this.reservationParametresService.listerOptions();
 	}
 
 	@GetMapping("/produits")
@@ -43,6 +55,40 @@ public class ReservationParametresRestControler {
 		}
 
 		final String reference = this.reservationParametresService.sauvegarderChambre(chambre);
+		return '"' + reference + '"';
+	}
+
+	@PostMapping("/formules")
+	public String sauvegarderFormule(@RequestBody final Formule formule) {
+
+		// Contrôles de surface
+		if (StringUtils.isEmpty(formule.getNom())) {
+			throw new RestException(RestException.ERREUR_PARAMETRE_MANQUANT, "nom");
+		}
+		if (formule.getPrixParNuit() == null || formule.getPrixParNuit() < 0) {
+			throw new RestException(RestException.ERREUR_PARAMETRE_MANQUANT, "prixParNuit");
+		}
+
+		final String reference = this.reservationParametresService.sauvegarderFormule(formule);
+		return '"' + reference + '"';
+	}
+
+	@PostMapping("/options")
+	public String sauvegarderOption(@RequestBody final Option option) {
+
+		// Contrôles de surface
+		if (StringUtils.isEmpty(option.getNom())) {
+			throw new RestException(RestException.ERREUR_PARAMETRE_MANQUANT, "nom");
+		}
+		if (option.getPrix() == null || option.getPrix() < 0) {
+			throw new RestException(RestException.ERREUR_PARAMETRE_MANQUANT, "prix");
+		}
+
+		// Pour être certain d'avoir une valeur
+		option.setParNuit(option.getParNuit() != null && option.getParNuit());
+		option.setParPersonne(option.getParPersonne() != null && option.getParPersonne());
+
+		final String reference = this.reservationParametresService.sauvegarderOption(option);
 		return '"' + reference + '"';
 	}
 
@@ -67,6 +113,16 @@ public class ReservationParametresRestControler {
 	@DeleteMapping("/chambres/{referenceChambre}")
 	public void supprimerChambre(@PathVariable("referenceChambre") final String referenceChambre) {
 		this.reservationParametresService.supprimerChambre(referenceChambre);
+	}
+
+	@DeleteMapping("/formules/{referenceFormule}")
+	public void supprimerFormule(@PathVariable("referenceFormule") final String referenceFormule) {
+		this.reservationParametresService.supprimerFormule(referenceFormule);
+	}
+
+	@DeleteMapping("/options/{referenceOption}")
+	public void supprimerOption(@PathVariable("referenceOption") final String referenceOption) {
+		this.reservationParametresService.supprimerOption(referenceOption);
 	}
 
 	@DeleteMapping("/produits/{referenceProduit}")
