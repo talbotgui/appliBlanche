@@ -22,3 +22,6 @@ em.fa.actionDansUnEntete { margin-left: 5px; }
 
 /* Diminution de la largeur des input de datePicker */
 .datePickerLargeurAdaptee { max-width: 100px; }
+
+/** Champs de formulaire en pleine largeur */
+.formFieldFullWidth .mat-form-field { width: 100%; }

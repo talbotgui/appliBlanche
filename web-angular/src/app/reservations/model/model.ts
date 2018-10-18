@@ -66,7 +66,10 @@ export class Reservation {
     /** Nom du client */
     public client: string,
     /** Chambre associée */
-    public chambre: Chambre) { }
+    public chambre: Chambre,
+    /** Formule associée */
+    public formule: Formule
+  ) { }
 }
 
 /** Objet métier Consommation */

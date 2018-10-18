@@ -2,7 +2,7 @@
 <mat-card *ngIf="!!reservationSelectionnee">
   <mat-card-title>Détails de la réservation {{reservationSelectionnee.reference.split('-')[1]}}</mat-card-title>
   <mat-card-content>
-    <form novalidate #leForm="ngForm">
+    <form novalidate #leForm="ngForm" class="formFieldFullWidth">
       <div class="row">
         <mat-form-field>
           <input matInput name="dateDebutPickDetail" [matDatepicker]="dateDebutPickDetail" [max]="reservationSelectionnee.dateFin"
@@ -32,6 +32,14 @@
           <mat-select [(ngModel)]="reservationSelectionnee.chambre.reference" name="chambre" placeholder="{{ 'reservation_placeholder_chambre' | translate: lang }}"
             required>
             <mat-option *ngFor="let c of chambres" [value]="c.reference">{{c.nom}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field>
+          <mat-select [(ngModel)]="reservationSelectionnee.formule.reference" name="formule" placeholder="{{ 'reservation_placeholder_formule' | translate: lang }}"
+            required>
+            <mat-option *ngFor="let f of formules" [value]="f.reference">{{f.nom}} ({{f.prixParNuit}} €/nuit)</mat-option>
           </mat-select>
         </mat-form-field>
       </div>

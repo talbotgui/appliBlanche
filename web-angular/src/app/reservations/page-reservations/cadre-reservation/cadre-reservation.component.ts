@@ -14,6 +14,9 @@ export class CadreReservationComponent implements OnInit {
   /** Liste des chambres */
   chambres: model.Chambre[] = [];
 
+  /** Liste des formules */
+  formules: model.Formule[] = [];
+
   /** Reservation dans le détail */
   reservationSelectionnee: model.Reservation | undefined;
 
@@ -31,6 +34,14 @@ export class CadreReservationComponent implements OnInit {
           this.chambres = chambres;
         } else {
           this.chambres = [];
+        }
+      });
+    this.reservationsService.listerFormules().subscribe(
+      (formules) => {
+        if (formules && formules.length > 0) {
+          this.formules = formules;
+        } else {
+          this.formules = [];
         }
       });
   }
