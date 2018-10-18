@@ -14,6 +14,8 @@ import { CadreChambresComponent } from './page-adminreservations/cadre-chambres/
 import { CadreFormulesComponent } from './page-adminreservations/cadre-formules/cadre-formules.component';
 import { CadreOptionsComponent } from './page-adminreservations/cadre-options/cadre-options.component';
 
+import { PageConsommationsComponent } from './page-consommations/page-consommations.component';
+
 import { PageAdminConsommationsComponent } from './page-adminconsommations/page-adminconsommations.component';
 import { CadreProduitsComponent } from './page-adminconsommations/cadre-produits/cadre-produits.component';
 
@@ -29,6 +31,7 @@ import { ReservationService } from './service/reservation.service';
   // Tous les composants applicatifs du module
   declarations: [
     PageReservationsComponent, CadreCalendrierComponent, CadreReservationComponent,
+    PageConsommationsComponent,
     PageAdminReservationsComponent, CadreChambresComponent, CadreFormulesComponent, CadreOptionsComponent,
     PageAdminConsommationsComponent, CadreProduitsComponent
   ],

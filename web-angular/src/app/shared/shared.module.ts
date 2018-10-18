@@ -115,7 +115,7 @@ export const l10nConfig: L10nConfig = {
         // Les modules Material
         BrowserAnimationsModule, MatInputModule, MatButtonModule, MatCardModule, MatChipsModule, MatDatepickerModule,
         MatGridListModule, MatNativeDateModule, MatRadioModule, MatSelectModule, MatSidenavModule, MatSnackBarModule,
-        MatTooltipModule, MatPaginatorModule, MatSortModule, MatTableModule, MatCommonModule, MatCheckboxModule
+        MatTooltipModule, MatPaginatorModule, MatSortModule, MatTableModule, MatCommonModule, MatCheckboxModule,
 
         // Le module l10n
         TranslationModule
