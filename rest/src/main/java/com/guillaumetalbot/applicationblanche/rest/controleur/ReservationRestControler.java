@@ -72,6 +72,9 @@ public class ReservationRestControler {
 		if (reservation.getChambre() == null || StringUtils.isEmpty(reservation.getChambre().getReference())) {
 			throw new RestException(RestException.ERREUR_PARAMETRE_MANQUANT, "chambre.reference");
 		}
+		if (reservation.getFormule() == null || StringUtils.isEmpty(reservation.getFormule().getReference())) {
+			throw new RestException(RestException.ERREUR_PARAMETRE_MANQUANT, "formule");
+		}
 		if (StringUtils.isEmpty(reservation.getClient())) {
 			throw new RestException(RestException.ERREUR_PARAMETRE_MANQUANT, "client");
 		}

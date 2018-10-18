@@ -12,11 +12,14 @@ import org.springframework.stereotype.Service;
 import com.guillaumetalbot.applicationblanche.exception.BusinessException;
 import com.guillaumetalbot.applicationblanche.metier.dao.reservation.ChambreRepository;
 import com.guillaumetalbot.applicationblanche.metier.dao.reservation.ConsommationRepository;
+import com.guillaumetalbot.applicationblanche.metier.dao.reservation.FormuleRepository;
+import com.guillaumetalbot.applicationblanche.metier.dao.reservation.OptionRepository;
 import com.guillaumetalbot.applicationblanche.metier.dao.reservation.ProduitRepository;
 import com.guillaumetalbot.applicationblanche.metier.dao.reservation.ReservationRepository;
 import com.guillaumetalbot.applicationblanche.metier.entite.Entite;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Chambre;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Consommation;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Formule;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Produit;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservation;
 
@@ -29,6 +32,12 @@ public class ReservationServiceImpl implements ReservationService {
 
 	@Autowired
 	private ConsommationRepository consommationRepo;
+
+	@Autowired
+	private FormuleRepository formuleRepo;
+
+	@Autowired
+	private OptionRepository optionRepo;
 
 	@Autowired
 	private ProduitRepository produitRepo;
@@ -85,6 +94,11 @@ public class ReservationServiceImpl implements ReservationService {
 		final Long idChambre = Entite.extraireIdentifiant(reservation.getChambre().getReference(), Chambre.class);
 		final Chambre chambre = this.chambreRepo.findById(idChambre)
 				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "chambre", reservation.getChambre().getReference()));
+
+		// Validation de la formule
+		final Long idFormule = Entite.extraireIdentifiant(reservation.getFormule().getReference(), Formule.class);
+		this.formuleRepo.findById(idFormule)
+				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "formule", reservation.getFormule().getReference()));
 
 		// Vérification qu'aucune reservation n'existe à ces dates
 		final Long nbReservations = this.reservationRepo.compterReservationsDeLaChambre(reservation.getDateDebut(), reservation.getDateFin(),
