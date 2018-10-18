@@ -28,6 +28,18 @@ export class ReservationService {
     return this.http.get<model.Produit[]>(url, this.restUtils.creerHeader());
   }
 
+  /** Liste des formules */
+  listerFormules(): Observable<model.Formule[]> {
+    const url = environment.baseUrl + '/v1/formules';
+    return this.http.get<model.Formule[]>(url, this.restUtils.creerHeader());
+  }
+
+  /** Liste des options */
+  listerOptions(): Observable<model.Option[]> {
+    const url = environment.baseUrl + '/v1/options';
+    return this.http.get<model.Option[]>(url, this.restUtils.creerHeader());
+  }
+
   /** Liste les consommations d'une reservation */
   listerConsommation(referenceReservation: string): Observable<model.Consommation[]> {
     const url = environment.baseUrl + '/v1/reservations/' + referenceReservation + '/consommations';
@@ -60,6 +72,18 @@ export class ReservationService {
     return this.http.post<void>(url, produit, this.restUtils.creerHeaderPost());
   }
 
+  /** Sauvegarde d'un formule via l'API */
+  sauvegarderFormule(formule: model.Formule): Observable<{} | void> {
+    const url = environment.baseUrl + '/v1/formules/';
+    return this.http.post<void>(url, formule, this.restUtils.creerHeaderPost());
+  }
+
+  /** Sauvegarde d'un option via l'API */
+  sauvegarderOption(option: model.Option): Observable<{} | void> {
+    const url = environment.baseUrl + '/v1/options/';
+    return this.http.post<void>(url, option, this.restUtils.creerHeaderPost());
+  }
+
   /** Sauvegarde d'une reservation via l'API */
   sauvegarderReservation(reservation: model.Reservation): Observable<{} | void> {
     const url = environment.baseUrl + '/v1/reservations/';
@@ -75,6 +99,17 @@ export class ReservationService {
   /** Suppression d'un produit via l'API */
   supprimerProduit(referenceProduit: string): Observable<{} | void> {
     const url = environment.baseUrl + '/v1/produits/' + referenceProduit;
+    return this.http.delete<void>(url, this.restUtils.creerHeader());
+  }
+
+  /** Suppression d'un formule via l'API */
+  supprimerFormule(referenceFormule: string): Observable<{} | void> {
+    const url = environment.baseUrl + '/v1/formules/' + referenceFormule;
+    return this.http.delete<void>(url, this.restUtils.creerHeader());
+  }
+  /** Suppression d'un option via l'API */
+  supprimerOption(referenceOption: string): Observable<{} | void> {
+    const url = environment.baseUrl + '/v1/options/' + referenceOption;
     return this.http.delete<void>(url, this.restUtils.creerHeader());
   }
 

@@ -17,5 +17,8 @@ em.fa.actionDansUnEntete { margin-left: 5px; }
 /* Réduction du padding des cartes Material */
 .mat-card { padding: 10px; }
 
+/** Ajout d'une petite marge en haut des col-xx-x pour séparer les cartes qui se supperposent */
+.row > div { margin-top: 5px; }
+
 /* Diminution de la largeur des input de datePicker */
 .datePickerLargeurAdaptee { max-width: 100px; }

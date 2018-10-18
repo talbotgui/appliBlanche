@@ -1,0 +1,29 @@
+<!-- Liste des options -->
+<mat-card>
+  <mat-card-title>
+    <span>Liste des options</span>
+    <em class="fa fa-plus" (click)="proposerAjoutOption()"></em>
+  </mat-card-title>
+  <mat-card-content>
+    <ul>
+      <li *ngFor="let c of options">
+        <span>{{c.nom}} ({{c.prix}} €{{(c.parNuit?' par nuit':'')}}{{(c.parPersonne?' par personne':'')}})</span>
+        <em class="fa fa-edit" (click)="modifierOption(c)" *ngIf="!nouvelleOption || c.reference !== nouvelleOption.reference"></em>
+        <em class="fa fa-ban" (click)="annulerModificationOption()" *ngIf="nouvelleOption && c.reference === nouvelleOption.reference"></em>
+        <em class="fa fa-remove" (click)="supprimerOption(c)" *ngIf="!nouvelleOption || c.reference !== nouvelleOption.reference"></em>
+      </li>
+    </ul>
+    <div class="bordureHaute" *ngIf="nouvelleOption">
+      <mat-form-field>
+        <input matInput name="nom" [(ngModel)]="nouvelleOption.nom" placeholder="Nom de la option" required>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput type="number" name="prix" [(ngModel)]="nouvelleOption.prix" placeholder="Prix" required>
+      </mat-form-field>
+      <mat-checkbox name="parNuit" [(ngModel)]="nouvelleOption.parNuit" required>Prix par nuit </mat-checkbox>
+      <mat-checkbox name="parPersonne" [(ngModel)]="nouvelleOption.parPersonne" required>Prix par personne</mat-checkbox>
+      <em class="fa fa-check" (click)="validerAjoutOption()"></em>
+      <em class="fa fa-ban" (click)="annulerModificationOption()"></em>
+    </div>
+  </mat-card-content>
+</mat-card>

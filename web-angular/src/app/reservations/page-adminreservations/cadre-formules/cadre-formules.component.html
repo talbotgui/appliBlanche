@@ -1,0 +1,28 @@
+<!-- Liste des formules -->
+<mat-card>
+  <mat-card-title>
+    <span>Liste des formules</span>
+    <em class="fa fa-plus" (click)="proposerAjoutFormule()"></em>
+  </mat-card-title>
+  <mat-card-content>
+    <ul>
+      <li *ngFor="let c of formules">
+        <span>{{c.nom}} ({{c.prixParNuit}}€)</span>
+        <em class="fa fa-edit" (click)="modifierFormule(c)" *ngIf="!nouvelleFormule || c.reference !== nouvelleFormule.reference"></em>
+        <em class="fa fa-ban" (click)="annulerModificationFormule()" *ngIf="nouvelleFormule && c.reference === nouvelleFormule.reference"></em>
+        <em class="fa fa-remove" (click)="supprimerFormule(c)" *ngIf="!nouvelleFormule || c.reference !== nouvelleFormule.reference"></em>
+      </li>
+    </ul>
+    <div class="bordureHaute" *ngIf="nouvelleFormule">
+      <mat-form-field>
+        <input matInput name="nom" [(ngModel)]="nouvelleFormule.nom" placeholder="Nom de la formule" required>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput type="number" name="prixParNuit" [(ngModel)]="nouvelleFormule.prixParNuit" placeholder="Prix par nuit"
+          required>
+      </mat-form-field>
+      <em class="fa fa-check" (click)="validerAjoutFormule()"></em>
+      <em class="fa fa-ban" (click)="annulerModificationFormule()"></em>
+    </div>
+  </mat-card-content>
+</mat-card>

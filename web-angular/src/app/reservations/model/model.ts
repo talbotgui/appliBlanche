@@ -12,6 +12,46 @@ export class Chambre {
     public nom: string) { }
 }
 
+/** Formule */
+export class Formule {
+  /**
+   * Constructeur.
+   * @param reference Identifiant unique
+   * @param nom Nom
+   * @param prixParNuit Prix par nuit
+   */
+  constructor(
+    /** référence unique */
+    public reference: string,
+    /** Nom de la chambre */
+    public nom: string,
+    /** Prix par nuit */
+    public prixParNuit: number) { }
+}
+
+/** Option */
+export class Option {
+  /**
+   * Constructeur.
+   * @param reference Identifiant unique
+   * @param nom Nom
+   * @param prix Prix
+   * @param parNuit Flag si le prix est par nuit
+   * @param parPersonne Flag si le prix est par personne
+   */
+  constructor(
+    /** référence unique */
+    public reference: string,
+    /** Nom de la chambre */
+    public nom: string,
+    /** Prix */
+    public prix: number,
+    /** Flag si le prix est par nuit */
+    public parNuit: boolean,
+    /** Flag si le prix est par personne */
+    public parPersonne: boolean) { }
+}
+
 /** Objet métier Reservation */
 export class Reservation {
 
