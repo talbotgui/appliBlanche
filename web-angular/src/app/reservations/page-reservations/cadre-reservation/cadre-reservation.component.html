@@ -43,6 +43,10 @@
           </mat-select>
         </mat-form-field>
       </div>
+      <div class="row" *ngFor="let o of options; let i = index">
+        <mat-checkbox name="parNuit{{i}}" [(ngModel)]="optionsCalculeesPourLaReservationSelectionnee[o.reference]">
+          {{o.nom}} {{o.prix}}{{o.parNuit?' par nuit':''}}{{o.parPersonne?' par personne':''}}</mat-checkbox>
+      </div>
       <div class="row">
         <button type="submit" (click)="enregistrerReservationSelectionnee()" class="btn btn-outline-secondary"
           [disabled]="!leForm.form.valid" l10nTranslate>reservation_bouton_enregistrer</button>

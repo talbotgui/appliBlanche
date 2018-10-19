@@ -19,7 +19,9 @@ export class PageReservationsComponent implements AfterViewInit {
     // A l'envoi d'un message du composant Calendrier
     this.cadreCalendrier.busDeMessage.subscribe((r: model.Reservation | undefined) => {
       // sélection d'une réservation
-      this.cadreReservation.reservationSelectionnee = r;
+      if (r) {
+        this.cadreReservation.selectionnerUneReservation(r);
+      }
     });
 
     // A l'envoi d'un message du composant Reservation

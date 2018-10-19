@@ -55,6 +55,9 @@ export class Option {
 /** Objet métier Reservation */
 export class Reservation {
 
+  /** Options associées */
+  public options: Option[]
+
   /** Constructeur. */
   constructor(
     /** référence unique */

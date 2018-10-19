@@ -13,12 +13,15 @@ export class CadreReservationComponent implements OnInit {
 
   /** Liste des chambres */
   chambres: model.Chambre[] = [];
-
   /** Liste des formules */
   formules: model.Formule[] = [];
+  /** Liste des options */
+  options: model.Option[] = [];
 
   /** Reservation dans le détail */
   reservationSelectionnee: model.Reservation | undefined;
+  /** Map des options utilisée dans les ecrans */
+  optionsCalculeesPourLaReservationSelectionnee: model.IStringToAnyMap<boolean> = {};
 
   /** Bus de message pour communiquer avec le composant parent */
   busDeMessage = new EventEmitter<string>();
@@ -29,25 +32,40 @@ export class CadreReservationComponent implements OnInit {
   /** A l'initialisation */
   ngOnInit() {
     this.reservationsService.listerChambres().subscribe(
-      (chambres) => {
-        if (chambres && chambres.length > 0) {
-          this.chambres = chambres;
-        } else {
-          this.chambres = [];
-        }
-      });
+      (chambres) => this.chambres = (chambres && chambres.length > 0) ? chambres : []);
     this.reservationsService.listerFormules().subscribe(
-      (formules) => {
-        if (formules && formules.length > 0) {
-          this.formules = formules;
-        } else {
-          this.formules = [];
-        }
-      });
+      (formules) => this.formules = (formules && formules.length > 0) ? formules : []);
+    this.reservationsService.listerOptions().subscribe(
+      (options) => this.options = (options && options.length > 0) ? options : []);
+  }
+
+  selectionnerUneReservation(r: model.Reservation) {
+    this.reservationSelectionnee = r;
+
+    // Calcul de l'objet portant les options
+    this.optionsCalculeesPourLaReservationSelectionnee = {};
+    if (this.options) {
+      for (const o of this.options) {
+        const estSelectionnee = (r.options.findIndex((oSel) => o.reference === oSel.reference) >= 0)
+        this.optionsCalculeesPourLaReservationSelectionnee[o.reference] = estSelectionnee;
+      }
+    }
   }
 
   enregistrerReservationSelectionnee() {
     if (this.reservationSelectionnee) {
+
+      // Application des options sélectionnées
+      this.reservationSelectionnee.options = [];
+      if (this.options) {
+        for (const o of this.options) {
+          if (this.optionsCalculeesPourLaReservationSelectionnee[o.reference]) {
+            this.reservationSelectionnee.options.push(o);
+          }
+        }
+      }
+
+      // Sauvegarde
       this.reservationsService.sauvegarderReservation(this.reservationSelectionnee).subscribe(() => {
         this.reservationSelectionnee = undefined;
         this.busDeMessage.emit('');
