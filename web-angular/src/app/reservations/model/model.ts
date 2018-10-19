@@ -56,7 +56,10 @@ export class Option {
 export class Reservation {
 
   /** Options associées */
-  public options: Option[]
+  public options: Option[];
+
+  /** Statut */
+  public etatCourant: string;
 
   /** Constructeur. */
   constructor(

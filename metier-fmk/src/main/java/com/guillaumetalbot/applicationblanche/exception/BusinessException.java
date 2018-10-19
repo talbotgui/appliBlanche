@@ -33,9 +33,9 @@ public class BusinessException extends BaseException {
 
 	public static final ExceptionId REFERENCE_NON_VALIDE = new ExceptionId("ERREUR_REFERENCE_NON_VALIDE", "Référence {{0}} non valide",
 			ExceptionLevel.INFORMATION, 404);
+
 	public static final ExceptionId RESERVATION_DEJA_EXISTANTE = new ExceptionId("RESERVATION_DEJA_EXISTANTE",
 			"Une reservation existe déjà à ces dates", ExceptionLevel.INFORMATION, 400);
-
 	public static final ExceptionId RESERVATION_PAS_EN_COURS = new ExceptionId("RESERVATION_PAS_EN_COURS",
 			"La réservation '{{0}}' n'est pas en cours", ExceptionLevel.INFORMATION, 400);
 
@@ -44,6 +44,9 @@ public class BusinessException extends BaseException {
 
 	public static final ExceptionId SUPPRESSION_IMPOSSIBLE_OBJETS_LIES = new ExceptionId("SUPPRESSION_IMPOSSIBLE_OBJETS_LIES",
 			"Suppression impossible car un ou plusieurs objets de type '{{0}}' sont liés", ExceptionLevel.INFORMATION, 400);
+
+	public static final ExceptionId TRANSITION_ETAT_IMPOSSIBLE = new ExceptionId("TRANSITION_ETAT_IMPOSSIBLE",
+			"Impossible de passer de l'état '{{0}}' à l'état '{{1}}'.", ExceptionLevel.INFORMATION, 400);
 
 	public BusinessException(final ExceptionId exceptionId) {
 		super(exceptionId);

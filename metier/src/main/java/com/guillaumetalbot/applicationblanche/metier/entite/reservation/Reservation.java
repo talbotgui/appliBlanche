@@ -13,6 +13,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.guillaumetalbot.applicationblanche.exception.BusinessException;
 import com.guillaumetalbot.applicationblanche.metier.entite.Entite;
 import com.guillaumetalbot.applicationblanche.metier.entite.MutableUtil;
 
@@ -33,6 +34,8 @@ public class Reservation extends Entite {
 
 	private LocalDate dateFin;
 
+	private EtatReservation etatCourant;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "FORMULE_ID")
 	private Formule formule;
@@ -45,7 +48,7 @@ public class Reservation extends Entite {
 	@JoinTable(name = "OPTION_RESERVEE", //
 			joinColumns = { @JoinColumn(name = "RESERVATION_ID") }, //
 			inverseJoinColumns = { @JoinColumn(name = "OPTION_ID") })
-	private Collection<Option> options;
+	private Collection<Option> options = new HashSet<>();
 
 	public Reservation() {
 		super();
@@ -62,6 +65,19 @@ public class Reservation extends Entite {
 	public Reservation(final String client, final Chambre chambre, final LocalDate dateDebut, final LocalDate dateFin, final Formule formule) {
 		this(client, chambre, dateDebut, dateFin);
 		this.formule = formule;
+	}
+
+	/**
+	 * Validation et changement de l'état courant de la réservation.
+	 *
+	 * @param etatDemande
+	 */
+	public void changerEtatCourant(final EtatReservation etatDemande) {
+		// Validation de la transition
+		if (!this.validerTransitionEtat(etatDemande)) {
+			throw new BusinessException(BusinessException.TRANSITION_ETAT_IMPOSSIBLE, this.etatCourant.name(), etatDemande.name());
+		}
+		this.etatCourant = etatDemande;
 	}
 
 	public Chambre getChambre() {
@@ -82,6 +98,10 @@ public class Reservation extends Entite {
 
 	public LocalDate getDateFin() {
 		return this.dateFin;
+	}
+
+	public EtatReservation getEtatCourant() {
+		return this.etatCourant;
 	}
 
 	public Formule getFormule() {
@@ -112,12 +132,38 @@ public class Reservation extends Entite {
 		this.dateFin = dateFin;
 	}
 
+	public void setEtatCourant(final EtatReservation etatCourant) {
+		this.etatCourant = etatCourant;
+	}
+
 	public void setFormule(final Formule formule) {
 		this.formule = formule;
 	}
 
 	public void setOptions(final Collection<Option> options) {
 		this.options = options;
+	}
+
+	/**
+	 * Méthode permettant de valider une transition d'état
+	 *
+	 * @param etatDemande
+	 * @return
+	 */
+	private boolean validerTransitionEtat(final EtatReservation etatDemande) {
+		if (EtatReservation.ENREGISTREE.equals(this.etatCourant)) {
+			// Transition possible avec EN_COURS
+			return EtatReservation.EN_COURS.equals(etatDemande);
+		} else if (EtatReservation.EN_COURS.equals(this.etatCourant)) {
+			// Transition possible avec TERMINEE
+			return EtatReservation.TERMINEE.equals(etatDemande);
+		} else if (EtatReservation.TERMINEE.equals(this.etatCourant)) {
+			// TERMINEE est un état final
+			return false;
+		} else {
+			// etat incohérent
+			return false;
+		}
 	}
 
 }

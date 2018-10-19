@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.guillaumetalbot.applicationblanche.exception.RestException;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Consommation;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.EtatReservation;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservation;
 import com.guillaumetalbot.applicationblanche.metier.service.ReservationService;
 
@@ -27,6 +29,12 @@ public class ReservationRestControler {
 
 	@Autowired
 	private ReservationService reservationService;
+
+	@PutMapping("/reservations/{referenceReservation}/etat")
+	public void changeEtatReservation(@PathVariable("referenceReservation") final String referenceReservation,
+			@RequestParam(name = "etat", required = true) final EtatReservation etat) {
+		this.reservationService.changeEtatReservation(referenceReservation, etat);
+	}
 
 	@GetMapping("/reservations/{referenceReservation}/consommations")
 	public Collection<Consommation> rechercherConsommationsDuneReservation(@PathVariable("referenceReservation") final String referenceReservation) {

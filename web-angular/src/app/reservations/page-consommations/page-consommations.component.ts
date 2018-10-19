@@ -1,7 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Language } from 'angular-l10n';
+import { Reservation } from '../model/model';
 
 
 /** Page de gestion des reservations */
 @Component({ selector: 'page-consommations', templateUrl: './page-consommations.component.html', styleUrls: ['./page-consommations.component.css'] })
-export class PageConsommationsComponent {
+export class PageConsommationsComponent implements OnInit {
+
+  /** Decorateur nécessaire aux libellés internationnalisés dans des tooltips */
+  @Language() lang: string;
+
+  /** Liste des réservations en cours */
+  reservations: Reservation;
+
+  /** A l'initialisation */
+  ngOnInit() {
+
+
+  }
+
+
+
 }

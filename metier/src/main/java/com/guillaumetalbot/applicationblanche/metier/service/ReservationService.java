@@ -4,9 +4,12 @@ import java.time.LocalDate;
 import java.util.Collection;
 
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Consommation;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.EtatReservation;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservation;
 
 public interface ReservationService {
+
+	void changeEtatReservation(String referenceReservation, EtatReservation etat);
 
 	Collection<Consommation> rechercherConsommationsDuneReservation(String referenceReservation);
 

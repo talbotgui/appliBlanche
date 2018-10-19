@@ -29,6 +29,7 @@ import com.guillaumetalbot.applicationblanche.metier.application.SpringApplicati
 import com.guillaumetalbot.applicationblanche.metier.entite.Entite;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Chambre;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Consommation;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.EtatReservation;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Formule;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Produit;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservation;
@@ -212,6 +213,38 @@ public class ReservationServiceTest {
 		Assert.assertNotNull(thrown);
 		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.RESERVATION_DEJA_EXISTANTE));
 		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from CHAMBRE", Long.class));
+	}
+
+	@Test
+	public void test01Reservation08ChangerEtatOk() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final String refChambre = this.reservationParametresService.sauvegarderChambre(new Chambre("C1"));
+		final String refReservation = this.sauvegarderUneReservation("client1", refChambre, 2, 4);
+
+		//
+		this.reservationService.changeEtatReservation(refReservation, EtatReservation.EN_COURS);
+
+		//
+		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from RESERVATION where etat_Courant=0", Long.class));
+	}
+
+	@Test
+	public void test01Reservation09ChangerEtatKoIncoherent() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final String refChambre = this.reservationParametresService.sauvegarderChambre(new Chambre("C1"));
+		final String refReservation = this.sauvegarderUneReservation("client1", refChambre, 2, 4);
+
+		//
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.reservationService.changeEtatReservation(refReservation, EtatReservation.TERMINEE);
+		});
+
+		//
+		Assert.assertNotNull(thrown);
+		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.TRANSITION_ETAT_IMPOSSIBLE));
+		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from RESERVATION where etat_courant=1", Long.class));
 	}
 
 	@Test

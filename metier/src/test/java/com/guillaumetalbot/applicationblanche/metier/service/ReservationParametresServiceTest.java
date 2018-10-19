@@ -32,6 +32,7 @@ import com.guillaumetalbot.applicationblanche.metier.application.SpringApplicati
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Chambre;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Consommation;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Formule;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Option;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Produit;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservation;
 
@@ -64,13 +65,33 @@ public class ReservationParametresServiceTest {
 
 	private String sauvegarderUneReservation(final String client, final String refChambre, final int deltaDateDebut, final int deltaDateFin,
 			final String refFormule) {
-		final Chambre c = new Chambre();
-		c.setReference(refChambre);
+		return this.sauvegarderUneReservation(client, refChambre, deltaDateDebut, deltaDateFin, refFormule, null);
+	}
+
+	private String sauvegarderUneReservation(final String client, final String refChambre, final int deltaDateDebut, final int deltaDateFin,
+			final String refFormule, final String refOption) {
+		// Gestion des dates
 		final LocalDate dateDebut = LocalDate.now().plus(deltaDateDebut, ChronoUnit.DAYS);
 		final LocalDate dateFin = LocalDate.now().plus(deltaDateFin, ChronoUnit.DAYS);
+
+		// Création des objets liés obligatoires
+		final Chambre c = new Chambre();
+		c.setReference(refChambre);
 		final Formule formule = new Formule();
 		formule.setReference(refFormule);
-		return this.reservationService.sauvegarderReservation(new Reservation(client, c, dateDebut, dateFin, formule));
+
+		// Création de la réservation
+		final Reservation reservation = new Reservation(client, c, dateDebut, dateFin, formule);
+
+		// Création des objets liés optionnels
+		if (refOption != null) {
+			final Option option = new Option();
+			option.setReference(refOption);
+			reservation.getOptions().add(option);
+		}
+
+		// Sauvegarde
+		return this.reservationService.sauvegarderReservation(reservation);
 	}
 
 	@Test
@@ -311,6 +332,85 @@ public class ReservationParametresServiceTest {
 		Assert.assertNotNull(thrown);
 		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.SUPPRESSION_IMPOSSIBLE_OBJETS_LIES));
 		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from FORMULE", Long.class));
+	}
+
+	@Test
+	public void test04Option01CreationOk() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+
+		//
+		final String ref = this.reservationParametresService.sauvegarderOption(new Option("nom", 2.5, false, false));
+
+		//
+		Assert.assertNotNull(ref);
+		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from OPTION_RESERVATION", Long.class));
+	}
+
+	@Test
+	public void test04Option02CreationKoNomEnDouble() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		this.reservationParametresService.sauvegarderOption(new Option("nomO", 2.5, false, false));
+
+		//
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.reservationParametresService.sauvegarderOption(new Option("nomO", 2.6, true, true));
+		});
+
+		//
+		Assert.assertNotNull(thrown);
+		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_FONCTIONNELEMENT_EN_DOUBLE));
+		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from OPTION_RESERVATION", Long.class));
+	}
+
+	@Test
+	public void test04Option03Lister() {
+		//
+		final List<String> nomDesOptions = Arrays.asList("nom1", "nom2", "nom3");
+		this.reservationParametresService.sauvegarderOption(new Option(nomDesOptions.get(2), 2.6, false, false));
+		this.reservationParametresService.sauvegarderOption(new Option(nomDesOptions.get(1), 2.6, false, false));
+		this.reservationParametresService.sauvegarderOption(new Option(nomDesOptions.get(0), 2.6, false, false));
+
+		//
+		final Collection<Option> options = this.reservationParametresService.listerOptions();
+
+		//
+		Assert.assertNotNull(options);
+		Assertions.assertThat(options.stream().map((o) -> o.getNom()).collect(Collectors.toList())).containsExactlyElementsOf(nomDesOptions);
+	}
+
+	@Test
+	public void test04Option03SuppressionOk() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final String ref = this.reservationParametresService.sauvegarderOption(new Option("nom1", 2.6, false, false));
+
+		//
+		this.reservationParametresService.supprimerOption(ref);
+
+		//
+		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from OPTION_RESERVATION", Long.class));
+	}
+
+	@Test
+	public void test04Option04SuppressionKo() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final String refFormule = this.reservationParametresService.sauvegarderFormule(new Formule("nomF1", 2.1));
+		final String refOption = this.reservationParametresService.sauvegarderOption(new Option("nom1", 2.6, false, false));
+		final String refChambre = this.reservationParametresService.sauvegarderChambre(new Chambre("nomC"));
+		this.sauvegarderUneReservation("client", refChambre, -1, 2, refFormule, refOption);
+
+		//
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.reservationParametresService.supprimerOption(refOption);
+		});
+
+		//
+		Assert.assertNotNull(thrown);
+		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.SUPPRESSION_IMPOSSIBLE_OBJETS_LIES));
+		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from OPTION_RESERVATION", Long.class));
 	}
 
 }

@@ -90,6 +90,12 @@ export class ReservationService {
     return this.http.post<void>(url, reservation, this.restUtils.creerHeaderPost());
   }
 
+  /** Changement du statut d'une reservation via l'API */
+  changerEtatReservation(referenceReservation: string, etat: string): Observable<{} | void> {
+    const url = environment.baseUrl + '/v1/reservations/' + referenceReservation + '/etat?etat=' + etat;
+    return this.http.put<void>(url, etat, this.restUtils.creerHeader());
+  }
+
   /** Suppression d'une consommation via l'API */
   supprimerConsommation(referenceReservation: string, referenceConsommation: string): Observable<{} | void> {
     const url = environment.baseUrl + '/v1/reservations/' + referenceReservation + '/consommations/' + referenceConsommation;

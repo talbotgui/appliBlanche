@@ -22,6 +22,7 @@ import org.testng.annotations.Test;
 import com.guillaumetalbot.applicationblanche.metier.entite.Entite;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Chambre;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Consommation;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.EtatReservation;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Formule;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Produit;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservation;
@@ -29,127 +30,7 @@ import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservat
 public class ReservationRestControlerTest extends BaseTestClass {
 
 	@Test
-	public void test03Consommation01Lister() {
-
-		// ARRANGE
-		final List<Consommation> toReturn = Arrays.asList(new Consommation(new Reservation(), new Produit(), 1.0, 1),
-				new Consommation(new Reservation(), new Produit(), 2.0, 2), new Consommation(new Reservation(), new Produit(), 3.0, 3));
-		final String referenceReservation = Entite.genererReference(Reservation.class, 1L);
-		Mockito.doReturn(toReturn).when(this.reservationService).rechercherConsommationsDuneReservation(referenceReservation);
-
-		// ACT
-		final ParameterizedTypeReference<Collection<Produit>> typeRetour = new ParameterizedTypeReference<Collection<Produit>>() {
-		};
-		final String uri = "/v1/reservations/" + referenceReservation + "/consommations";
-		final ResponseEntity<Collection<Produit>> produits = this.getREST().exchange(this.getURL() + uri, HttpMethod.GET, null, typeRetour);
-
-		// ASSERT
-		Mockito.verify(this.reservationService).rechercherConsommationsDuneReservation(referenceReservation);
-		Mockito.verifyNoMoreInteractions(this.reservationService);
-		Assert.assertNotNull(produits.getBody());
-		Assert.assertEquals(produits.getBody().size(), toReturn.size());
-	}
-
-	@Test
-	public void test03Consommation02Supprimer() {
-		final String refReservation = Entite.genererReference(Reservation.class, 1L);
-		final String ref = Entite.genererReference(Consommation.class, 1L);
-
-		// ARRANGE
-		Mockito.doNothing().when(this.reservationService).supprimerConsommation(refReservation, ref);
-
-		// ACT
-		this.getREST().delete(this.getURL() + "/v1/reservations/" + refReservation + "/consommations/" + ref);
-
-		// ASSERT
-		Mockito.verify(this.reservationService).supprimerConsommation(refReservation, ref);
-		Mockito.verifyNoMoreInteractions(this.reservationService);
-	}
-
-	@Test
-	public void test03Consommations03SauvegarderKoProduit() {
-
-		// ARRANGE
-		final String refReservation = Entite.genererReference(Reservation.class, 1L);
-		final Reservation reservation = new Reservation("client", null, LocalDate.now(), LocalDate.now());
-		final Consommation conso = new Consommation(reservation, null, null, 1);
-
-		// ACT
-		final Throwable thrown = Assertions.catchThrowable(() -> {
-			this.getREST().postForObject(this.getURL() + "/v1/reservations/" + refReservation + "/consommations", conso, String.class);
-		});
-
-		// ASSERT
-		Assert.assertNotNull(thrown);
-		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.class);
-		final HttpClientErrorException e = (HttpClientErrorException) thrown;
-		Assert.assertEquals(e.getRawStatusCode(), HttpStatus.BAD_REQUEST.value());
-		Mockito.verifyNoMoreInteractions(this.reservationService);
-	}
-
-	@Test
-	public void test03Consommations03SauvegarderKoQuantite() {
-
-		// ARRANGE
-		final String refReservation = Entite.genererReference(Reservation.class, 1L);
-		final Reservation reservation = new Reservation("client", null, LocalDate.now(), LocalDate.now());
-		final Produit produit = new Produit("P1", 1.99, "rouge");
-		final Consommation conso = new Consommation(reservation, produit, null, null);
-
-		// ACT
-		final Throwable thrown = Assertions.catchThrowable(() -> {
-			this.getREST().postForObject(this.getURL() + "/v1/reservations/" + refReservation + "/consommations", conso, String.class);
-		});
-
-		// ASSERT
-		Assert.assertNotNull(thrown);
-		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.class);
-		final HttpClientErrorException e = (HttpClientErrorException) thrown;
-		Assert.assertEquals(e.getRawStatusCode(), HttpStatus.BAD_REQUEST.value());
-		Mockito.verifyNoMoreInteractions(this.reservationService);
-	}
-
-	@Test
-	public void test03Consommations03SauvegarderOk() {
-
-		// ARRANGE
-		final String refReservation = Entite.genererReference(Reservation.class, 1L);
-		final String refRetournee = Entite.genererReference(Consommation.class, 1L);
-		final Reservation reservation = new Reservation("client", null, LocalDate.now(), LocalDate.now());
-		final Produit produit = new Produit("P1", 1.99, "rouge");
-		final Consommation conso = new Consommation(reservation, produit, null, 1);
-		Mockito.doReturn(refRetournee).when(this.reservationService).sauvegarderConsommation(Mockito.any(Consommation.class));
-
-		// ACT
-		final String ref = this.getREST().postForObject(this.getURL() + "/v1/reservations/" + refReservation + "/consommations", conso, String.class);
-
-		// ASSERT
-		Mockito.verify(this.reservationService).sauvegarderConsommation(Mockito.any(Consommation.class));
-		Mockito.verifyNoMoreInteractions(this.reservationService);
-		Assert.assertEquals(ref, '"' + refRetournee + '"');
-	}
-
-	@Test
-	public void test03Consommations03SauvegarderOkSansObjetReservation() {
-
-		// ARRANGE
-		final String refReservation = Entite.genererReference(Reservation.class, 1L);
-		final String refRetournee = Entite.genererReference(Consommation.class, 1L);
-		final Produit produit = new Produit("P1", 1.99, "rouge");
-		final Consommation conso = new Consommation(null, produit, null, 1);
-		Mockito.doReturn(refRetournee).when(this.reservationService).sauvegarderConsommation(Mockito.any(Consommation.class));
-
-		// ACT
-		final String ref = this.getREST().postForObject(this.getURL() + "/v1/reservations/" + refReservation + "/consommations", conso, String.class);
-
-		// ASSERT
-		Mockito.verify(this.reservationService).sauvegarderConsommation(Mockito.any(Consommation.class));
-		Mockito.verifyNoMoreInteractions(this.reservationService);
-		Assert.assertEquals(ref, '"' + refRetournee + '"');
-	}
-
-	@Test
-	public void test03Reservation01Lister() {
+	public void test01Reservation01Lister() {
 
 		// ARRANGE
 		final String dateDebut = "2019-02-10";
@@ -177,7 +58,7 @@ public class ReservationRestControlerTest extends BaseTestClass {
 	}
 
 	@Test
-	public void test03Reservation02Supprimer() {
+	public void test01Reservation02Supprimer() {
 		final String ref = Entite.genererReference(Reservation.class, 1L);
 
 		// ARRANGE
@@ -192,7 +73,7 @@ public class ReservationRestControlerTest extends BaseTestClass {
 	}
 
 	@Test
-	public void test03Reservation03SauvegarderKoChambre() {
+	public void test01Reservation03SauvegarderKoChambre() {
 
 		// ARRANGE
 		final Reservation reservation = new Reservation("client", null, LocalDate.now(), LocalDate.now());
@@ -211,7 +92,7 @@ public class ReservationRestControlerTest extends BaseTestClass {
 	}
 
 	@Test
-	public void test03Reservation03SauvegarderKoChambreReference() {
+	public void test01Reservation03SauvegarderKoChambreReference() {
 
 		// ARRANGE
 		final Chambre chambre = new Chambre("C1");
@@ -231,7 +112,7 @@ public class ReservationRestControlerTest extends BaseTestClass {
 	}
 
 	@Test
-	public void test03Reservation03SauvegarderKoClient() {
+	public void test01Reservation03SauvegarderKoClient() {
 
 		// ARRANGE
 		final Chambre chambre = new Chambre("C1");
@@ -252,7 +133,7 @@ public class ReservationRestControlerTest extends BaseTestClass {
 	}
 
 	@Test
-	public void test03Reservation03SauvegarderKoDatesAbsentes() {
+	public void test01Reservation03SauvegarderKoDatesAbsentes() {
 
 		// ARRANGE
 		final Chambre chambre = new Chambre("C1");
@@ -273,7 +154,7 @@ public class ReservationRestControlerTest extends BaseTestClass {
 	}
 
 	@Test
-	public void test03Reservation03SauvegarderKoDatesIncoherentes() {
+	public void test01Reservation03SauvegarderKoDatesIncoherentes() {
 
 		// ARRANGE
 		final Chambre chambre = new Chambre("C1");
@@ -296,7 +177,7 @@ public class ReservationRestControlerTest extends BaseTestClass {
 	}
 
 	@Test
-	public void test03Reservation03SauvegarderOk() {
+	public void test01Reservation03SauvegarderOk() {
 
 		// ARRANGE
 		final String refRetournee = Entite.genererReference(Produit.class, 1L);
@@ -312,6 +193,141 @@ public class ReservationRestControlerTest extends BaseTestClass {
 
 		// ASSERT
 		Mockito.verify(this.reservationService).sauvegarderReservation(Mockito.any(Reservation.class));
+		Mockito.verifyNoMoreInteractions(this.reservationService);
+		Assert.assertEquals(ref, '"' + refRetournee + '"');
+	}
+
+	@Test
+	public void test01Reservations04ChangerEtat() {
+
+		// ARRANGE
+		final String refReservation = Entite.genererReference(Reservation.class, 1L);
+		Mockito.doNothing().when(this.reservationService).changeEtatReservation(Mockito.anyString(), Mockito.any(EtatReservation.class));
+
+		// ACT
+		this.getREST().put(this.getURL() + "/v1/reservations/" + refReservation + "/etat?etat=EN_COURS", null);
+
+		// ASSERT
+		Mockito.verify(this.reservationService).changeEtatReservation(Mockito.anyString(), Mockito.any(EtatReservation.class));
+		Mockito.verifyNoMoreInteractions(this.reservationService);
+	}
+
+	@Test
+	public void test02Consommation01Lister() {
+
+		// ARRANGE
+		final List<Consommation> toReturn = Arrays.asList(new Consommation(new Reservation(), new Produit(), 1.0, 1),
+				new Consommation(new Reservation(), new Produit(), 2.0, 2), new Consommation(new Reservation(), new Produit(), 3.0, 3));
+		final String referenceReservation = Entite.genererReference(Reservation.class, 1L);
+		Mockito.doReturn(toReturn).when(this.reservationService).rechercherConsommationsDuneReservation(referenceReservation);
+
+		// ACT
+		final ParameterizedTypeReference<Collection<Produit>> typeRetour = new ParameterizedTypeReference<Collection<Produit>>() {
+		};
+		final String uri = "/v1/reservations/" + referenceReservation + "/consommations";
+		final ResponseEntity<Collection<Produit>> produits = this.getREST().exchange(this.getURL() + uri, HttpMethod.GET, null, typeRetour);
+
+		// ASSERT
+		Mockito.verify(this.reservationService).rechercherConsommationsDuneReservation(referenceReservation);
+		Mockito.verifyNoMoreInteractions(this.reservationService);
+		Assert.assertNotNull(produits.getBody());
+		Assert.assertEquals(produits.getBody().size(), toReturn.size());
+	}
+
+	@Test
+	public void test02Consommation02Supprimer() {
+		final String refReservation = Entite.genererReference(Reservation.class, 1L);
+		final String ref = Entite.genererReference(Consommation.class, 1L);
+
+		// ARRANGE
+		Mockito.doNothing().when(this.reservationService).supprimerConsommation(refReservation, ref);
+
+		// ACT
+		this.getREST().delete(this.getURL() + "/v1/reservations/" + refReservation + "/consommations/" + ref);
+
+		// ASSERT
+		Mockito.verify(this.reservationService).supprimerConsommation(refReservation, ref);
+		Mockito.verifyNoMoreInteractions(this.reservationService);
+	}
+
+	@Test
+	public void test02Consommations03SauvegarderKoProduit() {
+
+		// ARRANGE
+		final String refReservation = Entite.genererReference(Reservation.class, 1L);
+		final Reservation reservation = new Reservation("client", null, LocalDate.now(), LocalDate.now());
+		final Consommation conso = new Consommation(reservation, null, null, 1);
+
+		// ACT
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.getREST().postForObject(this.getURL() + "/v1/reservations/" + refReservation + "/consommations", conso, String.class);
+		});
+
+		// ASSERT
+		Assert.assertNotNull(thrown);
+		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.class);
+		final HttpClientErrorException e = (HttpClientErrorException) thrown;
+		Assert.assertEquals(e.getRawStatusCode(), HttpStatus.BAD_REQUEST.value());
+		Mockito.verifyNoMoreInteractions(this.reservationService);
+	}
+
+	@Test
+	public void test02Consommations03SauvegarderKoQuantite() {
+
+		// ARRANGE
+		final String refReservation = Entite.genererReference(Reservation.class, 1L);
+		final Reservation reservation = new Reservation("client", null, LocalDate.now(), LocalDate.now());
+		final Produit produit = new Produit("P1", 1.99, "rouge");
+		final Consommation conso = new Consommation(reservation, produit, null, null);
+
+		// ACT
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.getREST().postForObject(this.getURL() + "/v1/reservations/" + refReservation + "/consommations", conso, String.class);
+		});
+
+		// ASSERT
+		Assert.assertNotNull(thrown);
+		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.class);
+		final HttpClientErrorException e = (HttpClientErrorException) thrown;
+		Assert.assertEquals(e.getRawStatusCode(), HttpStatus.BAD_REQUEST.value());
+		Mockito.verifyNoMoreInteractions(this.reservationService);
+	}
+
+	@Test
+	public void test02Consommations03SauvegarderOk() {
+
+		// ARRANGE
+		final String refReservation = Entite.genererReference(Reservation.class, 1L);
+		final String refRetournee = Entite.genererReference(Consommation.class, 1L);
+		final Reservation reservation = new Reservation("client", null, LocalDate.now(), LocalDate.now());
+		final Produit produit = new Produit("P1", 1.99, "rouge");
+		final Consommation conso = new Consommation(reservation, produit, null, 1);
+		Mockito.doReturn(refRetournee).when(this.reservationService).sauvegarderConsommation(Mockito.any(Consommation.class));
+
+		// ACT
+		final String ref = this.getREST().postForObject(this.getURL() + "/v1/reservations/" + refReservation + "/consommations", conso, String.class);
+
+		// ASSERT
+		Mockito.verify(this.reservationService).sauvegarderConsommation(Mockito.any(Consommation.class));
+		Mockito.verifyNoMoreInteractions(this.reservationService);
+		Assert.assertEquals(ref, '"' + refRetournee + '"');
+	}
+
+	@Test
+	public void test02Consommations03SauvegarderOkSansObjetReservation() {
+
+		// ARRANGE
+		final String refReservation = Entite.genererReference(Reservation.class, 1L);
+		final String refRetournee = Entite.genererReference(Consommation.class, 1L);
+		final Produit produit = new Produit("P1", 1.99, "rouge");
+		final Consommation conso = new Consommation(null, produit, null, 1);
+		Mockito.doReturn(refRetournee).when(this.reservationService).sauvegarderConsommation(Mockito.any(Consommation.class));
+
+		// ACT
+		final String ref = this.getREST().postForObject(this.getURL() + "/v1/reservations/" + refReservation + "/consommations", conso, String.class);
+
+		// ASSERT
+		Mockito.verify(this.reservationService).sauvegarderConsommation(Mockito.any(Consommation.class));
 		Mockito.verifyNoMoreInteractions(this.reservationService);
 		Assert.assertEquals(ref, '"' + refRetournee + '"');
 	}

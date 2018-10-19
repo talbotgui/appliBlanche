@@ -44,7 +44,7 @@ export class CadreReservationComponent implements OnInit {
 
     // Calcul de l'objet portant les options
     this.optionsCalculeesPourLaReservationSelectionnee = {};
-    if (this.options) {
+    if (this.options && r.options) {
       for (const o of this.options) {
         const estSelectionnee = (r.options.findIndex((oSel) => o.reference === oSel.reference) >= 0)
         this.optionsCalculeesPourLaReservationSelectionnee[o.reference] = estSelectionnee;
@@ -67,6 +67,15 @@ export class CadreReservationComponent implements OnInit {
 
       // Sauvegarde
       this.reservationsService.sauvegarderReservation(this.reservationSelectionnee).subscribe(() => {
+        this.reservationSelectionnee = undefined;
+        this.busDeMessage.emit('');
+      });
+    }
+  }
+
+  changerEtat(codeEtat: string) {
+    if (this.reservationSelectionnee) {
+      this.reservationsService.changerEtatReservation(this.reservationSelectionnee.reference, codeEtat).subscribe(() => {
         this.reservationSelectionnee = undefined;
         this.busDeMessage.emit('');
       });

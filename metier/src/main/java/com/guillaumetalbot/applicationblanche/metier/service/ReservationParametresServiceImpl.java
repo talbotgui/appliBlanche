@@ -105,7 +105,7 @@ public class ReservationParametresServiceImpl implements ReservationParametresSe
 
 		// Validation pas de produit en double
 		this.optionRepo.rechercherOptionManagedParNom(option.getNom()).ifPresent(o -> {
-			if (!o.getId().equals(o.getId())) {
+			if (!o.getId().equals(option.getId())) {
 				throw new BusinessException(BusinessException.OBJET_FONCTIONNELEMENT_EN_DOUBLE, "option", "nom", option.getNom());
 			}
 		});

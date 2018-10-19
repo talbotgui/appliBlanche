@@ -55,6 +55,27 @@ export class HttpProxy {
   }
 
   /**
+   * Construct a PUT request which interprets the body as JSON and returns it.
+   *
+   * @return an `Observable` of the body as type `T`.
+   */
+  put<T>(url: string, body: any | null, options?: {
+    headers?: HttpHeaders | {
+      [header: string]: string | string[];
+    };
+    observe?: 'body';
+    params?: HttpParams | {
+      [param: string]: string | string[];
+    };
+    reportProgress?: boolean;
+    responseType?: 'json';
+    withCredentials?: boolean;
+  }): Observable<T> {
+    const bodyTransforme = this.transformerLesDatesEnString(body);
+    return this.http.put<T>(url, body, options);
+  }
+
+  /**
    * Construct a POST request which interprets the body as JSON and returns the full response.
    *
    * @return an `Observable` of the `HttpResponse` for the request, with a body type of `T`.

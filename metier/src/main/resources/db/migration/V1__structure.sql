@@ -21,7 +21,7 @@ create table libelle (id bigint, clef varchar(255), langue varchar(255), libelle
 create table chambre (id bigint not null, nom varchar(255), primary key (id));
 create table consommation (id bigint not null, date_creation date, prix_paye double precision, quantite integer, produit_id bigint, reservation_id bigint, primary key (id));
 create table produit (id bigint not null, couleur varchar(255), nom varchar(255), prix double precision, primary key (id));
-create table reservation (id bigint not null, client varchar(255), date_debut date, date_fin date, chambre_id bigint, formule_id bigint, primary key (id));
+create table reservation (id bigint not null, client varchar(255), etat_courant integer, date_debut date, date_fin date, chambre_id bigint, formule_id bigint, primary key (id));
 alter table consommation add constraint FK9ffj492mae8twsn4qdl08nvw5 foreign key (produit_id) references produit;
 alter table consommation add constraint FKmr2pegluby9t2uko43ktg2e79 foreign key (reservation_id) references reservation;
 alter table reservation add constraint FKdqj45imhck9x1xd2b8l3oi05t foreign key (chambre_id) references chambre;

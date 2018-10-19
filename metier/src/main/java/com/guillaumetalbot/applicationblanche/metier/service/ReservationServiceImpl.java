@@ -19,6 +19,7 @@ import com.guillaumetalbot.applicationblanche.metier.dao.reservation.Reservation
 import com.guillaumetalbot.applicationblanche.metier.entite.Entite;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Chambre;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Consommation;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.EtatReservation;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Formule;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Option;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Produit;
@@ -45,6 +46,21 @@ public class ReservationServiceImpl implements ReservationService {
 
 	@Autowired
 	private ReservationRepository reservationRepo;
+
+	@Override
+	public void changeEtatReservation(final String referenceReservation, final EtatReservation etatDemande) {
+		final Long idReservation = Entite.extraireIdentifiant(referenceReservation, Reservation.class);
+
+		// Chargement de la réservation
+		final Reservation reservation = this.reservationRepo.findById(idReservation)//
+				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "reservation", referenceReservation));
+
+		// Validation et changement d'état
+		reservation.changerEtatCourant(etatDemande);
+
+		// Sauvegarde
+		this.reservationRepo.save(reservation);
+	}
 
 	@Override
 	public Collection<Consommation> rechercherConsommationsDuneReservation(final String referenceReservation) {
@@ -90,6 +106,11 @@ public class ReservationServiceImpl implements ReservationService {
 
 		// Trim du nom du client pour éviter les problèmes de frappe
 		reservation.setClient(reservation.getClient().trim());
+
+		// Gestion de l'état
+		if (reservation.getId() == null && reservation.getReference() == null) {
+			reservation.setEtatCourant(EtatReservation.ENREGISTREE);
+		}
 
 		// Validation de la chambre
 		if (reservation.getChambre() == null) {
