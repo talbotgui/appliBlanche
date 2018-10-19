@@ -1,3 +1,7 @@
+const ETAT_RESERVATION_ENREGISTREE = 'ENREGISTREE';
+const ETAT_RESERVATION_EN_COURS = 'EN_COURS';
+const ETAT_RESERVATION_TERMINEE = 'TERMINEE';
+
 /** Chambre */
 export class Chambre {
   /**

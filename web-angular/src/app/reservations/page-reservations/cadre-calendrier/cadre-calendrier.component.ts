@@ -96,7 +96,7 @@ export class CadreCalendrierComponent implements OnInit {
 
         // Chargement des réservations
         this.reservationsService.rechercherReservations(this.dateDebut, this.dateFin).subscribe(
-          (reservations) => {
+          (reservations: model.Reservation[]) => {
 
             // Calcul de la liste des jours entre la date de début et la date de fin
             this.jours = [];

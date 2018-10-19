@@ -7,7 +7,7 @@
         <mat-form-field>
           <input matInput name="dateDebutPickDetail" [matDatepicker]="dateDebutPickDetail" [max]="reservationSelectionnee.dateFin"
             [(ngModel)]="reservationSelectionnee.dateDebut" placeholder="{{ 'reservation_placeholder_dateDebut' | translate: lang }}"
-            required>
+            [disabled]="reservationSelectionnee.etatCourant==='TERMINEE'" required>
           <mat-datepicker-toggle matSuffix [for]="dateDebutPickDetail"></mat-datepicker-toggle>
           <mat-datepicker #dateDebutPickDetail disabled="false"></mat-datepicker>
         </mat-form-field>
@@ -16,7 +16,7 @@
         <mat-form-field>
           <input matInput name="dateFinPickDetail" [matDatepicker]="dateFinPickDetail" [min]="reservationSelectionnee.dateDebut"
             [(ngModel)]="reservationSelectionnee.dateFin" placeholder="{{ 'reservation_placeholder_dateFin' | translate: lang }}"
-            required>
+            [disabled]="reservationSelectionnee.etatCourant==='TERMINEE'" required>
           <mat-datepicker-toggle matSuffix [for]="dateFinPickDetail"></mat-datepicker-toggle>
           <mat-datepicker #dateFinPickDetail disabled="false"></mat-datepicker>
         </mat-form-field>
@@ -24,13 +24,13 @@
       <div class="row">
         <mat-form-field>
           <input matInput name="client" [(ngModel)]="reservationSelectionnee.client" placeholder="{{ 'reservation_placeholder_client' | translate: lang }}"
-            required>
+            [disabled]="reservationSelectionnee.etatCourant==='TERMINEE'" required>
         </mat-form-field>
       </div>
       <div class="row">
         <mat-form-field>
           <mat-select [(ngModel)]="reservationSelectionnee.chambre.reference" name="chambre" placeholder="{{ 'reservation_placeholder_chambre' | translate: lang }}"
-            required>
+            [disabled]="reservationSelectionnee.etatCourant==='TERMINEE'" required>
             <mat-option *ngFor="let c of chambres" [value]="c.reference">{{c.nom}}</mat-option>
           </mat-select>
         </mat-form-field>
@@ -38,23 +38,24 @@
       <div class="row">
         <mat-form-field>
           <mat-select [(ngModel)]="reservationSelectionnee.formule.reference" name="formule" placeholder="{{ 'reservation_placeholder_formule' | translate: lang }}"
-            required>
+            [disabled]="reservationSelectionnee.etatCourant==='TERMINEE'" required>
             <mat-option *ngFor="let f of formules" [value]="f.reference">{{f.nom}} ({{f.prixParNuit}} €/nuit)</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
       <div class="row" *ngFor="let o of options; let i = index">
-        <mat-checkbox name="parNuit{{i}}" [(ngModel)]="optionsCalculeesPourLaReservationSelectionnee[o.reference]">
-          {{o.nom}} {{o.prix}}{{o.parNuit?' par nuit':''}}{{o.parPersonne?' par personne':''}}</mat-checkbox>
+        <mat-checkbox name="parNuit{{i}}" [(ngModel)]="optionsCalculeesPourLaReservationSelectionnee[o.reference]"
+          [disabled]="reservationSelectionnee.etatCourant==='TERMINEE'">
+          {{o.nom}} {{o.prix}} €{{o.parNuit?' par nuit':''}}{{o.parPersonne?' par personne':''}}</mat-checkbox>
       </div>
       <div class="row">
-        <button type="submit" (click)="enregistrerReservationSelectionnee()" class="btn btn-outline-secondary"
+        <button type="submit" (click)="enregistrerReservationSelectionnee()" class="btn btn-outline-secondary" *ngIf="reservationSelectionnee.etatCourant!=='TERMINEE'"
           [disabled]="!leForm.form.valid" l10nTranslate>reservation_bouton_enregistrer</button>
 
         <button type="submit" (click)="changerEtat('EN_COURS')" class="btn btn-outline-secondary" *ngIf="reservationSelectionnee.etatCourant==='ENREGISTREE'"
-          l10nTranslate>Arrivée du client</button>
+          l10nTranslate>reservation_bouton_arriveeClient</button>
         <button type="submit" (click)="changerEtat('TERMINEE')" class="btn btn-outline-secondary" *ngIf="reservationSelectionnee.etatCourant==='EN_COURS'"
-          l10nTranslate>Départ du client</button>
+          l10nTranslate>reservation_bouton_departClient</button>
       </div>
     </form>
   </mat-card-content>
