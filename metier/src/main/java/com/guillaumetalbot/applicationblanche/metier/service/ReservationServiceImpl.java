@@ -20,6 +20,7 @@ import com.guillaumetalbot.applicationblanche.metier.entite.Entite;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Chambre;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Consommation;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Formule;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Option;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Produit;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservation;
 
@@ -91,14 +92,29 @@ public class ReservationServiceImpl implements ReservationService {
 		reservation.setClient(reservation.getClient().trim());
 
 		// Validation de la chambre
+		if (reservation.getChambre() == null) {
+			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, "chambre", reservation.getChambre().getReference());
+		}
 		final Long idChambre = Entite.extraireIdentifiant(reservation.getChambre().getReference(), Chambre.class);
 		final Chambre chambre = this.chambreRepo.findById(idChambre)
 				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "chambre", reservation.getChambre().getReference()));
 
 		// Validation de la formule
+		if (reservation.getFormule() == null) {
+			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, "formule", reservation.getFormule().getReference());
+		}
 		final Long idFormule = Entite.extraireIdentifiant(reservation.getFormule().getReference(), Formule.class);
 		this.formuleRepo.findById(idFormule)
 				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "formule", reservation.getFormule().getReference()));
+
+		// Validation des options
+		if (reservation.getOptions() != null) {
+			for (final Option o : reservation.getOptions()) {
+				final Long idOption = Entite.extraireIdentifiant(o.getReference(), Option.class);
+				this.optionRepo.findById(idOption)
+						.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "option", o.getReference()));
+			}
+		}
 
 		// Vérification qu'aucune reservation n'existe à ces dates
 		final Long nbReservations = this.reservationRepo.compterReservationsDeLaChambre(reservation.getDateDebut(), reservation.getDateFin(),

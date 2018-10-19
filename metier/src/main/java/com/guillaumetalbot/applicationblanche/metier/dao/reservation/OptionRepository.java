@@ -14,6 +14,9 @@ import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Option;
 
 public interface OptionRepository extends CrudRepository<Option, Long> {
 
+	@Query("select count(r) from Reservation r join r.options o where o.id = :idOption")
+	Long compterOptionReserveePourCetteOption(@Param("idOption") Long id);
+
 	@Query("select o from Option o order by upper(o.nom)")
 	@QueryHints(value = { @QueryHint(name = org.hibernate.jpa.QueryHints.HINT_READONLY, value = "true") })
 	Collection<Option> listerOptions();

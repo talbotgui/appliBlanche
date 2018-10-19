@@ -22,6 +22,7 @@ import org.testng.annotations.Test;
 import com.guillaumetalbot.applicationblanche.metier.entite.Entite;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Chambre;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Consommation;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Formule;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Produit;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservation;
 
@@ -301,7 +302,9 @@ public class ReservationRestControlerTest extends BaseTestClass {
 		final String refRetournee = Entite.genererReference(Produit.class, 1L);
 		final Chambre chambre = new Chambre("C1");
 		chambre.setReference(Entite.genererReference(Chambre.class, 1L));
-		final Reservation reservation = new Reservation("client", chambre, LocalDate.now(), LocalDate.now());
+		final Formule formule = new Formule();
+		formule.setReference(Entite.genererReference(Formule.class, 1L));
+		final Reservation reservation = new Reservation("client", chambre, LocalDate.now(), LocalDate.now(), formule);
 		Mockito.doReturn(refRetournee).when(this.reservationService).sauvegarderReservation(Mockito.any(Reservation.class));
 
 		// ACT

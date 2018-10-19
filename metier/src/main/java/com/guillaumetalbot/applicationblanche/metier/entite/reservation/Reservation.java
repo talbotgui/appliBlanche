@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -19,20 +20,20 @@ import com.guillaumetalbot.applicationblanche.metier.entite.MutableUtil;
 public class Reservation extends Entite {
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CHAMBRE_ID")
 	private Chambre chambre;
 
 	private String client;
 
-	@OneToMany(mappedBy = "reservation")
+	@OneToMany(mappedBy = "reservation", fetch = FetchType.LAZY)
 	private Set<Consommation> consommations = new HashSet<>();
 
 	private LocalDate dateDebut;
 
 	private LocalDate dateFin;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "FORMULE_ID")
 	private Formule formule;
 
@@ -40,10 +41,10 @@ public class Reservation extends Entite {
 	 * Association en lecture seule directement vers les options. Mais, pour manipuler les ajouts/retraits, il faut passer par la création/suppression
 	 * d'OptionReservee.
 	 */
-	@ManyToMany
-	@JoinTable(name = "OPTION_RESERVEE", joinColumns = {
-			@JoinColumn(name = "RESERVATION_ID", insertable = false, updatable = false) }, inverseJoinColumns = {
-					@JoinColumn(name = "OPTION_ID", insertable = false, updatable = false) })
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "OPTION_RESERVEE", //
+			joinColumns = { @JoinColumn(name = "RESERVATION_ID") }, //
+			inverseJoinColumns = { @JoinColumn(name = "OPTION_ID") })
 	private Collection<Option> options;
 
 	public Reservation() {
@@ -87,6 +88,10 @@ public class Reservation extends Entite {
 		return this.formule;
 	}
 
+	public Collection<Option> getOptions() {
+		return this.options;
+	}
+
 	public void setChambre(final Chambre chambre) {
 		this.chambre = chambre;
 	}
@@ -109,6 +114,10 @@ public class Reservation extends Entite {
 
 	public void setFormule(final Formule formule) {
 		this.formule = formule;
+	}
+
+	public void setOptions(final Collection<Option> options) {
+		this.options = options;
 	}
 
 }

@@ -12,7 +12,6 @@ import com.guillaumetalbot.applicationblanche.metier.dao.reservation.ChambreRepo
 import com.guillaumetalbot.applicationblanche.metier.dao.reservation.ConsommationRepository;
 import com.guillaumetalbot.applicationblanche.metier.dao.reservation.FormuleRepository;
 import com.guillaumetalbot.applicationblanche.metier.dao.reservation.OptionRepository;
-import com.guillaumetalbot.applicationblanche.metier.dao.reservation.OptionReserveeRepository;
 import com.guillaumetalbot.applicationblanche.metier.dao.reservation.ProduitRepository;
 import com.guillaumetalbot.applicationblanche.metier.dao.reservation.ReservationRepository;
 import com.guillaumetalbot.applicationblanche.metier.entite.Entite;
@@ -36,9 +35,6 @@ public class ReservationParametresServiceImpl implements ReservationParametresSe
 
 	@Autowired
 	private OptionRepository optionRepo;
-
-	@Autowired
-	private OptionReserveeRepository optionReserveeRepo;
 
 	@Autowired
 	private ProduitRepository produitRepo;
@@ -165,7 +161,7 @@ public class ReservationParametresServiceImpl implements ReservationParametresSe
 		final Long id = Entite.extraireIdentifiant(reference, Option.class);
 
 		// Suppression impossible si des OptionReservee sont associées
-		if (this.optionReserveeRepo.compterOptionReserveePourCetteOption(id) > 0) {
+		if (this.optionRepo.compterOptionReserveePourCetteOption(id) > 0) {
 			throw new BusinessException(BusinessException.SUPPRESSION_IMPOSSIBLE_OBJETS_LIES, "OptionReservee");
 		}
 

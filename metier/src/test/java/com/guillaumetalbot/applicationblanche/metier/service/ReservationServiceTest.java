@@ -29,6 +29,7 @@ import com.guillaumetalbot.applicationblanche.metier.application.SpringApplicati
 import com.guillaumetalbot.applicationblanche.metier.entite.Entite;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Chambre;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Consommation;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Formule;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Produit;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservation;
 
@@ -62,9 +63,11 @@ public class ReservationServiceTest {
 	private String sauvegarderUneReservation(final String client, final String refChambre, final int deltaDateDebut, final int deltaDateFin) {
 		final Chambre c = new Chambre();
 		c.setReference(refChambre);
+		final Formule f = new Formule();
+		f.setReference(this.reservationParametresService.sauvegarderFormule(new Formule(client + refChambre, 2.0)));
 		final LocalDate dateDebut = LocalDate.now().plus(deltaDateDebut, ChronoUnit.DAYS);
 		final LocalDate dateFin = LocalDate.now().plus(deltaDateFin, ChronoUnit.DAYS);
-		return this.reservationService.sauvegarderReservation(new Reservation(client, c, dateDebut, dateFin));
+		return this.reservationService.sauvegarderReservation(new Reservation(client, c, dateDebut, dateFin, f));
 	}
 
 	@Test
