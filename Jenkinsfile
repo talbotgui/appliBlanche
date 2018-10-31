@@ -95,7 +95,7 @@ pipeline {
 					sh "mvn appengine:deploy -Dmaven.test.skip=true -Pgcloud -f rest/pom.xml -Dmaven.compiler.source=8 -Dmaven.compiler.target=8"
 					
 					// Déploiement du front sur le cloud
-					sh "gcloud app deploy web-angular/app.yaml -q"
+					sh "gcloud app deploy web-angular/app.yaml -q --promote --stop-previous-version"
 
 					currentBuild.displayName = "#" + currentBuild.number
 				}
