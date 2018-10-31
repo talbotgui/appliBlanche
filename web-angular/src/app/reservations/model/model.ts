@@ -1,5 +1,8 @@
+/** Constante d'état */
 const ETAT_RESERVATION_ENREGISTREE = 'ENREGISTREE';
+/** Constante d'état */
 const ETAT_RESERVATION_EN_COURS = 'EN_COURS';
+/** Constante d'état */
 const ETAT_RESERVATION_TERMINEE = 'TERMINEE';
 
 /** Chambre */
