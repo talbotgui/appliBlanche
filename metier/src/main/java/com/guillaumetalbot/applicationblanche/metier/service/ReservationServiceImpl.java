@@ -125,15 +125,17 @@ public class ReservationServiceImpl implements ReservationService {
 			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, "formule", reservation.getFormule().getReference());
 		}
 		final Long idFormule = Entite.extraireIdentifiant(reservation.getFormule().getReference(), Formule.class);
-		this.formuleRepo.findById(idFormule)
-				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "formule", reservation.getFormule().getReference()));
+		if (!this.formuleRepo.findById(idFormule).isPresent()) {
+			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, "formule", reservation.getFormule().getReference());
+		}
 
 		// Validation des options
 		if (reservation.getOptions() != null) {
 			for (final Option o : reservation.getOptions()) {
 				final Long idOption = Entite.extraireIdentifiant(o.getReference(), Option.class);
-				this.optionRepo.findById(idOption)
-						.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "option", o.getReference()));
+				if (!this.optionRepo.findById(idOption).isPresent()) {
+					throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, "option", o.getReference());
+				}
 			}
 		}
 

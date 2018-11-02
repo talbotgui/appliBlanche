@@ -60,6 +60,10 @@ public class ClientCsvBatch extends AbstractBatch {
 		// mapping des colonnes du CSV avec le DTO
 		dlt.setNames(COLONNE_NOM_CLIENT, COLONNE_RUE, COLONNE_CODE_POSTAL, COLONNE_VILLE);
 
+		// Transformation de l'objet
+		final BeanWrapperFieldSetMapper<LigneCsvImportClient> mapper = new BeanWrapperFieldSetMapper<>();
+		mapper.setTargetType(LigneCsvImportClient.class);
+
 		return new FlatFileItemReaderBuilder<LigneCsvImportClient>().name(NOM_STEP_1 + BEAN_SUFFIX_SOURCE)
 				// Chemin d'accès
 				.resource(super.creerRessource(this.cheminSource))
@@ -68,11 +72,7 @@ public class ClientCsvBatch extends AbstractBatch {
 				// Pas de plantage si le fichier n'est pas présent
 				.strict(this.echecSiFichierAbsent)
 				// Transformation en objet
-				.fieldSetMapper(new BeanWrapperFieldSetMapper<LigneCsvImportClient>() {
-					{
-						this.setTargetType(LigneCsvImportClient.class);
-					}
-				})
+				.fieldSetMapper(mapper)
 				//
 				.build();
 	}
