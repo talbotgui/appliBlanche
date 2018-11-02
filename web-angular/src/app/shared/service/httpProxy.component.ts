@@ -72,7 +72,7 @@ export class HttpProxy {
     withCredentials?: boolean;
   }): Observable<T> {
     const bodyTransforme = this.transformerLesDatesEnString(body);
-    return this.http.put<T>(url, body, options);
+    return this.http.put<T>(url, bodyTransforme, options);
   }
 
   /**
