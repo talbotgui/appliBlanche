@@ -14,6 +14,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 
+import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
+import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module.Feature;
+
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.Tag;
@@ -81,5 +84,14 @@ public class RestApplication {
 				.genericModelSubstitutes(ResponseEntity.class)//
 				.enableUrlTemplating(true)//
 				.tags(new Tag("API Application blanche", "Description de l'API REST"));
+	}
+
+	/** Configuration Jackson */
+	@Bean
+	public com.fasterxml.jackson.databind.Module configurerJackson() {
+		final Hibernate5Module hibernate5Module = new Hibernate5Module();
+		hibernate5Module.enable(Feature.REPLACE_PERSISTENT_COLLECTIONS);
+		hibernate5Module.disable(Feature.USE_TRANSIENT_ANNOTATION);
+		return hibernate5Module;
 	}
 }
