@@ -5,10 +5,6 @@ import java.util.Arrays;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.junit.Assert;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
 import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -18,11 +14,12 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.web.method.HandlerMethod;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import com.guillaumetalbot.applicationblanche.rest.controleur.MonitoringRestControler;
 import com.guillaumetalbot.applicationblanche.rest.securite.jwt.AuthenticationToken;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class IntercepteurDesRessourcesAutoriseesTest {
 
 	@Test
