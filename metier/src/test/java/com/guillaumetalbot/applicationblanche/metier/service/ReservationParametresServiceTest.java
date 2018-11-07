@@ -31,6 +31,7 @@ import com.guillaumetalbot.applicationblanche.exception.BusinessException;
 import com.guillaumetalbot.applicationblanche.metier.application.SpringApplicationForTests;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Chambre;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Consommation;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.EtatReservation;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Formule;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Option;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Produit;
@@ -161,6 +162,8 @@ public class ReservationParametresServiceTest {
 		final String refChambre = this.reservationParametresService.sauvegarderChambre(new Chambre("nomC"));
 		final String refFormule = this.reservationParametresService.sauvegarderFormule(new Formule("nom1", 2.6));
 		final String refResa = this.sauvegarderUneReservation("client", refChambre, -1, 2, refFormule);
+		this.reservationService.changeEtatReservation(refResa, EtatReservation.EN_COURS);
+
 		final Reservation resa = new Reservation();
 		resa.setReference(refResa);
 		final Produit produit = new Produit();

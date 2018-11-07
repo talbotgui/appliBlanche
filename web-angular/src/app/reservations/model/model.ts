@@ -95,7 +95,7 @@ export class Consommation {
     /** Date de saisie de la consommation */
     public dateCreation: Date,
     /** Prix */
-    public prixPaye: number,
+    public prixPaye: number | undefined,
     /** Quantite */
     public quantite: number,
     /** Reservation associee */

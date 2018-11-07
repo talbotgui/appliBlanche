@@ -63,6 +63,29 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override
+	public void modifierQuantiteConsommation(final String referenceReservation, final String referenceConsommation, final Integer quantite) {
+
+		// Validation que la réservation existe et est en cours (date et statut)
+		this.validerReservationExistanteEtEnCoursParDateEtStatut(referenceReservation);
+
+		// Rechercher consommation
+		final Long idConsommation = Entite.extraireIdentifiant(referenceConsommation, Consommation.class);
+		final Optional<Consommation> consommationOpt = this.consommationRepo.findById(idConsommation);
+		final Consommation consommation = consommationOpt//
+				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Consommation", referenceConsommation));
+
+		// Si c'est une suppression
+		if (consommation.getQuantite() < 2) {
+			this.consommationRepo.deleteById(idConsommation);
+		}
+
+		// Sinon, modification de la quantite
+		else {
+			consommation.setQuantite(consommation.getQuantite() + quantite);
+		}
+	}
+
+	@Override
 	public Collection<Consommation> rechercherConsommationsDuneReservation(final String referenceReservation) {
 		final Long idReservation = Entite.extraireIdentifiant(referenceReservation, Reservation.class);
 		return this.consommationRepo.rechercherConsommationsDuneReservation(idReservation);
@@ -74,6 +97,11 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override
+	public Collection<Reservation> rechercherReservationsCourantes() {
+		return this.reservationRepo.rechercherReservationsParEtatFetchChambre(EtatReservation.EN_COURS);
+	}
+
+	@Override
 	public String sauvegarderConsommation(final Consommation consommation) {
 
 		// Vérifier le produit
@@ -81,24 +109,29 @@ public class ReservationServiceImpl implements ReservationService {
 		final Produit produit = this.produitRepo.findById(idProduit)//
 				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Produit", consommation.getProduit().getReference()));
 
-		// Vérifier la présence de la réservation
+		// Validation que la réservation existe et est en cours (date et statut)
 		final Long idReservation = Entite.extraireIdentifiant(consommation.getReservation().getReference(), Reservation.class);
-		final Optional<Reservation> resaOpt = this.reservationRepo.findById(idReservation);
-		final Reservation reservation = resaOpt//
-				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Reservation",
-						consommation.getReservation().getReference()));
-
-		// Vérifier les dates de la réservation
-		if (reservation.getDateDebut().isAfter(LocalDate.now()) || reservation.getDateFin().isBefore(LocalDate.now())) {
-			throw new BusinessException(BusinessException.RESERVATION_PAS_EN_COURS, consommation.getReservation().getReference());
-		}
+		this.validerReservationExistanteEtEnCoursParDateEtStatut(consommation.getReservation().getReference());
 
 		// Si le prix de la consommation n'est pas renseigné (pas de remise), on prend le prix du produit
 		if (consommation.getPrixPaye() == null) {
 			consommation.setPrixPaye(produit.getPrix());
 		}
 
-		return this.consommationRepo.save(consommation).getReference();
+		// Si une consommation existe avec cette réservation et ce produit à ce prix, la quantite est incrémentée
+		final Consommation consommationExistante = this.consommationRepo.rechercherConsommationsDuneReservationManaged(idReservation, idProduit,
+				consommation.getPrixPaye());
+		if (consommationExistante != null) {
+			consommationExistante.setQuantite(consommationExistante.getQuantite() + 1);
+
+			// Inutile d'appeler la méthode SAVE car l'objet consommationExistante est MANAGED
+			return consommationExistante.getReference();
+		}
+
+		// Si elle n'existe pas
+		else {
+			return this.consommationRepo.save(consommation).getReference();
+		}
 	}
 
 	@Override
@@ -172,5 +205,31 @@ public class ReservationServiceImpl implements ReservationService {
 		}
 
 		this.reservationRepo.deleteById(idReservation);
+	}
+
+	/**
+	 * Validation que la réservation est bien en cours par son existance, ses dates et son statut
+	 *
+	 * @param referenceReservation
+	 *            Reference de la réservation
+	 */
+	private void validerReservationExistanteEtEnCoursParDateEtStatut(final String referenceReservation) {
+
+		// Vérifier la présence de la réservation
+		final Long idReservation = Entite.extraireIdentifiant(referenceReservation, Reservation.class);
+		final Optional<Reservation> resaOpt = this.reservationRepo.findById(idReservation);
+		final Reservation reservation = resaOpt//
+				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Reservation", referenceReservation));
+
+		// Vérifier les dates de la réservation
+		if (reservation.getDateDebut().isAfter(LocalDate.now()) || reservation.getDateFin().isBefore(LocalDate.now())) {
+			throw new BusinessException(BusinessException.RESERVATION_PAS_EN_COURS, referenceReservation);
+		}
+
+		// Vérifier le statut de la réservation
+		if (!EtatReservation.EN_COURS.equals(reservation.getEtatCourant())) {
+			throw new BusinessException(BusinessException.RESERVATION_PAS_EN_COURS, referenceReservation);
+		}
+
 	}
 }

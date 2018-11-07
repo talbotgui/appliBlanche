@@ -11,9 +11,13 @@ public interface ReservationService {
 
 	void changeEtatReservation(String referenceReservation, EtatReservation etat);
 
+	void modifierQuantiteConsommation(String referenceReservation, String referenceConsommation, Integer quantite);
+
 	Collection<Consommation> rechercherConsommationsDuneReservation(String referenceReservation);
 
 	Collection<Reservation> rechercherReservations(LocalDate dateDebut, LocalDate dateFin);
+
+	Collection<Reservation> rechercherReservationsCourantes();
 
 	String sauvegarderConsommation(Consommation consommation);
 

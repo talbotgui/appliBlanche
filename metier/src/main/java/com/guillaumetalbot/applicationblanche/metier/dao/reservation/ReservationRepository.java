@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.EtatReservation;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservation;
 
 public interface ReservationRepository extends CrudRepository<Reservation, Long> {
@@ -29,4 +30,7 @@ public interface ReservationRepository extends CrudRepository<Reservation, Long>
 			+ " where r.dateDebut<:dateFin and r.dateFin>:dateDebut order by r.dateDebut, r.chambre.nom")
 	@QueryHints(value = { @QueryHint(name = org.hibernate.jpa.QueryHints.HINT_READONLY, value = "true") })
 	Collection<Reservation> rechercherReservations(@Param("dateDebut") LocalDate dateDebut, @Param("dateFin") LocalDate dateFin);
+
+	@Query("select r from Reservation r left join fetch r.chambre where r.etatCourant = :etat order by r.chambre.nom")
+	Collection<Reservation> rechercherReservationsParEtatFetchChambre(@Param("etat") EtatReservation etat);
 }

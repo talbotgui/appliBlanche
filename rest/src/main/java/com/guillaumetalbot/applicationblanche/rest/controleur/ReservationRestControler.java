@@ -36,6 +36,13 @@ public class ReservationRestControler {
 		this.reservationService.changeEtatReservation(referenceReservation, etat);
 	}
 
+	@PutMapping("/reservations/{referenceReservation}/consommations/{referenceConsommation}")
+	public void modiferConsommation(@PathVariable("referenceReservation") final String referenceReservation, //
+			@PathVariable("referenceConsommation") final String referenceConsommation, //
+			@RequestParam("quantite") final Integer quantite) {
+		this.reservationService.modifierQuantiteConsommation(referenceReservation, referenceConsommation, quantite);
+	}
+
 	@GetMapping("/reservations/{referenceReservation}/consommations")
 	public Collection<Consommation> rechercherConsommationsDuneReservation(@PathVariable("referenceReservation") final String referenceReservation) {
 		return this.reservationService.rechercherConsommationsDuneReservation(referenceReservation);
@@ -48,12 +55,17 @@ public class ReservationRestControler {
 		return this.reservationService.rechercherReservations(dateDebut, dateFin);
 	}
 
+	@GetMapping("/reservations/courantes")
+	public Collection<Reservation> rechercherReservationsCourantes() {
+		return this.reservationService.rechercherReservationsCourantes();
+	}
+
 	@PostMapping("/reservations/{referenceReservation}/consommations")
 	public String sauvegarderConsommation(@PathVariable("referenceReservation") final String referenceReservation, //
 			@RequestBody final Consommation consommation) {
 
 		// Controles de surface
-		if (consommation.getProduit() == null || StringUtils.isNotEmpty(consommation.getProduit().getReference())) {
+		if (consommation.getProduit() == null || StringUtils.isEmpty(consommation.getProduit().getReference())) {
 			throw new RestException(RestException.ERREUR_PARAMETRE_MANQUANT, "produit");
 		}
 		if (consommation.getQuantite() == null || consommation.getQuantite() <= 0) {

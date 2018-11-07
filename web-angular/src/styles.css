@@ -25,3 +25,9 @@ em.fa.actionDansUnEntete { margin-left: 5px; }
 
 /** Champs de formulaire en pleine largeur */
 .formFieldFullWidth .mat-form-field { width: 100%; }
+
+/** Pour les listes de mat-chip */
+.mat-chip.mat-standard-chip.chipSelectionne { background-color: burlywood; }
+.chipListSpaceEvenly > .mat-chip-list-wrapper { display: flex; justify-content: space-evenly; }
+.chipListSelectionnable .mat-standard-chip { min-width: 100px; min-height: 50px; }
+.chipListSelectionnable .mat-standard-chip div { width: 100%; text-align: center; }

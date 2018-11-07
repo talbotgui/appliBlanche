@@ -26,4 +26,8 @@ public interface ConsommationRepository extends CrudRepository<Consommation, Lon
 	@QueryHints(value = { @QueryHint(name = org.hibernate.jpa.QueryHints.HINT_READONLY, value = "true") })
 	Collection<Consommation> rechercherConsommationsDuneReservation(@Param("idReservation") Long idReservation);
 
+	@Query("select c from Consommation c where c.reservation.id = :idReservation and c.produit.id= :idProduit and c.prixPaye= :prixPaye")
+	Consommation rechercherConsommationsDuneReservationManaged(@Param("idReservation") Long idReservation, @Param("idProduit") Long idProduit,
+			@Param("prixPaye") Double prixPaye);
+
 }

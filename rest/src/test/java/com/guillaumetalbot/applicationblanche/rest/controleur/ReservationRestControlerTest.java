@@ -47,14 +47,14 @@ public class ReservationRestControlerTest extends BaseTestClass {
 		final Map<String, Object> uriVars = new HashMap<String, Object>();
 		uriVars.put("dateDebut", debut);
 		uriVars.put("dateFin", dateFin);
-		final ResponseEntity<Collection<Reservation>> produits = this.getREST()
+		final ResponseEntity<Collection<Reservation>> reservations = this.getREST()
 				.exchange(this.getURL() + "/v1/reservations?dateDebut={dateDebut}&dateFin={dateFin}", HttpMethod.GET, null, typeRetour, uriVars);
 
 		// ASSERT
 		Mockito.verify(this.reservationService).rechercherReservations(debut, fin);
 		Mockito.verifyNoMoreInteractions(this.reservationService);
-		Assert.assertNotNull(produits.getBody());
-		Assert.assertEquals(produits.getBody().size(), toReturn.size());
+		Assert.assertNotNull(reservations.getBody());
+		Assert.assertEquals(reservations.getBody().size(), toReturn.size());
 	}
 
 	@Test
@@ -213,6 +213,27 @@ public class ReservationRestControlerTest extends BaseTestClass {
 	}
 
 	@Test
+	public void test01Reservations05ListerReservationsCourantes() {
+
+		// ARRANGE
+		final List<Reservation> toReturn = Arrays.asList(new Reservation("c1", new Chambre(), LocalDate.now(), LocalDate.now()),
+				new Reservation("c1", new Chambre(), LocalDate.now(), LocalDate.now()));
+		Mockito.doReturn(toReturn).when(this.reservationService).rechercherReservationsCourantes();
+
+		// ACT
+		final ParameterizedTypeReference<Collection<Reservation>> typeRetour = new ParameterizedTypeReference<Collection<Reservation>>() {
+		};
+		final ResponseEntity<Collection<Reservation>> reservations = this.getREST().exchange(this.getURL() + "/v1/reservations/courantes",
+				HttpMethod.GET, null, typeRetour);
+
+		// ASSERT
+		Assert.assertNotNull(reservations);
+		Assert.assertEquals(toReturn.size(), reservations.getBody().size());
+		Mockito.verify(this.reservationService).rechercherReservationsCourantes();
+		Mockito.verifyNoMoreInteractions(this.reservationService);
+	}
+
+	@Test
 	public void test02Consommation01Lister() {
 
 		// ARRANGE
@@ -247,6 +268,23 @@ public class ReservationRestControlerTest extends BaseTestClass {
 
 		// ASSERT
 		Mockito.verify(this.reservationService).supprimerConsommation(refReservation, ref);
+		Mockito.verifyNoMoreInteractions(this.reservationService);
+	}
+
+	@Test
+	public void test02Consommation04ModifierQuantite() {
+		final String refReservation = Entite.genererReference(Reservation.class, 1L);
+		final String ref = Entite.genererReference(Consommation.class, 1L);
+		final Integer quantite = -1;
+
+		// ARRANGE
+		Mockito.doNothing().when(this.reservationService).modifierQuantiteConsommation(refReservation, ref, quantite);
+
+		// ACT
+		this.getREST().put(this.getURL() + "/v1/reservations/" + refReservation + "/consommations/" + ref + "?quantite=" + quantite, null);
+
+		// ASSERT
+		Mockito.verify(this.reservationService).modifierQuantiteConsommation(refReservation, ref, quantite);
 		Mockito.verifyNoMoreInteractions(this.reservationService);
 	}
 
@@ -301,6 +339,7 @@ public class ReservationRestControlerTest extends BaseTestClass {
 		final String refRetournee = Entite.genererReference(Consommation.class, 1L);
 		final Reservation reservation = new Reservation("client", null, LocalDate.now(), LocalDate.now());
 		final Produit produit = new Produit("P1", 1.99, "rouge");
+		produit.setReference(Entite.genererReference(Produit.class, 1L));
 		final Consommation conso = new Consommation(reservation, produit, null, 1);
 		Mockito.doReturn(refRetournee).when(this.reservationService).sauvegarderConsommation(Mockito.any(Consommation.class));
 
@@ -320,6 +359,7 @@ public class ReservationRestControlerTest extends BaseTestClass {
 		final String refReservation = Entite.genererReference(Reservation.class, 1L);
 		final String refRetournee = Entite.genererReference(Consommation.class, 1L);
 		final Produit produit = new Produit("P1", 1.99, "rouge");
+		produit.setReference(Entite.genererReference(Produit.class, 1L));
 		final Consommation conso = new Consommation(null, produit, null, 1);
 		Mockito.doReturn(refRetournee).when(this.reservationService).sauvegarderConsommation(Mockito.any(Consommation.class));
 

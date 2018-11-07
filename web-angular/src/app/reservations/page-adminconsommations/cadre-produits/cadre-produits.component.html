@@ -17,8 +17,9 @@
           <input type="text" matInput name="nom" [(ngModel)]="nouveauProduit.nom" placeholder="Nom du produit" required>
         </mat-form-field>
         <mat-form-field>
-          <input type="color" matInput name="couleur" [(ngModel)]="nouveauProduit.couleur" placeholder="Couleur"
-            required>
+          <mat-select [(ngModel)]="nouveauProduit.couleur" name="couleur" placeholder="Couleur" required>
+            <mat-option *ngFor="let c of couleursPossibles" [value]="c" [style.backgroundColor]="c">{{c}}</mat-option>
+          </mat-select>
         </mat-form-field>
         <mat-form-field class="inputPrix">
           <input type="number" matInput name="prix" [(ngModel)]="nouveauProduit.prix" placeholder="Prix" required>

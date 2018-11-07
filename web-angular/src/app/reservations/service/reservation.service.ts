@@ -46,6 +46,12 @@ export class ReservationService {
     return this.http.get<model.Consommation[]>(url, this.restUtils.creerHeader());
   }
 
+  /** Liste les reservations en cours */
+  listerReservationsEnCours(): Observable<model.Reservation[]> {
+    const url = environment.baseUrl + '/v1/reservations/courantes';
+    return this.http.get<model.Reservation[]>(url, this.restUtils.creerHeader());
+  }
+
   /** Liste des réservations entre deux dates. */
   rechercherReservations(dateDebut: Date, dateFin: Date): Observable<model.Reservation[]> {
     const debut = this.http.formaterDate(dateDebut);
@@ -100,6 +106,11 @@ export class ReservationService {
   supprimerConsommation(referenceReservation: string, referenceConsommation: string): Observable<{} | void> {
     const url = environment.baseUrl + '/v1/reservations/' + referenceReservation + '/consommations/' + referenceConsommation;
     return this.http.delete<void>(url, this.restUtils.creerHeader());
+  }
+  /** Réduire la quantité d'une consommation via l'API */
+  reduireConsommation(referenceReservation: string, referenceConsommation: string): Observable<{} | void> {
+    const url = environment.baseUrl + '/v1/reservations/' + referenceReservation + '/consommations/' + referenceConsommation + '?quantite=-1';
+    return this.http.put<void>(url, undefined, this.restUtils.creerHeader());
   }
 
   /** Suppression d'un produit via l'API */

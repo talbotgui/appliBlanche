@@ -62,13 +62,22 @@ public class ReservationServiceTest {
 	}
 
 	private String sauvegarderUneReservation(final String client, final String refChambre, final int deltaDateDebut, final int deltaDateFin) {
+		return this.sauvegarderUneReservation(client, refChambre, deltaDateDebut, deltaDateFin, false);
+	}
+
+	private String sauvegarderUneReservation(final String client, final String refChambre, final int deltaDateDebut, final int deltaDateFin,
+			final boolean statutEnCours) {
 		final Chambre c = new Chambre();
 		c.setReference(refChambre);
 		final Formule f = new Formule();
 		f.setReference(this.reservationParametresService.sauvegarderFormule(new Formule(client + refChambre, 2.0)));
 		final LocalDate dateDebut = LocalDate.now().plus(deltaDateDebut, ChronoUnit.DAYS);
 		final LocalDate dateFin = LocalDate.now().plus(deltaDateFin, ChronoUnit.DAYS);
-		return this.reservationService.sauvegarderReservation(new Reservation(client, c, dateDebut, dateFin, f));
+		final String reference = this.reservationService.sauvegarderReservation(new Reservation(client, c, dateDebut, dateFin, f));
+		if (statutEnCours) {
+			this.reservationService.changeEtatReservation(reference, EtatReservation.EN_COURS);
+		}
+		return reference;
 	}
 
 	@Test
@@ -79,7 +88,7 @@ public class ReservationServiceTest {
 		final String client = "client ";
 
 		//
-		final String ref = this.sauvegarderUneReservation(client, refChambre, -1, 2);
+		final String ref = this.sauvegarderUneReservation(client, refChambre, -1, 2, false);
 
 		//
 		Assert.assertNotNull(ref);
@@ -137,7 +146,7 @@ public class ReservationServiceTest {
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		final String refProduit = this.reservationParametresService.sauvegarderProduit(new Produit("nom", 1.2, "rouge"));
 		final String refChambre = this.reservationParametresService.sauvegarderChambre(new Chambre("nomC"));
-		final String refResa = this.sauvegarderUneReservation("client", refChambre, -1, 2);
+		final String refResa = this.sauvegarderUneReservation("client", refChambre, -1, 2, true);
 		final Reservation resa = new Reservation();
 		resa.setReference(refResa);
 		final Produit produit = new Produit();
@@ -248,12 +257,33 @@ public class ReservationServiceTest {
 	}
 
 	@Test
+	public void test01Reservation10RechercherParEtat() {
+		//
+		final String refChambre1 = this.reservationParametresService.sauvegarderChambre(new Chambre("nom1"));
+		final String refChambre2 = this.reservationParametresService.sauvegarderChambre(new Chambre("nom2"));
+		final String refResa1Terminee = this.sauvegarderUneReservation("client1", refChambre1, -10, -8);
+		final String refResa2EnCours = this.sauvegarderUneReservation("client2", refChambre1, -8, -6);
+		this.sauvegarderUneReservation("client3", refChambre2, 0, 2);
+		this.reservationService.changeEtatReservation(refResa1Terminee, EtatReservation.EN_COURS);
+		this.reservationService.changeEtatReservation(refResa1Terminee, EtatReservation.TERMINEE);
+		this.reservationService.changeEtatReservation(refResa2EnCours, EtatReservation.EN_COURS);
+
+		//
+		final Collection<Reservation> reservations = this.reservationService.rechercherReservationsCourantes();
+
+		//
+		Assert.assertNotNull(reservations);
+		Assert.assertEquals(1, reservations.size());
+		Assert.assertEquals(refResa2EnCours, reservations.iterator().next().getReference());
+	}
+
+	@Test
 	public void test04Consommation01CreationSansRemise() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		final String refChambre = this.reservationParametresService.sauvegarderChambre(new Chambre("nom"));
 		final Reservation reservation = new Reservation();
-		reservation.setReference(this.sauvegarderUneReservation("client", refChambre, 0, 8));
+		reservation.setReference(this.sauvegarderUneReservation("client", refChambre, 0, 8, true));
 		final Produit produit = new Produit();
 		final Double prixProduit = 2.00;
 		produit.setReference(this.reservationParametresService.sauvegarderProduit(new Produit("produit", prixProduit, "rouge")));
@@ -273,7 +303,7 @@ public class ReservationServiceTest {
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		final String refChambre = this.reservationParametresService.sauvegarderChambre(new Chambre("nom"));
 		final Reservation reservation = new Reservation();
-		reservation.setReference(this.sauvegarderUneReservation("client", refChambre, 0, 8));
+		reservation.setReference(this.sauvegarderUneReservation("client", refChambre, 0, 8, true));
 		final Produit produit = new Produit();
 		final Double prixProduit = 2.00;
 		produit.setReference(this.reservationParametresService.sauvegarderProduit(new Produit("produit", prixProduit, "rouge")));
@@ -336,7 +366,7 @@ public class ReservationServiceTest {
 		//
 		final String refChambre = this.reservationParametresService.sauvegarderChambre(new Chambre("nom"));
 		final Reservation reservation = new Reservation();
-		reservation.setReference(this.sauvegarderUneReservation("client", refChambre, 0, 8));
+		reservation.setReference(this.sauvegarderUneReservation("client", refChambre, 0, 8, true));
 		final Produit produit1 = new Produit();
 		produit1.setReference(this.reservationParametresService.sauvegarderProduit(new Produit("produit1", 1.99, "rouge")));
 		final Produit produit2 = new Produit();
@@ -358,7 +388,7 @@ public class ReservationServiceTest {
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		final String refChambre = this.reservationParametresService.sauvegarderChambre(new Chambre("nom"));
 		final Reservation reservation = new Reservation();
-		reservation.setReference(this.sauvegarderUneReservation("client", refChambre, 0, 8));
+		reservation.setReference(this.sauvegarderUneReservation("client", refChambre, 0, 8, true));
 		final Produit produit = new Produit();
 		final Double prixProduit = 2.00;
 		produit.setReference(this.reservationParametresService.sauvegarderProduit(new Produit("produit", prixProduit, "rouge")));
@@ -399,7 +429,7 @@ public class ReservationServiceTest {
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		final String refChambre = this.reservationParametresService.sauvegarderChambre(new Chambre("nom"));
 		final Reservation reservation = new Reservation();
-		reservation.setReference(this.sauvegarderUneReservation("client", refChambre, 0, 8));
+		reservation.setReference(this.sauvegarderUneReservation("client", refChambre, 0, 8, true));
 		final Produit produit = new Produit();
 		final Double prixProduit = 2.00;
 		produit.setReference(this.reservationParametresService.sauvegarderProduit(new Produit("produit", prixProduit, "rouge")));
@@ -416,4 +446,49 @@ public class ReservationServiceTest {
 		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_NON_EXISTANT));
 		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from CONSOMMATION", Long.class));
 	}
+
+	@Test
+	public void test04Consommation08CreationEnDouble() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final String refChambre = this.reservationParametresService.sauvegarderChambre(new Chambre("nom"));
+		final Reservation reservation = new Reservation();
+		reservation.setReference(this.sauvegarderUneReservation("client", refChambre, 0, 8, true));
+		final Produit produit = new Produit();
+		final Double prixProduit = 2.00;
+		produit.setReference(this.reservationParametresService.sauvegarderProduit(new Produit("produit", prixProduit, "rouge")));
+
+		final String ref1 = this.reservationService.sauvegarderConsommation(new Consommation(reservation, produit, null, 1));
+
+		//
+		final String ref2 = this.reservationService.sauvegarderConsommation(new Consommation(reservation, produit, null, 1));
+
+		//
+		Assert.assertEquals(ref1, ref2);
+		Assert.assertEquals((Long) 1L,
+				jdbc.queryForObject("select count(*) from CONSOMMATION where prix_paye=?", new Object[] { prixProduit }, Long.class));
+		Assert.assertEquals((Long) 2L, jdbc.queryForObject("select quantite from CONSOMMATION", new Object[] {}, Long.class));
+	}
+
+	@Test
+	public void test04Consommation09ModificationQuantite() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final String refChambre = this.reservationParametresService.sauvegarderChambre(new Chambre("nom"));
+		final Reservation reservation = new Reservation();
+		reservation.setReference(this.sauvegarderUneReservation("client", refChambre, 0, 8, true));
+		final Produit produit = new Produit();
+		final Double prixProduit = 2.00;
+		produit.setReference(this.reservationParametresService.sauvegarderProduit(new Produit("produit", prixProduit, "rouge")));
+		final String refConso = this.reservationService.sauvegarderConsommation(new Consommation(reservation, produit, null, 4));
+
+		//
+		this.reservationService.modifierQuantiteConsommation(reservation.getReference(), refConso, -1);
+
+		//
+		Assert.assertEquals((Long) 1L,
+				jdbc.queryForObject("select count(*) from CONSOMMATION where prix_paye=?", new Object[] { prixProduit }, Long.class));
+		Assert.assertEquals((Long) 3L, jdbc.queryForObject("select quantite from CONSOMMATION", new Object[] {}, Long.class));
+	}
+
 }
