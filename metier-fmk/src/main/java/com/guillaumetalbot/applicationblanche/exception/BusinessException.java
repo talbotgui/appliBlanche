@@ -34,6 +34,9 @@ public class BusinessException extends BaseException {
 	public static final ExceptionId REFERENCE_NON_VALIDE = new ExceptionId("ERREUR_REFERENCE_NON_VALIDE", "Référence {{0}} non valide",
 			ExceptionLevel.INFORMATION, 404);
 
+	public static final ExceptionId RESERVATION_DATES_INCOHERENTES = new ExceptionId("RESERVATION_DATES_INCOHERENTES",
+			"Les dates de début et fin de cette réservation ne sont pas cohérentes", ExceptionLevel.INFORMATION, 400);
+
 	public static final ExceptionId RESERVATION_DEJA_EXISTANTE = new ExceptionId("RESERVATION_DEJA_EXISTANTE",
 			"Une reservation existe déjà à ces dates", ExceptionLevel.INFORMATION, 400);
 	public static final ExceptionId RESERVATION_PAS_EN_COURS = new ExceptionId("RESERVATION_PAS_EN_COURS",

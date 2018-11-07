@@ -107,6 +107,7 @@ export class ReservationService {
     const url = environment.baseUrl + '/v1/reservations/' + referenceReservation + '/consommations/' + referenceConsommation;
     return this.http.delete<void>(url, this.restUtils.creerHeader());
   }
+
   /** Réduire la quantité d'une consommation via l'API */
   reduireConsommation(referenceReservation: string, referenceConsommation: string): Observable<{} | void> {
     const url = environment.baseUrl + '/v1/reservations/' + referenceReservation + '/consommations/' + referenceConsommation + '?quantite=-1';

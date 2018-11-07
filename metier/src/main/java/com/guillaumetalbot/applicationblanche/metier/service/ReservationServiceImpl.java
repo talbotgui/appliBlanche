@@ -137,6 +137,13 @@ public class ReservationServiceImpl implements ReservationService {
 	@Override
 	public String sauvegarderReservation(final Reservation reservation) {
 
+		// Validation des dates
+		if (reservation.getDateDebut() == null || reservation.getDateFin() == null //
+				|| reservation.getDateDebut().isAfter(reservation.getDateFin()) //
+				|| reservation.getDateDebut().equals(reservation.getDateFin())) {
+			throw new BusinessException(BusinessException.RESERVATION_DATES_INCOHERENTES);
+		}
+
 		// Trim du nom du client pour éviter les problèmes de frappe
 		reservation.setClient(reservation.getClient().trim());
 

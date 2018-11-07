@@ -82,6 +82,7 @@ insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_DAT
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'RESERVATION_DEJA_EXISTANTE', 'Une reservation existe déjà à ces dates', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'SUPPRESSION_IMPOSSIBLE_OBJETS_LIES', 'Suppression impossible car un ou plusieurs objets de type ''{{0}}'' sont liés.', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'TRANSITION_ETAT_IMPOSSIBLE', 'Impossible de passer de l''état ''{{0}}'' à l''état ''{{1}}''.', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'RESERVATION_DATES_INCOHERENTES', 'Les dates de début et fin de cette réservation ne sont pas cohérentes.', 'fr' from LIBELLE;
 -- Page de réservation
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'reservation_placeholder_dateDebut', 'Date de début', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'reservation_placeholder_dateFin', 'Date de fin', 'fr' from LIBELLE;

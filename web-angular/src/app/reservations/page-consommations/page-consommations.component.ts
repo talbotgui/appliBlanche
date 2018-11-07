@@ -57,7 +57,10 @@ export class PageConsommationsComponent implements OnInit {
   }
 
   /** Raffrichissement de la liste des consommations de la réservation sélectionnée */
-  private rechercherLesConsommationsDeLaReservation() { this.reservationsService.listerConsommation(this.reservationSelectionee.reference).subscribe((consommations) => this.consommationsDeLaReservationSelectionnee = consommations); }
+  private rechercherLesConsommationsDeLaReservation() {
+    this.reservationsService.listerConsommation(this.reservationSelectionee.reference)
+      .subscribe((consommations) => this.consommationsDeLaReservationSelectionnee = consommations);
+  }
 
   /** Chargement des reservations */
   private chargerReservations() { this.reservationsService.listerReservationsEnCours().subscribe((reservations) => this.reservations = reservations); }

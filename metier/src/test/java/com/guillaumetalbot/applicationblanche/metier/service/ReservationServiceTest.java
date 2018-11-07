@@ -114,6 +114,23 @@ public class ReservationServiceTest {
 	}
 
 	@Test
+	public void test01Reservation02CreationKoDatesIncoherentes() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final String refChambre = Entite.genererReference(Chambre.class, 1L);
+
+		//
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.sauvegarderUneReservation("client", refChambre, -1, -1);
+		});
+
+		//
+		Assert.assertNotNull(thrown);
+		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.RESERVATION_DATES_INCOHERENTES));
+		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from CHAMBRE", Long.class));
+	}
+
+	@Test
 	public void test01Reservation03SuppressionOk() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
