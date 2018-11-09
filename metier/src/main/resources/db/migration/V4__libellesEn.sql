@@ -59,6 +59,13 @@ insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'commun_too
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'commun_tooltip_editer', 'Edit this item', 'en' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'commun_tooltip_supprimer', 'Delete fhis item', 'en' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'commun_tooltip_rechercher', 'Search', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'commun_tooltip_annuler', 'Cancel', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'commun_tooltip_valider', 'Validate', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'calendrier_tooltip_plus','Move a week forward', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'calendrier_tooltip_moins','Move a week backward', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'calendrier_tooltip_plusPlus','Move a month forward', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'calendrier_tooltip_moinsMoins','Move a month backward', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'calendrier_tooltip_dateParDefaut','Move to today', 'en' from LIBELLE;
 -- Messages d'erreur génériques
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'erreur_connexion', 'Invalid credentials', 'en' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'erreur_aucuneConnexionInternet', 'No Internet connexion', 'en' from LIBELLE;
@@ -84,10 +91,34 @@ insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'SUPPRESSIO
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'TRANSITION_ETAT_IMPOSSIBLE', 'Can not change state from ''{{0}}'' to ''{{1}}''.', 'en' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'RESERVATION_DATES_INCOHERENTES', 'Invalid start and end dates.', 'en' from LIBELLE;
 -- Page de réservation
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'reservation_titre', 'Booking details of ', 'en' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'reservation_placeholder_dateDebut', 'Start date', 'en' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'reservation_placeholder_dateFin', 'End date', 'en' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'reservation_placeholder_client', 'Customer', 'en' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'reservation_placeholder_chambre', 'Room', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'reservation_placeholder_formule', 'Formula', 'en' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'reservation_bouton_enregistrer', 'Save', 'en' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'reservation_bouton_arriveeClient', 'Customer arrival', 'en' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'reservation_bouton_departClient', 'Customer departure', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'reservations_titre_calendrier','Booking board', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'reservations_header_date','Date', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'reservations_form_du','From', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'reservations_form_au','To', 'en' from LIBELLE;
+-- Page d'administration des consommations
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'adminConso_titre_listeDesProduits','Products', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'adminConso_placeholder_nomProduit','Product name', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'adminConso_placeholder_couleurProduit','Color', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'adminConso_placeholder_prix','Price', 'en' from LIBELLE;
+-- Page d'administration des réservations
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'adminResa_titre_listeDesChambres','Rooms', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'adminResa_titre_listeDesFormules','Formulas', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'adminResa_titre_listeDesOptions','Options', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'adminResa_placeholder_prix','Pricd', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'adminResa_placeholder_nomOption','Option name', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'adminResa_placeholder_nomFormule','Formula name', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'adminResa_placeholder_prixParNuit','Price per night', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'adminResa_placeholder_prixParPersonne','Price per person', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'adminResa_placeholder_nomChambre','Room name', 'en' from LIBELLE;
+-- Page des consommations
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'consommations_titre_maincourante','Daybook', 'en' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'consommations_titre_aucuneReservationEnCours','No booking in progress', 'en' from LIBELLE;

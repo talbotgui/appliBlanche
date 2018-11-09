@@ -1,29 +1,34 @@
 <!-- Liste des options -->
 <mat-card>
   <mat-card-title>
-    <span>Liste des options</span>
-    <em class="fa fa-plus" (click)="proposerAjoutOption()"></em>
+    <span l10nTranslate>adminResa_titre_listeDesOptions</span>
+    <em class="fa fa-plus" (click)="proposerAjoutOption()" matTooltip="{{ 'commun_tooltip_ajouter' | translate: lang }}"></em>
   </mat-card-title>
   <mat-card-content>
     <ul>
       <li *ngFor="let c of options">
         <span>{{c.nom}} ({{c.prix}} €{{(c.parNuit?' par nuit':'')}}{{(c.parPersonne?' par personne':'')}})</span>
-        <em class="fa fa-edit" (click)="modifierOption(c)" *ngIf="!nouvelleOption || c.reference !== nouvelleOption.reference"></em>
-        <em class="fa fa-ban" (click)="annulerModificationOption()" *ngIf="nouvelleOption && c.reference === nouvelleOption.reference"></em>
-        <em class="fa fa-remove" (click)="supprimerOption(c)" *ngIf="!nouvelleOption || c.reference !== nouvelleOption.reference"></em>
+        <em class="fa fa-edit" (click)="modifierOption(c)" *ngIf="!nouvelleOption || c.reference !== nouvelleOption.reference"
+          matTooltip="{{ 'commun_tooltip_editer' | translate: lang }}"></em>
+        <em class="fa fa-ban" (click)="annulerModificationOption()" *ngIf="nouvelleOption && c.reference === nouvelleOption.reference"
+          matTooltip="{{ 'commun_tooltip_annuler' | translate: lang }}"></em>
+        <em class="fa fa-remove" (click)="supprimerOption(c)" *ngIf="!nouvelleOption || c.reference !== nouvelleOption.reference"
+          matTooltip="{{ 'commun_tooltip_supprimer' | translate: lang }}"></em>
       </li>
     </ul>
     <div class="bordureHaute" *ngIf="nouvelleOption">
-      <mat-form-field>
-        <input matInput name="nom" [(ngModel)]="nouvelleOption.nom" placeholder="Nom de la option" required>
+      <mat-form-field l10nTranslate>
+        <input matInput name="nom" [(ngModel)]="nouvelleOption.nom" l10n-placeholder placeholder="adminResa_placeholder_nomOption"
+          required>
       </mat-form-field>
-      <mat-form-field>
-        <input matInput type="number" name="prix" [(ngModel)]="nouvelleOption.prix" placeholder="Prix" required>
+      <mat-form-field l10nTranslate>
+        <input matInput type="number" name="prix" [(ngModel)]="nouvelleOption.prix" l10n-placeholder placeholder="adminResa_placeholder_prix"
+          required>
       </mat-form-field>
-      <mat-checkbox name="parNuit" [(ngModel)]="nouvelleOption.parNuit" required>Prix par nuit </mat-checkbox>
-      <mat-checkbox name="parPersonne" [(ngModel)]="nouvelleOption.parPersonne" required>Prix par personne</mat-checkbox>
-      <em class="fa fa-check" (click)="validerAjoutOption()"></em>
-      <em class="fa fa-ban" (click)="annulerModificationOption()"></em>
+      <mat-checkbox name="parNuit" [(ngModel)]="nouvelleOption.parNuit" required l10nTranslate>adminResa_placeholder_prixParNuit</mat-checkbox>
+      <mat-checkbox name="parPersonne" [(ngModel)]="nouvelleOption.parPersonne" required l10nTranslate>adminResa_placeholder_prixParPersonne</mat-checkbox>
+      <em class="fa fa-check" (click)="validerAjoutOption()" matTooltip="{{ 'commun_tooltip_valider' | translate: lang }}"></em>
+      <em class="fa fa-ban" (click)="annulerModificationOption()" matTooltip="{{ 'commun_tooltip_annuler' | translate: lang }}"></em>
     </div>
   </mat-card-content>
 </mat-card>

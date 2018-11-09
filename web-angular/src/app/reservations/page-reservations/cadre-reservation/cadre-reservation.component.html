@@ -1,6 +1,9 @@
 <!-- Le formulaire de détail -->
 <mat-card *ngIf="!!reservationSelectionnee">
-  <mat-card-title>Détails de la réservation {{reservationSelectionnee.reference.split('-')[1]}}</mat-card-title>
+  <mat-card-title *ngIf="reservationSelectionnee.reference">
+    <span l10nTranslate>reservation_titre</span>
+    <span>{{ reservationSelectionnee.reference.split('-')[1] }}</span>
+  </mat-card-title>
   <mat-card-content>
     <form novalidate #leForm="ngForm" class="formFieldFullWidth">
       <div class="row">

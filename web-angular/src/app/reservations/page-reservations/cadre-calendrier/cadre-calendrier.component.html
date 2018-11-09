@@ -1,6 +1,8 @@
 <!-- Le tableau des réservations-->
 <mat-card>
-  <mat-card-title>Tableau des réservations</mat-card-title>
+  <mat-card-title>
+    <span l10nTranslate>reservations_titre_calendrier</span>
+  </mat-card-title>
   <mat-card-content class="tableauDonnees">
 
     <!-- Entete principal-->
@@ -13,7 +15,10 @@
         </span>
 
         <!-- Dates de début et fin-->
-        <span>Du {{dateDebut | date:'dd/MM'}} au {{dateFin | date:'dd/MM'}}</span>
+        <span l10nTranslate>reservations_form_du</span>
+        <span> {{dateDebut | date:'dd/MM'}} </span>
+        <span l10nTranslate>reservations_form_au</span>
+        <span> {{dateFin | date:'dd/MM'}}</span>
 
         <span class="boutonsAction">
           <em class="fa fa-angle-right" (click)="deplacerDateParJour(7);" matTooltip="{{ 'calendrier_tooltip_plus' | translate: lang }}"></em>
@@ -30,7 +35,7 @@
       <div class="col-12">
 
         <!-- Date de début -->
-        <span class="libelleDatePicker">Du</span>
+        <span class="libelleDatePicker" l10nTranslate>reservations_form_du</span>
         <mat-form-field class="datePickerLargeurAdaptee">
           <input matInput name="dateDebutPick" [matDatepicker]="dateDebutPick" [max]="dateFin" [(ngModel)]="dateDebut"
             required>
@@ -39,7 +44,7 @@
         </mat-form-field>
 
         <!-- Date de fin -->
-        <span class="libelleDatePicker">Au</span>
+        <span class="libelleDatePicker" l10nTranslate>reservations_form_au</span>
         <mat-form-field class="datePickerLargeurAdaptee">
           <input matInput name="dateFinPick" [matDatepicker]="dateFinPick" [min]="dateDebut" [(ngModel)]="dateFin"
             required>
@@ -57,7 +62,7 @@
 
     <!-- Ligne des chambres -->
     <div class="row enteteTableau">
-      <div class="col-2">Date</div>
+      <div class="col-2" l10nTranslate>reservations_header_date</div>
       <div [class]="'col-' + nbColParChambre" *ngFor="let c of chambres">{{c.nom}}</div>
     </div>
 

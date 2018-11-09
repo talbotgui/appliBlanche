@@ -1,24 +1,28 @@
 <!-- Liste des chambres -->
 <mat-card>
   <mat-card-title>
-    <span>Liste des chambres</span>
-    <em class="fa fa-plus" (click)="proposerAjoutChambre()"></em>
+    <span l10nTranslate>adminResa_titre_listeDesChambres</span>
+    <em class="fa fa-plus" (click)="proposerAjoutChambre()" matTooltip="{{ 'commun_tooltip_ajouter' | translate: lang }}"></em>
   </mat-card-title>
   <mat-card-content>
     <ul>
       <li *ngFor="let c of chambres">
         <span>{{c.nom}}</span>
-        <em class="fa fa-edit" (click)="modifierChambre(c)" *ngIf="!nouvelleChambre || c.reference !== nouvelleChambre.reference"></em>
-        <em class="fa fa-ban" (click)="annulerModificationChambre()" *ngIf="nouvelleChambre && c.reference === nouvelleChambre.reference"></em>
-        <em class="fa fa-remove" (click)="supprimerChambre(c)" *ngIf="!nouvelleChambre || c.reference !== nouvelleChambre.reference"></em>
+        <em class="fa fa-edit" (click)="modifierChambre(c)" *ngIf="!nouvelleChambre || c.reference !== nouvelleChambre.reference"
+          matTooltip="{{ 'commun_tooltip_editer' | translate: lang }}"></em>
+        <em class="fa fa-ban" (click)="annulerModificationChambre()" *ngIf="nouvelleChambre && c.reference === nouvelleChambre.reference"
+          matTooltip="{{ 'commun_tooltip_annuler' | translate: lang }}"></em>
+        <em class="fa fa-remove" (click)="supprimerChambre(c)" *ngIf="!nouvelleChambre || c.reference !== nouvelleChambre.reference"
+          matTooltip="{{ 'commun_tooltip_supprimer' | translate: lang }}"></em>
       </li>
     </ul>
     <div class="bordureHaute" *ngIf="nouvelleChambre">
-      <mat-form-field>
-        <input matInput name="nom" [(ngModel)]="nouvelleChambre.nom" placeholder="Nom de la chambre" required>
+      <mat-form-field l10nTranslate>
+        <input matInput name="nom" [(ngModel)]="nouvelleChambre.nom" l10n-placeholder placeholder="adminResa_placeholder_nomChambre"
+          required>
       </mat-form-field>
-      <em class="fa fa-check" (click)="validerAjoutChambre()"></em>
-      <em class="fa fa-ban" (click)="annulerModificationChambre()"></em>
+      <em class="fa fa-check" (click)="validerAjoutChambre()" matTooltip="{{ 'commun_tooltip_valider' | translate: lang }}"></em>
+      <em class="fa fa-ban" (click)="annulerModificationChambre()" matTooltip="{{ 'commun_tooltip_annuler' | translate: lang }}"></em>
     </div>
   </mat-card-content>
 </mat-card>

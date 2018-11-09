@@ -1,28 +1,32 @@
 <!-- Liste des formules -->
 <mat-card>
   <mat-card-title>
-    <span>Liste des formules</span>
-    <em class="fa fa-plus" (click)="proposerAjoutFormule()"></em>
+    <span l10nTranslate>adminResa_titre_listeDesFormules</span>
+    <em class="fa fa-plus" (click)="proposerAjoutFormule()" matTooltip="{{ 'commun_tooltip_ajouter' | translate: lang }}"></em>
   </mat-card-title>
   <mat-card-content>
     <ul>
       <li *ngFor="let c of formules">
         <span>{{c.nom}} ({{c.prixParNuit}}€)</span>
-        <em class="fa fa-edit" (click)="modifierFormule(c)" *ngIf="!nouvelleFormule || c.reference !== nouvelleFormule.reference"></em>
-        <em class="fa fa-ban" (click)="annulerModificationFormule()" *ngIf="nouvelleFormule && c.reference === nouvelleFormule.reference"></em>
-        <em class="fa fa-remove" (click)="supprimerFormule(c)" *ngIf="!nouvelleFormule || c.reference !== nouvelleFormule.reference"></em>
+        <em class="fa fa-edit" (click)="modifierFormule(c)" *ngIf="!nouvelleFormule || c.reference !== nouvelleFormule.reference"
+          matTooltip="{{ 'commun_tooltip_editer' | translate: lang }}"></em>
+        <em class="fa fa-ban" (click)="annulerModificationFormule()" *ngIf="nouvelleFormule && c.reference === nouvelleFormule.reference"
+          matTooltip="{{ 'commun_tooltip_annuler' | translate: lang }}"></em>
+        <em class="fa fa-remove" (click)="supprimerFormule(c)" *ngIf="!nouvelleFormule || c.reference !== nouvelleFormule.reference"
+          matTooltip="{{ 'commun_tooltip_supprimer' | translate: lang }}"></em>
       </li>
     </ul>
     <div class="bordureHaute" *ngIf="nouvelleFormule">
-      <mat-form-field>
-        <input matInput name="nom" [(ngModel)]="nouvelleFormule.nom" placeholder="Nom de la formule" required>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput type="number" name="prixParNuit" [(ngModel)]="nouvelleFormule.prixParNuit" placeholder="Prix par nuit"
+      <mat-form-field l10nTranslate>
+        <input matInput name="nom" [(ngModel)]="nouvelleFormule.nom" l10n-placeholder placeholder="adminResa_placeholder_nomFormule"
           required>
       </mat-form-field>
-      <em class="fa fa-check" (click)="validerAjoutFormule()"></em>
-      <em class="fa fa-ban" (click)="annulerModificationFormule()"></em>
+      <mat-form-field l10nTranslate>
+        <input matInput type="number" name="prixParNuit" [(ngModel)]="nouvelleFormule.prixParNuit" l10n-placeholder
+          placeholder="adminResa_placeholder_prixParNuit" required>
+      </mat-form-field>
+      <em class="fa fa-check" (click)="validerAjoutFormule()" matTooltip="{{ 'commun_tooltip_valider' | translate: lang }}"></em>
+      <em class="fa fa-ban" (click)="annulerModificationFormule()" matTooltip="{{ 'commun_tooltip_annuler' | translate: lang }}"></em>
     </div>
   </mat-card-content>
 </mat-card>

@@ -59,6 +59,13 @@ insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'commun_too
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'commun_tooltip_editer', 'Editer l''élément', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'commun_tooltip_supprimer', 'Supprimer l''élément', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'commun_tooltip_rechercher', 'Rechercher', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'commun_tooltip_annuler', 'Annuler', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'commun_tooltip_valider', 'Valider', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'calendrier_tooltip_plus','Déplacer d''une semaine dans l''avenir', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'calendrier_tooltip_moins','Déplacer d''une semaine dans le passé', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'calendrier_tooltip_plusPlus','Déplacer d''un mois dans l''avenir', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'calendrier_tooltip_moinsMoins','Déplacer d''un mois dans le passé', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'calendrier_tooltip_dateParDefaut','Déplacer à aujourd''hui', 'fr' from LIBELLE;
 -- Messages d'erreur génériques
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'erreur_connexion', 'Paramètres de connexion incorrects', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'erreur_aucuneConnexionInternet', 'Aucune connexion Internet disponible', 'fr' from LIBELLE;
@@ -84,11 +91,34 @@ insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'SUPPRESSIO
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'TRANSITION_ETAT_IMPOSSIBLE', 'Impossible de passer de l''état ''{{0}}'' à l''état ''{{1}}''.', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'RESERVATION_DATES_INCOHERENTES', 'Les dates de début et fin de cette réservation ne sont pas cohérentes.', 'fr' from LIBELLE;
 -- Page de réservation
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'reservation_titre', 'Détails de la réservation ', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'reservation_placeholder_dateDebut', 'Date de début', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'reservation_placeholder_dateFin', 'Date de fin', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'reservation_placeholder_client', 'Nom du client', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'reservation_placeholder_chambre', 'Chambre', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'reservation_placeholder_formule', 'Formule', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'reservation_bouton_enregistrer', 'Enregistrer', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'reservation_bouton_arriveeClient', 'Arrivée du client', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'reservation_bouton_departClient', 'Départ du client', 'fr' from LIBELLE;
-
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'reservations_titre_calendrier','Tableau des réservations', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'reservations_header_date','Date', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'reservations_form_du','Du', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'reservations_form_au','Au', 'fr' from LIBELLE;
+-- Page d'administration des consommations
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'adminConso_titre_listeDesProduits','Liste des produits', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'adminConso_placeholder_nomProduit','Nom du produit', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'adminConso_placeholder_couleurProduit','Couleur', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'adminConso_placeholder_prix','Prix', 'fr' from LIBELLE;
+-- Page d'administration des réservations
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'adminResa_titre_listeDesChambres','Liste des chambres', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'adminResa_titre_listeDesFormules','Liste des formules', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'adminResa_titre_listeDesOptions','Liste des options', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'adminResa_placeholder_prix','Prix', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'adminResa_placeholder_nomOption','Nom de l''option', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'adminResa_placeholder_nomFormule','Nom de la formule', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'adminResa_placeholder_prixParNuit','Prix par nuit', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'adminResa_placeholder_prixParPersonne','Prix par personne', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'adminResa_placeholder_nomChambre','Nom de la chambre', 'fr' from LIBELLE;
+-- Page des consommations
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'consommations_titre_maincourante','Main courante', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'consommations_titre_aucuneReservationEnCours','Aucune réservation en cours', 'fr' from LIBELLE;

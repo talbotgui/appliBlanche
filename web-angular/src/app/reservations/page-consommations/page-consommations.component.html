@@ -5,14 +5,14 @@
     <div class="col-8">
       <mat-card>
         <mat-card-title>
-          <span>Main courante</span>
+          <span l10nTranslate>consommations_titre_maincourante</span>
         </mat-card-title>
         <mat-card-content>
-
 
           <!-- liste des reservations -->
           <div class="row">
             <div class="col-12">
+              <span l10nTranslate *ngIf="reservations && reservations.length == 0">consommations_titre_aucuneReservationEnCours</span>
               <mat-chip-list class="chipListSpaceEvenly chipListSelectionnable" [selectable]="true">
                 <mat-chip *ngFor="let reservation of reservations" (click)="selectionnerReservation(reservation)"
                   [class.chipSelectionne]="reservationSelectionee === reservation">
