@@ -74,30 +74,44 @@ pipeline {
 		}
 
 		stage ('Deploy GCloud') {
-			agent any
+			agent none
 			environment { JAVA_HOME = '/usr/lib/jvm/java-8-openjdk-amd64/' }
 			when { branch 'master' }
 			steps {
-				script {
-					currentBuild.displayName = currentBuild.number + "-déploiementGcloud"
-
-					// Rebuild avec le profil gcloud et en Java8
-					sh "mvn clean install -Dmaven.test.skip -Pgcloud -Dmaven.compiler.source=8 -Dmaven.compiler.target=8 -pl !web-angular,!web-vuejs"
-
-					// Mise en place du fichier de configuration stocké dans Jenkins
-                    withCredentials([file(credentialsId: 'APPLICATIONBLANCHE-GCLOUD-APP-PROPERTIES', variable: 'applicationblancheGcloudAppProperties')]) {
-                        sh "cp -f \$applicationblancheGcloudAppProperties $WORKSPACE/rest/src/main/resources/application.properties"
-                    }
-
-					// Déploiement du back sur le could
-					sh "gcloud auth activate-service-account --key-file=/var/lib/deployJava/gcloud-applicationblanche.json"
-					sh "gcloud config set project applicationblanche"
-					sh "mvn appengine:deploy -Dmaven.test.skip=true -Pgcloud -f rest/pom.xml -Dmaven.compiler.source=8 -Dmaven.compiler.target=8"
+				// Pour ne pas laisser trainer l'attente d'une saisie durant plus de 1 jour
+				timeout(time:1, unit:'DAYS') {
+					script {
 					
-					// Déploiement du front sur le cloud
-					sh "gcloud app deploy web-angular/app.yaml -q --promote --stop-previous-version"
+						// Demande de saisie avec milestone pour arrêter les builds précédents en attente au moment où un utilisateur répond à un build plus récent
+						milestone(1)
+						def userInput = input message: 'Production ?', parameters: [booleanParam(defaultValue: false, description: '', name: 'miseEnProduction')]
+						milestone(2)
 
-					currentBuild.displayName = "#" + currentBuild.number
+						// Installation en production et changement du nom indiquant le statut
+						if (userInput) {
+							node {
+								currentBuild.displayName = currentBuild.number + "-déploiementGcloud"
+
+								// Rebuild avec le profil gcloud et en Java8
+								sh "mvn clean install -Dmaven.test.skip -Pgcloud -Dmaven.compiler.source=8 -Dmaven.compiler.target=8 -pl !web-angular,!web-vuejs"
+
+								// Mise en place du fichier de configuration stocké dans Jenkins
+								withCredentials([file(credentialsId: 'APPLICATIONBLANCHE-GCLOUD-APP-PROPERTIES', variable: 'applicationblancheGcloudAppProperties')]) {
+									sh "cp -f \$applicationblancheGcloudAppProperties $WORKSPACE/rest/src/main/resources/application.properties"
+								}
+
+								// Déploiement du back sur le could
+								sh "gcloud auth activate-service-account --key-file=/var/lib/deployJava/gcloud-applicationblanche.json"
+								sh "gcloud config set project applicationblanche"
+								sh "mvn appengine:deploy -Dmaven.test.skip=true -Pgcloud -f rest/pom.xml -Dmaven.compiler.source=8 -Dmaven.compiler.target=8"
+								
+								// Déploiement du front sur le cloud
+								sh "gcloud app deploy web-angular/app.yaml -q --promote --stop-previous-version"
+
+								currentBuild.displayName = "#" + currentBuild.number
+							}
+						}
+					}
 				}
 			}
 		}
