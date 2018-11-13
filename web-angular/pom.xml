@@ -38,6 +38,15 @@
 				</configuration>
 			</plugin>
 			<plugin>
+				<groupId>com.guillaumetalbot</groupId>
+				<artifactId>angular-maven-plugin</artifactId>
+				<version>1.0.0</version>
+				<configuration>
+					<cheminProjetAngular>${basedir}</cheminProjetAngular>
+					<suffixNomFichierComposantAngular>.component.ts</suffixNomFichierComposantAngular>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>
 				<version>1.5</version>
@@ -209,4 +218,11 @@
 			</build>
 		</profile>
 	</profiles>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>repositoryPetitsOutils</id>
+			<name>Repository avec de petits outils utiles</name>
+			<url>https://me.guillaumetalbot.com/mavenrepository</url>
+		</pluginRepository>
+	</pluginRepositories>
 </project>
