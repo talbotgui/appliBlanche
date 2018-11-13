@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { RestUtilsService } from '../../shared/service/restUtils.service';
 import { environment } from '../../../environments/environment';

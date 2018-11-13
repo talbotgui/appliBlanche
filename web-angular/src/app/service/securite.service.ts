@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable ,  of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
 
 import { RestUtilsService } from '../shared/service/restUtils.service';
 import { environment } from '../../environments/environment';

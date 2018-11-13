@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { RestUtilsService } from '../../shared/service/restUtils.service';
 import { HttpProxy } from '../../shared/service/httpProxy.component';

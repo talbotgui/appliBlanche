@@ -1,8 +1,6 @@
+import { throwError as observableThrowError, Observable } from 'rxjs';
 import { Injectable, ErrorHandler, Injector } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/throw';
-import 'rxjs/add/operator/catch';
 
 /** Intercepteur HTTP pour traiter systématiquement les cas d'erreurs. */
 @Injectable()
@@ -35,7 +33,7 @@ export class IntercepteurHttp implements HttpInterceptor {
         exceptionHandler.handleError(error);
 
         // Pour que l'erreur soit gérable aussi dans le code appelant
-        return Observable.throw(error);
+        return observableThrowError(error);
       }) as any;
   }
 }
