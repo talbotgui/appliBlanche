@@ -31,3 +31,6 @@ em.fa.actionDansUnEntete { margin-left: 5px; }
 .chipListSpaceEvenly > .mat-chip-list-wrapper { display: flex; justify-content: space-evenly; }
 .chipListSelectionnable .mat-standard-chip { min-width: 100px; min-height: 50px; }
 .chipListSelectionnable .mat-standard-chip div { width: 100%; text-align: center; }
+
+/** Correction pour un problème depuis la migration en Angular-7 */
+.mat-snack-bar-container { height:49px; }
