@@ -1,4 +1,5 @@
-import { throwError as observableThrowError, Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { Injectable, ErrorHandler, Injector } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
 
@@ -17,10 +18,10 @@ export class IntercepteurHttp implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     // exécution de la requête
-    return next.handle(req)
+    return next.handle(req).pipe(
 
       // Interception des erreurs HTTP
-      .catch((error, caught) => {
+      catchError<any>((error) => {
 
         // Log (nécessaire pour tracer l'erreur)
         /* tslint:disable-next-line */
@@ -33,7 +34,7 @@ export class IntercepteurHttp implements HttpInterceptor {
         exceptionHandler.handleError(error);
 
         // Pour que l'erreur soit gérable aussi dans le code appelant
-        return observableThrowError(error);
-      }) as any;
+        throw error;
+      }));
   }
 }
