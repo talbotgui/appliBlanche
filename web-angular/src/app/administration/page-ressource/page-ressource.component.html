@@ -1,0 +1,19 @@
+<!-- Liste des ressources -->
+<h3 l10nTranslate>ressource_titre</h3>
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 col-12" matSort>
+
+	<ng-container matColumnDef="clef">
+		<th mat-header-cell *matHeaderCellDef mat-sort-header l10nTranslate>ressource_entete_clef</th>
+		<td mat-cell *matCellDef="let element">{{element.clef}}</td>
+	</ng-container>
+	<ng-container matColumnDef="description">
+		<th mat-header-cell *matHeaderCellDef mat-sort-header l10nTranslate>ressource_entete_description</th>
+		<td mat-cell *matCellDef="let element">{{element.description}}</td>
+	</ng-container>
+
+	<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+	<tr mat-row *matRowDef="let ligne; columns: displayedColumns;"></tr>
+</table>
+<mat-paginator [pageSizeOptions]="[5, 10, 20]" [length]="dataSource.page.totalElements" [pageSize]="dataSource.page.size"
+ showFirstLastButtons></mat-paginator>

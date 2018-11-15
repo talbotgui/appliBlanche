@@ -10,6 +10,7 @@ insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'menu_accue
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'menu_titre_administration', 'Administration', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'menu_utilisateur', 'Utilisateurs', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'menu_role', 'Rôles', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'menu_ressource', 'Ressources', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'menu_titre_reservation', 'Réservations', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'menu_reservations', 'Planning', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'menu_adminreservations', 'Chambres & offres', 'fr' from LIBELLE;
@@ -107,3 +108,7 @@ insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'adminResa_
 -- Page des consommations
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'consommations_titre_maincourante','Main courante', 'fr' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'consommations_titre_aucuneReservationEnCours','Aucune réservation en cours', 'fr' from LIBELLE;
+-- Page de gestion des ressources
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ressource_titre', 'Administration des ressources', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ressource_entete_clef', 'Clef', 'fr' from LIBELLE;
+insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ressource_entete_description', 'description', 'fr' from LIBELLE;

@@ -39,10 +39,6 @@
 			<input matInput required #inputNom="ngModel" [(ngModel)]="roleSelectionne.nom" name="nom" l10n-placeholder
 			 placeholder="role_placeholder_nom">
 		</mat-form-field>
-		<mat-form-field l10nTranslate>
-			<input matInput type="text" #inputVille="ngModel" [(ngModel)]="roleSelectionne.ville" name="ville" l10n-placeholder
-			 placeholder="role_placeholder_ville">
-		</mat-form-field>
 
 		<!-- Boutons -->
 		<button type="submit" class="btn btn-outline-secondary" (click)="annulerCreation()" l10nTranslate>role_bouton_annuler</button>

@@ -7,10 +7,12 @@ import { SharedModule } from '../shared/shared.module';
 // Tous les composants applicatifs de l'application
 import { PageUtilisateurComponent } from './page-utilisateur/page-utilisateur.component';
 import { PageRoleComponent } from './page-role/page-role.component';
+import { PageRessourceComponent } from './page-ressource/page-ressource.component';
 
 // Les composants injectables
 import { UtilisateurService } from './service/utilisateur.service';
 import { RoleService } from './service/role.service';
+import { RessourceService } from './service/ressource.service';
 
 @NgModule({
   imports: [
@@ -20,12 +22,12 @@ import { RoleService } from './service/role.service';
 
   // Tous les composants applicatifs du module
   declarations: [
-    PageUtilisateurComponent, PageRoleComponent
+    PageUtilisateurComponent, PageRoleComponent, PageRessourceComponent
   ],
 
   // Les services
   providers: [
-    UtilisateurService, RoleService
+    UtilisateurService, RoleService, RessourceService
   ]
 })
 export class AdministrationModule { }

@@ -9,7 +9,7 @@ import { DataSourceComponent } from '../../shared/service/datasource.component';
 import { RoleService } from '../service/role.service';
 import * as model from '../../model/model';
 
-/** Page listant les roless et permettant leur création, modification et suppression */
+/** Page listant les roles et permettant leur création, modification et suppression */
 @Component({ selector: 'page-role', templateUrl: './page-role.component.html', styleUrls: ['./page-role.component.css'] })
 export class PageRoleComponent implements OnInit {
 

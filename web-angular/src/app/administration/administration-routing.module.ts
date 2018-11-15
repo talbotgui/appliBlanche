@@ -7,11 +7,13 @@ import { AuthGuard } from '../service/auth-guard.service';
 // Tous les composants applicatifs de l'application
 import { PageUtilisateurComponent } from './page-utilisateur/page-utilisateur.component';
 import { PageRoleComponent } from './page-role/page-role.component';
+import { PageRessourceComponent } from './page-ressource/page-ressource.component';
 
 /** Toutes les routes */
 const routes: Routes = [
   { path: 'page-utilisateur-route', component: PageUtilisateurComponent, canActivate: [AuthGuard] },
-  { path: 'page-role-route', component: PageRoleComponent, canActivate: [AuthGuard] }
+  { path: 'page-role-route', component: PageRoleComponent, canActivate: [AuthGuard] },
+  { path: 'page-ressource-route', component: PageRessourceComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
