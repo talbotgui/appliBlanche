@@ -6,9 +6,6 @@ import com.guillaumetalbot.applicationblanche.exception.ExceptionId.ExceptionLev
 
 public class BusinessException extends BaseException {
 
-	public static final ExceptionId CLIENT_NOM_DEJA_EXISTANT = new ExceptionId("ERREUR_CLIENT_NOM_DEJA_EXISTANT",
-			"Un client nommé '{{0}}' existe déjà", ExceptionLevel.INFORMATION, 400);
-
 	public static final ExceptionId ERREUR_LOGIN = new ExceptionId("ERREUR_LOGIN", "Erreur de connexion", ExceptionLevel.WARNING, 403);
 
 	public static final ExceptionId ERREUR_LOGIN_MDP = new ExceptionId("ERREUR_LOGIN_MDP",

@@ -1,9 +1,7 @@
 package com.guillaumetalbot.applicationblanche.rest.controleur;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.mockito.Mockito;
@@ -25,22 +23,23 @@ public class RoleEtRessourceRestControlerTest extends BaseTestClass {
 
 	@Test
 	public void test01GetListeRole() {
-		final List<Role> toReturn = Arrays.asList(new Role("R1"), new Role("R2"), new Role("R3"));
+		final PageablePourLesTest<Role> toReturn = new PageablePourLesTest<>(Arrays.asList(new Role("R1"), new Role("R2"), new Role("R3")));
 
 		// ARRANGE
-		Mockito.doReturn(toReturn).when(this.securiteService).listerRoles();
+		Mockito.doReturn(toReturn).when(this.securiteService).listerRoles(Mockito.any(Pageable.class));
 
 		// ACT
-		final ParameterizedTypeReference<Collection<Role>> typeRetour = new ParameterizedTypeReference<Collection<Role>>() {
+		final ParameterizedTypeReference<PageablePourLesTest<Ressource>> typeRetour = new ParameterizedTypeReference<PageablePourLesTest<Ressource>>() {
 		};
-		final ResponseEntity<Collection<Role>> roles = this.getREST().exchange(this.getURL() + "/v1/roles", HttpMethod.GET, null, typeRetour);
+		final ResponseEntity<PageablePourLesTest<Ressource>> reponse = this.getREST().exchange(this.getURL() + "/v1/roles?pageNumber=1&pageSize=5",
+				HttpMethod.GET, null, typeRetour);
 
 		// ASSERT
-		Mockito.verify(this.securiteService).listerRoles();
+		Mockito.verify(this.securiteService).listerRoles(Mockito.any(Pageable.class));
 		Mockito.verifyNoMoreInteractions(this.getListeServices());
-		Assert.assertNotNull(roles.getBody());
-		Assert.assertEquals(roles.getBody().size(), toReturn.size());
-		Assert.assertEquals(roles.getBody().iterator().next().getNom(), toReturn.iterator().next().getNom());
+		Assert.assertNotNull(reponse.getBody());
+		Assert.assertNotNull(reponse.getBody());
+		Assert.assertEquals(reponse.getBody().getContent().size(), toReturn.getContent().size());
 	}
 
 	@Test

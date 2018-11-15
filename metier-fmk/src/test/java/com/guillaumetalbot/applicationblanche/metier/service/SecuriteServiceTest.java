@@ -303,11 +303,11 @@ public class SecuriteServiceTest {
 		this.securiteService.sauvegarderRole("nomRole2");
 
 		//
-		final Collection<Role> roles = this.securiteService.listerRoles();
+		final Page<Role> roles = this.securiteService.listerRoles(new QPageRequest(0, 5));
 
 		//
 		Assert.assertNotNull(roles);
-		Assert.assertEquals(2, roles.size());
+		Assert.assertEquals(2, roles.getTotalElements());
 
 	}
 

@@ -6,12 +6,12 @@ import { AuthGuard } from '../service/auth-guard.service';
 
 // Tous les composants applicatifs de l'application
 import { PageUtilisateurComponent } from './page-utilisateur/page-utilisateur.component';
-import { PageClientComponent } from './page-client/page-client.component';
+import { PageRoleComponent } from './page-role/page-role.component';
 
 /** Toutes les routes */
 const routes: Routes = [
   { path: 'page-utilisateur-route', component: PageUtilisateurComponent, canActivate: [AuthGuard] },
-  { path: 'page-client-route', component: PageClientComponent, canActivate: [AuthGuard] }
+  { path: 'page-role-route', component: PageRoleComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

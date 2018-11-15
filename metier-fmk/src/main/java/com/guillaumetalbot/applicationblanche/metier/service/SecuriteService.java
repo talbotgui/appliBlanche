@@ -30,7 +30,7 @@ public interface SecuriteService {
 
 	Page<Ressource> listerRessources(Pageable page);
 
-	Collection<Role> listerRoles();
+	Page<Role> listerRoles(Pageable page);
 
 	Collection<Utilisateur> listerUtilisateurs();
 

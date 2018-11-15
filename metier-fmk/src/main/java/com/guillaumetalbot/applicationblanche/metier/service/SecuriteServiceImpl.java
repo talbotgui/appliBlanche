@@ -177,8 +177,8 @@ public class SecuriteServiceImpl implements SecuriteService {
 	}
 
 	@Override
-	public Collection<Role> listerRoles() {
-		return this.roleRepo.listerRoles();
+	public Page<Role> listerRoles(final Pageable page) {
+		return this.roleRepo.listerRoles(page);
 	}
 
 	@Override

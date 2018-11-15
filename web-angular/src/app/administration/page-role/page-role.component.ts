@@ -6,21 +6,21 @@ import { merge } from 'rxjs';
 import { Language } from 'angular-l10n';
 
 import { DataSourceComponent } from '../../shared/service/datasource.component';
-import { ClientService } from '../service/client.service';
+import { RoleService } from '../service/role.service';
 import * as model from '../../model/model';
 
-/** Page listant les clients et permettant leur création, modification et suppression */
-@Component({ selector: 'page-client', templateUrl: './page-client.component.html', styleUrls: ['./page-client.component.css'] })
-export class PageClientComponent implements OnInit {
+/** Page listant les roless et permettant leur création, modification et suppression */
+@Component({ selector: 'page-role', templateUrl: './page-role.component.html', styleUrls: ['./page-role.component.css'] })
+export class PageRoleComponent implements OnInit {
 
   /** Decorateur nécessaire aux libellés internationnalisés dans des tooltips */
   @Language() lang: string;
 
   /** Liste des colonnes à afficher dans le tableau */
-  displayedColumns: string[] = ['nomClient', 'ville', 'nbDossiers', 'nbDemandes', 'dateCreationDernierDossier', 'actions'];
+  displayedColumns: string[] = ['nom', 'actions'];
 
   /** DataSource du tableau (initialisé dans le onInit) */
-  dataSource: DataSourceComponent<model.ClientDto>;
+  dataSource: DataSourceComponent<model.Role>;
 
   /** Composant de pagination */
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -28,16 +28,16 @@ export class PageClientComponent implements OnInit {
   /** Composant de tri */
   @ViewChild(MatSort) sorter: MatSort;
 
-  /** Client en cours d'édition */
-  clientSelectionne: model.ClientDto | undefined;
+  /** Role en cours d'édition */
+  roleSelectionne: model.Role | undefined;
 
   /** Un constructeur pour se faire injecter les dépendances */
-  constructor(private route: ActivatedRoute, private clientService: ClientService) { }
+  constructor(private route: ActivatedRoute, private roleService: RoleService) { }
 
   /** Initialisation des composants de la page */
   ngOnInit(): void {
     // Creation du datasource
-    this.dataSource = new DataSourceComponent<model.ClientDto>((page) => this.clientService.listerClientsDto(page));
+    this.dataSource = new DataSourceComponent<model.Role>((page) => this.roleService.listerRoles(page));
 
     // Chargement des données avec les paramètres par défaut (nb éléments par page par défaut défini dans le DataSource)
     this.dataSource.load();
@@ -65,19 +65,19 @@ export class PageClientComponent implements OnInit {
 
   /** Reset et masquage du formulaire de modification/création */
   annulerCreation() {
-    this.clientSelectionne = undefined;
+    this.roleSelectionne = undefined;
   }
 
   /** Initialiser le formulaire de création */
   creer() {
-    this.clientSelectionne = new model.ClientDto();
+    this.roleSelectionne = new model.Role();
   }
 
-  /** sauvegarder un client et recharger les données sans changer la pagination */
+  /** sauvegarder un role et recharger les données sans changer la pagination */
   sauvegarder() {
-    if (this.clientSelectionne) {
-      this.clientService.sauvegarderClient(this.clientSelectionne)
-        .subscribe((retour) => {
+    if (this.roleSelectionne) {
+      this.roleService.sauvegarderRole(this.roleSelectionne)
+        .subscribe(() => {
           this.dataSource.load();
           this.annulerCreation();
         });
@@ -85,13 +85,13 @@ export class PageClientComponent implements OnInit {
   }
 
   /**
-   *  supprimer un client
+   * supprimer un role
    * et recharger les données en retournant en première page
    * (pour éviter de rester sur une page vide)
    */
-  supprimer(client: model.ClientDto) {
-    this.clientService.supprimerClient(client)
-      .subscribe((retour) => {
+  supprimer(role: model.Role) {
+    this.roleService.supprimerRole(role)
+      .subscribe(() => {
         // retour à la première page si on est pas en page 1
         if (this.paginator.hasPreviousPage()) {
           this.paginator.firstPage();
@@ -103,8 +103,8 @@ export class PageClientComponent implements OnInit {
       });
   }
 
-  /** A la sélection d'un élève */
-  selectionner(client: model.ClientDto) {
-    this.clientSelectionne = client;
+  /** A la sélection d'un role */
+  selectionner(role: model.Role) {
+    this.roleSelectionne = role;
   }
 }

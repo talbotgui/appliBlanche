@@ -10,7 +10,6 @@ insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'menu_accue
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'menu_titre_administration', 'Admin', 'en' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'menu_utilisateur', 'Users', 'en' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'menu_role', 'Profiles', 'en' from LIBELLE;
-insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'menu_client', 'Customers', 'en' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'menu_titre_reservation', 'Reservations', 'en' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'menu_reservations', 'Planning', 'en' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'menu_adminreservations', 'Rooms & formula', 'en' from LIBELLE;
@@ -38,19 +37,6 @@ insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'role_place
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'role_formulaire_titre', 'Add/modify a profile', 'en' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'role_bouton_creer', 'Save this profile', 'en' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'role_bouton_annuler', 'Cancel', 'en' from LIBELLE;
--- Page de gestion des clients
-insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'client_titre', 'Customer management', 'en' from LIBELLE;
-insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'client_entete_nom', 'Customer name', 'en' from LIBELLE;
-insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'client_entete_ville', 'City', 'en' from LIBELLE;
-insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'client_entete_nbDossiers', 'Files number', 'en' from LIBELLE;
-insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'client_entete_nbDemandes', 'Tickets number', 'en' from LIBELLE;
-insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'client_entete_dateCreationDernierDossier', 'Last file creation date', 'en' from LIBELLE;
-insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'client_placeholder_nom', 'name', 'en' from LIBELLE;
-insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'client_placeholder_nom_validation', 'Customer name is required', 'en' from LIBELLE;
-insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'client_placeholder_ville', 'city', 'en' from LIBELLE;
-insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'client_formulaire_titre', 'Add/modify a customer', 'en' from LIBELLE;
-insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'client_bouton_creer', 'Save this customer', 'en' from LIBELLE;
-insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'client_bouton_annuler', 'Cancel', 'en' from LIBELLE;
 -- Libellés communs à plusieurs pages 
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'commun_entete_actions', 'Actions', 'en' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'commun_tooltip_flagFr', 'Passer en Français', 'en' from LIBELLE;
@@ -74,7 +60,6 @@ insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'erreur_sec
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'erreur_apiNonDisponible', 'API not available', 'en' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'erreur_http', 'HTTP error', 'en' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'erreur_pgm', 'Code error', 'en' from LIBELLE;
-insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_CLIENT_NOM_DEJA_EXISTANT', 'A customer ''{{0}}'' already exists', 'en' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_LOGIN', 'Credentials error', 'en' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_LOGIN_MDP', 'Login and/or password is too short ({{0}} minimum)', 'en' from LIBELLE;
 insert into LIBELLE (id, clef, libelle, langue) select count(*) + 1, 'ERREUR_LOGIN_VEROUILLE', 'Login error - this account is locked', 'en' from LIBELLE;
