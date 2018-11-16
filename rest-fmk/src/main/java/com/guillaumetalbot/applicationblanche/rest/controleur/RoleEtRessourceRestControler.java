@@ -5,7 +5,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,12 +24,23 @@ public class RoleEtRessourceRestControler {
 	@Autowired
 	private SecuriteService securiteService;
 
-	@GetMapping(value = "/ressources")
+	@PutMapping("/role/{nomRole}/ressource/{clefRessource}")
+	public void ajouterRetirerAutorisation(@RequestBody() final Boolean statut, //
+			@PathVariable(value = "nomRole") final String nomRole, //
+			@PathVariable(value = "clefRessource") final String clefRessource) {
+		if (statut) {
+			this.securiteService.associerRoleEtRessource(nomRole, clefRessource);
+		} else {
+			this.securiteService.desassocierRoleEtRessource(nomRole, clefRessource);
+		}
+	}
+
+	@GetMapping("/ressources")
 	public Page<Ressource> listerRessource(final Pageable page) {
 		return this.securiteService.listerRessources(page);
 	}
 
-	@GetMapping(value = "/roles")
+	@GetMapping("/roles")
 	public Object listerRoles(@RequestParam(required = false, value = "pageSize") final Integer pageSize,
 			@RequestParam(required = false, value = "pageNumber") final Integer pageNumber,
 			@RequestParam(required = false, value = "triParNom") final Boolean triParNom) {
@@ -35,12 +49,12 @@ public class RoleEtRessourceRestControler {
 		return this.securiteService.listerRoles(page);
 	}
 
-	@PostMapping(value = "/roles")
+	@PostMapping("/roles")
 	public void sauvegarderRole(@RequestParam(value = "nom") final String nom) {
 		this.securiteService.sauvegarderRole(nom);
 	}
 
-	@PostMapping(value = "/v1/roles")
+	@PostMapping("/v1/roles")
 	public void sauvegarderUtilisateur(@RequestParam(value = "nom", required = true) final String nom) {
 		this.securiteService.sauvegarderRole(nom);
 	}

@@ -37,4 +37,13 @@ export class RessourceService {
     const url = environment.baseUrl + '/v1/ressources?pageNumber=' + page.number + '&pageSize=' + page.size + '&triParNom=' + triParNom;
     return this.http.get<model.Page<model.Ressource>>(url, this.restUtils.creerHeader());
   }
+
+  /** Ajoute une ressource des autorisations d'un role */
+  ajouterAutorisation(role: model.Role, ressource: model.Ressource): Observable<{} | void> { return this.ajouterRetirerAutorisation(role, ressource, true); }
+  /** Retire une ressource des autorisations d'un role */
+  retirerAutorisation(role: model.Role, ressource: model.Ressource): Observable<{} | void> { return this.ajouterRetirerAutorisation(role, ressource, false); }
+  private ajouterRetirerAutorisation(role: model.Role, ressource: model.Ressource, statut: boolean): Observable<{} | void> {
+    const url = environment.baseUrl + '/v1/role/' + role.nom + '/ressource/' + ressource.clef;
+    return this.http.put<void>(url, statut, this.restUtils.creerHeader());
+  }
 }

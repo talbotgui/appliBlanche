@@ -72,5 +72,18 @@ export class PageRessourceComponent implements OnInit {
   }
 
   /** Vérifie que la ressource est autorisée pour ce role */
-  estAutorise(role: model.Role, ressource: model.Ressource): boolean { return !!role.ressourcesAutorisees.find((re) => re.clef === ressource.clef); }
+  estAutorise(role: model.Role, ressource: model.Ressource): boolean {
+    return !!role.ressourcesAutorisees && !!role.ressourcesAutorisees.find((re) => !!re && !!ressource && re.clef === ressource.clef);
+  }
+
+  /** Changement d'une valeur */
+  changerAutorisation(role: model.Role, ressource: model.Ressource) {
+    if (this.estAutorise(role, ressource)) {
+      role.ressourcesAutorisees = role.ressourcesAutorisees.filter((re) => !!re && !!ressource && re.clef !== ressource.clef);
+      this.ressourceService.retirerAutorisation(role, ressource).subscribe();
+    } else {
+      role.ressourcesAutorisees.push(ressource);
+      this.ressourceService.ajouterAutorisation(role, ressource).subscribe();
+    }
+  }
 }
