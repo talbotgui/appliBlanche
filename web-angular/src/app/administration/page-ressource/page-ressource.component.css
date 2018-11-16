@@ -1,2 +1,5 @@
 /* Pour réduire la largeur de la dernière colonne */
 th.mat-header-cell:last-child { padding-right: 4px; }
+
+/** Pour réduire la taille dans la colonne des clefs */
+td.mat-cell.cdk-column-clef.mat-column-clef { font-size: 0.6em; }
