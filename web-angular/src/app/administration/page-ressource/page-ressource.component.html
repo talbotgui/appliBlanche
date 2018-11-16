@@ -13,7 +13,9 @@
 	</ng-container>
 	<ng-container [matColumnDef]="r.nom" *ngFor="let r of roles">
 		<th mat-header-cell *matHeaderCellDef mat-sort-header>{{r.nom}}</th>
-		<td mat-cell *matCellDef="let element">-{{r.nom}}</td>
+		<td mat-cell *matCellDef="let element">
+			{{estAutorise(r, element)}}
+		</td>
 	</ng-container>
 
 

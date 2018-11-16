@@ -70,4 +70,7 @@ export class PageRessourceComponent implements OnInit {
       )
       .subscribe();
   }
+
+  /** Vérifie que la ressource est autorisée pour ce role */
+  estAutorise(role: model.Role, ressource: model.Ressource): boolean { return !!role.ressourcesAutorisees.find((re) => re.clef === ressource.clef); }
 }
