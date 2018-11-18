@@ -1,4 +1,3 @@
-create sequence hibernate_sequence start with 1 increment by 1;
 create table lien_role_ressource (ressource_clef varchar(255) not null, role_nom varchar(255) not null, primary key (role_nom, ressource_clef));
 create table lien_utilisateur_role (utilisateur_login varchar(255) not null, role_nom varchar(255) not null, primary key (utilisateur_login, role_nom));
 create table ressource (clef varchar(255) not null, chemin varchar(100), description varchar(255), primary key (clef));

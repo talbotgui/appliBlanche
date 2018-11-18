@@ -53,7 +53,7 @@ public class LibelleServiceTest {
 		//
 		final String langue = "FR";
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
-		jdbc.update("insert into LIBELLE (id, clef, libelle, langue) values (?,?,?,?)", 1L, "clef", "libelle", langue);
+		jdbc.update("insert into LIBELLE (clef, libelle, langue) values (?,?,?)", "clef", "libelle", langue);
 
 		//
 		final Map<String, String> libelles = this.libelleService.listerParLangue(langue);
