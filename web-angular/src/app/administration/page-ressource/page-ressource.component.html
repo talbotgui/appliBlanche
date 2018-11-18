@@ -21,5 +21,5 @@
 	<tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
 	<tr mat-row *matRowDef="let ligne; columns: columnsToDisplay;"></tr>
 </table>
-<mat-paginator [pageSizeOptions]="[5, 10, 20]" [length]="dataSource.page.totalressources" [pageSize]="dataSource.page.size"
+<mat-paginator [pageSizeOptions]="[5, 10, 20]" [length]="dataSource.page.totalElements" [pageSize]="dataSource.page.size"
  showFirstLastButtons></mat-paginator>
