@@ -31,7 +31,7 @@ pipeline {
 			environment { JAVA_HOME = '/usr/lib/jvm/jdk-10.0.1/' }
 			steps {
 				script { currentBuild.displayName = currentBuild.number + "-qualimétrie Maven" }
-				sh "mvn angular:analyse"
+				sh "mvn angular:analyse -pl web-angular"
 				sh "mvn clean install site -Pqualimetrie"
 				step([$class: 'FindBugsPublisher'])
 				step([$class: 'CheckStylePublisher'])

@@ -40,7 +40,7 @@
 			<plugin>
 				<groupId>com.guillaumetalbot</groupId>
 				<artifactId>angular-maven-plugin</artifactId>
-				<version>1.0.0</version>
+				<version>1.0.2</version>
 				<configuration>
 					<cheminProjetAngular>${basedir}</cheminProjetAngular>
 					<suffixNomFichierComposantAngular>.component.ts</suffixNomFichierComposantAngular>

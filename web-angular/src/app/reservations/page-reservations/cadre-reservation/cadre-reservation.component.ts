@@ -39,19 +39,6 @@ export class CadreReservationComponent implements OnInit {
       (options) => this.options = (options && options.length > 0) ? options : []);
   }
 
-  selectionnerUneReservation(r: model.Reservation) {
-    this.reservationSelectionnee = r;
-
-    // Calcul de l'objet portant les options
-    this.optionsCalculeesPourLaReservationSelectionnee = {};
-    if (this.options && r.options) {
-      for (const o of this.options) {
-        const estSelectionnee = (r.options.findIndex((oSel) => o.reference === oSel.reference) >= 0);
-        this.optionsCalculeesPourLaReservationSelectionnee[o.reference] = estSelectionnee;
-      }
-    }
-  }
-
   enregistrerReservationSelectionnee() {
     if (this.reservationSelectionnee) {
 

@@ -45,18 +45,6 @@ export class PageUtilisateurComponent implements OnInit {
     });
   }
 
-  /** Chargement de la liste des utilisateurs */
-  chargerDonnees() {
-
-    // Chargement de la liste des utilisateurs
-    this.utilisateurService.listerUtilisateurs().subscribe((liste: model.Utilisateur[]) => {
-      this.utilisateurs = liste;
-    });
-
-    // Reset du formulaire
-    this.annulerCreationUtilisateur();
-  }
-
   /** On annule la creation en masquant le formulaire */
   annulerCreationUtilisateur() {
     this.utilisateurSelectionne = undefined;
@@ -86,6 +74,18 @@ export class PageUtilisateurComponent implements OnInit {
   supprimerUtilisateur(utilisateur: model.Utilisateur) {
     this.utilisateurService.supprimerUtilisateur(utilisateur)
       .subscribe((retour) => { this.chargerDonnees(); });
+  }
+
+  /** Chargement de la liste des utilisateurs */
+  private chargerDonnees() {
+
+    // Chargement de la liste des utilisateurs
+    this.utilisateurService.listerUtilisateurs().subscribe((liste: model.Utilisateur[]) => {
+      this.utilisateurs = liste;
+    });
+
+    // Reset du formulaire
+    this.annulerCreationUtilisateur();
   }
 
 }
