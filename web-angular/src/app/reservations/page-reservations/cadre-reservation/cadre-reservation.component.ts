@@ -68,4 +68,17 @@ export class CadreReservationComponent implements OnInit {
       });
     }
   }
+
+  /** Méthode appelée par le composant parent (pour ignorer la ligne suivante : @@angular:analyse:ignorerLigneSuivante@@)*/
+  selectionnerUneReservation(r: model.Reservation) {
+    this.reservationSelectionnee = r;
+    // Calcul de l'objet portant les options
+    this.optionsCalculeesPourLaReservationSelectionnee = {};
+    if (this.options) {
+      for (const o of this.options) {
+        const estSelectionnee = (r.options.findIndex((oSel) => o.reference === oSel.reference) >= 0);
+        this.optionsCalculeesPourLaReservationSelectionnee[o.reference] = estSelectionnee;
+      }
+    }
+  }
 }
