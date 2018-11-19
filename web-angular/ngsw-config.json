@@ -5,7 +5,7 @@
       "name": "app",
       "installMode": "prefetch",
       "updateMode": "prefetch",
-      "resources": { "files": [ "/favicon.ico", "/index.html", "/*.css", "/*.js", "!/ngsw-worker.js" ] }
+      "resources": { "files": [ "/favicon.ico", "/index.html", "/*.css", "/*.js", "/fontawesome-webfont*", "!/ngsw-worker.js" ] }
     },
     {
       "name": "assets",
@@ -15,6 +15,7 @@
     }
   ],
   "dataGroups": [
-    { "name": "i18n", "urls": [ "/*/i18n/*" ], "cacheConfig": { "maxSize": 100, "maxAge": "30d", "strategy": "freshness" } }
+    { "name": "i18n", "urls": [ "/*/i18n/*" ], "cacheConfig": { "maxSize": 100, "maxAge": "30d", "strategy": "freshness" } },
+	{ "name": "donnees", "urls": [ "/*/v1/**" ], "cacheConfig": { "maxSize": 100, "maxAge": "1d", "timeout": "1m", "strategy": "freshness" } }
   ]
 }
