@@ -4,37 +4,16 @@
     {
       "name": "app",
       "installMode": "prefetch",
-      "resources": {
-        "files": [
-          "/favicon.ico",
-          "/index.html",
-          "/*.css",
-          "/*.js"
-        ]
-      }
+      "resources": { "files": [ "/favicon.ico", "/index.html", "/*.css", "/*.js" ] }
     },
     {
       "name": "assets",
       "installMode": "lazy",
       "updateMode": "prefetch",
-      "resources": {
-        "files": [
-          "/assets/**"
-        ]
-      }
+      "resources": { "files": [ "/assets/**" ] }
     }
   ],
   "dataGroups": [
-    {
-      "name": "i18n",
-      "urls": [
-        "/*/i18n/*"
-      ],
-      "cacheConfig": {
-        "maxSize": 100,
-        "maxAge": "30d",
-        "strategy": "freshness"
-      }
-    }
+    { "name": "i18n", "urls": [ "/*/i18n/*" ], "cacheConfig": { "maxSize": 100, "maxAge": "30d", "strategy": "freshness" } }
   ]
 }
