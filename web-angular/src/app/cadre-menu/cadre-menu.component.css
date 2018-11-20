@@ -48,3 +48,6 @@
  .topnav.responsive .dropdown-content {position: relative;}
  .topnav.responsive .dropdown .dropbtn { display: block; width: 100%; text-align: left; }
 }
+
+/** Ajout d'un petit espace entre le libellé du bouton et l'icone */
+.dropbtn > span { margin-right: 5px; }
