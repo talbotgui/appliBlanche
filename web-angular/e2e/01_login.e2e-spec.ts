@@ -1,12 +1,5 @@
 import { ApplicationPage } from './app.po';
 import * as selectors from './selectors';
-import { TestBed } from '@angular/core/testing';
-import * as mockito from 'ts-mockito';
-import { of } from 'rxjs';
-
-import { HttpProxy } from '../src/app/shared/service/httpProxy.component';
-
-import { JeuxDeDonnees } from './jeuxDeDonnees';
 
 /**
  * Pour que chaque test soit autonome, chaque test contient un scénario qui redémarre de l'ouverture de la page.
@@ -18,22 +11,13 @@ import { JeuxDeDonnees } from './jeuxDeDonnees';
  */
 describe('Page de login', () => {
   let page: ApplicationPage;
-  let httpProxyMock: HttpProxy;
 
   beforeEach(() => {
     page = new ApplicationPage();
-
-    httpProxyMock = mockito.mock(HttpProxy);
-
-    // Création et injection du bouchon HttpClient
-    TestBed.configureTestingModule({
-      providers: [{ provide: HttpProxy, useFactory: () => mockito.instance(httpProxyMock) }]
-    });
   });
 
   it('Premier accès', () => {
     //
-    mockito.when(httpProxyMock.get('http://localhost:9090/applicationBlanche/i18n/fr', mockito.anything())).thenReturn(of(JeuxDeDonnees.LIBELLES_FR));
     //
     page.navigateToRoot();
     //
