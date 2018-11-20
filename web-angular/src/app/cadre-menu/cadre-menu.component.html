@@ -6,33 +6,48 @@
 
     <!-- Module administration-->
     <div class="dropdown">
-      <button class="dropbtn" l10nTranslate>menu_titre_administration
+      <button class="dropbtn">
+        <span l10nTranslate>menu_titre_administration</span>
         <em class="fa fa-caret-down"></em>
       </button>
       <div class="dropdown-content">
-        <a href="#" routerLink="/page-utilisateur-route" routerLinkActive="active" l10nTranslate>menu_utilisateur</a>
-        <a href="#" routerLink="/page-role-route" routerLinkActive="active" l10nTranslate>menu_role</a>
-        <a href="#" routerLink="/page-ressource-route" routerLinkActive="active" l10nTranslate>menu_ressource</a>
+        <a href="#" (click)="myTopNav.className='topnav'" routerLink="/page-utilisateur-route" routerLinkActive="active">
+          <span l10nTranslate>menu_utilisateur</span>
+        </a>
+        <a href="#" (click)="myTopNav.className='topnav'" routerLink="/page-role-route" routerLinkActive="active">
+          <span l10nTranslate>menu_role</span>
+        </a>
+        <a href="#" (click)="myTopNav.className='topnav'" routerLink="/page-ressource-route" routerLinkActive="active">
+          <span l10nTranslate>menu_ressource</span>
+        </a>
       </div>
     </div>
 
     <!-- Module reservation -->
     <div class="dropdown">
-      <button class="dropbtn" l10nTranslate>menu_titre_reservation
+      <button class="dropbtn">
+        <span l10nTranslate>menu_titre_reservation</span>
         <em class="fa fa-caret-down"></em>
       </button>
       <div class="dropdown-content">
-        <a href="#" routerLink="/page-reservations-route" routerLinkActive="active" l10nTranslate>menu_reservations</a>
-        <a href="#" routerLink="/page-adminreservations-route" routerLinkActive="active" l10nTranslate>menu_adminreservations</a>
+        <a href="#" (click)="myTopNav.className='topnav'" routerLink="/page-reservations-route" routerLinkActive="active">
+          <span l10nTranslate>menu_reservations</span>
+        </a>
+        <a href="#" (click)="myTopNav.className='topnav'" routerLink="/page-adminreservations-route" routerLinkActive="active">
+          <span l10nTranslate>menu_adminreservations</span>
+        </a>
       </div>
     </div>
     <div class="dropdown">
-      <button class="dropbtn" l10nTranslate>menu_titre_consommation
+      <button class="dropbtn">
+        <span l10nTranslate>menu_titre_consommation</span>
         <em class="fa fa-caret-down"></em>
       </button>
       <div class="dropdown-content">
-        <a href="#" routerLink="/page-consommations-route" routerLinkActive="active" l10nTranslate>menu_consommation</a>
-        <a href="#" routerLink="/page-adminconsommations-route" routerLinkActive="active" l10nTranslate>menu_adminconsommation</a>
+        <a href="#" (click)="myTopNav.className='topnav'" routerLink="/page-consommations-route" routerLinkActive="active"
+          l10nTranslate>menu_consommation</a>
+        <a href="#" (click)="myTopNav.className='topnav'" routerLink="/page-adminconsommations-route" routerLinkActive="active"
+          l10nTranslate>menu_adminconsommation</a>
       </div>
     </div>
 
