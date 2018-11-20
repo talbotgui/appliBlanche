@@ -10,4 +10,4 @@ span.libelleDatePicker { margin-right: 10px; }
 
 /** mise en forme des données du tableau de réservation */
 div.weekend > div { background-color: lightgray; }
-span.reservation { font-size: 0.8em; }
+span.reservation { font-size: 0.8em; cursor: pointer; }
