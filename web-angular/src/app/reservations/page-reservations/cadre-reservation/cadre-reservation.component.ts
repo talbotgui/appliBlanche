@@ -74,7 +74,7 @@ export class CadreReservationComponent implements OnInit {
     this.reservationSelectionnee = r;
     // Calcul de l'objet portant les options
     this.optionsCalculeesPourLaReservationSelectionnee = {};
-    if (this.options) {
+    if (this.options && r && r.options) {
       for (const o of this.options) {
         const estSelectionnee = (r.options.findIndex((oSel) => o.reference === oSel.reference) >= 0);
         this.optionsCalculeesPourLaReservationSelectionnee[o.reference] = estSelectionnee;
