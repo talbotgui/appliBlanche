@@ -89,6 +89,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 						(UserDetailsServiceWrapper) this.userDetailsService, this.accessControlAllowHeaders, this.accessControlExposeHeaders),
 						UsernamePasswordAuthenticationFilter.class)
 				// Ajout du filtre vérifiant la présence du token JWT
-				.addFilterBefore(new JWTAuthenticationFilter(this.parametresJwt), UsernamePasswordAuthenticationFilter.class);
+				.addFilterBefore(new JWTAuthenticationFilter(this.parametresJwt), UsernamePasswordAuthenticationFilter.class)
+				// Ajout du filtre des entêtes de sécurité avant tous les autres
+				.addFilterBefore(new EnteteDeReponseFilter(this.accessControlAllowHeaders, this.accessControlExposeHeaders),
+						JWTConnexionFilter.class);
 	}
 }

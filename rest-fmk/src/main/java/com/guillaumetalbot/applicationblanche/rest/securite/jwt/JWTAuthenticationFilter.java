@@ -9,10 +9,12 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
@@ -91,7 +93,16 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
 			LOG.info("Requête {} sans token JWT en entête", httpRequete.getServletPath());
 		}
 
+		// Si la requête est celle permettant de vérifier que l'utilisateur est connecté (GET sur '/v1/utilisateurs/moi')
+		// on renvoi 204 s'il n'est pas connecté
+		if (HttpMethod.GET.name().equals(httpRequete.getMethod()) && "/v1/utilisateurs/moi".equals(httpRequete.getServletPath())
+				&& SecurityContextHolder.getContext().getAuthentication() == null) {
+			((HttpServletResponse) response).setStatus(HttpStatus.NO_CONTENT.value());
+		}
+
 		// Le filtre a fini son boulo. Si cette URL est protégée, Spring refusera l'accès à la ressource
-		filterChain.doFilter(request, response);
+		else {
+			filterChain.doFilter(request, response);
+		}
 	}
 }
