@@ -84,3 +84,7 @@ export class Ressource {
   /** Description */
   description: string;
 }
+
+/** Gestion du menu */
+export class PageApplicative { constructor(public nom: string, public route: string) { } }
+export class ModuleApplicatif { constructor(public nom: string, public pages: PageApplicative[]) { } }
