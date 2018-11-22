@@ -15,12 +15,6 @@ import * as model from '../model/model';
 @Injectable()
 export class SecuriteService {
 
-  /** Utilisateur connecté */
-  private utilisateurConnecte: model.Utilisateur | undefined;
-
-  /** Toutes les clefs de l'utilisateur connecté */
-  private toutesLesClefsAutorisees: string[] = [];
-
   /** Flag indiquant que l'utilisateur s'est déconnecté */
   private aDemandeLaDeconnexion = false;
 
@@ -107,30 +101,35 @@ export class SecuriteService {
   }
 
   validerAutorisations(clefs: string[]): string[] {
-    return clefs.filter((c) => this.toutesLesClefsAutorisees.indexOf(c) !== -1);
+    // Lecture des données du storage
+    const clefsDuStorage = localStorage.getItem('CLEFS');
+    let toutesLesClefsAutorisees: string[] = [];
+    if (clefsDuStorage) {
+      toutesLesClefsAutorisees = clefsDuStorage.split('|');
+    }
+    // Validation des clefs fournies en entrée
+    return clefs.filter((c) => toutesLesClefsAutorisees.indexOf(c) !== -1);
   }
 
   /** Conservation en memoire de l'utilisateur connecte */
   private conserverUtilisateurConnecteEnMemoire(utilisateur: model.Utilisateur): void {
 
     // Conservation des informations
-    this.utilisateurConnecte = utilisateur;
     let clefsAutorisees: string[] = [];
-    this.utilisateurConnecte.roles.forEach((r) => {
+    utilisateur.roles.forEach((r) => {
       clefsAutorisees = clefsAutorisees.concat(r.ressourcesAutorisees.map((r) => r.clef));
     });
-    this.toutesLesClefsAutorisees = clefsAutorisees;
+    localStorage.setItem('CLEFS', clefsAutorisees.join('|'));
 
     // Notification de l'evenement
-    this.context.notifierConnexionDunUtilisateur(this.utilisateurConnecte);
+    this.context.notifierConnexionDunUtilisateur(utilisateur);
   }
 
   /** Supprime les informations conservées de l'utilisateur connecté */
   private nettoyerDonneesDeConnexion() {
 
     // Nettoyage des informations
-    this.utilisateurConnecte = undefined;
-    this.toutesLesClefsAutorisees = [];
+    localStorage.removeItem('CLEFS');
     localStorage.removeItem('JWT');
 
     // Notification de l'evenement
