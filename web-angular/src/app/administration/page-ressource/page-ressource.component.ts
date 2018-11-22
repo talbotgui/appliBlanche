@@ -5,10 +5,10 @@ import { tap } from 'rxjs/operators';
 import { merge } from 'rxjs';
 import { Language } from 'angular-l10n';
 
-import { DataSourceComponent } from '../../shared/service/datasource.component';
 import { RessourceService } from '../service/ressource.service';
 import * as model from '../../model/model';
 import { RoleService } from '../service/role.service';
+import { DataSourcePagineTrieComponent } from '../../shared/service/datasourcePagineTrie.component';
 
 /** Page listant les ressources et permettant leur création, modification et suppression */
 @Component({ selector: 'page-ressource', templateUrl: './page-ressource.component.html', styleUrls: ['./page-ressource.component.css'] })
@@ -24,7 +24,7 @@ export class PageRessourceComponent implements OnInit {
   get columnsToDisplay(): string[] { return this.colonnesFixes.concat(this.roles.map((r) => r.nom)); }
 
   /** DataSource du tableau (initialisé dans le onInit) */
-  dataSource: DataSourceComponent<model.Ressource>;
+  dataSource: DataSourcePagineTrieComponent<model.Ressource>;
 
   /** Liste des roles existants */
   roles: model.Role[] = [];
@@ -42,7 +42,7 @@ export class PageRessourceComponent implements OnInit {
   ngOnInit(): void {
 
     // Chargement des ressources
-    this.dataSource = new DataSourceComponent<model.Ressource>((page) => this.ressourceService.listerRessources(page));
+    this.dataSource = new DataSourcePagineTrieComponent<model.Ressource>((page) => this.ressourceService.listerRessources(page));
     this.dataSource.load();
 
     // Chargement des roles

@@ -1,12 +1,12 @@
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { of, BehaviorSubject ,  Observable } from 'rxjs';
+import { of, BehaviorSubject, Observable } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
 import { MatPaginator, MatSort } from '@angular/material';
 
 import * as model from '../../model/model';
 
 /** Datasource utilisé pour alimenter un tableau paginé */
-export class DataSourceComponent<T> implements DataSource<T> {
+export class DataSourcePagineTrieComponent<T> implements DataSource<T> {
 
   /** BehaviorSubject informant d'un chargement en cours */
   public loadingSubject = new BehaviorSubject<boolean>(false);

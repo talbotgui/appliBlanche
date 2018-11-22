@@ -5,9 +5,9 @@ import { tap } from 'rxjs/operators';
 import { merge } from 'rxjs';
 import { Language } from 'angular-l10n';
 
-import { DataSourceComponent } from '../../shared/service/datasource.component';
 import { RoleService } from '../service/role.service';
 import * as model from '../../model/model';
+import { DataSourcePagineTrieComponent } from '../../shared/service/datasourcePagineTrie.component';
 
 /** Page listant les roles et permettant leur création, modification et suppression */
 @Component({ selector: 'page-role', templateUrl: './page-role.component.html', styleUrls: ['./page-role.component.css'] })
@@ -20,7 +20,7 @@ export class PageRoleComponent implements OnInit {
   displayedColumns: string[] = ['nom', 'actions'];
 
   /** DataSource du tableau (initialisé dans le onInit) */
-  dataSource: DataSourceComponent<model.Role>;
+  dataSource: DataSourcePagineTrieComponent<model.Role>;
 
   /** Composant de pagination */
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -37,7 +37,7 @@ export class PageRoleComponent implements OnInit {
   /** Initialisation des composants de la page */
   ngOnInit(): void {
     // Creation du datasource
-    this.dataSource = new DataSourceComponent<model.Role>((page) => this.roleService.listerRoles(page));
+    this.dataSource = new DataSourcePagineTrieComponent<model.Role>((page) => this.roleService.listerRoles(page));
 
     // Chargement des données avec les paramètres par défaut (nb éléments par page par défaut défini dans le DataSource)
     this.dataSource.load();
