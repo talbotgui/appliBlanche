@@ -4,7 +4,10 @@
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 col-12" matSort>
 
 	<ng-container matColumnDef="clef">
-		<th mat-header-cell *matHeaderCellDef mat-sort-header l10nTranslate>ressource_entete_clef</th>
+		<th mat-header-cell *matHeaderCellDef mat-sort-header>
+			<mat-spinner diameter="20" *ngIf="dataSource.loading | async"></mat-spinner>
+			<span l10nTranslate>ressource_entete_clef</span>
+		</th>
 		<td mat-cell *matCellDef="let ressource">{{ressource.clef}}</td>
 	</ng-container>
 	<ng-container matColumnDef="description">

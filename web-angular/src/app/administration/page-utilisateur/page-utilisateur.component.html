@@ -4,7 +4,10 @@
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 col-12">
 
 	<ng-container matColumnDef="login">
-		<th mat-header-cell *matHeaderCellDef l10nTranslate>utilisateur_entete_identifiant</th>
+		<th mat-header-cell *matHeaderCellDef>
+			<mat-spinner diameter="20" *ngIf="dataSource.loading | async"></mat-spinner>
+			<span l10nTranslate>utilisateur_entete_identifiant</span>
+		</th>
 		<td mat-cell *matCellDef="let element">{{element.login}}</td>
 	</ng-container>
 	<ng-container matColumnDef="roles">

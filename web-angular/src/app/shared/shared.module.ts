@@ -7,7 +7,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatInputModule, MatCommonModule, MatButtonModule, MatCardModule, MatChipsModule, MatDatepickerModule } from '@angular/material';
 import { MatGridListModule, MatPaginatorModule, MatSortModule, MatTableModule } from '@angular/material';
 import { MatSnackBarModule, MatTooltipModule, MatNativeDateModule, DateAdapter } from '@angular/material';
-import { MatCheckboxModule } from '@angular/material';
+import { MatCheckboxModule, MatProgressSpinnerModule } from '@angular/material';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -117,6 +117,7 @@ export const l10nConfig: L10nConfig = {
     BrowserAnimationsModule, MatInputModule, MatButtonModule, MatCardModule, MatChipsModule, MatDatepickerModule,
     MatGridListModule, MatNativeDateModule, MatRadioModule, MatSelectModule, MatSidenavModule, MatSnackBarModule,
     MatTooltipModule, MatPaginatorModule, MatSortModule, MatTableModule, MatCommonModule, MatCheckboxModule,
+    MatProgressSpinnerModule,
 
     // Le module l10n
     TranslationModule
