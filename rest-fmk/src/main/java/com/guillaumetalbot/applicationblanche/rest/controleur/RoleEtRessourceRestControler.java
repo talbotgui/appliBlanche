@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,7 +37,10 @@ public class RoleEtRessourceRestControler {
 	}
 
 	@GetMapping("/ressources")
-	public Page<Ressource> listerRessource(final Pageable page) {
+	public Page<Ressource> listerRessource(@RequestParam(required = false, value = "pageSize") final Integer pageSize,
+			@RequestParam(required = false, value = "pageNumber") final Integer pageNumber,
+			@RequestParam(required = false, value = "triParNom") final Boolean triParNom) {
+		final Pageable page = RestControlerUtils.creerPageSiPossible(pageSize, pageNumber, null);
 		return this.securiteService.listerRessources(page);
 	}
 
@@ -54,8 +58,8 @@ public class RoleEtRessourceRestControler {
 		this.securiteService.sauvegarderRole(nom);
 	}
 
-	@PostMapping("/v1/roles")
-	public void sauvegarderUtilisateur(@RequestParam(value = "nom", required = true) final String nom) {
-		this.securiteService.sauvegarderRole(nom);
+	@DeleteMapping(value = "/roles/{nom}")
+	public void supprimerRole(@PathVariable(value = "nom") final String nom) {
+		this.securiteService.supprimerRole(nom);
 	}
 }

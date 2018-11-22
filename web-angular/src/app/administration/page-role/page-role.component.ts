@@ -102,9 +102,4 @@ export class PageRoleComponent implements OnInit {
         }
       });
   }
-
-  /** A la sélection d'un role */
-  selectionner(role: model.Role) {
-    this.roleSelectionne = role;
-  }
 }

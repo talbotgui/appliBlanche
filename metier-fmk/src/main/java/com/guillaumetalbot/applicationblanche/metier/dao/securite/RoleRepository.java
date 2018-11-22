@@ -11,7 +11,7 @@ public interface RoleRepository extends CrudRepository<Role, String> {
 
 	// Obligation de définir countQuery à cause du "join fetch"
 	@Query(value = "select r from Role r left join fetch r.ressourcesAutorisees re order by r.nom, re.clef", //
-			countQuery = "select count(r) from Role r order by r.nom")
+			countQuery = "select count(r) from Role r")
 	Page<Role> listerRoles(Pageable requete);
 
 }

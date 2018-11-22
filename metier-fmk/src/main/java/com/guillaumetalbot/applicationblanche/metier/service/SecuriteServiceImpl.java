@@ -285,6 +285,12 @@ public class SecuriteServiceImpl implements SecuriteService {
 	}
 
 	@Override
+	public void supprimerRole(final String nom) {
+		this.lienRoleRessourceRepo.supprimerParRole(nom);
+		this.roleRepo.deleteById(nom);
+	}
+
+	@Override
 	public void supprimerUtilisateur(final String login) {
 		this.utilisateurRepo.deleteById(login);
 	}

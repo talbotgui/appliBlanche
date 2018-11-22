@@ -27,6 +27,12 @@ public final class RestControlerUtils {
 	 */
 	public static Pageable creerPageSiPossible(final Integer pageSize, final Integer pageNumber, final Sort tri) {
 
+		// Si aucun tri
+		Sort triUtilise = tri;
+		if (triUtilise == null) {
+			triUtilise = QSort.unsorted();
+		}
+
 		// aucun paramètre fourni donc pas de pagination
 		if (pageSize == null && pageNumber == null) {
 			return null;
@@ -38,7 +44,7 @@ public final class RestControlerUtils {
 		}
 
 		// renvoi d'une page
-		return PageRequest.of(pageNumber, pageSize, tri);
+		return PageRequest.of(pageNumber, pageSize, triUtilise);
 	}
 
 	public static Sort creerTriSiPossible(final String nomChamps, final Boolean ordre) {

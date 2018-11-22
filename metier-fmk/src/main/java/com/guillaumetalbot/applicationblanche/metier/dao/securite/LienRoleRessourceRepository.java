@@ -29,4 +29,8 @@ public interface LienRoleRessourceRepository extends CrudRepository<LienRoleRess
 	@Query("delete from LienRoleRessource where id.ressource in :ressources")
 	@Modifying
 	void supprimerParRessources(@Param("ressources") Collection<Ressource> ressources);
+
+	@Query("delete from LienRoleRessource where id.role.nom = :nomRole")
+	@Modifying
+	void supprimerParRole(@Param("nomRole") String nomRole);
 }
