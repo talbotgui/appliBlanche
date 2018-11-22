@@ -24,17 +24,17 @@ export class RessourceService {
   listerRessources(page: model.Page<any>): Observable<{} | model.Page<model.Ressource>> {
 
     // Seul un tri par défaut est possible
-    let triParNom: string = '';
+    let triParClef: string = '';
     if (page.sort) {
       if (page.sort.sortOrder === 'asc') {
-        triParNom = 'true';
+        triParClef = 'true';
       } else {
-        triParNom = 'false';
+        triParClef = 'false';
       }
     }
 
     // Appel à l'API
-    const url = environment.baseUrl + '/v1/ressources?pageNumber=' + page.number + '&pageSize=' + page.size + '&triParNom=' + triParNom;
+    const url = environment.baseUrl + '/v1/ressources?pageNumber=' + page.number + '&pageSize=' + page.size + '&triParClef=' + triParClef;
     return this.http.get<model.Page<model.Ressource>>(url, this.restUtils.creerHeader());
   }
 

@@ -39,8 +39,9 @@ public class RoleEtRessourceRestControler {
 	@GetMapping("/ressources")
 	public Page<Ressource> listerRessource(@RequestParam(required = false, value = "pageSize") final Integer pageSize,
 			@RequestParam(required = false, value = "pageNumber") final Integer pageNumber,
-			@RequestParam(required = false, value = "triParNom") final Boolean triParNom) {
-		final Pageable page = RestControlerUtils.creerPageSiPossible(pageSize, pageNumber, null);
+			@RequestParam(required = false, value = "triParClef") final Boolean triParClef) {
+		final Sort tri = RestControlerUtils.creerTriSiPossible("clef", triParClef);
+		final Pageable page = RestControlerUtils.creerPageSiPossible(pageSize, pageNumber, tri);
 		return this.securiteService.listerRessources(page);
 	}
 

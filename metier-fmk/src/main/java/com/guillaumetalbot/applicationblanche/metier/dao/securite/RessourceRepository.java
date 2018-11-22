@@ -15,7 +15,7 @@ import com.guillaumetalbot.applicationblanche.metier.entite.securite.Ressource;
  */
 public interface RessourceRepository extends CrudRepository<Ressource, String> {
 
-	@Query("select r from Ressource r order by r.clef")
+	@Query("select r from Ressource r")
 	Page<Ressource> listerRessources(Pageable page);
 
 	@Query("select r.chemin from Ressource r group by r.chemin having count(r) > 1")
