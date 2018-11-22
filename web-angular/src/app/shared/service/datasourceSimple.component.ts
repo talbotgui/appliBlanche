@@ -2,7 +2,7 @@ import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { of, BehaviorSubject, Observable } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
 
-/** Datasource utilisé pour alimenter un tableau paginé */
+/** Datasource utilisé pour alimenter un tableau non paginé ni trié */
 export class DataSourceSimpleComponent<T> implements DataSource<T> {
 
   /** BehaviorSubject informant d'un chargement en cours */
