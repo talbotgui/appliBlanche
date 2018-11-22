@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import * as model from '../model/model';
 import { SecuriteService } from '../service/securite.service';
+import { Context } from '../shared/service/context';
 
 /** Menu de l'application */
 @Component({ selector: 'cadre-menu', templateUrl: './cadre-menu.component.html', styleUrls: ['./cadre-menu.component.css'] })
@@ -11,30 +12,53 @@ export class CadreMenuComponent implements OnInit {
   modules: model.ModuleApplicatif[] = [];
 
   /** Un constructeur pour se faire injecter les dépendances */
-  constructor(private router: Router, private securiteService: SecuriteService) { }
+  constructor(private router: Router, private securiteService: SecuriteService, private context: Context) { }
 
   /** A l'initialisation */
   ngOnInit() {
-    this.modules = [];
+    const tousLesModules: model.ModuleApplicatif[] = [];
 
     // Menu ADMINISTRATION
-    let pages = [];
-    pages.push(new model.PageApplicative('menu_utilisateur', '/page-utilisateur-route'));
-    pages.push(new model.PageApplicative('menu_role', '/page-role-route'));
-    pages.push(new model.PageApplicative('menu_ressource', '/page-ressource-route'));
-    this.modules.push(new model.ModuleApplicatif('menu_titre_administration', pages));
+    let pagesDuModule = [];
+    pagesDuModule.push(new model.PageApplicative('menu_utilisateur', 'utilisateurRestControler.listerUtilisateur', '/page-utilisateur-route'));
+    pagesDuModule.push(new model.PageApplicative('menu_role', 'roleEtRessourceRestControler.listerRoles', '/page-role-route'));
+    pagesDuModule.push(new model.PageApplicative('menu_ressource', 'roleEtRessourceRestControler.listerRessource', '/page-ressource-route'));
+    tousLesModules.push(new model.ModuleApplicatif('menu_titre_administration', pagesDuModule));
 
     // Menu RESERVATION
-    pages = [];
-    pages.push(new model.PageApplicative('menu_reservations', '/page-reservations-route'));
-    pages.push(new model.PageApplicative('menu_adminreservations', '/page-adminreservations-route'));
-    this.modules.push(new model.ModuleApplicatif('menu_titre_reservation', pages));
+    pagesDuModule = [];
+    pagesDuModule.push(new model.PageApplicative('menu_reservations', 'reservationRestControler.rechercherReservations', '/page-reservations-route'));
+    pagesDuModule.push(new model.PageApplicative('menu_adminreservations', 'reservationParametresRestControler.listerChambres', '/page-adminreservations-route'));
+    tousLesModules.push(new model.ModuleApplicatif('menu_titre_reservation', pagesDuModule));
 
     // Menu CONSOMMATION
-    pages = [];
-    pages.push(new model.PageApplicative('menu_consommation', '/page-consommations-route'));
-    pages.push(new model.PageApplicative('menu_adminconsommation', '/page-adminconsommations-route'));
-    this.modules.push(new model.ModuleApplicatif('menu_titre_consommation', pages));
+    pagesDuModule = [];
+    pagesDuModule.push(new model.PageApplicative('menu_consommation', 'reservationRestControler.rechercherConsommationsDuneReservation', '/page-consommations-route'));
+    pagesDuModule.push(new model.PageApplicative('menu_adminconsommation', 'reservationParametresRestControler.listerProduits', '/page-adminconsommations-route'));
+    tousLesModules.push(new model.ModuleApplicatif('menu_titre_consommation', pagesDuModule));
+
+    // Résumé des clefs nécessaires aux pages
+    let clefs: string[] = [];
+    tousLesModules.forEach((m) => {
+      clefs = clefs.concat(m.pages.map((p) => p.clefApi));
+    });
+
+    // A la connexion/déconnexion d'un utilisateur
+    this.context.notificationsConnexionDunUtilisateur.subscribe((u) => {
+
+      // Validation des éléments du menu autorisés à cet utilisateur
+      const clefsAutorisees = this.securiteService.validerAutorisations(clefs);
+      const modulesAutorises: model.ModuleApplicatif[] = [];
+      tousLesModules.forEach((m) => {
+        const pagesAutorisees = m.pages.filter((p) => clefsAutorisees.indexOf(p.clefApi) !== -1);
+        if (pagesAutorisees.length > 0) {
+          modulesAutorises.push(new model.ModuleApplicatif(m.nom, pagesAutorisees));
+        }
+      });
+
+      // Affectation des modules autorisés
+      this.modules = modulesAutorises;
+    });
   }
 
   /** Déconnexion de l'utilisateur */

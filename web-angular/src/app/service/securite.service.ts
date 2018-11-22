@@ -1,18 +1,25 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { RestUtilsService } from '../shared/service/restUtils.service';
 import { environment } from '../../environments/environment';
+
+import { RestUtilsService } from '../shared/service/restUtils.service';
 import { HttpProxy } from '../shared/service/httpProxy.component';
+import { Context } from '../shared/service/context';
 
 import * as model from '../model/model';
 
 /** Composant TS de gestion de la sécurité */
 @Injectable()
 export class SecuriteService {
+
+  /** Utilisateur connecté */
+  private utilisateurConnecte: model.Utilisateur | undefined;
+
+  /** Toutes les clefs de l'utilisateur connecté */
+  private toutesLesClefsAutorisees: string[] = [];
 
   /** Flag indiquant que l'utilisateur s'est déconnecté */
   private aDemandeLaDeconnexion = false;
@@ -21,7 +28,7 @@ export class SecuriteService {
   private tokenDejaValide = false;
 
   /** Un constructeur pour se faire injecter les dépendances */
-  constructor(private http: HttpProxy, private restUtils: RestUtilsService) { }
+  constructor(private http: HttpProxy, private restUtils: RestUtilsService, private context: Context) { }
 
   /** Tentative de connexion d'un utilisateur */
   connecter(login: string, mdp: string, callback: () => void, callbackErreurParametresConnexion: (error: any) => void): void {
@@ -50,6 +57,11 @@ export class SecuriteService {
         // Lecture du token
         const token = reponse.headers.get('Authorization');
 
+        // Sauvegarde des informations de l'utilisateur connecté
+        if (reponse.body) {
+          this.conserverUtilisateurConnecteEnMemoire(reponse.body);
+        }
+
         // Sauvegarde du token dans le localstorage
         if (token) {
           localStorage.setItem('JWT', token);
@@ -64,7 +76,7 @@ export class SecuriteService {
   /** Demande de déconnexion */
   deconnecter(): void {
     this.aDemandeLaDeconnexion = true;
-    localStorage.removeItem('JWT');
+    this.nettoyerDonneesDeConnexion();
   }
 
   /** Informe si l'utilisateur est bien connecté */
@@ -89,8 +101,39 @@ export class SecuriteService {
     return this.http.get<model.Utilisateur>(url, this.restUtils.creerHeader()).pipe(
       // en cas d'erreur du service REST, on supprime le token
       catchError<any, boolean>(() => {
-        localStorage.removeItem('JWT');
+        this.nettoyerDonneesDeConnexion();
         return of(false);
       }));
+  }
+
+  validerAutorisations(clefs: string[]): string[] {
+    return clefs.filter((c) => this.toutesLesClefsAutorisees.indexOf(c) !== -1);
+  }
+
+  /** Conservation en memoire de l'utilisateur connecte */
+  private conserverUtilisateurConnecteEnMemoire(utilisateur: model.Utilisateur): void {
+
+    // Conservation des informations
+    this.utilisateurConnecte = utilisateur;
+    let clefsAutorisees: string[] = [];
+    this.utilisateurConnecte.roles.forEach((r) => {
+      clefsAutorisees = clefsAutorisees.concat(r.ressourcesAutorisees.map((r) => r.clef));
+    });
+    this.toutesLesClefsAutorisees = clefsAutorisees;
+
+    // Notification de l'evenement
+    this.context.notifierConnexionDunUtilisateur(this.utilisateurConnecte);
+  }
+
+  /** Supprime les informations conservées de l'utilisateur connecté */
+  private nettoyerDonneesDeConnexion() {
+
+    // Nettoyage des informations
+    this.utilisateurConnecte = undefined;
+    this.toutesLesClefsAutorisees = [];
+    localStorage.removeItem('JWT');
+
+    // Notification de l'evenement
+    this.context.notifierConnexionDunUtilisateur(undefined);
   }
 }
