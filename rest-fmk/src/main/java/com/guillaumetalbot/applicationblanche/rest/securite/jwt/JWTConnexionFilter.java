@@ -41,10 +41,6 @@ public class JWTConnexionFilter extends AbstractAuthenticationProcessingFilter {
 
 	private static final String PARAMETRE_LOGIN_EN_REQUETE = "login";
 
-	private final String accessControlAllowHeaders;
-
-	private final String accessControlExposeHeaders;
-
 	/** Paramètres JWT présents dans les application.properties */
 	private final ParametresJwt parametresJwt;
 
@@ -57,24 +53,13 @@ public class JWTConnexionFilter extends AbstractAuthenticationProcessingFilter {
 	 * @param parametresJwt
 	 * @param authManager
 	 * @param securiteService
-	 * @param accessControlAllowHeaders
-	 * @param accessControlExposeHeaders
 	 */
 	public JWTConnexionFilter(final ParametresJwt parametresJwt, final AuthenticationManager authManager,
-			final UserDetailsServiceWrapper securiteService, final String accessControlAllowHeaders, final String accessControlExposeHeaders) {
+			final UserDetailsServiceWrapper securiteService) {
 		super(new AntPathRequestMatcher(parametresJwt.getUrlConnexion(), HttpMethod.POST.name()));
 		this.setAuthenticationManager(authManager);
 		this.parametresJwt = parametresJwt;
 		this.securiteService = securiteService;
-		this.accessControlAllowHeaders = accessControlAllowHeaders;
-		this.accessControlExposeHeaders = accessControlExposeHeaders;
-	}
-
-	private void ajouterLesEntetesHttp(final HttpServletRequest req, final HttpServletResponse res) {
-		// Ajout des tokens de sécurité
-		res.setHeader("Access-Control-Allow-Origin", req.getHeader("Origin"));
-		res.setHeader("Access-Control-Allow-Headers", this.accessControlAllowHeaders);
-		res.setHeader("Access-Control-Expose-Headers", this.accessControlExposeHeaders);
 	}
 
 	/**
@@ -129,10 +114,14 @@ public class JWTConnexionFilter extends AbstractAuthenticationProcessingFilter {
 				.compact();
 		res.addHeader(this.parametresJwt.getHeaderKey(), this.parametresJwt.getTokenPrefix() + " " + JWT);
 
-		this.ajouterLesEntetesHttp(req, res);
-
 		// on notifie le service métier de la bonne connexion
 		this.securiteService.notifierConnexion(login, true);
+
+		// On ajoute l'utilisateur, ses roles et ressources autorisées dans la réponse
+		res.setContentType("application/json");
+		final String json = new ObjectMapper().writeValueAsString(utilisateur);
+		res.getOutputStream().write(json.getBytes("UTF8"));
+		res.getOutputStream().flush();
 	}
 
 	/**
@@ -143,7 +132,6 @@ public class JWTConnexionFilter extends AbstractAuthenticationProcessingFilter {
 			final AuthenticationException failed) throws IOException, ServletException {
 
 		// Ajout des entêtes
-		this.ajouterLesEntetesHttp(request, response);
 		super.unsuccessfulAuthentication(request, response, failed);
 
 		// on notifie le service métier de la bonne connexion
