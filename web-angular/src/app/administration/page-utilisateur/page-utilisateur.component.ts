@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Language } from 'angular-l10n';
 
 import { UtilisateurService } from '../service/utilisateur.service';
 import * as model from '../../model/model';
+import { DataSourceSimpleComponent } from '../../shared/service/datasourceSimple.component';
 
 /**
  * Page de visualisation et création des utilisateurs
@@ -14,35 +15,31 @@ export class PageUtilisateurComponent implements OnInit {
   /** Decorateur nécessaire aux libellés internationnalisés dans des tooltips */
   @Language() lang: string;
 
-  /** Liste des utilisateurs à afficher */
-  utilisateurs: model.Utilisateur[];
-
   /** Utilisateur en cours d'édition */
   utilisateurSelectionne: model.Utilisateur | undefined;
 
   /** Flag permettant de savoir si c'est une création ou une modification (pour bloquer le login) */
   creation: boolean = false;
 
+  /** Liste des colonnes à afficher dans le tableau */
+  displayedColumns: string[] = ['login', 'roles', 'actions'];
+
+  /** DataSource du tableau (initialisé dans le onInit) */
+  dataSource: DataSourceSimpleComponent<model.Utilisateur>;
+
   /** Un constructeur pour se faire injecter les dépendances */
   constructor(private route: ActivatedRoute, private utilisateurService: UtilisateurService) { }
 
   /** Appel au service à l'initialisation du composant */
   ngOnInit(): void {
+    // Reset du formulaire
+    this.annulerCreationUtilisateur();
 
-    this.chargerDonnees();
+    // Creation du datasource
+    this.dataSource = new DataSourceSimpleComponent<model.Utilisateur>(() => this.utilisateurService.listerUtilisateurs());
 
-    // Si des paramètres sont présents, initialisation du formulaire avec les données de l'objet indiqué
-    this.route.params.subscribe((params: { [key: string]: any }) => {
-      /* tslint:disable-next-line */
-      const loginUtilisateur = params['loginUtilisateur'];
-      if (loginUtilisateur) {
-        this.utilisateurs.forEach((u) => {
-          if (u.login === loginUtilisateur) {
-            this.utilisateurSelectionne = u;
-          }
-        });
-      }
-    });
+    // Chargement des données avec les paramètres par défaut (nb éléments par page par défaut défini dans le DataSource)
+    this.dataSource.load();
   }
 
   /** On annule la creation en masquant le formulaire */
@@ -59,8 +56,10 @@ export class PageUtilisateurComponent implements OnInit {
   /** Appel au service de sauvegarde puis rechargement des données */
   sauvegarderUtilisateur() {
     if (this.utilisateurSelectionne) {
-      this.utilisateurService.sauvegarderUtilisateur(this.utilisateurSelectionne)
-        .subscribe((retour) => { this.chargerDonnees(); });
+      this.utilisateurService.sauvegarderUtilisateur(this.utilisateurSelectionne).subscribe((retour) => {
+        this.dataSource.load();
+        this.annulerCreationUtilisateur();
+      });
     }
   }
 
@@ -73,19 +72,9 @@ export class PageUtilisateurComponent implements OnInit {
   /** A la suppression  */
   supprimerUtilisateur(utilisateur: model.Utilisateur) {
     this.utilisateurService.supprimerUtilisateur(utilisateur)
-      .subscribe((retour) => { this.chargerDonnees(); });
+      .subscribe((retour) => {
+        this.dataSource.load();
+        this.annulerCreationUtilisateur();
+      });
   }
-
-  /** Chargement de la liste des utilisateurs */
-  private chargerDonnees() {
-
-    // Chargement de la liste des utilisateurs
-    this.utilisateurService.listerUtilisateurs().subscribe((liste: model.Utilisateur[]) => {
-      this.utilisateurs = liste;
-    });
-
-    // Reset du formulaire
-    this.annulerCreationUtilisateur();
-  }
-
 }
