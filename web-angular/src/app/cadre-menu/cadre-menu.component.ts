@@ -12,6 +12,9 @@ export class CadreMenuComponent implements OnInit {
   /** Liste des modules du menu autorisés à l'utilisateur connecté */
   modules: model.ModuleApplicatif[] = [];
 
+  /** Utilisateur connecté */
+  utilisateurConnecte: model.Utilisateur;
+
   /** Un constructeur pour se faire injecter les dépendances */
   constructor(private router: Router, private securiteService: SecuriteService, private context: Context) { }
 
@@ -45,7 +48,7 @@ export class CadreMenuComponent implements OnInit {
     });
 
     // A la connexion/déconnexion d'un utilisateur
-    this.context.notificationsConnexionDunUtilisateur.subscribe((u) => {
+    this.context.notificationsConnexionDunUtilisateur.subscribe((u: model.Utilisateur) => {
 
       // Validation des éléments du menu autorisés à cet utilisateur
       const clefsAutorisees = this.securiteService.validerAutorisations(clefs);
@@ -59,6 +62,9 @@ export class CadreMenuComponent implements OnInit {
 
       // Affectation des modules autorisés
       this.modules = modulesAutorises;
+
+      // Sauvegarde des données de l'utilisateur
+      this.utilisateurConnecte = u;
     });
   }
 
