@@ -8,4 +8,4 @@ td.mat-cell.cdk-column-clef.mat-column-clef { font-size: 0.6em; }
 div.conteneurCheckbox { height:100%; width: 100%; text-align: center; }
 
 /** Pour faire tourner les entêtes de role et les faire apparaître dans le th sans déborder */
-div.conteneurTitreRole { height:100%; width: 100%; margin:  30px 0px; transform: rotate(-30deg); transform-origin: center bottom 0; }
+div.conteneurTitreRole { height:100%; width: 100%; text-align: center; margin:  30px 0px; transform: rotate(-30deg); transform-origin: center bottom 0; }
