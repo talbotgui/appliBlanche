@@ -37,4 +37,10 @@ export class UtilisateurService {
     const url = environment.baseUrl + '/v1/utilisateurs/' + utilisateur.login;
     return this.http.delete<void>(url, this.restUtils.creerHeaderPost());
   }
+
+  /** Ajout/retrait d'un role à un utilisateur */
+  ajouterRetirerAutorisation(utilisateur: model.Utilisateur, role: model.Role, statut: boolean): Observable<{} | void> {
+    const url = environment.baseUrl + '/v1/utilisateurs/' + utilisateur.login + '/roles/' + role.nom;
+    return this.http.put<void>(url, statut, this.restUtils.creerHeader());
+  }
 }

@@ -21,6 +21,9 @@ public interface UtilisateurRepository extends CrudRepository<Utilisateur, Strin
 	@QueryHints(value = { @QueryHint(name = org.hibernate.jpa.QueryHints.HINT_READONLY, value = "true") })
 	Utilisateur chargerUtilisateurReadOnly(@Param("login") String login);
 
+	@Query("select count(u) from Utilisateur u join u.roles r where r.nom = :nomRole")
+	Long compterUtilisateursLiesAceRole(@Param("nomRole") String nomRole);
+
 	@Query("select u from Utilisateur u order by u.login")
 	Collection<Utilisateur> listerUtilisateur();
 

@@ -286,6 +286,12 @@ public class SecuriteServiceImpl implements SecuriteService {
 
 	@Override
 	public void supprimerRole(final String nom) {
+		// Bloquage si des utilisateurs sont liés à ce role
+		final Long nbUtilisateursLiesAceRole = this.utilisateurRepo.compterUtilisateursLiesAceRole(nom);
+		if (nbUtilisateursLiesAceRole > 0) {
+			throw new BusinessException(BusinessException.SUPPRESSION_IMPOSSIBLE_OBJETS_LIES, "utilisateur");
+		}
+
 		this.lienRoleRessourceRepo.supprimerParRole(nom);
 		this.roleRepo.deleteById(nom);
 	}

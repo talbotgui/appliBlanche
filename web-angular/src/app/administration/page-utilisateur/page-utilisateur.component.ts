@@ -5,6 +5,7 @@ import { Language } from 'angular-l10n';
 import { UtilisateurService } from '../service/utilisateur.service';
 import * as model from '../../model/model';
 import { DataSourceSimpleComponent } from '../../shared/service/datasourceSimple.component';
+import { RoleService } from '../service/role.service';
 
 /**
  * Page de visualisation et création des utilisateurs
@@ -27,8 +28,11 @@ export class PageUtilisateurComponent implements OnInit {
   /** DataSource du tableau (initialisé dans le onInit) */
   dataSource: DataSourceSimpleComponent<model.Utilisateur>;
 
+  /** Liste complète de tous les roles */
+  tousLesRoles: model.Role[];
+
   /** Un constructeur pour se faire injecter les dépendances */
-  constructor(private route: ActivatedRoute, private utilisateurService: UtilisateurService) { }
+  constructor(private route: ActivatedRoute, private utilisateurService: UtilisateurService, private roleService: RoleService) { }
 
   /** Appel au service à l'initialisation du composant */
   ngOnInit(): void {
@@ -40,6 +44,10 @@ export class PageUtilisateurComponent implements OnInit {
 
     // Chargement des données avec les paramètres par défaut (nb éléments par page par défaut défini dans le DataSource)
     this.dataSource.load();
+
+    // Chargement de la liste des roles
+    const pageRecherche = new model.Page<model.Role>(50, 0);
+    this.roleService.listerRoles(pageRecherche).subscribe((page: model.Page<model.Role>) => this.tousLesRoles = page.content);
   }
 
   /** On annule la creation en masquant le formulaire */
@@ -76,5 +84,13 @@ export class PageUtilisateurComponent implements OnInit {
         this.dataSource.load();
         this.annulerCreationUtilisateur();
       });
+  }
+
+  /** Ajout suppression du role à cet utilisateur */
+  ajouterRetirerRole(utilisateur: model.Utilisateur, role: model.Role, statut: boolean) {
+    this.utilisateurService.ajouterRetirerAutorisation(utilisateur, role, statut).subscribe(() => {
+      this.dataSource.load();
+      this.annulerCreationUtilisateur();
+    });
   }
 }
