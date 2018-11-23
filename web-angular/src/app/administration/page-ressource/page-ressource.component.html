@@ -15,9 +15,14 @@
 		<td mat-cell *matCellDef="let ressource">{{ressource.description}}</td>
 	</ng-container>
 	<ng-container [matColumnDef]="ro.nom" *ngFor="let ro of roles">
-		<th mat-header-cell *matHeaderCellDef>{{ro.nom}}</th>
+		<th mat-header-cell *matHeaderCellDef>
+			<div class="conteneurTitreRole">{{ro.nom}}
+			</div>
+		</th>
 		<td mat-cell *matCellDef="let ressource">
-			<mat-checkbox [checked]="estAutorise(ro, ressource)" (change)="changerAutorisation(ro, ressource)"></mat-checkbox>
+			<div class="conteneurCheckbox">
+				<mat-checkbox [checked]="estAutorise(ro, ressource)" (change)="changerAutorisation(ro, ressource)"></mat-checkbox>
+			</div>
 		</td>
 	</ng-container>
 
