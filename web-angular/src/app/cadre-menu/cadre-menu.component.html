@@ -1,5 +1,5 @@
 <div id="menu">
-  <div class="topnav" id="myTopnav" #myTopNav>
+  <div class="topnav" id="myTopnav" #myTopNav *ngIf="modules && modules.length > 0">
 
     <!-- Accueil -->
     <a href="#home" routerLink="/page-accueil-route" routerLinkActive="active" l10nTranslate>menu_accueil</a>
