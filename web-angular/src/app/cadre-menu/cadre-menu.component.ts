@@ -9,6 +9,7 @@ import { Context } from '../shared/service/context';
 @Component({ selector: 'cadre-menu', templateUrl: './cadre-menu.component.html', styleUrls: ['./cadre-menu.component.css'] })
 export class CadreMenuComponent implements OnInit {
 
+  /** Liste des modules du menu autorisés à l'utilisateur connecté */
   modules: model.ModuleApplicatif[] = [];
 
   /** Un constructeur pour se faire injecter les dépendances */
@@ -20,21 +21,21 @@ export class CadreMenuComponent implements OnInit {
 
     // Menu ADMINISTRATION
     let pagesDuModule = [];
-    pagesDuModule.push(new model.PageApplicative('menu_utilisateur', 'utilisateurRestControler.listerUtilisateur', '/page-utilisateur-route'));
-    pagesDuModule.push(new model.PageApplicative('menu_role', 'roleEtRessourceRestControler.listerRoles', '/page-role-route'));
-    pagesDuModule.push(new model.PageApplicative('menu_ressource', 'roleEtRessourceRestControler.listerRessource', '/page-ressource-route'));
+    pagesDuModule.push(new model.PageApplicative('menu_utilisateur', 'utilisateur.listerUtilisateur', '/page-utilisateur-route'));
+    pagesDuModule.push(new model.PageApplicative('menu_role', 'roleEtRessource.listerRoles', '/page-role-route'));
+    pagesDuModule.push(new model.PageApplicative('menu_ressource', 'roleEtRessource.listerRessource', '/page-ressource-route'));
     tousLesModules.push(new model.ModuleApplicatif('menu_titre_administration', pagesDuModule));
 
     // Menu RESERVATION
     pagesDuModule = [];
-    pagesDuModule.push(new model.PageApplicative('menu_reservations', 'reservationRestControler.rechercherReservations', '/page-reservations-route'));
-    pagesDuModule.push(new model.PageApplicative('menu_adminreservations', 'reservationParametresRestControler.listerChambres', '/page-adminreservations-route'));
+    pagesDuModule.push(new model.PageApplicative('menu_reservations', 'reservation.rechercherReservations', '/page-reservations-route'));
+    pagesDuModule.push(new model.PageApplicative('menu_adminreservations', 'reservationParametres.listerChambres', '/page-adminreservations-route'));
     tousLesModules.push(new model.ModuleApplicatif('menu_titre_reservation', pagesDuModule));
 
     // Menu CONSOMMATION
     pagesDuModule = [];
-    pagesDuModule.push(new model.PageApplicative('menu_consommation', 'reservationRestControler.rechercherConsommationsDuneReservation', '/page-consommations-route'));
-    pagesDuModule.push(new model.PageApplicative('menu_adminconsommation', 'reservationParametresRestControler.listerProduits', '/page-adminconsommations-route'));
+    pagesDuModule.push(new model.PageApplicative('menu_consommation', 'reservation.rechercherConsommationsDuneReservation', '/page-consommations-route'));
+    pagesDuModule.push(new model.PageApplicative('menu_adminconsommation', 'reservationParametres.listerProduits', '/page-adminconsommations-route'));
     tousLesModules.push(new model.ModuleApplicatif('menu_titre_consommation', pagesDuModule));
 
     // Résumé des clefs nécessaires aux pages
