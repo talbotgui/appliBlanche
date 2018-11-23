@@ -1,5 +1,7 @@
 package com.guillaumetalbot.applicationblanche.rest.securite;
 
+import java.lang.reflect.Method;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,6 +18,29 @@ import com.guillaumetalbot.applicationblanche.rest.securite.jwt.AuthenticationTo
 public class IntercepteurDesRessourcesAutorisees implements HandlerInterceptor {
 
 	private static final Logger LOG = LoggerFactory.getLogger(IntercepteurDesRessourcesAutorisees.class);
+
+	/**
+	 * Calcul de la clef de sécurité protégeant une méthode de controleur REST
+	 *
+	 * @param nomBean
+	 *            Nom de la classe
+	 * @param methode
+	 *            Méthode à protéger
+	 * @param controleursRestSuffix
+	 *            Suffixe des controleurs REST
+	 * @return valeur de la clef de sécurité (clef de la ressource)
+	 */
+	public static String calculerClefDeSecuriteDepuisMethode(final String nomBean, final Method methode, final String controleursRestSuffix) {
+		return nomBean.replaceFirst(controleursRestSuffix, "") + "." + methode.getName();
+	}
+
+	/** Suffixe des controleurs REST */
+	private final String controleursRestSuffix;
+
+	public IntercepteurDesRessourcesAutorisees(final String controleursRestSuffix) {
+		super();
+		this.controleursRestSuffix = controleursRestSuffix;
+	}
 
 	@Override
 	public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) throws Exception {
@@ -39,7 +64,8 @@ public class IntercepteurDesRessourcesAutorisees implements HandlerInterceptor {
 			final HandlerMethod hm = (HandlerMethod) handler;
 
 			// Création de la clef de sécurité de la méthode appelée
-			final String clefMethodeAppelee = hm.getBeanType().getSimpleName() + "." + hm.getMethod().getName();
+			final String clefMethodeAppelee = calculerClefDeSecuriteDepuisMethode(hm.getBeanType().getSimpleName(), hm.getMethod(),
+					this.controleursRestSuffix);
 
 			// Vérification si l'utilisateur a l'autorisation d'accéder à cette ressource (ou si la méthode est la gestion des erreurs)
 			final boolean result = auth.getRessourcesAutorisees().contains(clefMethodeAppelee.toUpperCase());

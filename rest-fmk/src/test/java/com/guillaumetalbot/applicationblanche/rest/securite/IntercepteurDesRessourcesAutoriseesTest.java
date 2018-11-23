@@ -30,7 +30,7 @@ public class IntercepteurDesRessourcesAutoriseesTest {
 		final SecurityContextImpl context = new SecurityContextImpl(authentication);
 		SecurityContextHolder.setContext(context);
 
-		final IntercepteurDesRessourcesAutorisees i = new IntercepteurDesRessourcesAutorisees();
+		final IntercepteurDesRessourcesAutorisees i = new IntercepteurDesRessourcesAutorisees("RestControler");
 
 		//
 		final boolean r = i.preHandle(null, null, null);
@@ -47,7 +47,7 @@ public class IntercepteurDesRessourcesAutoriseesTest {
 		final SecurityContextImpl context = new SecurityContextImpl(authentication);
 		SecurityContextHolder.setContext(context);
 
-		final IntercepteurDesRessourcesAutorisees i = new IntercepteurDesRessourcesAutorisees();
+		final IntercepteurDesRessourcesAutorisees i = new IntercepteurDesRessourcesAutorisees("RestControler");
 
 		final HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
 		Mockito.doNothing().when(response).setStatus(Mockito.anyInt());
@@ -68,7 +68,7 @@ public class IntercepteurDesRessourcesAutoriseesTest {
 		final SecurityContextImpl context = new SecurityContextImpl(authentication);
 		SecurityContextHolder.setContext(context);
 
-		final IntercepteurDesRessourcesAutorisees i = new IntercepteurDesRessourcesAutorisees();
+		final IntercepteurDesRessourcesAutorisees i = new IntercepteurDesRessourcesAutorisees("RestControler");
 
 		final HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
 		final HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
@@ -91,7 +91,7 @@ public class IntercepteurDesRessourcesAutoriseesTest {
 		final SecurityContextImpl context = new SecurityContextImpl(authentication);
 		SecurityContextHolder.setContext(context);
 
-		final IntercepteurDesRessourcesAutorisees i = new IntercepteurDesRessourcesAutorisees();
+		final IntercepteurDesRessourcesAutorisees i = new IntercepteurDesRessourcesAutorisees("RestControler");
 
 		final HandlerMethod hm = Mockito.mock(HandlerMethod.class);
 		Mockito.doReturn(MonitoringRestControler.class).when(hm).getBeanType();
@@ -118,7 +118,7 @@ public class IntercepteurDesRessourcesAutoriseesTest {
 		final SecurityContextImpl context = new SecurityContextImpl(authentication);
 		SecurityContextHolder.setContext(context);
 
-		final IntercepteurDesRessourcesAutorisees i = new IntercepteurDesRessourcesAutorisees();
+		final IntercepteurDesRessourcesAutorisees i = new IntercepteurDesRessourcesAutorisees("RestControler");
 
 		final HandlerMethod hm = Mockito.mock(HandlerMethod.class);
 		Mockito.doReturn(MonitoringRestControler.class).when(hm).getBeanType();

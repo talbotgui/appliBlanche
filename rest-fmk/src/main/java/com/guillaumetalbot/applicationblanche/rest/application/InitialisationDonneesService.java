@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.Ressource;
 import com.guillaumetalbot.applicationblanche.metier.service.SecuriteService;
+import com.guillaumetalbot.applicationblanche.rest.securite.IntercepteurDesRessourcesAutorisees;
 
 /**
  * Ce composant s'exécute au démarrage de l'application (ApplicationListener) et initialise ou met à jour la base de données :
@@ -43,12 +44,14 @@ public class InitialisationDonneesService implements ApplicationListener<Applica
 	 *
 	 * @param applicationContext
 	 *            Contexte Spring
+	 * @param controleursRestSuffix
+	 *            Suffixe des controleurs REST
 	 * @param packageDesControleursRest
 	 *            Liste des packages contenant des controleurs
 	 *
 	 * @return
 	 */
-	public static Collection<Ressource> listerMethodesDeControleurs(final ApplicationContext applicationContext,
+	public static Collection<Ressource> listerMethodesDeControleurs(final ApplicationContext applicationContext, final String controleursRestSuffix,
 			final String... packageDesControleursRest) {
 
 		// Liste des packages contenant des controleurs
@@ -72,7 +75,8 @@ public class InitialisationDonneesService implements ApplicationListener<Applica
 			for (final Method methode : classeReelle.getDeclaredMethods()) {
 
 				// Création d'une clef
-				final String clef = entry.getKey() + "." + methode.getName();
+				final String clef = IntercepteurDesRessourcesAutorisees.calculerClefDeSecuriteDepuisMethode(entry.getKey(), methode,
+						controleursRestSuffix);
 
 				// Recherche de l'URI en fonction du type d'annotation utilisée
 				String chemin = null;
@@ -102,6 +106,9 @@ public class InitialisationDonneesService implements ApplicationListener<Applica
 		return clefsRessources;
 	}
 
+	@Value("${security.restcontroleur.suffixe}")
+	private String controleursRestSuffix;
+
 	@Value("${security.restcontroleur.packages}")
 	private String packagesDesControleursRest;
 
@@ -111,7 +118,7 @@ public class InitialisationDonneesService implements ApplicationListener<Applica
 	@Override
 	public void onApplicationEvent(final ApplicationReadyEvent app) {
 
-		final Collection<Ressource> clefsRessources = listerMethodesDeControleurs(app.getApplicationContext(),
+		final Collection<Ressource> clefsRessources = listerMethodesDeControleurs(app.getApplicationContext(), this.controleursRestSuffix,
 				this.packagesDesControleursRest.split(","));
 
 		this.securiteService.initialiserOuCompleterConfigurationSecurite(clefsRessources, ADMIN_PAR_DEFAUT_LOGIN_MDP, ADMIN_PAR_DEFAUT_LOGIN_MDP,

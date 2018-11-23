@@ -90,8 +90,8 @@ public abstract class JwtIntegrationWebTest extends MockedIntegrationWebTest {
 		final String loginMdp = InitialisationDonneesService.ADMIN_PAR_DEFAUT_LOGIN_MDP;
 		final Utilisateur u = new Utilisateur(loginMdp, ChiffrementUtil.encrypt(loginMdp));
 		final Role role = new Role(loginMdp);
-		role.setRessourcesAutorisees(new HashSet<>(
-				InitialisationDonneesService.listerMethodesDeControleurs(this.currentTestApplicationContext, this.getListePackagesDeControleur())));
+		role.setRessourcesAutorisees(new HashSet<>(InitialisationDonneesService.listerMethodesDeControleurs(this.currentTestApplicationContext,
+				"RestControler", this.getListePackagesDeControleur())));
 		u.setRoles(new HashSet<Role>(Arrays.asList(role)));
 
 		this.login(u);
