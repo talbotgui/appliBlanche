@@ -9,6 +9,7 @@ export class Sort {
   /** sans du tri */
   sortOrder: string;
 }
+
 /** Page de résultats (identique à la classe de Spring) */
 export class Page<T> {
   /** Elements de la page */
@@ -85,6 +86,23 @@ export class Ressource {
   description: string;
 }
 
-/** Gestion du menu */
-export class PageApplicative { constructor(public nom: string, public clefApi: string, public route: string) { } }
-export class ModuleApplicatif { constructor(public nom: string, public pages: PageApplicative[]) { } }
+/** Gestion du menu (cette classe n'a pas d'équivalent dans le backend) */
+export class PageApplicative {
+  /**
+   *  Constructeur
+   * @param nom Nom
+   * @param clefApi Clef de l'API
+   * @param route Route dans le routeur Angular
+   */
+  constructor(public nom: string, public clefApi: string, public route: string) { }
+}
+
+/** Module applicatif dans le menu (cette classe n'a pas d'équivalent dans le backend) */
+export class ModuleApplicatif {
+  /**
+   * Constructeur
+   * @param nom Nom
+   * @param pages Pages du module
+   */
+  constructor(public nom: string, public pages: PageApplicative[]) { }
+}

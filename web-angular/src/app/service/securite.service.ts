@@ -117,7 +117,7 @@ export class SecuriteService {
     // Conservation des informations
     let clefsAutorisees: string[] = [];
     utilisateur.roles.forEach((r) => {
-      clefsAutorisees = clefsAutorisees.concat(r.ressourcesAutorisees.map((r) => r.clef));
+      clefsAutorisees = clefsAutorisees.concat(r.ressourcesAutorisees.map((ressource) => ressource.clef));
     });
     localStorage.setItem('CLEFS', clefsAutorisees.join('|'));
 

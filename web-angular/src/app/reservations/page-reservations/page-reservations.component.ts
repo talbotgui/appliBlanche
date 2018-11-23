@@ -14,6 +14,7 @@ export class PageReservationsComponent implements AfterViewInit {
   /** Instance du composant enfant */
   @ViewChild(CadreReservationComponent) cadreReservation: CadreReservationComponent;
 
+  /** Après le onInit et après que la vue se soit initialisée */
   ngAfterViewInit() {
 
     // A l'envoi d'un message du composant Calendrier
