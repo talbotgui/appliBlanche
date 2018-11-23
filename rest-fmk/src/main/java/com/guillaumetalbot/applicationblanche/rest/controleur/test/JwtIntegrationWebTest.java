@@ -106,7 +106,7 @@ public abstract class JwtIntegrationWebTest extends MockedIntegrationWebTest {
 		final ParametreDeConnexionDto cred = ParametreDeConnexionDto.creerInstanceSansChiffreLeMotDePassePourUsageDansTests(u.getLogin(),
 				u.getLogin());
 		final HttpEntity<ParametreDeConnexionDto> requete = new HttpEntity<>(cred);
-		final ResponseEntity<Void> reponse = super.getREST().exchange(this.getURL() + "/login", HttpMethod.POST, requete, void.class);
+		final ResponseEntity<String> reponse = super.getREST().exchange(this.getURL() + "/login", HttpMethod.POST, requete, String.class);
 
 		// Vérification du code de retourO
 		Assert.assertEquals(reponse.getStatusCodeValue(), HttpStatus.OK.value());

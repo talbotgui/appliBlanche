@@ -44,7 +44,7 @@ import com.guillaumetalbot.applicationblanche.rest.securite.jwt.ParametresJwt;
 public class ComposantPourTestTransactionRestControlerTest extends IntegrationWebTest {
 
 	private static final String LOGIN_MDP = "testTransaction";
-	private static final String METHODE_DU_CONTROLEUR_LIE_AU_TEST = "ComposantPourTestTransactionRestControler.sauvegarderRole";
+	private static final String METHODE_DU_CONTROLEUR_LIE_AU_TEST = "ComposantPourTestTransaction.sauvegarderRole";
 
 	@Autowired
 	private DataSource ds;
@@ -67,7 +67,7 @@ public class ComposantPourTestTransactionRestControlerTest extends IntegrationWe
 		// Appel au login
 		final ParametreDeConnexionDto cred = ParametreDeConnexionDto.creerInstanceSansChiffreLeMotDePassePourUsageDansTests(LOGIN_MDP, LOGIN_MDP);
 		final HttpEntity<ParametreDeConnexionDto> requete = new HttpEntity<>(cred);
-		final ResponseEntity<Void> reponse = super.getREST().exchange(this.getURL() + "/login", HttpMethod.POST, requete, void.class);
+		final ResponseEntity<String> reponse = super.getREST().exchange(this.getURL() + "/login", HttpMethod.POST, requete, String.class);
 
 		// Vérification du code de retourO
 		Assert.assertEquals(reponse.getStatusCodeValue(), HttpStatus.OK.value());

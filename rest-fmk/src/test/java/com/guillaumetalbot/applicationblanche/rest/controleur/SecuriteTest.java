@@ -180,7 +180,7 @@ public class SecuriteTest extends BaseTestClass {
 
 		//
 		final HttpEntity<ParametreDeConnexionDto> requete = new HttpEntity<>(cred);
-		final ResponseEntity<Void> reponse = super.getREST().exchange(this.getURL() + "/login", HttpMethod.POST, requete, void.class);
+		final ResponseEntity<String> reponse = super.getREST().exchange(this.getURL() + "/login", HttpMethod.POST, requete, String.class);
 
 		//
 		Assert.assertEquals(reponse.getStatusCodeValue(), HttpStatus.OK.value());
@@ -280,7 +280,7 @@ public class SecuriteTest extends BaseTestClass {
 		final String loginMdp = InitialisationDonneesService.ADMIN_PAR_DEFAUT_LOGIN_MDP;
 		final Utilisateur u = new Utilisateur(loginMdp, ChiffrementUtil.encrypt(loginMdp));
 		final Role role = new Role(loginMdp);
-		role.setRessourcesAutorisees(new HashSet<>(Arrays.asList(new Ressource("utilisateurRestControler.listerUtilisateur"))));
+		role.setRessourcesAutorisees(new HashSet<>(Arrays.asList(new Ressource("utilisateur.listerUtilisateur"))));
 		u.setRoles(new HashSet<Role>(Arrays.asList(role)));
 		super.login(u);
 

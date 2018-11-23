@@ -47,7 +47,7 @@ public class RoleEtRessourceRestControlerTest extends BaseTestClass {
 		final Page<Ressource> toReturn = new PageablePourLesTest<>(Arrays.asList(new Ressource("Re1"), new Ressource("Re2"), new Ressource("Re3")));
 
 		// ARRANGE
-		Mockito.doReturn(toReturn).when(this.securiteService).listerRessources(Mockito.any(Pageable.class));
+		Mockito.doReturn(toReturn).when(this.securiteService).listerRessources(Mockito.nullable(Pageable.class));
 
 		// ACT
 		final ParameterizedTypeReference<PageablePourLesTest<Ressource>> typeRetour = new ParameterizedTypeReference<PageablePourLesTest<Ressource>>() {
@@ -56,7 +56,7 @@ public class RoleEtRessourceRestControlerTest extends BaseTestClass {
 				typeRetour);
 
 		// ASSERT
-		Mockito.verify(this.securiteService).listerRessources(Mockito.any(Pageable.class));
+		Mockito.verify(this.securiteService).listerRessources(Mockito.nullable(Pageable.class));
 		Mockito.verifyNoMoreInteractions(this.getListeServices());
 		Assert.assertNotNull(reponse.getBody());
 		Assert.assertEquals(reponse.getBody().getContent().size(), toReturn.getContent().size());
