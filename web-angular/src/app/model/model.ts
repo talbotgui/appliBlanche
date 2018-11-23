@@ -28,32 +28,6 @@ export class Page<T> {
     public number: number) { }
 }
 
-/** DTO pour un client */
-export class ClientDto {
-  /** Identifiant unique */
-  reference: string;
-  /** Nom du client */
-  nomClient: string;
-  /** Ville de l'adresse */
-  ville: string;
-  /** Nombre de dossiers existants */
-  nbDossiers: number;
-  /** Nombre de demandes existantes */
-  nbDemandes: number;
-  /** Date de création du dossier le plus récent */
-  dateCreationDernierDossier: Date;
-}
-
-/** Objet métier Client */
-export class Client {
-  /** Identifiant unique */
-  reference: string;
-  /** Nom */
-  nom: string;
-  /** Date de création en BDD */
-  dateCreation: Date;
-}
-
 /** Objet métier Utilisateur */
 export class Utilisateur {
   /** Identifiant unique */
