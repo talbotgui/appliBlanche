@@ -11,11 +11,20 @@ export class RestUtilsService {
   constructor(private http: HttpClient) { }
 
   /** Création des options d'appels REST */
-  public creerHeader(): { headers: HttpHeaders } | undefined {
+  public creerHeader(enteteSupplementaire?: { clef: string, valeur: string }): { headers: HttpHeaders } | undefined {
+
+    // Token par défaut
     const headers: any = { 'Content-Type': 'application/json' };
+
+    // ajout du token de l'utilisateur connecté
     const jwt = localStorage.getItem('JWT');
     if (jwt) {
       headers.Authorization = jwt;
+    }
+
+    // Ajout de l'entete supplémentaire si demandé
+    if (enteteSupplementaire) {
+      headers[enteteSupplementaire.clef] = enteteSupplementaire.valeur;
     }
     return { headers: new HttpHeaders(headers) };
   }

@@ -19,7 +19,7 @@ export class UtilisateurService {
   /** Lit la liste complète des utilisateurs */
   listerUtilisateurs(): Observable<{} | model.Utilisateur[]> {
     const url = environment.baseUrl + '/v1/utilisateurs';
-    return this.http.get<model.Utilisateur[]>(url, this.restUtils.creerHeader());
+    return this.http.get<model.Utilisateur[]>(url, this.restUtils.creerHeader({ clef: 'Accept', valeur: 'application/json;details' }));
   }
 
   /** Création d'un utilisateur */
