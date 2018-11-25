@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
 
@@ -93,6 +93,13 @@ export class SecuriteService {
   invaliderTokenSiPresentEtExpire(): Observable<{} | model.Utilisateur> {
     const url = environment.baseUrl + '/v1/utilisateurs/moi';
     return this.http.get<model.Utilisateur>(url, this.restUtils.creerHeader()).pipe(
+
+      // sauvegarde des données de l'utilisateur
+      map((u: model.Utilisateur) => {
+        this.conserverUtilisateurConnecteEnMemoire(u);
+        return u;
+      }),
+
       // en cas d'erreur du service REST, on supprime le token
       catchError<any, boolean>(() => {
         this.nettoyerDonneesDeConnexion();
