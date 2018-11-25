@@ -27,6 +27,7 @@ export class CadreMenuComponent implements OnInit {
     pagesDuModule.push(new model.PageApplicative('menu_utilisateur', 'utilisateur.listerUtilisateur', '/page-utilisateur-route'));
     pagesDuModule.push(new model.PageApplicative('menu_role', 'roleEtRessource.listerRoles', '/page-role-route'));
     pagesDuModule.push(new model.PageApplicative('menu_ressource', 'roleEtRessource.listerRessource', '/page-ressource-route'));
+    pagesDuModule.push(new model.PageApplicative('menu_monitoring', 'monitoring.lireDonneesDuMonitoring', '/page-monitoring-route'));
     tousLesModules.push(new model.ModuleApplicatif('menu_titre_administration', pagesDuModule));
 
     // Menu RESERVATION

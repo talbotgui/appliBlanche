@@ -1,13 +1,12 @@
 package com.guillaumetalbot.applicationblanche.rest.controleur;
 
-import java.util.Collection;
-
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import com.guillaumetalbot.applicationblanche.rest.controleur.test.PageablePourLesTest;
 import com.guillaumetalbot.applicationblanche.rest.dto.ElementMonitoring;
 import com.jamonapi.MonitorFactory;
 
@@ -21,13 +20,13 @@ public class MonitoringRestControlerTest extends BaseTestClass {
 		final int nbLignesDuMonitoringAttendus = 1;
 
 		// ACT
-		final ParameterizedTypeReference<Collection<ElementMonitoring>> typeRetour = new ParameterizedTypeReference<Collection<ElementMonitoring>>() {
+		final ParameterizedTypeReference<PageablePourLesTest<ElementMonitoring>> typeRetour = new ParameterizedTypeReference<PageablePourLesTest<ElementMonitoring>>() {
 		};
-		final ResponseEntity<Collection<ElementMonitoring>> response = this.getREST().exchange(this.getURL() + "/monitoring", HttpMethod.GET, null,
-				typeRetour);
+		final ResponseEntity<PageablePourLesTest<ElementMonitoring>> response = this.getREST().exchange(this.getURL() + "/monitoring", HttpMethod.GET,
+				null, typeRetour);
 
 		// ASSERT
 		Assert.assertNotNull(response.getBody());
-		Assert.assertEquals(response.getBody().size(), nbLignesDuMonitoringAttendus);
+		Assert.assertEquals(response.getBody().getContent().size(), nbLignesDuMonitoringAttendus);
 	}
 }

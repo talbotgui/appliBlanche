@@ -18,6 +18,7 @@ insert into LIBELLE (clef, libelle, langue) values ('menu_titre_consommation', '
 insert into LIBELLE (clef, libelle, langue) values ('menu_consommation', 'Goods', 'en');
 insert into LIBELLE (clef, libelle, langue) values ('menu_adminconsommation', 'Products', 'en');
 insert into LIBELLE (clef, libelle, langue) values ('menu_deconnexion', 'Logout', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('menu_monitoring', 'Monitoring', 'en');
 -- Page de gestion des utilisateurs
 insert into LIBELLE (clef, libelle, langue) values ('utilisateur_titre', 'Users management', 'en');
 insert into LIBELLE (clef, libelle, langue) values ('utilisateur_entete_identifiant', 'Login', 'en');
@@ -113,3 +114,11 @@ insert into LIBELLE (clef, libelle, langue) values ('consommations_titre_aucuneR
 insert into LIBELLE (clef, libelle, langue) values ('ressource_titre', 'Resources management', 'en');
 insert into LIBELLE (clef, libelle, langue) values ('ressource_entete_clef', 'Key', 'en');
 insert into LIBELLE (clef, libelle, langue) values ('ressource_entete_description', 'Description', 'en');
+-- Page de monitoring
+insert into LIBELLE (clef, libelle, langue) values ('monitoring_titre', 'Monitoring', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('monitoring_entete_clef', 'Key', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('monitoring_entete_nbAppels', 'Calls', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('monitoring_entete_tempsCumule', 'Sum', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('monitoring_entete_tempsMoyen', 'Average', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('monitoring_entete_tempsMax', 'Max', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('monitoring_entete_tempsMin', 'Min', 'en');
