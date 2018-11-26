@@ -12,23 +12,23 @@
 		<td mat-cell *matCellDef="let ligne">{{ligne.clef}}</td>
 	</ng-container>
 	<ng-container matColumnDef="nbAppels">
-		<th mat-header-cell *matHeaderCellDef l10nTranslate>monitoring_entete_nbAppels</th>
+		<th mat-header-cell *matHeaderCellDef mat-sort-header l10nTranslate>monitoring_entete_nbAppels</th>
 		<td mat-cell *matCellDef="let ligne">{{ligne.nbAppels}}</td>
 	</ng-container>
 	<ng-container matColumnDef="tempsCumule">
-		<th mat-header-cell *matHeaderCellDef l10nTranslate>monitoring_entete_tempsCumule</th>
+		<th mat-header-cell *matHeaderCellDef mat-sort-header l10nTranslate>monitoring_entete_tempsCumule</th>
 		<td mat-cell *matCellDef="let ligne">{{ligne.tempsCumule | number: '1.0-2'}}</td>
 	</ng-container>
 	<ng-container matColumnDef="tempsMoyen">
-		<th mat-header-cell *matHeaderCellDef l10nTranslate>monitoring_entete_tempsMoyen</th>
+		<th mat-header-cell *matHeaderCellDef mat-sort-header l10nTranslate>monitoring_entete_tempsMoyen</th>
 		<td mat-cell *matCellDef="let ligne">{{ligne.tempsMoyen | number: '1.0-2'}}</td>
 	</ng-container>
 	<ng-container matColumnDef="tempsMax">
-		<th mat-header-cell *matHeaderCellDef l10nTranslate>monitoring_entete_tempsMax</th>
+		<th mat-header-cell *matHeaderCellDef mat-sort-header l10nTranslate>monitoring_entete_tempsMax</th>
 		<td mat-cell *matCellDef="let ligne">{{ligne.tempsMax | number: '1.0-2'}}</td>
 	</ng-container>
 	<ng-container matColumnDef="tempsMin">
-		<th mat-header-cell *matHeaderCellDef l10nTranslate>monitoring_entete_tempsMin</th>
+		<th mat-header-cell *matHeaderCellDef mat-sort-header l10nTranslate>monitoring_entete_tempsMin</th>
 		<td mat-cell *matCellDef="let ligne">{{ligne.tempsMin | number: '1.0-2'}}</td>
 	</ng-container>
 	<tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>

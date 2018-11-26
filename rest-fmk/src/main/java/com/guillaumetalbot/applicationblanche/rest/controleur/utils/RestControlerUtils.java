@@ -1,5 +1,6 @@
 package com.guillaumetalbot.applicationblanche.rest.controleur.utils;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -49,7 +50,7 @@ public final class RestControlerUtils {
 
 	public static Sort creerTriSiPossible(final String nomChamps, final Boolean ordre) {
 		// Pas de tri s'il manque un paramètre
-		if (nomChamps == null || ordre == null) {
+		if (StringUtils.isEmpty(nomChamps) || ordre == null) {
 			return QSort.unsorted();
 		} else if (ordre) {
 			return new Sort(Sort.Direction.ASC, nomChamps);

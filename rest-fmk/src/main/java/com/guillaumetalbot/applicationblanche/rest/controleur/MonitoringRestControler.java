@@ -2,6 +2,7 @@ package com.guillaumetalbot.applicationblanche.rest.controleur;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -34,18 +35,19 @@ public class MonitoringRestControler {
 	@GetMapping(value = "/monitoring")
 	public Page<ElementMonitoring> lireDonneesDuMonitoring(@RequestParam(required = false, value = "pageSize") final Integer pageSize,
 			@RequestParam(required = false, value = "pageNumber") final Integer pageNumber,
-			@RequestParam(required = false, value = "triParClef") final Boolean triParClef) {
+			@RequestParam(required = false, value = "triPar") final String triPar,
+			@RequestParam(required = false, value = "ordreTri") final Boolean ordreTri) {
 
-		Pageable page = RestControlerUtils.creerPageSiPossible(pageSize, pageNumber, RestControlerUtils.creerTriSiPossible("clef", triParClef));
+		Pageable page = RestControlerUtils.creerPageSiPossible(pageSize, pageNumber, RestControlerUtils.creerTriSiPossible(triPar, ordreTri));
 		if (page == null) {
 			page = new QPageRequest(0, 20);
 		}
 
-		return this.rechercherPageDeMonitoring(page, triParClef);
+		return this.rechercherPageDeMonitoring(page);
 	}
 
 	@SuppressWarnings("unchecked")
-	private Page<ElementMonitoring> rechercherPageDeMonitoring(final Pageable page, final Boolean triParClef) {
+	private Page<ElementMonitoring> rechercherPageDeMonitoring(final Pageable page) {
 
 		// Récupération de la liste des clefs
 		final Set<Map.Entry<MonKey, Monitor>> entreesSet = MonitorFactory.getMap().entrySet();
@@ -56,9 +58,49 @@ public class MonitoringRestControler {
 			return !(clef.startsWith(CLEF_A_EXCLURE_1) || clef.startsWith(CLEF_A_EXCLURE_2) || clef.startsWith(CLEF_A_EXCLURE_3));
 		}).collect(Collectors.toList());
 
-		// Tri des clefs
-		Collections.sort(entrees, (e1, e2) -> (triParClef != null && triParClef ? 1 : -1)
-				* e1.getKey().getDetails().toString().toUpperCase().compareTo(e2.getKey().getDetails().toString().toUpperCase()));
+		// Tri
+		if (page.getSort() != null && page.getSort().isSorted()) {
+			Comparator<Map.Entry<MonKey, Monitor>> comparator = null;
+
+			// Par nbAppels
+			if (page.getSort().getOrderFor("nbAppels") != null) {
+				final int sens = page.getSort().getOrderFor("nbAppels").isAscending() ? 1 : -1;
+				comparator = (e1, e2) -> (int) (sens * 100 * (e1.getValue().getHits() - e2.getValue().getHits()));
+			}
+
+			// Par tempsCumule
+			else if (page.getSort().getOrderFor("tempsCumule") != null) {
+				final int sens = page.getSort().getOrderFor("tempsCumule").isAscending() ? 1 : -1;
+				comparator = (e1, e2) -> (int) (sens * 100 * (e1.getValue().getTotal() - e2.getValue().getTotal()));
+			}
+
+			// Par tempsMoyen
+			else if (page.getSort().getOrderFor("tempsMoyen") != null) {
+				final int sens = page.getSort().getOrderFor("tempsMoyen").isAscending() ? 1 : -1;
+				comparator = (e1, e2) -> (int) (sens * 100 * (e1.getValue().getAvg() - e2.getValue().getAvg()));
+			}
+
+			// Par tempsMax
+			else if (page.getSort().getOrderFor("tempsMax") != null) {
+				final int sens = page.getSort().getOrderFor("tempsMax").isAscending() ? 1 : -1;
+				comparator = (e1, e2) -> (int) (sens * 100 * (e1.getValue().getMax() - e2.getValue().getMax()));
+			}
+
+			// Par tempsMin
+			else if (page.getSort().getOrderFor("tempsMin") != null) {
+				final int sens = page.getSort().getOrderFor("tempsMin").isAscending() ? 1 : -1;
+				comparator = (e1, e2) -> (int) (sens * 100 * (e1.getValue().getMin() - e2.getValue().getMin()));
+			}
+
+			// par clef (par défaut)
+			else {
+				final int sens = page.getSort().getOrderFor("clef").isAscending() ? 1 : -1;
+				comparator = (e1, e2) -> sens
+						* e1.getKey().getDetails().toString().toUpperCase().compareTo(e2.getKey().getDetails().toString().toUpperCase());
+
+			}
+			Collections.sort(entrees, comparator);
+		}
 
 		// Pagination
 		final List<Map.Entry<MonKey, Monitor>> entreesArenvoyer = new ArrayList<>();

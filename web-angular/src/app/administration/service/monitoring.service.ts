@@ -24,18 +24,16 @@ export class MonitoringService {
    */
   lireInformations(page: Page<model.ElementMonitoring>): Observable<{} | Page<model.ElementMonitoring>> {
 
-    // Seul un tri par défaut est possible
-    let triParClef: string = '';
-    if (page.sort) {
-      if (page.sort.sortOrder === 'asc') {
-        triParClef = 'true';
-      } else {
-        triParClef = 'false';
-      }
+    // Toutes les colonnes sont triables mais, par défaut, c'est par clef
+    let triPar: string = 'clef';
+    let ordreTri: boolean = true;
+    if (page.sort && page.sort.sortColonne && page.sort.sortOrder) {
+      ordreTri = (page.sort.sortOrder === 'asc');
+      triPar = page.sort.sortColonne;
     }
 
     // Appel à l'API
-    const url = environment.baseUrl + '/monitoring?pageNumber=' + page.number + '&pageSize=' + page.size + '&triParClef=' + triParClef;
+    const url = environment.baseUrl + '/monitoring?pageNumber=' + page.number + '&pageSize=' + page.size + '&triPar=' + triPar + '&ordreTri=' + ordreTri;
     return this.http.get<Page<model.ElementMonitoring>>(url, this.restUtils.creerHeader());
   }
 }
