@@ -95,8 +95,9 @@ public class IntercepteurDesRessourcesAutoriseesTest {
 
 		final HandlerMethod hm = Mockito.mock(HandlerMethod.class);
 		Mockito.doReturn(MonitoringRestControler.class).when(hm).getBeanType();
-		Mockito.doReturn(MonitoringRestControler.class.getMethod("lireDonneesDuMonitoring", Integer.class, Integer.class, Boolean.class)).when(hm)
-				.getMethod();
+		Mockito.doReturn(
+				MonitoringRestControler.class.getMethod("lireDonneesDuMonitoring", Integer.class, Integer.class, String.class, Boolean.class))
+				.when(hm).getMethod();
 		final HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
 		final HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
 		Mockito.doNothing().when(response).setStatus(Mockito.anyInt());
@@ -123,8 +124,9 @@ public class IntercepteurDesRessourcesAutoriseesTest {
 
 		final HandlerMethod hm = Mockito.mock(HandlerMethod.class);
 		Mockito.doReturn(MonitoringRestControler.class).when(hm).getBeanType();
-		Mockito.doReturn(MonitoringRestControler.class.getMethod("lireDonneesDuMonitoring", Integer.class, Integer.class, Boolean.class)).when(hm)
-				.getMethod();
+		Mockito.doReturn(
+				MonitoringRestControler.class.getMethod("lireDonneesDuMonitoring", Integer.class, Integer.class, String.class, Boolean.class))
+				.when(hm).getMethod();
 		final HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
 		final HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
 		Mockito.doNothing().when(response).setStatus(Mockito.anyInt());

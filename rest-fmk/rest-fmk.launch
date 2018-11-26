@@ -2,8 +2,8 @@
 <launchConfiguration type="org.testng.eclipse.launchconfig">
 <listAttribute key="org.eclipse.debug.ui.favoriteGroups">
 <listEntry value="org.eclipse.debug.ui.launchGroup.debug"/>
-<listEntry value="org.eclipse.debug.ui.launchGroup.run"/>
 <listEntry value="org.eclipse.eclemma.ui.launchGroup.coverage"/>
+<listEntry value="org.eclipse.debug.ui.launchGroup.run"/>
 </listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.m2e.launchconfig.classpathProvider"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.testng.remote.RemoteTestNG"/>
@@ -11,32 +11,28 @@
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.m2e.launchconfig.sourcepathProvider"/>
 <mapAttribute key="org.testng.eclipse.ALL_CLASS_METHODS">
 <mapEntry key="com.guillaumetalbot.applicationblanche.rest.application.RestApplicationForTests" value=""/>
+<mapEntry key="com.guillaumetalbot.applicationblanche.rest.controleur.BaseTestClass" value=""/>
 <mapEntry key="com.guillaumetalbot.applicationblanche.rest.controleur.ComposantPourTestTransactionRestControler" value=""/>
 <mapEntry key="com.guillaumetalbot.applicationblanche.rest.controleur.ComposantPourTestTransactionRestControlerTest" value=""/>
 <mapEntry key="com.guillaumetalbot.applicationblanche.rest.controleur.MonitoringRestControlerTest" value=""/>
 <mapEntry key="com.guillaumetalbot.applicationblanche.rest.controleur.RoleEtRessourceRestControlerTest" value=""/>
 <mapEntry key="com.guillaumetalbot.applicationblanche.rest.controleur.SecuriteTest" value=""/>
 <mapEntry key="com.guillaumetalbot.applicationblanche.rest.controleur.UtilisateurRestControlerTest" value=""/>
+<mapEntry key="com.guillaumetalbot.applicationblanche.rest.securite.IntercepteurDesRessourcesAutoriseesTest" value=""/>
 <mapEntry key="com.guillaumetalbot.applicationblanche.rest.securite.UserDetailsServiceWrapperTest" value=""/>
 </mapAttribute>
-<listAttribute key="org.testng.eclipse.CLASS_TEST_LIST">
-<listEntry value="com.guillaumetalbot.applicationblanche.rest.controleur.RoleEtRessourceRestControlerTest"/>
-<listEntry value="com.guillaumetalbot.applicationblanche.rest.application.RestApplicationForTests"/>
-<listEntry value="com.guillaumetalbot.applicationblanche.rest.controleur.MonitoringRestControlerTest"/>
-<listEntry value="com.guillaumetalbot.applicationblanche.rest.controleur.SecuriteTest"/>
-<listEntry value="com.guillaumetalbot.applicationblanche.rest.controleur.ComposantPourTestTransactionRestControler"/>
-<listEntry value="com.guillaumetalbot.applicationblanche.rest.controleur.ComposantPourTestTransactionRestControlerTest"/>
-<listEntry value="com.guillaumetalbot.applicationblanche.rest.controleur.UtilisateurRestControlerTest"/>
-<listEntry value="com.guillaumetalbot.applicationblanche.rest.securite.UserDetailsServiceWrapperTest"/>
-</listAttribute>
+<listAttribute key="org.testng.eclipse.CLASS_TEST_LIST"/>
 <booleanAttribute key="org.testng.eclipse.DEBUG" value="false"/>
 <listAttribute key="org.testng.eclipse.GROUP_LIST"/>
 <listAttribute key="org.testng.eclipse.GROUP_LIST_CLASS"/>
 <stringAttribute key="org.testng.eclipse.LOG_LEVEL" value="2"/>
 <listAttribute key="org.testng.eclipse.METHOD_TEST_LIST"/>
-<listAttribute key="org.testng.eclipse.PACKAGE_TEST_LIST"/>
+<listAttribute key="org.testng.eclipse.PACKAGE_TEST_LIST">
+<listEntry value="com.guillaumetalbot.applicationblanche.rest.controleur"/>
+<listEntry value="com.guillaumetalbot.applicationblanche.rest.securite"/>
+</listAttribute>
 <stringAttribute key="org.testng.eclipse.PRE_DEFINED_LISTENERS" value=""/>
 <stringAttribute key="org.testng.eclipse.PROTOCOL" value="json"/>
-<intAttribute key="org.testng.eclipse.TYPE" value="1"/>
+<intAttribute key="org.testng.eclipse.TYPE" value="5"/>
 <booleanAttribute key="org.testng.eclipse.VERBOSE" value="false"/>
 </launchConfiguration>
