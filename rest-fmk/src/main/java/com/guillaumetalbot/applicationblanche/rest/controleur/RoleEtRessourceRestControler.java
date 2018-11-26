@@ -25,7 +25,7 @@ public class RoleEtRessourceRestControler {
 	@Autowired
 	private SecuriteService securiteService;
 
-	@PutMapping("/role/{nomRole}/ressource/{clefRessource}")
+	@PutMapping("/roles/{nomRole}/ressource/{clefRessource}")
 	public void ajouterRetirerAutorisation(@RequestBody() final Boolean statut, //
 			@PathVariable(value = "nomRole") final String nomRole, //
 			@PathVariable(value = "clefRessource") final String clefRessource) {

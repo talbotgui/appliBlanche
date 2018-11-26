@@ -78,4 +78,50 @@ public class RoleEtRessourceRestControlerTest extends BaseTestClass {
 		Mockito.verify(this.securiteService).sauvegarderRole(nomRole);
 		Mockito.verifyNoMoreInteractions(this.getListeServices());
 	}
+
+	@Test
+	public void test04AssocierRoleEtRessource() {
+		final String nomRole = "nomRole";
+		final String clefRessource = "clefRessource";
+		final Boolean statut = true;
+
+		// ARRANGE
+		Mockito.doNothing().when(this.securiteService).associerRoleEtRessource(Mockito.anyString(), Mockito.anyString());
+
+		// ACT
+		this.getREST().put(this.getURL() + "/v1/roles/" + nomRole + "/ressource/" + clefRessource, statut);
+
+		// ASSERT
+		Mockito.verify(this.securiteService).associerRoleEtRessource(nomRole, clefRessource);
+	}
+
+	@Test
+	public void test05DesassocierRoleEtRessource() {
+		final String nomRole = "nomRole";
+		final String clefRessource = "clefRessource";
+		final Boolean statut = false;
+
+		// ARRANGE
+		Mockito.doNothing().when(this.securiteService).desassocierRoleEtRessource(Mockito.anyString(), Mockito.anyString());
+
+		// ACT
+		this.getREST().put(this.getURL() + "/v1/roles/" + nomRole + "/ressource/" + clefRessource, statut);
+
+		// ASSERT
+		Mockito.verify(this.securiteService).desassocierRoleEtRessource(nomRole, clefRessource);
+	}
+
+	@Test
+	public void test06SupprimerRole() {
+		final String nomRole = "nomRole";
+
+		// ARRANGE
+		Mockito.doNothing().when(this.securiteService).supprimerRole(Mockito.anyString());
+
+		// ACT
+		this.getREST().delete(this.getURL() + "/v1/roles/" + nomRole);
+
+		// ASSERT
+		Mockito.verify(this.securiteService).supprimerRole(nomRole);
+	}
 }

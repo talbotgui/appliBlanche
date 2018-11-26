@@ -312,6 +312,43 @@ public class SecuriteServiceTest {
 	}
 
 	@Test
+	public void test02Role05SupprimerKo() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final String nomRole = "nomRole1";
+		final String login = "unLoginCommeUnAutre";
+		this.securiteService.sauvegarderRole(nomRole);
+		this.securiteService.sauvegarderRole("nomRole2");
+		this.securiteService.sauvegarderUtilisateur(login, login);
+		this.securiteService.associerUtilisateurEtRole(login, nomRole);
+
+		//
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.securiteService.supprimerRole(nomRole);
+		});
+
+		//
+		Assert.assertNotNull(thrown);
+		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.SUPPRESSION_IMPOSSIBLE_OBJETS_LIES));
+		Assert.assertEquals((Long) 2L, jdbc.queryForObject("select count(*) from ROLE", Long.class));
+	}
+
+	@Test
+	public void test02Role05SupprimerOk() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final String nomRole = "nomRole1";
+		this.securiteService.sauvegarderRole(nomRole);
+		this.securiteService.sauvegarderRole("nomRole2");
+
+		//
+		this.securiteService.supprimerRole(nomRole);
+
+		//
+		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from ROLE", Long.class));
+	}
+
+	@Test
 	public void test03LienRoleUtilisateur01Creer() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);

@@ -43,7 +43,7 @@ export class RessourceService {
   /** Retire une ressource des autorisations d'un role */
   retirerAutorisation(role: model.Role, ressource: model.Ressource): Observable<{} | void> { return this.ajouterRetirerAutorisation(role, ressource, false); }
   private ajouterRetirerAutorisation(role: model.Role, ressource: model.Ressource, statut: boolean): Observable<{} | void> {
-    const url = environment.baseUrl + '/v1/role/' + role.nom + '/ressource/' + ressource.clef;
+    const url = environment.baseUrl + '/v1/roles/' + role.nom + '/ressource/' + ressource.clef;
     return this.http.put<void>(url, statut, this.restUtils.creerHeader());
   }
 }

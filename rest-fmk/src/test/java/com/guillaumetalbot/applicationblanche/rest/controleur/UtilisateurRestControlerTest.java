@@ -248,4 +248,36 @@ public class UtilisateurRestControlerTest extends BaseTestClass {
 		Mockito.verifyNoMoreInteractions(this.securiteService);
 	}
 
+	@Test
+	public void test13AssocierRoleEtRessource() {
+		final String nomRole = "nomRole";
+		final String login = "login";
+		final Boolean statut = true;
+
+		// ARRANGE
+		Mockito.doNothing().when(this.securiteService).associerUtilisateurEtRole(Mockito.anyString(), Mockito.anyString());
+
+		// ACT
+		this.getREST().put(this.getURL() + "/v1/utilisateurs/" + login + "/roles/" + nomRole, statut);
+
+		// ASSERT
+		Mockito.verify(this.securiteService).associerUtilisateurEtRole(login, nomRole);
+	}
+
+	@Test
+	public void test14DesassocierRoleEtRessource() {
+		final String nomRole = "nomRole";
+		final String login = "login";
+		final Boolean statut = false;
+
+		// ARRANGE
+		Mockito.doNothing().when(this.securiteService).desassocierUtilisateurEtRole(Mockito.anyString(), Mockito.anyString());
+
+		// ACT
+		this.getREST().put(this.getURL() + "/v1/utilisateurs/" + login + "/roles/" + nomRole, statut);
+
+		// ASSERT
+		Mockito.verify(this.securiteService).desassocierUtilisateurEtRole(login, nomRole);
+	}
+
 }
