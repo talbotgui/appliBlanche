@@ -9,6 +9,10 @@ import { PageReservationsComponent } from './page-reservations/page-reservations
 import { CadreCalendrierComponent } from './page-reservations/cadre-calendrier/cadre-calendrier.component';
 import { CadreReservationComponent } from './page-reservations/cadre-reservation/cadre-reservation.component';
 
+import { PageFacturationsComponent } from './page-facturations/page-facturations.component';
+import { CadreListeFacturesComponent } from './page-facturations/cadre-listefactures/cadre-listefactures.component';
+import { CadreDetailsFactureComponent } from './page-facturations/cadre-detailsfacture/cadre-detailsfacture.component';
+
 import { PageAdminReservationsComponent } from './page-adminreservations/page-adminreservations.component';
 import { CadreChambresComponent } from './page-adminreservations/cadre-chambres/cadre-chambres.component';
 import { CadreFormulesComponent } from './page-adminreservations/cadre-formules/cadre-formules.component';
@@ -33,7 +37,8 @@ import { ReservationService } from './service/reservation.service';
     PageReservationsComponent, CadreCalendrierComponent, CadreReservationComponent,
     PageConsommationsComponent,
     PageAdminReservationsComponent, CadreChambresComponent, CadreFormulesComponent, CadreOptionsComponent,
-    PageAdminConsommationsComponent, CadreProduitsComponent
+    PageAdminConsommationsComponent, CadreProduitsComponent,
+    PageFacturationsComponent, CadreListeFacturesComponent, CadreDetailsFactureComponent
   ],
 
   // Les services

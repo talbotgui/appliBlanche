@@ -42,6 +42,11 @@ export class CadreMenuComponent implements OnInit {
     pagesDuModule.push(new model.PageApplicative('menu_adminconsommation', 'reservationParametres.listerProduits', '/page-adminconsommations-route'));
     tousLesModules.push(new model.ModuleApplicatif('menu_titre_consommation', pagesDuModule));
 
+    // Menu FACTURATION
+    pagesDuModule = [];
+    pagesDuModule.push(new model.PageApplicative('menu_facturation', 'reservation.rechercherReservations', '/page-facturations-route'));
+    tousLesModules.push(new model.ModuleApplicatif('menu_titre_facturation', pagesDuModule));
+
     // Résumé des clefs nécessaires aux pages
     let clefs: string[] = [];
     tousLesModules.forEach((m) => {
