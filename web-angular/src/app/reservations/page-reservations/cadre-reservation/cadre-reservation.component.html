@@ -55,10 +55,8 @@
         <button type="submit" (click)="enregistrerReservationSelectionnee()" class="btn btn-outline-secondary" *ngIf="reservationSelectionnee.etatCourant!=='TERMINEE'"
           [disabled]="!leForm.form.valid" l10nTranslate>reservation_bouton_enregistrer</button>
 
-        <button type="submit" (click)="changerEtat('EN_COURS')" class="btn btn-outline-secondary" *ngIf="reservationSelectionnee.etatCourant==='ENREGISTREE'"
+        <button type="submit" (click)="changerEtatEnCours()" class="btn btn-outline-secondary" *ngIf="reservationSelectionnee.etatCourant==='ENREGISTREE'"
           l10nTranslate>reservation_bouton_arriveeClient</button>
-        <button type="submit" (click)="changerEtat('TERMINEE')" class="btn btn-outline-secondary" *ngIf="reservationSelectionnee.etatCourant==='EN_COURS'"
-          l10nTranslate>reservation_bouton_departClient</button>
       </div>
     </form>
   </mat-card-content>

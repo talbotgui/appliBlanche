@@ -1,0 +1,23 @@
+<mat-card>
+  <mat-card-title>
+    <span l10nTranslate>cadrelistefacture_titre</span>
+  </mat-card-title>
+  <mat-card-content>
+
+    <span>Facturables :</span>
+    <ul>
+      <li *ngFor="let reservation of reservationsFacturables" (click)="selectionnerReservation(reservation)">
+        <span>{{reservation.client}} - {{reservation.chambre.nom}}</span>
+      </li>
+    </ul>
+
+
+    <span>Déjà facturées :</span>
+    <ul>
+      <li *ngFor="let reservation of reservationsFacturees" (click)="selectionnerReservation(reservation)">
+        <span>{{reservation.client}} - {{reservation.chambre.nom}}</span>
+      </li>
+    </ul>
+
+  </mat-card-content>
+</mat-card>

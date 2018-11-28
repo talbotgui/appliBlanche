@@ -218,18 +218,18 @@ public class ReservationRestControlerTest extends BaseTestClass {
 		// ARRANGE
 		final List<Reservation> toReturn = Arrays.asList(new Reservation("c1", new Chambre(), LocalDate.now(), LocalDate.now()),
 				new Reservation("c1", new Chambre(), LocalDate.now(), LocalDate.now()));
-		Mockito.doReturn(toReturn).when(this.reservationService).rechercherReservationsCourantes();
+		Mockito.doReturn(toReturn).when(this.reservationService).rechercherReservations(EtatReservation.EN_COURS, false);
 
 		// ACT
 		final ParameterizedTypeReference<Collection<Reservation>> typeRetour = new ParameterizedTypeReference<Collection<Reservation>>() {
 		};
-		final ResponseEntity<Collection<Reservation>> reservations = this.getREST().exchange(this.getURL() + "/v1/reservations/courantes",
+		final ResponseEntity<Collection<Reservation>> reservations = this.getREST().exchange(this.getURL() + "/v1/reservations?etat=EN_COURS",
 				HttpMethod.GET, null, typeRetour);
 
 		// ASSERT
 		Assert.assertNotNull(reservations);
 		Assert.assertEquals(toReturn.size(), reservations.getBody().size());
-		Mockito.verify(this.reservationService).rechercherReservationsCourantes();
+		Mockito.verify(this.reservationService).rechercherReservations(EtatReservation.EN_COURS, false);
 		Mockito.verifyNoMoreInteractions(this.reservationService);
 	}
 

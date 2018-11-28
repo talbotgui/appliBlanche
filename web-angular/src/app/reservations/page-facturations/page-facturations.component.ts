@@ -17,5 +17,12 @@ export class PageFacturationsComponent implements AfterViewInit {
   /** Après le onInit et après que la vue se soit initialisée */
   ngAfterViewInit() {
 
+    // A la sélection d'un élément dans la liste, on prévient le cadre de détail
+    this.listeFactures.busDeMessage.subscribe((r: model.Reservation | undefined) => {
+      // sélection d'une réservation
+      if (r) {
+        this.detailsFacture.selectionnerUneReservation(r);
+      }
+    });
   }
 }

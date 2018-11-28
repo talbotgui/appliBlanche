@@ -5,6 +5,7 @@ import { Language } from 'angular-l10n';
 import * as jspdf from 'jspdf';
 import html2canvas from 'html2canvas';
 
+import * as model from '../../model/model';
 import { ReservationService } from '../../service/reservation.service';
 
 /** Page de gestion des reservations */
@@ -14,6 +15,8 @@ export class CadreDetailsFactureComponent implements OnInit {
   /** Decorateur nécessaire aux libellés internationnalisés dans des tooltips */
   @Language() lang: string;
 
+  reservationSelectionnee: model.Reservation;
+
   /** Un constructeur pour se faire injecter les dépendances */
   constructor(private reservationsService: ReservationService) { }
 
@@ -21,7 +24,21 @@ export class CadreDetailsFactureComponent implements OnInit {
   ngOnInit() {
   }
 
-  testerCreationPdf() {
+  /** A la sélection d'une réservation dans un autre composant  (pour ignorer la ligne suivante : @@angular:analyse:ignorerLigneSuivante@@) */
+  selectionnerUneReservation(r: model.Reservation) {
+    this.reservationSelectionnee = r;
+  }
+
+  /** Acte de facturation */
+  facturer() {
+
+    // Changement d'etat
+
+    // Génère le PDF
+    this.creerFacture;
+  }
+  /** Génère le PDF */
+  creerFacture() {
     const data = document.getElementById('detailsFacture');
     if (data) {
       html2canvas(data).then((canvas: any) => {

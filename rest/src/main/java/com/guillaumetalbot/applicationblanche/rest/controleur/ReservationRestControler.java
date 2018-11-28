@@ -1,6 +1,7 @@
 package com.guillaumetalbot.applicationblanche.rest.controleur;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.apache.commons.lang3.StringUtils;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +24,7 @@ import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Consomma
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.EtatReservation;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservation;
 import com.guillaumetalbot.applicationblanche.metier.service.ReservationService;
+import com.guillaumetalbot.applicationblanche.rest.controleur.utils.RestControlerUtils;
 
 @RestController
 @RequestMapping("/v1")
@@ -50,14 +53,27 @@ public class ReservationRestControler {
 
 	@GetMapping("/reservations")
 	public Collection<Reservation> rechercherReservations(//
-			@RequestParam(name = "dateDebut", required = true) @DateTimeFormat(iso = ISO.DATE) final LocalDate dateDebut, //
-			@RequestParam(name = "dateFin", required = true) @DateTimeFormat(iso = ISO.DATE) final LocalDate dateFin) {
-		return this.reservationService.rechercherReservations(dateDebut, dateFin);
-	}
+			@RequestParam(name = "dateDebut", required = false) @DateTimeFormat(iso = ISO.DATE) final LocalDate dateDebut, //
+			@RequestParam(name = "dateFin", required = false) @DateTimeFormat(iso = ISO.DATE) final LocalDate dateFin, //
+			@RequestParam(name = "etat", required = false) final EtatReservation etat, @RequestHeader("Accept") final String accept) {
 
-	@GetMapping("/reservations/courantes")
-	public Collection<Reservation> rechercherReservationsCourantes() {
-		return this.reservationService.rechercherReservationsCourantes();
+		// L'entete permet de définir la profondeur des données recherchées
+		final boolean toutesLesDonnees = RestControlerUtils.MIME_JSON_DETAILS.equals(accept);
+
+		// recherche par date sans etat
+		if (dateDebut != null && dateFin != null) {
+			return this.reservationService.rechercherReservations(dateDebut, dateFin);
+		}
+
+		// recherche par état
+		else if (etat != null) {
+			return this.reservationService.rechercherReservations(etat, toutesLesDonnees);
+		}
+
+		// Sinon, aucune données en retour
+		else {
+			return new ArrayList<>();
+		}
 	}
 
 	@PostMapping("/reservations/{referenceReservation}/consommations")

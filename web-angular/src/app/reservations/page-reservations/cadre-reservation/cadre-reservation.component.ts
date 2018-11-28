@@ -60,9 +60,9 @@ export class CadreReservationComponent implements OnInit {
     }
   }
 
-  changerEtat(codeEtat: string) {
+  changerEtatEnCours() {
     if (this.reservationSelectionnee) {
-      this.reservationsService.changerEtatReservation(this.reservationSelectionnee.reference, codeEtat).subscribe(() => {
+      this.reservationsService.changerEtatReservation(this.reservationSelectionnee.reference, 'EN_COURS').subscribe(() => {
         this.reservationSelectionnee = undefined;
         this.busDeMessage.emit('');
       });

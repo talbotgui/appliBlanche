@@ -33,4 +33,8 @@ public interface ReservationRepository extends CrudRepository<Reservation, Long>
 
 	@Query("select r from Reservation r left join fetch r.chambre where r.etatCourant = :etat order by r.chambre.nom")
 	Collection<Reservation> rechercherReservationsParEtatFetchChambre(@Param("etat") EtatReservation etat);
+
+	@Query("select r from Reservation r left join fetch r.chambre left join fetch r.formule left join fetch r.options where r.etatCourant = :etat order by r.chambre.nom")
+	Collection<Reservation> rechercherReservationsParEtatFetchChambreFormuleOptions(@Param("etat") EtatReservation etat);
+
 }

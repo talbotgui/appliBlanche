@@ -47,8 +47,20 @@ export class ReservationService {
 
   /** Liste les reservations en cours */
   listerReservationsEnCours(): Observable<model.Reservation[]> {
-    const url = environment.baseUrl + '/v1/reservations/courantes';
+    const url = environment.baseUrl + '/v1/reservations?etat=EN_COURS';
     return this.http.get<model.Reservation[]>(url, this.restUtils.creerHeader());
+  }
+
+  /** Liste des réservations facturables */
+  listerReservationsFacturables(): Observable<model.Reservation[]> {
+    const url = environment.baseUrl + '/v1/reservations?etat=EN_COURS';
+    return this.http.get<model.Reservation[]>(url, this.restUtils.creerHeader({ clef: 'Accept', valeur: 'application/json;details' }));
+  }
+
+  /** Liste des réservations facturées */
+  listerReservationsFacturees(): Observable<model.Reservation[]> {
+    const url = environment.baseUrl + '/v1/reservations?etat=FACTUREE';
+    return this.http.get<model.Reservation[]>(url, this.restUtils.creerHeader({ clef: 'Accept', valeur: 'application/json;details' }));
   }
 
   /** Liste des réservations entre deux dates. */

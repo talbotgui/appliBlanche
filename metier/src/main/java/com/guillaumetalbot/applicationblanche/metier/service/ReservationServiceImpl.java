@@ -92,13 +92,17 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override
-	public Collection<Reservation> rechercherReservations(final LocalDate dateDebut, final LocalDate dateFin) {
-		return this.reservationRepo.rechercherReservations(dateDebut, dateFin);
+	public Collection<Reservation> rechercherReservations(final EtatReservation etat, final boolean fetchTout) {
+		if (!fetchTout) {
+			return this.reservationRepo.rechercherReservationsParEtatFetchChambre(etat);
+		} else {
+			return this.reservationRepo.rechercherReservationsParEtatFetchChambreFormuleOptions(etat);
+		}
 	}
 
 	@Override
-	public Collection<Reservation> rechercherReservationsCourantes() {
-		return this.reservationRepo.rechercherReservationsParEtatFetchChambre(EtatReservation.EN_COURS);
+	public Collection<Reservation> rechercherReservations(final LocalDate dateDebut, final LocalDate dateFin) {
+		return this.reservationRepo.rechercherReservations(dateDebut, dateFin);
 	}
 
 	@Override

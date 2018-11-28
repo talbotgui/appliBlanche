@@ -252,7 +252,8 @@ public class ReservationServiceTest {
 		this.reservationService.changeEtatReservation(refReservation, EtatReservation.EN_COURS);
 
 		//
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from RESERVATION where etat_Courant=0", Long.class));
+		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from RESERVATION where etat_Courant=?",
+				new Object[] { EtatReservation.EN_COURS.getNumero() }, Long.class));
 	}
 
 	@Test
@@ -270,7 +271,8 @@ public class ReservationServiceTest {
 		//
 		Assert.assertNotNull(thrown);
 		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.TRANSITION_ETAT_IMPOSSIBLE));
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from RESERVATION where etat_courant=1", Long.class));
+		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from RESERVATION where etat_courant=?",
+				new Object[] { EtatReservation.ENREGISTREE.getNumero() }, Long.class));
 	}
 
 	@Test
@@ -286,7 +288,7 @@ public class ReservationServiceTest {
 		this.reservationService.changeEtatReservation(refResa2EnCours, EtatReservation.EN_COURS);
 
 		//
-		final Collection<Reservation> reservations = this.reservationService.rechercherReservationsCourantes();
+		final Collection<Reservation> reservations = this.reservationService.rechercherReservations(EtatReservation.EN_COURS, false);
 
 		//
 		Assert.assertNotNull(reservations);

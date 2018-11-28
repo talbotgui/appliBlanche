@@ -15,9 +15,9 @@ public interface ReservationService {
 
 	Collection<Consommation> rechercherConsommationsDuneReservation(String referenceReservation);
 
-	Collection<Reservation> rechercherReservations(LocalDate dateDebut, LocalDate dateFin);
+	Collection<Reservation> rechercherReservations(EtatReservation etat, boolean fetchTout);
 
-	Collection<Reservation> rechercherReservationsCourantes();
+	Collection<Reservation> rechercherReservations(LocalDate dateDebut, LocalDate dateFin);
 
 	String sauvegarderConsommation(Consommation consommation);
 
