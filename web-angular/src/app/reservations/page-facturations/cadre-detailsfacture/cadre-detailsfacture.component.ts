@@ -34,12 +34,11 @@ export class CadreDetailsFactureComponent implements OnInit {
 
     // Changement d'etat
 
-    // Génère le PDF
-    this.creerFacture;
   }
+
   /** Génère le PDF */
-  creerFacture() {
-    const data = document.getElementById('detailsFacture');
+  editerUneNote() {
+    const data = document.getElementById('contenuNote');
     if (data) {
       html2canvas(data).then((canvas: any) => {
         // Pour changer les dimensions de l'image en conservant le ratio
@@ -52,10 +51,11 @@ export class CadreDetailsFactureComponent implements OnInit {
         // création du document en A4 avec l'image en position 0:0
         const pdf = new jspdf('p', 'mm', 'a4');
         pdf.addImage(contentDataURL, 'PNG', 0, 0, imgWidth, imgHeight);
-        // pdf.text('petit texte', 10, 10);
 
         // Sauvegarde
-        pdf.save('MYPdf.pdf');
+        const dateDebut = this.reservationsService.formaterDate(this.reservationSelectionnee.dateDebut);
+        const dateFin = this.reservationsService.formaterDate(this.reservationSelectionnee.dateFin);
+        pdf.save('Note-' + this.reservationSelectionnee.client + '-' + dateDebut + '-' + dateFin + '.pdf');
       });
     }
   }

@@ -1,17 +1,18 @@
-<div id="detailsFacture" *ngIf="reservationSelectionnee">
+<div *ngIf="reservationSelectionnee">
   <mat-card>
     <mat-card-title>
       <span>Détails de facturation pour </span>
       <span>{{reservationSelectionnee.client}}</span>
       <span> ({{reservationSelectionnee.chambre.nom}})</span>
     </mat-card-title>
-    <mat-card-content>
-      <div class="col6">
-        <span>Formule : </span>
+    <mat-card-content id="contenuNote">
+      <div class="col-12">
+        <span class="libelle">Formule : </span>
         <span>{{reservationSelectionnee.formule.nom}} ({{reservationSelectionnee.formule.prixParNuit}} / nuit)</span>
       </div>
-      <div class="col6">
-        <span>Options : </span>
+      <div class="col-12">
+        <span class="libelle">Options : </span>
+        <span *ngIf="reservationSelectionnee.options.length === 0">-</span>
         <ul>
           <li *ngFor="let o of reservationSelectionnee.options">
             <span>{{o.nom}} ({{o.prix}} €{{(c.parNuit?' par nuit':'')}}{{(c.parPersonne?' par personne':'')}})</span>
@@ -20,8 +21,8 @@
       </div>
     </mat-card-content>
     <mat-card-footer>
-      <button type="submit" (click)="facturer()" class="btn btn-outline-secondary">Creer la facture</button>
-      <button type="submit" (click)="creerFacture()" class="btn btn-outline-secondary">Creer la facture</button>
+      <button type="submit" (click)="facturer()" class="btn btn-outline-secondary">Facturer</button>
+      <button type="submit" (click)="editerUneNote()" class="btn btn-outline-secondary">Editer une note</button>
     </mat-card-footer>
   </mat-card>
 </div>

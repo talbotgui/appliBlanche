@@ -147,4 +147,9 @@ export class ReservationService {
     const url = environment.baseUrl + '/v1/chambres/' + referenceChambre;
     return this.http.delete<void>(url, this.restUtils.creerHeader());
   }
+
+  /** pour exposer la méthode de formattage aux controleurs */
+  formaterDate(date: Date): string {
+    return this.http.formaterDate(date);
+  }
 }
