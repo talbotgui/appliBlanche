@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.guillaumetalbot.applicationblanche.exception.BusinessException;
@@ -95,8 +96,10 @@ public class ReservationServiceImpl implements ReservationService {
 	public Collection<Reservation> rechercherReservations(final EtatReservation etat, final boolean fetchTout) {
 		if (!fetchTout) {
 			return this.reservationRepo.rechercherReservationsParEtatFetchChambre(etat);
-		} else {
+		} else if (!EtatReservation.FACTUREE.equals(etat)) {
 			return this.reservationRepo.rechercherReservationsParEtatFetchChambreFormuleOptions(etat);
+		} else {
+			return this.reservationRepo.rechercherReservationsParEtatFetchChambreFormuleOptions(etat, PageRequest.of(0, 20));
 		}
 	}
 

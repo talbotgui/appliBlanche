@@ -11,6 +11,9 @@ export class CadreListeFacturesComponent implements OnInit {
   /** Decorateur nécessaire aux libellés internationnalisés dans des tooltips */
   @Language() lang: string;
 
+  /** Colonnes à afficher */
+  displayedColumns = ['client', 'chambre'];
+
   /** Bus de message pour communiquer avec le composant parent */
   busDeMessage = new EventEmitter<model.Reservation>();
 

@@ -4,20 +4,38 @@
   </mat-card-title>
   <mat-card-content>
 
-    <span>Facturables :</span>
-    <ul>
-      <li *ngFor="let reservation of reservationsFacturables" (click)="selectionnerReservation(reservation)">
-        <span>{{reservation.client}} - {{reservation.chambre.nom}}</span>
-      </li>
-    </ul>
+    <span>Réservations en cours :</span>
+    <table mat-table [dataSource]="reservationsFacturables" class="mat-elevation-z8">
 
+      <ng-container matColumnDef="client">
+        <th mat-header-cell *matHeaderCellDef>Client</th>
+        <td mat-cell *matCellDef="let res" (click)="selectionnerReservation(reservation)">{{res.client}}</td>
+      </ng-container>
+      <ng-container matColumnDef="chambre">
+        <th mat-header-cell *matHeaderCellDef>Chambre</th>
+        <td mat-cell *matCellDef="let res" (click)="selectionnerReservation(res)">{{res.chambre.nom}}</td>
+      </ng-container>
 
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <br />
     <span>Déjà facturées :</span>
-    <ul>
-      <li *ngFor="let reservation of reservationsFacturees" (click)="selectionnerReservation(reservation)">
-        <span>{{reservation.client}} - {{reservation.chambre.nom}}</span>
-      </li>
-    </ul>
+    <table mat-table [dataSource]="reservationsFacturees" class="mat-elevation-z8">
+
+      <ng-container matColumnDef="client">
+        <th mat-header-cell *matHeaderCellDef>Client</th>
+        <td mat-cell *matCellDef="let res" (click)="selectionnerReservation(res)">{{res.client}}</td>
+      </ng-container>
+      <ng-container matColumnDef="chambre">
+        <th mat-header-cell *matHeaderCellDef>Chambre</th>
+        <td mat-cell *matCellDef="let res" (click)="selectionnerReservation(res)">{{res.chambre.nom}}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
 
   </mat-card-content>
 </mat-card>

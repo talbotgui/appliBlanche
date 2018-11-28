@@ -2,9 +2,11 @@ package com.guillaumetalbot.applicationblanche.metier.dao.reservation;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.QueryHint;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.data.repository.CrudRepository;
@@ -32,9 +34,15 @@ public interface ReservationRepository extends CrudRepository<Reservation, Long>
 	Collection<Reservation> rechercherReservations(@Param("dateDebut") LocalDate dateDebut, @Param("dateFin") LocalDate dateFin);
 
 	@Query("select r from Reservation r left join fetch r.chambre where r.etatCourant = :etat order by r.chambre.nom")
+	@QueryHints(value = { @QueryHint(name = org.hibernate.jpa.QueryHints.HINT_READONLY, value = "true") })
 	Collection<Reservation> rechercherReservationsParEtatFetchChambre(@Param("etat") EtatReservation etat);
 
 	@Query("select r from Reservation r left join fetch r.chambre left join fetch r.formule left join fetch r.options where r.etatCourant = :etat order by r.chambre.nom")
+	@QueryHints(value = { @QueryHint(name = org.hibernate.jpa.QueryHints.HINT_READONLY, value = "true") })
 	Collection<Reservation> rechercherReservationsParEtatFetchChambreFormuleOptions(@Param("etat") EtatReservation etat);
+
+	@Query(value = "select r from Reservation r left join fetch r.chambre left join fetch r.formule left join fetch r.options where r.etatCourant = :etat order by r.dateFin, r.chambre.nom", countQuery = "select count(r) from Reservation r where r.etatCourant = :etat")
+	@QueryHints(value = { @QueryHint(name = org.hibernate.jpa.QueryHints.HINT_READONLY, value = "true") })
+	List<Reservation> rechercherReservationsParEtatFetchChambreFormuleOptions(@Param("etat") EtatReservation etat, Pageable pageable);
 
 }
