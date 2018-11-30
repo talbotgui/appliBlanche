@@ -3,6 +3,7 @@ package com.guillaumetalbot.applicationblanche.metier.dao.reservation;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.QueryHint;
 
@@ -16,6 +17,10 @@ import com.guillaumetalbot.applicationblanche.metier.entite.reservation.EtatRese
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservation;
 
 public interface ReservationRepository extends CrudRepository<Reservation, Long> {
+
+	@Query(value = "select r from Reservation r left join fetch r.chambre left join fetch r.formule left join fetch r.options left join fetch r.consommations where r.id = :idReservation")
+	@QueryHints(value = { @QueryHint(name = org.hibernate.jpa.QueryHints.HINT_READONLY, value = "true") })
+	Optional<Reservation> chargerReservationFetchChambreFormuleOptionsConsommation(@Param("idReservation") Long idReservation);
 
 	@Query("select count(r) from Reservation r where r.formule.id = :formuleId")
 	Long compterReservationPourCetteFormule(@Param("formuleId") Long id);

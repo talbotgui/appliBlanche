@@ -78,6 +78,7 @@ insert into LIBELLE (clef, libelle, langue) values ('ERREUR_SHA', 'Encryption er
 insert into LIBELLE (clef, libelle, langue) values ('ERREUR_SUPPRESSION_IMPOSSIBLE_OBJETS_LIES', 'Can not delete this object because of linked ''{{0}}''.', 'en');
 insert into LIBELLE (clef, libelle, langue) values ('ERREUR_TRANSITION_ETAT_IMPOSSIBLE', 'Can not change state from ''{{0}}'' to ''{{1}}''.', 'en');
 insert into LIBELLE (clef, libelle, langue) values ('ERREUR_RESERVATION_PAS_EN_COURS', 'Booking ''{{0}}'' not in progress', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('ERREUR_CREATION_DOCUMENT', 'Error during document creation', 'en');
 -- Page de réservation
 insert into LIBELLE (clef, libelle, langue) values ('reservation_titre', 'Booking details of ', 'en');
 insert into LIBELLE (clef, libelle, langue) values ('reservation_placeholder_dateDebut', 'Start date', 'en');

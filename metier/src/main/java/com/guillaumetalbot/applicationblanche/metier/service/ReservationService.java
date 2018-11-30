@@ -3,6 +3,7 @@ package com.guillaumetalbot.applicationblanche.metier.service;
 import java.time.LocalDate;
 import java.util.Collection;
 
+import com.guillaumetalbot.applicationblanche.metier.dto.FactureDto;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Consommation;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.EtatReservation;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservation;
@@ -10,6 +11,8 @@ import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservat
 public interface ReservationService {
 
 	void changeEtatReservation(String referenceReservation, EtatReservation etat);
+
+	FactureDto facturer(String referenceReservation);
 
 	void modifierQuantiteConsommation(String referenceReservation, String referenceConsommation, Integer quantite);
 

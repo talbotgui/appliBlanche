@@ -17,6 +17,7 @@ import com.guillaumetalbot.applicationblanche.metier.dao.reservation.FormuleRepo
 import com.guillaumetalbot.applicationblanche.metier.dao.reservation.OptionRepository;
 import com.guillaumetalbot.applicationblanche.metier.dao.reservation.ProduitRepository;
 import com.guillaumetalbot.applicationblanche.metier.dao.reservation.ReservationRepository;
+import com.guillaumetalbot.applicationblanche.metier.dto.FactureDto;
 import com.guillaumetalbot.applicationblanche.metier.entite.Entite;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Chambre;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Consommation;
@@ -35,6 +36,9 @@ public class ReservationServiceImpl implements ReservationService {
 
 	@Autowired
 	private ConsommationRepository consommationRepo;
+
+	@Autowired
+	private ExportService exportService;
 
 	@Autowired
 	private FormuleRepository formuleRepo;
@@ -61,6 +65,28 @@ public class ReservationServiceImpl implements ReservationService {
 
 		// Sauvegarde
 		this.reservationRepo.save(reservation);
+	}
+
+	@Override
+	public FactureDto facturer(final String referenceReservation) {
+		// Valider la référence
+		final Long idReservation = Entite.extraireIdentifiant(referenceReservation, Reservation.class);
+
+		// Charger la réservation
+		final Reservation reservation = this.reservationRepo.chargerReservationFetchChambreFormuleOptionsConsommation(idReservation)//
+				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "reservation", referenceReservation));
+
+		// Calculer le montant total
+		final Double montantTotal = reservation.calculerMontantTotal();
+
+		// Générer un PDF à partir d'un modèle
+		final byte[] pdf = this.exportService.genererPdfFactureReservation(reservation, montantTotal);
+
+		// Changement d'état de la réservation
+		this.changeEtatReservation(referenceReservation, EtatReservation.FACTUREE);
+
+		// Renvoi du DTO
+		return new FactureDto(montantTotal, pdf);
 	}
 
 	@Override

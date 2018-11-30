@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.guillaumetalbot.applicationblanche.exception.RestException;
+import com.guillaumetalbot.applicationblanche.metier.dto.FactureDto;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Consommation;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.EtatReservation;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservation;
@@ -37,6 +38,11 @@ public class ReservationRestControler {
 	public void changeEtatReservation(@PathVariable("referenceReservation") final String referenceReservation,
 			@RequestParam(name = "etat", required = true) final EtatReservation etat) {
 		this.reservationService.changeEtatReservation(referenceReservation, etat);
+	}
+
+	@PostMapping("/reservations/{referenceReservation}/facturer")
+	public FactureDto facturer(@PathVariable("referenceReservation") final String referenceReservation) {
+		return this.reservationService.facturer(referenceReservation);
 	}
 
 	@PutMapping("/reservations/{referenceReservation}/consommations/{referenceConsommation}")
@@ -105,6 +111,9 @@ public class ReservationRestControler {
 	public String sauvegarderReservation(@RequestBody final Reservation reservation) {
 
 		// Contrôles de surface
+		if (reservation.getNombrePersonnes() == null || reservation.getNombrePersonnes() == 0) {
+			throw new RestException(RestException.ERREUR_PARAMETRE_MANQUANT, "nombrePersonnes");
+		}
 		if (reservation.getChambre() == null || StringUtils.isEmpty(reservation.getChambre().getReference())) {
 			throw new RestException(RestException.ERREUR_PARAMETRE_MANQUANT, "chambre.reference");
 		}

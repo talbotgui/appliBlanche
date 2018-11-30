@@ -15,7 +15,7 @@
         <span *ngIf="reservationSelectionnee.options.length === 0">-</span>
         <ul>
           <li *ngFor="let o of reservationSelectionnee.options">
-            <span>{{o.nom}} ({{o.prix}} €{{(c.parNuit?' par nuit':'')}}{{(c.parPersonne?' par personne':'')}})</span>
+            <span>{{o.nom}} ({{o.prix}} €{{(o.parNuit?' par nuit':'')}}{{(o.parPersonne?' par personne':'')}})</span>
           </li>
         </ul>
       </div>

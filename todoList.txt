@@ -1,3 +1,6 @@
+
+https://codelabs.developers.google.com/codelabs/cloud-spring-runtime-config/index.html?index=..%2F..%2Fspring#2
+	
 https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/condition/ConditionalOnProperty.html
 
 Tester les dates envoyées depuis l'application WEB vers l'API

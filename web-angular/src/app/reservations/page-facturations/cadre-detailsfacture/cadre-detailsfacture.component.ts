@@ -32,7 +32,10 @@ export class CadreDetailsFactureComponent implements OnInit {
   /** Acte de facturation */
   facturer() {
 
-    // Changement d'etat
+    // Changement d'etat, calcul du montant total et génération du PDF
+    this.reservationsService.facturer(this.reservationSelectionnee.reference).subscribe((facture: model.Facture) => {
+      console.log(facture);
+    });
 
   }
 

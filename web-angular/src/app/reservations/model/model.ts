@@ -68,6 +68,9 @@ export class Reservation {
   /** Statut */
   public etatCourant: string;
 
+  /** Nombre de personnes à loger */
+  public nombrePersonnes: number;
+
   /** Constructeur. */
   constructor(
     /** référence unique */
@@ -124,4 +127,13 @@ export class Produit {
 export interface IStringToAnyMap<T> {
   /** clef de type String et valeur paramétrée */
   [key: string]: T;
+}
+
+/** facture */
+export class Facture {
+  /** Montant total */
+  public total: number;
+
+  /** Contenu du PDF de la facture en base64 */
+  public pdf: Blob;
 }

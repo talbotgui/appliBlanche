@@ -19,6 +19,7 @@
 
 		<version.hsqldb>2.4.0</version.hsqldb>
 		<version.assertJ>3.9.0</version.assertJ>
+		<version.jasper>6.7.0</version.jasper>
 
 		<dependency.locations.enabled>false</dependency.locations.enabled>
 	</properties>
@@ -65,5 +66,21 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- Pour l'édition de PDF -->
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>${version.jasper}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.bouncycastle</groupId>
+					<artifactId>bcprov-jdk15on</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+		</dependency>
 	</dependencies>
 </project>

@@ -1,6 +1,7 @@
 package com.guillaumetalbot.applicationblanche.metier.entite.reservation;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -12,6 +13,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import org.hibernate.Hibernate;
 
 import com.guillaumetalbot.applicationblanche.exception.BusinessException;
 import com.guillaumetalbot.applicationblanche.metier.entite.Entite;
@@ -40,6 +43,8 @@ public class Reservation extends Entite {
 	@JoinColumn(name = "FORMULE_ID")
 	private Formule formule;
 
+	private Long nombrePersonnes = 2L;
+
 	/**
 	 * Association en lecture seule directement vers les options. Mais, pour manipuler les ajouts/retraits, il faut passer par la création/suppression
 	 * d'OptionReservee.
@@ -65,6 +70,48 @@ public class Reservation extends Entite {
 	public Reservation(final String client, final Chambre chambre, final LocalDate dateDebut, final LocalDate dateFin, final Formule formule) {
 		this(client, chambre, dateDebut, dateFin);
 		this.formule = formule;
+	}
+
+	public Double calculerMontantTotal() {
+		// Si les attributs ne sont pas chargés, renvoi NULL
+		if (!Hibernate.isInitialized(this.getChambre()) || !Hibernate.isInitialized(this.getFormule()) || !Hibernate.isInitialized(this.getOptions())
+				|| !Hibernate.isInitialized(this.getConsommations())) {
+			return null;
+		}
+
+		// Pré-calculs
+		final long nbNuits = this.dateDebut.until(this.dateFin, ChronoUnit.DAYS);
+		final long nbPersonnes = this.nombrePersonnes;
+
+		// Initialisation du prix
+		Double montantTotal = 0D;
+
+		// Ajout du prix de la formule
+		montantTotal += this.formule.getPrixParNuit() * nbNuits;
+
+		// Ajout des options
+		if (this.options != null) {
+			for (final Option o : this.options) {
+				long multiplicateur = 0;
+				if (o.getParNuit() && o.getParPersonne()) {
+					multiplicateur = nbNuits * nbPersonnes;
+				} else if (o.getParNuit()) {
+					multiplicateur = nbNuits;
+				} else if (o.getParPersonne()) {
+					multiplicateur = nbPersonnes;
+				}
+				montantTotal += o.getPrix() * multiplicateur;
+			}
+		}
+
+		// Ajout des consommations
+		if (this.consommations != null) {
+			for (final Consommation c : this.consommations) {
+				montantTotal += c.getPrixPaye() * c.getQuantite();
+			}
+		}
+
+		return montantTotal;
 	}
 
 	/**
@@ -108,6 +155,10 @@ public class Reservation extends Entite {
 		return this.formule;
 	}
 
+	public Long getNombrePersonnes() {
+		return this.nombrePersonnes;
+	}
+
 	public Collection<Option> getOptions() {
 		return this.options;
 	}
@@ -140,6 +191,10 @@ public class Reservation extends Entite {
 		this.formule = formule;
 	}
 
+	public void setNombrePersonnes(final Long nombrePersonnes) {
+		this.nombrePersonnes = nombrePersonnes;
+	}
+
 	public void setOptions(final Collection<Option> options) {
 		this.options = options;
 	}
@@ -151,17 +206,34 @@ public class Reservation extends Entite {
 	 * @return
 	 */
 	private boolean validerTransitionEtat(final EtatReservation etatDemande) {
+
+		// Tous les états permettent de passer à ANNULER
+		if (EtatReservation.ANNULEE.equals(etatDemande)) {
+			return true;
+		}
+
+		// Transition possible depuis ENREGISTREE
 		if (EtatReservation.ENREGISTREE.equals(this.etatCourant)) {
-			// Transition possible avec EN_COURS
 			return EtatReservation.EN_COURS.equals(etatDemande);
-		} else if (EtatReservation.EN_COURS.equals(this.etatCourant)) {
-			// Transition possible avec TERMINEE
+		}
+
+		// Transition possible depuis EN_COURS
+		else if (EtatReservation.EN_COURS.equals(this.etatCourant)) {
+			return EtatReservation.FACTUREE.equals(etatDemande);
+		}
+
+		// Transition possible depuis EN_COURS
+		else if (EtatReservation.FACTUREE.equals(this.etatCourant)) {
 			return EtatReservation.TERMINEE.equals(etatDemande);
-		} else if (EtatReservation.TERMINEE.equals(this.etatCourant)) {
-			// TERMINEE est un état final
+		}
+
+		// TERMINEE est un état final
+		else if (EtatReservation.TERMINEE.equals(this.etatCourant)) {
 			return false;
-		} else {
-			// etat incohérent
+		}
+
+		// etat incohérent
+		else {
 			return false;
 		}
 	}

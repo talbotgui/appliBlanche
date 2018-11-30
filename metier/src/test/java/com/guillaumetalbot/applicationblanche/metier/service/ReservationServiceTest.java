@@ -280,11 +280,11 @@ public class ReservationServiceTest {
 		//
 		final String refChambre1 = this.reservationParametresService.sauvegarderChambre(new Chambre("nom1"));
 		final String refChambre2 = this.reservationParametresService.sauvegarderChambre(new Chambre("nom2"));
-		final String refResa1Terminee = this.sauvegarderUneReservation("client1", refChambre1, -10, -8);
+		final String refResa1Annulee = this.sauvegarderUneReservation("client1", refChambre1, -10, -8);
 		final String refResa2EnCours = this.sauvegarderUneReservation("client2", refChambre1, -8, -6);
 		this.sauvegarderUneReservation("client3", refChambre2, 0, 2);
-		this.reservationService.changeEtatReservation(refResa1Terminee, EtatReservation.EN_COURS);
-		this.reservationService.changeEtatReservation(refResa1Terminee, EtatReservation.TERMINEE);
+		this.reservationService.changeEtatReservation(refResa1Annulee, EtatReservation.EN_COURS);
+		this.reservationService.changeEtatReservation(refResa1Annulee, EtatReservation.ANNULEE);
 		this.reservationService.changeEtatReservation(refResa2EnCours, EtatReservation.EN_COURS);
 
 		//

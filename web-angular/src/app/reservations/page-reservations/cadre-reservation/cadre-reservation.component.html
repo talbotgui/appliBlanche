@@ -46,6 +46,13 @@
           </mat-select>
         </mat-form-field>
       </div>
+      <div class="row">
+        <mat-form-field>
+          <input matInput type="number" name="nombrePersonnes" [(ngModel)]="reservationSelectionnee.nombrePersonnes"
+            placeholder="{{ 'reservation_placeholder_nombrePersonnes' | translate: lang }}" [disabled]="reservationSelectionnee.etatCourant==='TERMINEE'"
+            required>
+        </mat-form-field>
+      </div>
       <div class="row" *ngFor="let o of options; let i = index">
         <mat-checkbox name="parNuit{{i}}" [(ngModel)]="optionsCalculeesPourLaReservationSelectionnee[o.reference]"
           [disabled]="reservationSelectionnee.etatCourant==='TERMINEE'">

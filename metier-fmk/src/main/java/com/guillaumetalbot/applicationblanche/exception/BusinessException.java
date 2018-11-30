@@ -6,6 +6,9 @@ import com.guillaumetalbot.applicationblanche.exception.ExceptionId.ExceptionLev
 
 public class BusinessException extends BaseException {
 
+	public static final ExceptionId ERREUR_CREATION_DOCUMENT = new ExceptionId("ERREUR_CREATION_DOCUMENT", "Erreur durant la création du document",
+			ExceptionLevel.ERROR, 500);
+
 	public static final ExceptionId ERREUR_LOGIN = new ExceptionId("ERREUR_LOGIN", "Erreur de connexion", ExceptionLevel.WARNING, 403);
 
 	public static final ExceptionId ERREUR_LOGIN_MDP = new ExceptionId("ERREUR_LOGIN_MDP",

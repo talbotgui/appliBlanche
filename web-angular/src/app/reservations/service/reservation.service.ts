@@ -136,6 +136,7 @@ export class ReservationService {
     const url = environment.baseUrl + '/v1/formules/' + referenceFormule;
     return this.http.delete<void>(url, this.restUtils.creerHeader());
   }
+
   /** Suppression d'un option via l'API */
   supprimerOption(referenceOption: string): Observable<{} | void> {
     const url = environment.baseUrl + '/v1/options/' + referenceOption;
@@ -152,4 +153,11 @@ export class ReservationService {
   formaterDate(date: Date): string {
     return this.http.formaterDate(date);
   }
+
+  /** Sauvegarde d'une reservation via l'API */
+  facturer(refReservation: string): Observable<{} | model.Facture> {
+    const url = environment.baseUrl + '/v1/reservations/' + refReservation + '/facturer';
+    return this.http.post<model.Facture>(url, undefined, this.restUtils.creerHeaderPost());
+  }
+
 }
