@@ -70,14 +70,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception {
 
+		// final A lire : https://www.baeldung.com/spring-security-websockets
+
 		// Désactivation du CSRF
 		http.csrf().disable()
 				// La page index.html est accessible
 				.authorizeRequests().antMatchers("/").permitAll()
 				// les écrans de Swagger sont accessibles à tous
 				.antMatchers(this.swaggerDocsPath).permitAll()
-				// les API publiques sont accessibles
-				.antMatchers("/i18n/**", "/monitoring").permitAll()
+				// les API publiques et les webSockets sont accessibles
+				.antMatchers("/i18n/**", "/monitoring", "/websocket/**").permitAll()
 				// Le filtre de connexion JWT est accessible
 				.antMatchers(HttpMethod.POST, this.parametresJwt.getUrlConnexion()).permitAll()
 				// Toutes les requêtes "preflight" sont accessibles (les navigateurs n'envoie pas l'entête Authorization)

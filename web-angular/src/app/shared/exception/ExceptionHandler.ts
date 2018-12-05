@@ -11,7 +11,7 @@ export class ExceptionHandler implements ErrorHandler {
   private precedenteErreur: any | undefined;
 
   /** Composant informatif */
-  private snackbarConfig: MatSnackBarConfig = { duration: 3000 };
+  private snackbarConfig: MatSnackBarConfig = { duration: 3000, panelClass: 'snackbarErreur' };
 
   /**
    * Un constructeur pour se faire injecter les dépendances

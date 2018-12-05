@@ -77,7 +77,9 @@ export class CadreCalendrierComponent implements OnInit {
     // Pour prévenir le composant parent qu'une réservation est sélectionnée
     const debut = new Date();
     const fin = new Date(debut.getTime() + (1 * 1000 * 3600 * 24));
-    this.busDeMessage.emit(new model.Reservation('', debut, fin, '', new model.Chambre('', ''), new model.Formule('', '', 0)));
+    const reservation = new model.Reservation('', debut, fin, '', new model.Chambre('', ''), new model.Formule('', '', 0));
+    reservation.nombrePersonnes = 2;
+    this.busDeMessage.emit(reservation);
   }
 
   /** Chargement de la liste des chambres, puis des réservations et calcul du tableau de données */

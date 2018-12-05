@@ -34,3 +34,5 @@ em.fa.actionDansUnEntete { margin-left: 5px; }
 
 /** Correction pour un problème depuis la migration en Angular-7 */
 .mat-snack-bar-container { height:49px; }
+.snackbarErreur { background-color: red; }
+.snackbarInfo { background-color: green; }

@@ -86,6 +86,7 @@ insert into LIBELLE (clef, libelle, langue) values ('reservation_placeholder_dat
 insert into LIBELLE (clef, libelle, langue) values ('reservation_placeholder_client', 'Nom du client', 'fr');
 insert into LIBELLE (clef, libelle, langue) values ('reservation_placeholder_chambre', 'Chambre', 'fr');
 insert into LIBELLE (clef, libelle, langue) values ('reservation_placeholder_formule', 'Formule', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('reservation_placeholder_nombrePersonnes', 'Nombre de personnes', 'fr');
 insert into LIBELLE (clef, libelle, langue) values ('reservation_bouton_enregistrer', 'Enregistrer', 'fr');
 insert into LIBELLE (clef, libelle, langue) values ('reservation_bouton_arriveeClient', 'Arrivée du client', 'fr');
 insert into LIBELLE (clef, libelle, langue) values ('reservation_bouton_departClient', 'Départ du client', 'fr');
@@ -123,3 +124,5 @@ insert into LIBELLE (clef, libelle, langue) values ('monitoring_entete_tempsCumu
 insert into LIBELLE (clef, libelle, langue) values ('monitoring_entete_tempsMoyen', 'Moyen', 'fr');
 insert into LIBELLE (clef, libelle, langue) values ('monitoring_entete_tempsMax', 'Max', 'fr');
 insert into LIBELLE (clef, libelle, langue) values ('monitoring_entete_tempsMin', 'Min', 'fr');
+-- Notifications
+insert into LIBELLE (clef, libelle, langue) values ('notification_nouvelleReservation', 'Une nouvelle réservation vient d''être enregistrée', 'fr');

@@ -33,6 +33,7 @@
     "@angular/pwa": "0.10.6",
     "@angular/router": "7.0.4",
     "@angular/service-worker": "7.0.4",
+    "@stomp/ng2-stompjs": "^7.0.1",
     "@types/html2canvas": "0.0.35",
     "@types/jspdf": "1.2.2",
     "angular-l10n": "5.0.0",

@@ -29,6 +29,9 @@
 		<Logger additivity="false" name="org.springframework" level="warn"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
 		<Logger additivity="false" name="org.springframework.boot.autoconfigure.security" level="info"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
 		<Logger additivity="false" name="org.thymeleaf" level="warn"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
+		
+		<!-- Pour voir les URL mappées -->
+		<Logger additivity="false" name="org.springframework.web" level="info"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
 
 		<Logger additivity="false" name="org.hibernate" level="warn"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
 		<Logger additivity="false" name="org.hibernate.SQL" level="trace"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>

@@ -26,6 +26,7 @@ import com.guillaumetalbot.applicationblanche.metier.entite.reservation.EtatRese
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservation;
 import com.guillaumetalbot.applicationblanche.metier.service.ReservationService;
 import com.guillaumetalbot.applicationblanche.rest.controleur.utils.RestControlerUtils;
+import com.guillaumetalbot.applicationblanche.rest.socket.SocketService;
 
 @RestController
 @RequestMapping("/v1")
@@ -33,6 +34,9 @@ public class ReservationRestControler {
 
 	@Autowired
 	private ReservationService reservationService;
+
+	@Autowired
+	private SocketService socketService;
 
 	@PutMapping("/reservations/{referenceReservation}/etat")
 	public void changeEtatReservation(@PathVariable("referenceReservation") final String referenceReservation,
@@ -127,7 +131,13 @@ public class ReservationRestControler {
 			throw new RestException(RestException.ERREUR_DEUX_PARAMETRES_INCOHERENTS, "dateDebut", "dateFin");
 		}
 
+		// Sauvegarde de la réservation
 		final String reference = this.reservationService.sauvegarderReservation(reservation);
+
+		// Notification de tous les navigateurs connectés
+		this.socketService.envoyerUnMessage(SocketConstantes.TOPIC_CREATION_RESERVATION, reservation);
+
+		// Renvoi de la référence
 		return '"' + reference + '"';
 	}
 
