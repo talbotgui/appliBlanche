@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
 import { LocaleService, TranslationService } from 'angular-l10n';
-import { StompService } from '@stomp/ng2-stompjs';
+import { RxStompService } from '@stomp/ng2-stompjs';
+import { RxStompConfig } from '@stomp/rx-stomp';
 import { Message } from '@stomp/stompjs';
 
 import { environment } from '../../../environments/environment';
@@ -13,8 +14,8 @@ import { Reservation } from '../../reservations/model/model';
 @Injectable()
 export class NotificationsService {
 
-  /** Service permettant la connexion au socket du backend */
-  stompService: StompService;
+  /** Client webSocket */
+  private stompService: RxStompService;
 
   /** Composant informatif */
   private snackbarConfig: MatSnackBarConfig = { duration: 3000, panelClass: 'snackbarInfo' };
@@ -37,25 +38,30 @@ export class NotificationsService {
       return;
     }
 
-    // Connexion
-    this.stompService = new StompService({
-      url,
-      headers: { Authorization: token, TOTO: 'coucou' },
-      heartbeat_in: 0, heartbeat_out: 20000, reconnect_delay: 5000,
-      debug: false
-    });
+    // Configuration
+    const config: RxStompConfig = {
+      brokerURL: url, connectHeaders: { Authorization: token },
+      heartbeatIncoming: 0, heartbeatOutgoing: 20000, reconnectDelay: 5000
+    };
+    this.stompService = new RxStompService();
+    this.stompService.configure(config);
 
     // Log à chaque connexion/reconnexion
     this.stompService.connected$.subscribe(() => { console.log('Reconnexion à la socket du backend'); });
 
+    // Démarrage
+    this.stompService.activate();
+
     // Ecoute des messages envoyés par le backend sur le topic 'nouvelleReservation'
-    this.stompService.subscribe('/topic/nouvelleReservation').subscribe((m: Message) => {
-      let message = this.translationService.translate('notification_nouvelleReservation', undefined, this.localService.getCurrentLanguage());
-      if (m.body) {
-        const r: Reservation = JSON.parse(m.body);
-        message += ' ' + r.client + ' (' + r.dateDebut + ' => ' + r.dateFin + ')';
+    this.stompService.watch('/topic/nouvelleReservation').subscribe(
+      (m: Message) => {
+        let message = this.translationService.translate('notification_nouvelleReservation', undefined, this.localService.getCurrentLanguage());
+        if (m.body) {
+          const r: Reservation = JSON.parse(m.body);
+          message += ' ' + r.client + ' (' + r.dateDebut + ' => ' + r.dateFin + ')';
+        }
+        this.snackBar.open(message, undefined, this.snackbarConfig);
       }
-      this.snackBar.open(message, undefined, this.snackbarConfig);
-    });
+    );
   }
 }
