@@ -66,6 +66,10 @@ public abstract class JwtIntegrationWebTest extends MockedIntegrationWebTest {
 		this.jetonJwt = null;
 	}
 
+	protected String getJetonJwt() {
+		return this.jetonJwt;
+	}
+
 	protected abstract String getListePackagesDeControleur();
 
 	protected ParametresJwt getParametresJwt() {

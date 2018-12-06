@@ -29,7 +29,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EntityScan("com.guillaumetalbot.applicationblanche.metier.entite")
 @ComponentScan({ "com.guillaumetalbot.applicationblanche.rest.erreur", "com.guillaumetalbot.applicationblanche.rest.securite",
 		RestApplicationForTests.PACKAGE_CONTROLEUR, "com.guillaumetalbot.applicationblanche.metier.dao",
-		"com.guillaumetalbot.applicationblanche.metier.service", "com.guillaumetalbot.applicationblanche.rest.application.monitoring" })
+		"com.guillaumetalbot.applicationblanche.metier.service", "com.guillaumetalbot.applicationblanche.rest.application.monitoring",
+		"com.guillaumetalbot.applicationblanche.rest.socket" })
 @EnableJpaRepositories("com.guillaumetalbot.applicationblanche.metier.dao")
 @EnableGlobalMethodSecurity
 public class RestApplicationForTests {

@@ -31,7 +31,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @EntityScan(RestApplication.PACKAGE_METIER_ENTITE)
 @ComponentScan({ RestApplication.PACKAGE_REST_ERREUR, RestApplication.PACKAGE_REST_SECURITE, RestApplication.PACKAGE_REST_CONTROLEUR,
-		RestApplication.PACKAGE_METIER_DAO, RestApplication.PACKAGE_METIER_SERVICE, RestApplication.PACKAGE_REST_MONITORING })
+		RestApplication.PACKAGE_METIER_DAO, RestApplication.PACKAGE_METIER_SERVICE, RestApplication.PACKAGE_REST_MONITORING,
+		RestApplication.PACKAGE_REST_SCHEDULER, RestApplication.PACKAGE_REST_WEBSOCKET })
 @EnableJpaRepositories(RestApplication.PACKAGE_METIER_DAO)
 @EnableGlobalMethodSecurity
 public class RestApplicationForTests {

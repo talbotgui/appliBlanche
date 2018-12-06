@@ -12,16 +12,12 @@ import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptorAdapter;
 import org.springframework.messaging.support.MessageHeaderAccessor;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
-import com.guillaumetalbot.applicationblanche.rest.securite.jwt.AuthenticationToken;
 import com.guillaumetalbot.applicationblanche.rest.securite.jwt.ParametresJwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 
 /**
@@ -51,19 +47,18 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 				// Si c'est un frame/échange de connexion
 				if (StompCommand.CONNECT.equals(accessor.getCommand())) {
 
-					// Si on a un token
+					// Si on a un token (IF) et qu'il est valide (exception durant le parse)
 					final Object header = accessor.getNativeHeader(WebSocketConfig.this.parametresJwt.getHeaderKey());
-					if (header != null && List.class.isInstance(header) && ((List) header).size() == 1) {
-						final String token = ((List) header).get(0).toString().replace(WebSocketConfig.this.parametresJwt.getTokenPrefix(), "");
+					if (header != null && List.class.isInstance(header) && ((List<?>) header).size() == 1) {
+						final String token = ((List<?>) header).get(0).toString().replace(WebSocketConfig.this.parametresJwt.getTokenPrefix(), "");
 
 						// Parse du token
-						final Jws<Claims> jws = Jwts.parser().setSigningKey(WebSocketConfig.this.parametresJwt.getSecret()).parseClaimsJws(token);
+						Jwts.parser().setSigningKey(WebSocketConfig.this.parametresJwt.getSecret()).parseClaimsJws(token);
 
-						// Creation d'un User
-						final Authentication authentication = new AuthenticationToken(jws.getBody().getSubject(), null, null);
-
-						// sauvegarde en context
-						accessor.setUser(authentication);
+						// Sauvegarde, en contexte récupérable, de l'utilisateur
+						// final Jws<Claims> jws = Jwts.parser().setSigningKey(WebSocketConfig.this.parametresJwt.getSecret()).parseClaimsJws(token);
+						// final Authentication authentication = new AuthenticationToken(jws.getBody().getSubject(), null, null);
+						// accessor.setUser(authentication);
 
 						return message;
 					}
@@ -71,6 +66,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 					// Pas de message si l'utilisateur n'est pas autorisé
 					return null;
 				}
+
+				// Fonctionnement nominal (seul le connect nécessite le token)
 				return message;
 			}
 		});
