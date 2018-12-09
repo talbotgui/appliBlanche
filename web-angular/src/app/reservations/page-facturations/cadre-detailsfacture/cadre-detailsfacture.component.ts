@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component } from '@angular/core';
 import { Language } from 'angular-l10n';
 
 // Import des libs et classes pour faire du PDF
@@ -10,7 +10,7 @@ import { ReservationService } from '../../service/reservation.service';
 
 /** Page de gestion des reservations */
 @Component({ selector: 'cadre-detailsfacture', templateUrl: './cadre-detailsfacture.component.html', styleUrls: ['./cadre-detailsfacture.component.css'] })
-export class CadreDetailsFactureComponent implements OnInit {
+export class CadreDetailsFactureComponent {
 
   /** Decorateur nécessaire aux libellés internationnalisés dans des tooltips */
   @Language() lang: string;
@@ -19,10 +19,6 @@ export class CadreDetailsFactureComponent implements OnInit {
 
   /** Un constructeur pour se faire injecter les dépendances */
   constructor(private reservationsService: ReservationService) { }
-
-  /** A l'initialisation */
-  ngOnInit() {
-  }
 
   /** A la sélection d'une réservation dans un autre composant  (pour ignorer la ligne suivante : @@angular:analyse:ignorerLigneSuivante@@) */
   selectionnerUneReservation(r: model.Reservation) {
@@ -34,7 +30,7 @@ export class CadreDetailsFactureComponent implements OnInit {
 
     // Changement d'etat, calcul du montant total et génération du PDF
     this.reservationsService.facturer(this.reservationSelectionnee.reference).subscribe((facture: model.Facture) => {
-      console.log(facture);
+      // TODO
     });
 
   }

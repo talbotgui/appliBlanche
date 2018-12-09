@@ -37,14 +37,12 @@ export class NotificationsService {
   /** Déconnexion */
   deconnexion() {
     if (this.stompService) {
-      console.log('Fermeture de la socket au backend');
       this.stompService.deactivate();
     }
   }
 
   /** Initialisation de la socket */
   initialiserSocketPostConnexion() {
-    console.log('Initialisation de la socket au backend');
 
     // calcul de l'URL de la socket
     const url = environment.baseUrl.replace('http://', 'ws://').replace('https://', 'ws://') + '/websocket';
@@ -62,9 +60,6 @@ export class NotificationsService {
     };
     this.stompService = new RxStompService();
     this.stompService.configure(config);
-
-    // Log à chaque connexion/reconnexion
-    this.stompService.connected$.subscribe(() => { console.log('Reconnexion à la socket du backend'); });
 
     // Démarrage
     this.stompService.activate();
