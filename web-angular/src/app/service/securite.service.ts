@@ -75,12 +75,20 @@ export class SecuriteService {
 
   /** Informe si l'utilisateur est bien connecté */
   estConnecte(): Observable<{} | boolean> {
+
+    // Si l'utilisateur a demandé la déconnexion depuis le dernier raffichissement de la page (donc bien déconnecté)
     if (this.aDemandeLaDeconnexion) {
       return of(false);
-    } else if (this.tokenDejaValide) {
+    }
+
+    // Si le token a déjà été validé depuis le dernier chargement de la page
+    else if (this.tokenDejaValide) {
       const token = localStorage.getItem('JWT');
       return of(!!token);
-    } else {
+    }
+
+    // Tentative d'appel REST pour valider/invalider le token
+    else {
       return this.invaliderTokenSiPresentEtExpire();
     }
   }

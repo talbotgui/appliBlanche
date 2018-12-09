@@ -236,7 +236,7 @@ public class UtilisateurRestControlerTest extends BaseTestClass {
 		final Utilisateur aRetourner = new Utilisateur(login, "m1");
 
 		// ARRANGE
-		Mockito.doReturn(aRetourner).when(this.securiteService).chargerUtilisateurReadOnly(Mockito.anyString());
+		Mockito.doReturn(aRetourner).when(this.securiteService).chargerUtilisateurAvecRolesEtRessourcesAutoriseesReadOnly(Mockito.anyString());
 
 		// ACT
 		final Utilisateur utilisateur = this.getREST().getForObject(this.getURL() + "/v1/utilisateurs/moi", Utilisateur.class);
@@ -244,7 +244,7 @@ public class UtilisateurRestControlerTest extends BaseTestClass {
 		// ASSERT
 		Assert.assertNotNull(utilisateur);
 		Assert.assertEquals(utilisateur.getLogin(), aRetourner.getLogin());
-		Mockito.verify(this.securiteService).chargerUtilisateurReadOnly(Mockito.anyString());
+		Mockito.verify(this.securiteService).chargerUtilisateurAvecRolesEtRessourcesAutoriseesReadOnly(Mockito.anyString());
 		Mockito.verifyNoMoreInteractions(this.securiteService);
 	}
 

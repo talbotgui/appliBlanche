@@ -55,6 +55,7 @@ export class CadreMenuComponent implements OnInit {
 
     // A la connexion/déconnexion d'un utilisateur
     this.context.notificationsConnexionDunUtilisateur.subscribe((u: model.Utilisateur) => {
+      console.log('Reconstruction du menu à la connexion');
 
       // Validation des éléments du menu autorisés à cet utilisateur
       const clefsAutorisees = this.securiteService.validerAutorisations(clefs);

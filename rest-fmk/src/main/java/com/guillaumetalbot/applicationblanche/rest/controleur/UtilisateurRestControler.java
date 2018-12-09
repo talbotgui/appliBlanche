@@ -53,7 +53,7 @@ public class UtilisateurRestControler {
 
 	@GetMapping(value = "/v1/utilisateurs/moi")
 	public Utilisateur chargerUtilisateurMoi(final HttpServletRequest request) {
-		return this.securiteService.chargerUtilisateurReadOnly(request.getRemoteUser());
+		return this.securiteService.chargerUtilisateurAvecRolesEtRessourcesAutoriseesReadOnly(request.getRemoteUser());
 	}
 
 	@PutMapping(value = "/v1/utilisateurs/{login}/deverrouille")

@@ -9,6 +9,7 @@ import { Message } from '@stomp/stompjs';
 import { environment } from '../../../environments/environment';
 
 import { Reservation } from '../../reservations/model/model';
+import { Context } from './context';
 
 /** Composant TS permettant de recevoir/envoyer des messages sur des WEB sockets */
 @Injectable()
@@ -21,13 +22,29 @@ export class NotificationsService {
   private snackbarConfig: MatSnackBarConfig = { duration: 3000, panelClass: 'snackbarInfo' };
 
   /** Constructeur du composant */
-  constructor(private snackBar: MatSnackBar, private translationService: TranslationService, private localService: LocaleService) {
-    this.initialiserSocket();
+  constructor(private snackBar: MatSnackBar, private translationService: TranslationService, private localService: LocaleService, private context: Context) {
+
+    // A la connexion d'un utilisateur, on initialise le socket
+    this.context.notificationsConnexionDunUtilisateur.subscribe((u) => {
+      if (u) {
+        this.initialiserSocketPostConnexion();
+      } else {
+        this.deconnexion();
+      }
+    });
+  }
+
+  /** Déconnexion */
+  deconnexion() {
+    if (this.stompService) {
+      console.log('Fermeture de la socket au backend');
+      this.stompService.deactivate();
+    }
   }
 
   /** Initialisation de la socket */
-  initialiserSocket() {
-    console.log('Initialisation de la socket du backend');
+  initialiserSocketPostConnexion() {
+    console.log('Initialisation de la socket au backend');
 
     // calcul de l'URL de la socket
     const url = environment.baseUrl.replace('http://', 'ws://').replace('https://', 'ws://') + '/websocket';
