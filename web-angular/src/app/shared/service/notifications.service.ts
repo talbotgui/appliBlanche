@@ -45,7 +45,7 @@ export class NotificationsService {
   initialiserSocketPostConnexion() {
 
     // calcul de l'URL de la socket
-    const url = environment.baseUrl.replace('http://', 'ws://').replace('https://', 'ws://') + '/websocket';
+    const url = environment.baseUrl.replace('http://', 'ws://').replace('https://', 'wss://') + '/websocket';
 
     // Lecture du token
     const token = localStorage.getItem('JWT');
