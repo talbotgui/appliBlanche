@@ -1,2 +1,5 @@
 /* Pour réduire la largeur de la dernière colonne */
 th.mat-header-cell:last-child { padding-right: 4px; }
+
+/** Centrage des boutons d'action */
+td.mat-column-actions { text-align: center; }

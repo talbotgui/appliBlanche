@@ -1,1 +1,9 @@
 tr.ligneSelectionne { font-style: italic; }
+
+/** Centrage des boutons d'action */
+td.mat-column-actions { text-align: center; }
+
+/** Petit écran => pas d'actions */
+@media screen and (max-width: 340px) {
+  .cdk-column-actions { display: none; }
+}

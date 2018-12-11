@@ -19,9 +19,18 @@ export class PageReservationsComponent implements AfterViewInit {
 
     // A l'envoi d'un message du composant Calendrier
     this.cadreCalendrier.busDeMessage.subscribe((r: model.Reservation | undefined) => {
-      // sélection d'une réservation
       if (r) {
+        // sélection d'une réservation
         this.cadreReservation.selectionnerUneReservation(r);
+
+        // Scroll vers le bas pour affiche le cadre
+        // (avec un petit décalage temporel pour laisser le temps au cadre de s'afficher)
+        setTimeout(() => {
+          const cadre = document.getElementById('cadre-reservation');
+          if (cadre) {
+            cadre.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'center' });
+          }
+        }, 200);
       }
     });
 
