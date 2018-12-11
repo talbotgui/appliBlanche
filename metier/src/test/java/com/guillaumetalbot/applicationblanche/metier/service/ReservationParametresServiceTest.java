@@ -33,7 +33,9 @@ import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Chambre;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Consommation;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.EtatReservation;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Formule;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.MoyenDePaiement;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Option;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Paiement;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Produit;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservation;
 
@@ -414,6 +416,91 @@ public class ReservationParametresServiceTest {
 		Assert.assertNotNull(thrown);
 		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.SUPPRESSION_IMPOSSIBLE_OBJETS_LIES));
 		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from OPTION_RESERVATION", Long.class));
+	}
+
+	@Test
+	public void test05MoyenDePaiement01CreationOk() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+
+		//
+		final String ref = this.reservationParametresService.sauvegarderMoyenDePaiement(new MoyenDePaiement("nomMdp", 2.5));
+
+		//
+		Assert.assertNotNull(ref);
+		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from MOYEN_DE_PAIEMENT", Long.class));
+	}
+
+	@Test
+	public void test05MoyenDePaiement02CreationKoNomEnDouble() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final String nom = "nom";
+		this.reservationParametresService.sauvegarderMoyenDePaiement(new MoyenDePaiement(nom, 2.5));
+
+		//
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.reservationParametresService.sauvegarderMoyenDePaiement(new MoyenDePaiement(nom, 2.6));
+		});
+
+		//
+		Assert.assertNotNull(thrown);
+		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_FONCTIONNELEMENT_EN_DOUBLE));
+		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from MOYEN_DE_PAIEMENT", Long.class));
+	}
+
+	@Test
+	public void test05MoyenDePaiement03Lister() {
+		//
+		final List<String> nomDesFormules = Arrays.asList("nom1", "nom2", "nom3");
+		this.reservationParametresService.sauvegarderMoyenDePaiement(new MoyenDePaiement(nomDesFormules.get(2), 2.6));
+		this.reservationParametresService.sauvegarderMoyenDePaiement(new MoyenDePaiement(nomDesFormules.get(1), 2.6));
+		this.reservationParametresService.sauvegarderMoyenDePaiement(new MoyenDePaiement(nomDesFormules.get(0), 2.6));
+
+		//
+		final Collection<MoyenDePaiement> moyens = this.reservationParametresService.listerMoyensDePaiement();
+
+		//
+		Assert.assertNotNull(moyens);
+		Assertions.assertThat(moyens.stream().map((p) -> p.getNom()).collect(Collectors.toList())).containsExactlyElementsOf(nomDesFormules);
+	}
+
+	@Test
+	public void test05MoyenDePaiement03SuppressionOk() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final String ref = this.reservationParametresService.sauvegarderMoyenDePaiement(new MoyenDePaiement("nom1", 2.6));
+
+		//
+		this.reservationParametresService.supprimerMoyenDePaiement(ref);
+
+		//
+		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from MOYEN_DE_PAIEMENT", Long.class));
+	}
+
+	@Test
+	public void test05MoyenDePaiement04SuppressionKo() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final String refChambre = this.reservationParametresService.sauvegarderChambre(new Chambre("nomC"));
+		final String refFormule = this.reservationParametresService.sauvegarderFormule(new Formule("nom1", 2.6));
+		final String refMoyen = this.reservationParametresService.sauvegarderMoyenDePaiement(new MoyenDePaiement("nom1", 2.6));
+		final String refReservation = this.sauvegarderUneReservation("client", refChambre, -1, 2, refFormule);
+		final MoyenDePaiement mdp = new MoyenDePaiement();
+		mdp.setReference(refMoyen);
+		final Reservation reservation = new Reservation();
+		reservation.setReference(refReservation);
+		this.reservationService.sauvegarderPaiement(new Paiement(LocalDate.now(), 1.0, mdp, reservation));
+
+		//
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.reservationParametresService.supprimerMoyenDePaiement(refMoyen);
+		});
+
+		//
+		Assert.assertNotNull(thrown);
+		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.SUPPRESSION_IMPOSSIBLE_OBJETS_LIES));
+		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from MOYEN_DE_PAIEMENT", Long.class));
 	}
 
 }

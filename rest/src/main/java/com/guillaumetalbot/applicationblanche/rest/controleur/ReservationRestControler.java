@@ -23,6 +23,7 @@ import com.guillaumetalbot.applicationblanche.exception.RestException;
 import com.guillaumetalbot.applicationblanche.metier.dto.FactureDto;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Consommation;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.EtatReservation;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Paiement;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservation;
 import com.guillaumetalbot.applicationblanche.metier.service.ReservationService;
 import com.guillaumetalbot.applicationblanche.rest.controleur.utils.RestControlerUtils;
@@ -59,6 +60,11 @@ public class ReservationRestControler {
 	@GetMapping("/reservations/{referenceReservation}/consommations")
 	public Collection<Consommation> rechercherConsommationsDuneReservation(@PathVariable("referenceReservation") final String referenceReservation) {
 		return this.reservationService.rechercherConsommationsDuneReservation(referenceReservation);
+	}
+
+	@GetMapping("/reservations/{referenceReservation}/paiments")
+	public Collection<Paiement> rechercherPaiementsDuneReservation(@PathVariable("referenceReservation") final String referenceReservation) {
+		return this.reservationService.rechercherPaiementsDuneReservation(referenceReservation);
 	}
 
 	@GetMapping("/reservations")
@@ -108,6 +114,31 @@ public class ReservationRestControler {
 		}
 
 		final String reference = this.reservationService.sauvegarderConsommation(consommation);
+		return '"' + reference + '"';
+	}
+
+	@PostMapping("/reservations/{referenceReservation}/paiements")
+	public String sauvegarderPaiement(@PathVariable("referenceReservation") final String referenceReservation, //
+			@RequestBody final Paiement paiement) {
+
+		// Controles de surface
+		if (paiement.getMontant() == null) {
+			throw new RestException(RestException.ERREUR_PARAMETRE_MANQUANT, "dateCreation");
+		}
+		if (paiement.getMoyenDePaiement() == null || StringUtils.isEmpty(paiement.getMoyenDePaiement().getReference())) {
+			throw new RestException(RestException.ERREUR_PARAMETRE_MANQUANT, "moyenDePaiement");
+		}
+
+		// Si la référence de réservation n'est pas dans la consommation
+		if (paiement.getReservation() == null) {
+			paiement.setReservation(new Reservation());
+		}
+		if (StringUtils.isEmpty(paiement.getReservation().getReference())) {
+			paiement.getReservation().setReference(referenceReservation);
+
+		}
+
+		final String reference = this.reservationService.sauvegarderPaiement(paiement);
 		return '"' + reference + '"';
 	}
 

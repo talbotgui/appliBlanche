@@ -17,6 +17,7 @@ import org.testng.annotations.Test;
 import com.guillaumetalbot.applicationblanche.metier.entite.Entite;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Chambre;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Formule;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.MoyenDePaiement;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Option;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Produit;
 
@@ -348,4 +349,42 @@ public class ReservationParametresRestControlerTest extends BaseTestClass {
 		Mockito.verifyNoMoreInteractions(this.reservationParametresService);
 	}
 
+	@Test
+	public void test04MoyenDePaiement01Lister() {
+
+		// ARRANGE
+		final List<MoyenDePaiement> toReturn = Arrays.asList(new MoyenDePaiement("1", 1.0), new MoyenDePaiement("2", 1.0),
+				new MoyenDePaiement("3", 1.0), new MoyenDePaiement("4", 1.0));
+		Mockito.doReturn(toReturn).when(this.reservationParametresService).listerMoyensDePaiement();
+
+		// ACT
+		final ParameterizedTypeReference<Collection<MoyenDePaiement>> typeRetour = new ParameterizedTypeReference<Collection<MoyenDePaiement>>() {
+		};
+		final ResponseEntity<Collection<MoyenDePaiement>> mdp = this.getREST().exchange(this.getURL() + "/v1/moyensDePaiement", HttpMethod.GET, null,
+				typeRetour);
+
+		// ASSERT
+		Mockito.verify(this.reservationParametresService).listerMoyensDePaiement();
+		Mockito.verifyNoMoreInteractions(this.reservationParametresService);
+		Assert.assertNotNull(mdp.getBody());
+		Assert.assertEquals(mdp.getBody().size(), toReturn.size());
+		Assert.assertEquals(mdp.getBody().iterator().next().getNom(), toReturn.iterator().next().getNom());
+	}
+
+	@Test
+	public void test04MoyenDePaiement02SauvegarderOk() {
+
+		// ARRANGE
+		final String refRetournee = Entite.genererReference(MoyenDePaiement.class, 1L);
+		final MoyenDePaiement mdp = new MoyenDePaiement("1", 1.0);
+		Mockito.doReturn(refRetournee).when(this.reservationParametresService).sauvegarderMoyenDePaiement(Mockito.any(MoyenDePaiement.class));
+
+		// ACT
+		final String ref = this.getREST().postForObject(this.getURL() + "/v1/moyensDePaiement", mdp, String.class);
+
+		// ASSERT
+		Mockito.verify(this.reservationParametresService).sauvegarderMoyenDePaiement(Mockito.any(MoyenDePaiement.class));
+		Mockito.verifyNoMoreInteractions(this.reservationParametresService);
+		Assert.assertEquals(ref, '"' + refRetournee + '"');
+	}
 }

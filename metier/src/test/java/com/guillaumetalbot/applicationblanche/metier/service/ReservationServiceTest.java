@@ -297,7 +297,7 @@ public class ReservationServiceTest {
 	}
 
 	@Test
-	public void test04Consommation01CreationSansRemise() {
+	public void test02Consommation01CreationSansRemise() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		final String refChambre = this.reservationParametresService.sauvegarderChambre(new Chambre("nom"));
@@ -317,7 +317,7 @@ public class ReservationServiceTest {
 	}
 
 	@Test
-	public void test04Consommation02CreationAvecRemise() {
+	public void test02Consommation02CreationAvecRemise() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		final String refChambre = this.reservationParametresService.sauvegarderChambre(new Chambre("nom"));
@@ -338,7 +338,7 @@ public class ReservationServiceTest {
 	}
 
 	@Test
-	public void test04Consommation03KoSansProduit() {
+	public void test02Consommation03KoSansProduit() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		final String refChambre = this.reservationParametresService.sauvegarderChambre(new Chambre("nom"));
@@ -359,7 +359,7 @@ public class ReservationServiceTest {
 	}
 
 	@Test
-	public void test04Consommation04CreationKoSansReservation() {
+	public void test02Consommation04CreationKoSansReservation() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		final Reservation reservation = new Reservation();
@@ -381,7 +381,7 @@ public class ReservationServiceTest {
 	}
 
 	@Test
-	public void test04Consommation05Rechercher() {
+	public void test02Consommation05Rechercher() {
 		//
 		final String refChambre = this.reservationParametresService.sauvegarderChambre(new Chambre("nom"));
 		final Reservation reservation = new Reservation();
@@ -402,7 +402,7 @@ public class ReservationServiceTest {
 	}
 
 	@Test
-	public void test04Consommation06SuppressionOk() {
+	public void test02Consommation06SuppressionOk() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		final String refChambre = this.reservationParametresService.sauvegarderChambre(new Chambre("nom"));
@@ -421,7 +421,7 @@ public class ReservationServiceTest {
 	}
 
 	@Test
-	public void test04Consommation07CreationKoReservationPasEnCours() {
+	public void test02Consommation07CreationKoReservationPasEnCours() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		final String refChambre = this.reservationParametresService.sauvegarderChambre(new Chambre("nom"));
@@ -443,7 +443,7 @@ public class ReservationServiceTest {
 	}
 
 	@Test
-	public void test04Consommation07SuppressionKo() {
+	public void test02Consommation07SuppressionKo() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		final String refChambre = this.reservationParametresService.sauvegarderChambre(new Chambre("nom"));
@@ -467,7 +467,7 @@ public class ReservationServiceTest {
 	}
 
 	@Test
-	public void test04Consommation08CreationEnDouble() {
+	public void test02Consommation08CreationEnDouble() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		final String refChambre = this.reservationParametresService.sauvegarderChambre(new Chambre("nom"));
@@ -490,7 +490,7 @@ public class ReservationServiceTest {
 	}
 
 	@Test
-	public void test04Consommation09ModificationQuantite() {
+	public void test02Consommation09ModificationQuantite() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
 		final String refChambre = this.reservationParametresService.sauvegarderChambre(new Chambre("nom"));
@@ -510,4 +510,23 @@ public class ReservationServiceTest {
 		Assert.assertEquals((Long) 3L, jdbc.queryForObject("select quantite from CONSOMMATION", new Object[] {}, Long.class));
 	}
 
+	@Test
+	public void test03Paiement01CreationPremier() {
+	}
+
+	@Test
+	public void test03Paiement02CreationComplement() {
+	}
+
+	@Test
+	public void test03Paiement03CreationKoTropPercu() {
+	}
+
+	@Test
+	public void test03Paiement04SuppressionPremier() {
+	}
+
+	@Test
+	public void test03Paiement05SuppressionTous() {
+	}
 }

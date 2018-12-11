@@ -22,6 +22,7 @@ import { PageConsommationsComponent } from './page-consommations/page-consommati
 
 import { PageAdminConsommationsComponent } from './page-adminconsommations/page-adminconsommations.component';
 import { CadreProduitsComponent } from './page-adminconsommations/cadre-produits/cadre-produits.component';
+import { CadreMoyenDePaiementComponent } from './page-adminconsommations/cadre-moyendepaiement/cadre-moyendepaiement.component';
 
 // Les composants injectables
 import { ReservationService } from './service/reservation.service';
@@ -37,7 +38,7 @@ import { ReservationService } from './service/reservation.service';
     PageReservationsComponent, CadreCalendrierComponent, CadreReservationComponent,
     PageConsommationsComponent,
     PageAdminReservationsComponent, CadreChambresComponent, CadreFormulesComponent, CadreOptionsComponent,
-    PageAdminConsommationsComponent, CadreProduitsComponent,
+    PageAdminConsommationsComponent, CadreProduitsComponent, CadreMoyenDePaiementComponent,
     PageFacturationsComponent, CadreListeFacturesComponent, CadreDetailsFactureComponent
   ],
 

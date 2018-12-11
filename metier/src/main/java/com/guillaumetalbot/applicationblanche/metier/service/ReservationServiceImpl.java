@@ -14,7 +14,9 @@ import com.guillaumetalbot.applicationblanche.exception.BusinessException;
 import com.guillaumetalbot.applicationblanche.metier.dao.reservation.ChambreRepository;
 import com.guillaumetalbot.applicationblanche.metier.dao.reservation.ConsommationRepository;
 import com.guillaumetalbot.applicationblanche.metier.dao.reservation.FormuleRepository;
+import com.guillaumetalbot.applicationblanche.metier.dao.reservation.MoyenDePaiementRepository;
 import com.guillaumetalbot.applicationblanche.metier.dao.reservation.OptionRepository;
+import com.guillaumetalbot.applicationblanche.metier.dao.reservation.PaiementRepository;
 import com.guillaumetalbot.applicationblanche.metier.dao.reservation.ProduitRepository;
 import com.guillaumetalbot.applicationblanche.metier.dao.reservation.ReservationRepository;
 import com.guillaumetalbot.applicationblanche.metier.dto.FactureDto;
@@ -23,7 +25,9 @@ import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Chambre;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Consommation;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.EtatReservation;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Formule;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.MoyenDePaiement;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Option;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Paiement;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Produit;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservation;
 
@@ -44,7 +48,13 @@ public class ReservationServiceImpl implements ReservationService {
 	private FormuleRepository formuleRepo;
 
 	@Autowired
+	private MoyenDePaiementRepository moyenDePaiementRepo;
+
+	@Autowired
 	private OptionRepository optionRepo;
+
+	@Autowired
+	private PaiementRepository paiementRepo;
 
 	@Autowired
 	private ProduitRepository produitRepo;
@@ -119,6 +129,12 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override
+	public Collection<Paiement> rechercherPaiementsDuneReservation(final String referenceReservation) {
+		final Long idReservation = Entite.extraireIdentifiant(referenceReservation, Reservation.class);
+		return this.paiementRepo.rechercherPaiementsDuneReservation(idReservation);
+	}
+
+	@Override
 	public Collection<Reservation> rechercherReservations(final EtatReservation etat, final boolean fetchTout) {
 		if (!fetchTout) {
 			return this.reservationRepo.rechercherReservationsParEtatFetchChambre(etat);
@@ -165,6 +181,25 @@ public class ReservationServiceImpl implements ReservationService {
 		else {
 			return this.consommationRepo.save(consommation).getReference();
 		}
+	}
+
+	@Override
+	public String sauvegarderPaiement(final Paiement paiement) {
+
+		// Init de la date
+		paiement.setDateCreation(LocalDate.now());
+
+		// Vérifier le moyen
+		final Long idMdp = Entite.extraireIdentifiant(paiement.getMoyenDePaiement().getReference(), MoyenDePaiement.class);
+		this.moyenDePaiementRepo.findById(idMdp)//
+				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "MoyenDePaiement",
+						paiement.getMoyenDePaiement().getReference()));
+
+		// Validation que la réservation existe (on peut payer quand on veut)
+		this.validerReservationExistante(paiement.getReservation().getReference());
+
+		// Sauvegarde
+		return this.paiementRepo.save(paiement).getReference();
 	}
 
 	@Override
@@ -236,6 +271,19 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override
+	public void supprimerPaiement(final String referenceReservation, final String referencePaiement) {
+		final Long idPaiement = Entite.extraireIdentifiant(referencePaiement, Paiement.class);
+		final Long idReservation = Entite.extraireIdentifiant(referenceReservation, Reservation.class);
+
+		// Valide les ids entre eux
+		if (!this.paiementRepo.getIdReservationByIdPaiement(idPaiement).equals(idReservation)) {
+			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Reservation", referenceReservation);
+		}
+
+		this.paiementRepo.deleteById(idPaiement);
+	}
+
+	@Override
 	public void supprimerReservation(final String referenceReservation) {
 		final Long idReservation = Entite.extraireIdentifiant(referenceReservation, Reservation.class);
 
@@ -248,6 +296,19 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	/**
+	 * Validation que la réservation existe
+	 *
+	 * @param referenceReservation
+	 * @return
+	 */
+	private Reservation validerReservationExistante(final String referenceReservation) {
+		final Long idReservation = Entite.extraireIdentifiant(referenceReservation, Reservation.class);
+		final Optional<Reservation> resaOpt = this.reservationRepo.findById(idReservation);
+		return resaOpt//
+				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Reservation", referenceReservation));
+	}
+
+	/**
 	 * Validation que la réservation est bien en cours par son existance, ses dates et son statut
 	 *
 	 * @param referenceReservation
@@ -256,10 +317,7 @@ public class ReservationServiceImpl implements ReservationService {
 	private void validerReservationExistanteEtEnCoursParDateEtStatut(final String referenceReservation) {
 
 		// Vérifier la présence de la réservation
-		final Long idReservation = Entite.extraireIdentifiant(referenceReservation, Reservation.class);
-		final Optional<Reservation> resaOpt = this.reservationRepo.findById(idReservation);
-		final Reservation reservation = resaOpt//
-				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Reservation", referenceReservation));
+		final Reservation reservation = this.validerReservationExistante(referenceReservation);
 
 		// Vérifier les dates de la réservation
 		if (reservation.getDateDebut().isAfter(LocalDate.now()) || reservation.getDateFin().isBefore(LocalDate.now())) {

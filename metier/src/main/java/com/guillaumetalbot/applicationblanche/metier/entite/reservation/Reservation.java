@@ -55,6 +55,9 @@ public class Reservation extends Entite {
 			inverseJoinColumns = { @JoinColumn(name = "OPTION_ID") })
 	private Collection<Option> options = new HashSet<>();
 
+	@OneToMany(mappedBy = "reservation", fetch = FetchType.LAZY)
+	private final Collection<Paiement> paiements = new HashSet<>();
+
 	public Reservation() {
 		super();
 	}
@@ -70,6 +73,32 @@ public class Reservation extends Entite {
 	public Reservation(final String client, final Chambre chambre, final LocalDate dateDebut, final LocalDate dateFin, final Formule formule) {
 		this(client, chambre, dateDebut, dateFin);
 		this.formule = formule;
+	}
+
+	/**
+	 * Calcul du montant déjà payé
+	 * 
+	 * @return
+	 */
+	public Double calculerMontantPaye() {
+		if (Hibernate.isInitialized(this.paiements)) {
+			Double montant = 0.0;
+			for (final Paiement p : this.paiements) {
+				montant += p.getMontant();
+			}
+			return montant;
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * Calcul du montant restant dû.
+	 * 
+	 * @return
+	 */
+	public Double calculerMontantRestantDu() {
+		return this.calculerMontantTotal() - this.calculerMontantPaye();
 	}
 
 	public Double calculerMontantTotal() {

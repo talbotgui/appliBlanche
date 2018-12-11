@@ -1,0 +1,61 @@
+<!-- Liste des moyens de paiemnt -->
+<h3 l10nTranslate>moyendepaiement_titre</h3>
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 col-12">
+
+  <ng-container matColumnDef="nom">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-spinner diameter="20" *ngIf="dataSource.loading | async"></mat-spinner>
+      <span l10nTranslate>moyendepaiement_entete_nom</span>
+    </th>
+    <td mat-cell *matCellDef="let element">{{element.nom}}</td>
+  </ng-container>
+  <ng-container matColumnDef="montantAssocie">
+    <th mat-header-cell *matHeaderCellDef>
+      <span l10nTranslate>moyendepaiement_entete_montantAssocie</span>
+    </th>
+    <td mat-cell *matCellDef="let element">{{element.montantAssocie}}</td>
+  </ng-container>
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef l10nTranslate>commun_entete_actions
+      <em class="actionDansUnEntete fa fa-plus" (click)="proposerAjout(); leForm.reset(nouveauMoyenDePaiement);"
+        matTooltip="{{ 'commun_tooltip_ajouter' | translate: lang }}"></em>
+    </th>
+    <td mat-cell *matCellDef="let element">
+      <em class="fa fa-edit" (click)="modifier(element);" matTooltip="{{ 'commun_tooltip_modifier' | translate: lang }}"></em>
+      <em class="fa fa-remove" (click)="supprimer(element);" matTooltip="{{ 'commun_tooltip_supprimer' | translate: lang }}"></em>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let ligne; columns: displayedColumns;"></tr>
+</table>
+
+<!-- Création ou édition du role -->
+<form novalidate #leForm="ngForm">
+  <div *ngIf="nouveauMoyenDePaiement">
+
+    <!-- Titre -->
+    <hr />
+    <h3 l10nTranslate>moyendepaiement_formulaire_titre</h3>
+
+    <!-- Messages de validation de surface -->
+    <div *ngIf="!inputNom.pristine && inputNom.errors?.required" class="alert-danger" l10nTranslate>moyendepaiement_placeholder_nom_validation</div>
+
+    <!-- Champs -->
+    <mat-form-field l10nTranslate>
+      <input matInput required #inputNom="ngModel" [(ngModel)]="nouveauMoyenDePaiement.nom" name="nom" l10n-placeholder
+        placeholder="moyendepaiement_placeholder_nom">
+    </mat-form-field>
+
+    <mat-form-field l10nTranslate>
+      <input matInput type="number" required #inputNom="ngModel" [(ngModel)]="nouveauMoyenDePaiement.montantAssocie"
+        name="montantAssocie" l10n-placeholder placeholder="moyendepaiement_placeholder_montantAssocie">
+    </mat-form-field>
+
+    <!-- Boutons -->
+    <button type="submit" class="btn btn-outline-secondary" (click)="annulerModification()" l10nTranslate>moyendepaiement_bouton_annuler</button>
+    <button type="submit" class="btn btn-outline-secondary" [disabled]="!leForm.form.valid" (click)="validerAjout()"
+      l10nTranslate> </button>
+  </div>
+</form>

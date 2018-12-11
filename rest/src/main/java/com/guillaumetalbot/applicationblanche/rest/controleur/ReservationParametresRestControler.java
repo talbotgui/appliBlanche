@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.guillaumetalbot.applicationblanche.exception.RestException;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Chambre;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Formule;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.MoyenDePaiement;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Option;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Produit;
 import com.guillaumetalbot.applicationblanche.metier.service.ReservationParametresService;
@@ -34,6 +35,11 @@ public class ReservationParametresRestControler {
 	@GetMapping("/formules")
 	public Collection<Formule> listerFormules() {
 		return this.reservationParametresService.listerFormules();
+	}
+
+	@GetMapping("/moyensDePaiement")
+	public Collection<MoyenDePaiement> listerMoyensDePaiement() {
+		return this.reservationParametresService.listerMoyensDePaiement();
 	}
 
 	@GetMapping("/options")
@@ -70,6 +76,18 @@ public class ReservationParametresRestControler {
 		}
 
 		final String reference = this.reservationParametresService.sauvegarderFormule(formule);
+		return '"' + reference + '"';
+	}
+
+	@PostMapping("/moyensDePaiement")
+	public String sauvegarderMoyenDePaiement(@RequestBody final MoyenDePaiement mdp) {
+
+		// Contrôles de surface
+		if (StringUtils.isEmpty(mdp.getNom())) {
+			throw new RestException(RestException.ERREUR_PARAMETRE_MANQUANT, "nom");
+		}
+
+		final String reference = this.reservationParametresService.sauvegarderMoyenDePaiement(mdp);
 		return '"' + reference + '"';
 	}
 
@@ -118,6 +136,11 @@ public class ReservationParametresRestControler {
 	@DeleteMapping("/formules/{referenceFormule}")
 	public void supprimerFormule(@PathVariable("referenceFormule") final String referenceFormule) {
 		this.reservationParametresService.supprimerFormule(referenceFormule);
+	}
+
+	@DeleteMapping("/moyensDePaiement/{referenceMoyenDePaiement}")
+	public void supprimerMoyenDePaiement(@PathVariable("referenceMoyenDePaiement") final String referenceMoyenDePaiement) {
+		this.reservationParametresService.supprimerMoyenDePaiement(referenceMoyenDePaiement);
 	}
 
 	@DeleteMapping("/options/{referenceOption}")

@@ -160,4 +160,20 @@ export class ReservationService {
     return this.http.post<model.Facture>(url, undefined, this.restUtils.creerHeaderPost());
   }
 
+  /** Liste des moyens de paiement */
+  listerMoyensDePaiement(): Observable<model.MoyenDePaiement[]> {
+    const url = environment.baseUrl + '/v1/moyensDePaiement';
+    return this.http.get<model.MoyenDePaiement[]>(url, this.restUtils.creerHeader());
+  }
+  /** Suppression d'un moyen de paiement via l'API */
+  supprimerMoyenDePaiement(referenceMoyenDePaiement: string): Observable<{} | void> {
+    const url = environment.baseUrl + '/v1/moyensDePaiement/' + referenceMoyenDePaiement;
+    return this.http.delete<void>(url, this.restUtils.creerHeader());
+  }
+
+  /** Sauvegarde d'un MoyenDePaiement via l'API */
+  sauvegarderMoyenDePaiement(mdp: model.MoyenDePaiement): Observable<{} | void> {
+    const url = environment.baseUrl + '/v1/moyensDePaiement/';
+    return this.http.post<void>(url, mdp, this.restUtils.creerHeaderPost());
+  }
 }

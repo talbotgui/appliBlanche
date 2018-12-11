@@ -11,12 +11,15 @@ import com.guillaumetalbot.applicationblanche.exception.BusinessException;
 import com.guillaumetalbot.applicationblanche.metier.dao.reservation.ChambreRepository;
 import com.guillaumetalbot.applicationblanche.metier.dao.reservation.ConsommationRepository;
 import com.guillaumetalbot.applicationblanche.metier.dao.reservation.FormuleRepository;
+import com.guillaumetalbot.applicationblanche.metier.dao.reservation.MoyenDePaiementRepository;
 import com.guillaumetalbot.applicationblanche.metier.dao.reservation.OptionRepository;
+import com.guillaumetalbot.applicationblanche.metier.dao.reservation.PaiementRepository;
 import com.guillaumetalbot.applicationblanche.metier.dao.reservation.ProduitRepository;
 import com.guillaumetalbot.applicationblanche.metier.dao.reservation.ReservationRepository;
 import com.guillaumetalbot.applicationblanche.metier.entite.Entite;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Chambre;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Formule;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.MoyenDePaiement;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Option;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Produit;
 
@@ -26,15 +29,19 @@ public class ReservationParametresServiceImpl implements ReservationParametresSe
 
 	@Autowired
 	private ChambreRepository chambreRepo;
-
 	@Autowired
 	private ConsommationRepository consommationRepo;
-
 	@Autowired
 	private FormuleRepository formuleRepo;
 
 	@Autowired
+	private MoyenDePaiementRepository moyenDePaiementRepo;
+
+	@Autowired
 	private OptionRepository optionRepo;
+
+	@Autowired
+	private PaiementRepository paiementRepo;
 
 	@Autowired
 	private ProduitRepository produitRepo;
@@ -50,6 +57,11 @@ public class ReservationParametresServiceImpl implements ReservationParametresSe
 	@Override
 	public Collection<Formule> listerFormules() {
 		return this.formuleRepo.listerFormules();
+	}
+
+	@Override
+	public Collection<MoyenDePaiement> listerMoyensDePaiement() {
+		return this.moyenDePaiementRepo.listerMoyensDePaiement();
 	}
 
 	@Override
@@ -92,6 +104,19 @@ public class ReservationParametresServiceImpl implements ReservationParametresSe
 		});
 
 		return this.formuleRepo.save(formule).getReference();
+	}
+
+	@Override
+	public String sauvegarderMoyenDePaiement(final MoyenDePaiement mdp) {
+
+		// Validation pas de moyen de paiement en double
+		this.moyenDePaiementRepo.rechercherParNom(mdp.getNom()).ifPresent(mdpTrouve -> {
+			if (!mdpTrouve.getId().equals(mdp.getId())) {
+				throw new BusinessException(BusinessException.OBJET_FONCTIONNELEMENT_EN_DOUBLE, "MoyenDePaiement", "nom", mdp.getNom());
+			}
+		});
+
+		return this.moyenDePaiementRepo.save(mdp).getReference();
 	}
 
 	@Override
@@ -154,6 +179,18 @@ public class ReservationParametresServiceImpl implements ReservationParametresSe
 		}
 
 		this.formuleRepo.deleteById(id);
+	}
+
+	@Override
+	public void supprimerMoyenDePaiement(final String reference) {
+		final Long id = Entite.extraireIdentifiant(reference, MoyenDePaiement.class);
+
+		// Suppression impossible si des Paiement sont associés
+		if (this.paiementRepo.compterPaiementPourCeMoyenDePaiement(id) > 0) {
+			throw new BusinessException(BusinessException.SUPPRESSION_IMPOSSIBLE_OBJETS_LIES, "Paiement");
+		}
+
+		this.moyenDePaiementRepo.deleteById(id);
 	}
 
 	@Override

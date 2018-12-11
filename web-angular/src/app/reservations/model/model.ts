@@ -108,6 +108,20 @@ export class Consommation {
   ) { }
 }
 
+/** Objet métier MoyenDePaiement */
+export class MoyenDePaiement {
+
+  /** Constructeur. */
+  constructor(
+    /** référence unique */
+    public reference: string,
+    /** Montant associé (pour les box notamment) */
+    public montantAssocie: number,
+    /** Nom */
+    public nom: string
+  ) { }
+}
+
 /** un produit */
 export class Produit {
 
