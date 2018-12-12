@@ -1,27 +1,28 @@
-<div id="menu">
-  <div class="topnav" id="myTopnav" #myTopNav *ngIf="utilisateurConnecte">
+<div id="menu" *ngIf="utilisateurConnecte">
 
-    <!-- Accueil -->
-    <a href="#home" routerLink="/page-accueil-route" routerLinkActive="active" l10nTranslate>menu_accueil</a>
+  <!-- Accueil -->
+  <button mat-button routerLink="/page-accueil-route" routerLinkActive="active">
+    <em class="iconeBouton fa fa-home"></em>
+    <span class="libelleBouton" l10nTranslate>menu_accueil</span>
+  </button>
 
-    <!-- pour chaque module-->
-    <div class="dropdown" *ngFor="let module of modules">
-      <button class="dropbtn">
-        <span l10nTranslate>{{module.nom}}</span>
-        <em class="fa fa-caret-down"></em>
-      </button>
-      <div class="dropdown-content">
-        <a *ngFor="let page of module.pages" href="#" (click)="myTopNav.className='topnav'" [routerLink]="page.route"
-          routerLinkActive="active">
-          <span l10nTranslate>{{page.nom}}</span>
-        </a>
-      </div>
-    </div>
+  <!-- pour chaque module-->
+  <button mat-button *ngFor="let module of modules" (click)="pagesSelectionees = module.pages" [matMenuTriggerFor]="subMenu">
+    <em class="iconeBouton fa fa-{{module.icone}}"></em>
+    <span class="libelleBouton" l10nTranslate>{{module.nom}}</span>
+  </button>
 
-    <!-- Déconnexion-->
-    <a href="#" (click)="deconnecter()" l10nTranslate>menu_deconnexion</a>
+  <!-- Déconnexion-->
+  <button mat-button (click)="deconnecter()">
+    <em class="iconeBouton fa fa-close"></em>
+    <span class="libelleBouton" l10nTranslate>menu_deconnexion</span>
+  </button>
 
-    <!-- Bouton du menu en petit écran -->
-    <a href="javascript:void(0);" class="icon" (click)="myTopNav.className=(myTopNav.className==='topnav')?'topnav responsive':'topnav'">&#9776;</a>
-  </div>
+  <!-- pour chaque module, utilisation d'un seul "mat-menu" dont le contenu est dynamique -->
+  <mat-menu #subMenu="matMenu">
+    <button mat-menu-item *ngFor="let page of pagesSelectionees" [routerLink]="page.route">
+      <em class="iconeBouton fa fa-{{page.icone}}"></em>
+      <span l10nTranslate>{{page.nom}}</span>
+    </button>
+  </mat-menu>
 </div>

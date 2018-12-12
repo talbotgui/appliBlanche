@@ -11,6 +11,7 @@ export class CadreMenuComponent implements OnInit {
 
   /** Liste des modules du menu autorisés à l'utilisateur connecté */
   modules: model.ModuleApplicatif[] = [];
+  pagesSelectionnees: model.PageApplicative[] = [];
 
   /** Utilisateur connecté */
   utilisateurConnecte: model.Utilisateur;
@@ -24,28 +25,28 @@ export class CadreMenuComponent implements OnInit {
 
     // Menu ADMINISTRATION
     let pagesDuModule = [];
-    pagesDuModule.push(new model.PageApplicative('menu_utilisateur', 'utilisateur.listerUtilisateur', '/page-utilisateur-route'));
-    pagesDuModule.push(new model.PageApplicative('menu_role', 'roleEtRessource.listerRoles', '/page-role-route'));
-    pagesDuModule.push(new model.PageApplicative('menu_ressource', 'roleEtRessource.listerRessource', '/page-ressource-route'));
-    pagesDuModule.push(new model.PageApplicative('menu_monitoring', 'monitoring.lireDonneesDuMonitoring', '/page-monitoring-route'));
-    tousLesModules.push(new model.ModuleApplicatif('menu_titre_administration', pagesDuModule));
+    pagesDuModule.push(new model.PageApplicative('menu_utilisateur', 'user', 'utilisateur.listerUtilisateur', '/page-utilisateur-route'));
+    pagesDuModule.push(new model.PageApplicative('menu_role', 'users', 'roleEtRessource.listerRoles', '/page-role-route'));
+    pagesDuModule.push(new model.PageApplicative('menu_ressource', 'magic', 'roleEtRessource.listerRessource', '/page-ressource-route'));
+    pagesDuModule.push(new model.PageApplicative('menu_monitoring', 'binoculars', 'monitoring.lireDonneesDuMonitoring', '/page-monitoring-route'));
+    tousLesModules.push(new model.ModuleApplicatif('menu_titre_administration', 'shield-alt', pagesDuModule));
 
     // Menu RESERVATION
     pagesDuModule = [];
-    pagesDuModule.push(new model.PageApplicative('menu_reservations', 'reservation.rechercherReservations', '/page-reservations-route'));
-    pagesDuModule.push(new model.PageApplicative('menu_adminreservations', 'reservationParametres.listerChambres', '/page-adminreservations-route'));
-    tousLesModules.push(new model.ModuleApplicatif('menu_titre_reservation', pagesDuModule));
+    pagesDuModule.push(new model.PageApplicative('menu_reservations', 'calendar-alt', 'reservation.rechercherReservations', '/page-reservations-route'));
+    pagesDuModule.push(new model.PageApplicative('menu_adminreservations', 'hotel', 'reservationParametres.listerChambres', '/page-adminreservations-route'));
+    tousLesModules.push(new model.ModuleApplicatif('menu_titre_reservation', 'person-booth', pagesDuModule));
 
     // Menu CONSOMMATION
     pagesDuModule = [];
-    pagesDuModule.push(new model.PageApplicative('menu_consommation', 'reservation.rechercherConsommationsDuneReservation', '/page-consommations-route'));
-    pagesDuModule.push(new model.PageApplicative('menu_adminconsommation', 'reservationParametres.listerProduits', '/page-adminconsommations-route'));
-    tousLesModules.push(new model.ModuleApplicatif('menu_titre_consommation', pagesDuModule));
+    pagesDuModule.push(new model.PageApplicative('menu_consommation', 'wine-bottle', 'reservation.rechercherConsommationsDuneReservation', '/page-consommations-route'));
+    pagesDuModule.push(new model.PageApplicative('menu_adminconsommation', 'dolly', 'reservationParametres.listerProduits', '/page-adminconsommations-route'));
+    tousLesModules.push(new model.ModuleApplicatif('menu_titre_consommation', 'concierge-bell', pagesDuModule));
 
     // Menu FACTURATION
     pagesDuModule = [];
-    pagesDuModule.push(new model.PageApplicative('menu_facturation', 'reservation.rechercherReservations', '/page-facturations-route'));
-    tousLesModules.push(new model.ModuleApplicatif('menu_titre_facturation', pagesDuModule));
+    pagesDuModule.push(new model.PageApplicative('menu_facturation', 'donate', 'reservation.rechercherReservations', '/page-facturations-route'));
+    tousLesModules.push(new model.ModuleApplicatif('menu_titre_facturation', 'dollar-sign', pagesDuModule));
 
     // Résumé des clefs nécessaires aux pages
     let clefs: string[] = [];
@@ -62,7 +63,7 @@ export class CadreMenuComponent implements OnInit {
       tousLesModules.forEach((m) => {
         const pagesAutorisees = m.pages.filter((p) => clefsAutorisees.indexOf(p.clefApi) !== -1);
         if (pagesAutorisees.length > 0) {
-          modulesAutorises.push(new model.ModuleApplicatif(m.nom, pagesAutorisees));
+          modulesAutorises.push(new model.ModuleApplicatif(m.nom, m.icone, pagesAutorisees));
         }
       });
 
