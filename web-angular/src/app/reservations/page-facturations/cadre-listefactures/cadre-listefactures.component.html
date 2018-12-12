@@ -4,7 +4,7 @@
   </mat-card-title>
   <mat-card-content>
 
-    <span>Réservations en cours :</span>
+    <span l10nTranslate>cadrelistefacture_listeReservationsEnCours</span>
     <table mat-table [dataSource]="reservationsFacturables" class="mat-elevation-z8">
 
       <ng-container matColumnDef="client">
@@ -21,7 +21,7 @@
     </table>
 
     <br />
-    <span>Déjà facturées :</span>
+    <span l10nTranslate>cadrelistefacture_listeReservationsPayes</span>
     <table mat-table [dataSource]="reservationsFacturees" class="mat-elevation-z8">
 
       <ng-container matColumnDef="client">
