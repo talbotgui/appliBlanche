@@ -9,6 +9,12 @@ INSERT INTO MOYEN_DE_PAIEMENT (montant_associe, nom) VALUES (80,'DakotaBox');
 INSERT INTO MOYEN_DE_PAIEMENT (montant_associe, nom) VALUES (80,'Smartbox');
 INSERT INTO MOYEN_DE_PAIEMENT (montant_associe, nom) VALUES (0,'Ch\u00e8que');
 
+
+insert into LIBELLE (clef, libelle, langue) values ('menu_facturation', 'Facturation', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('menu_titre_facturation', 'Paiements', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('menu_facturation', 'Billing', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('menu_titre_facturation', 'Paiments', 'en');
+
 insert into LIBELLE (clef, libelle, langue) values ('moyendepaiement_titre', 'Liste des moyens de paiement', 'fr');
 insert into LIBELLE (clef, libelle, langue) values ('moyendepaiement_entete_nom', 'Nom', 'fr');
 insert into LIBELLE (clef, libelle, langue) values ('moyendepaiement_entete_montantAssocie', 'Montant associé', 'fr');
@@ -18,7 +24,6 @@ insert into LIBELLE (clef, libelle, langue) values ('moyendepaiement_placeholder
 insert into LIBELLE (clef, libelle, langue) values ('moyendepaiement_placeholder_montantAssocie', 'Montant associé', 'fr');
 insert into LIBELLE (clef, libelle, langue) values ('moyendepaiement_bouton_annuler', 'Annuler', 'fr');
 insert into LIBELLE (clef, libelle, langue) values ('moyendepaiement_bouton_creer', 'Sauvegarder', 'fr');
-
 insert into LIBELLE (clef, libelle, langue) values ('moyendepaiement_titre', 'Paiment modes', 'en');
 insert into LIBELLE (clef, libelle, langue) values ('moyendepaiement_entete_nom', 'Name', 'en');
 insert into LIBELLE (clef, libelle, langue) values ('moyendepaiement_entete_montantAssocie', 'Amount', 'en');
@@ -28,3 +33,10 @@ insert into LIBELLE (clef, libelle, langue) values ('moyendepaiement_placeholder
 insert into LIBELLE (clef, libelle, langue) values ('moyendepaiement_placeholder_montantAssocie', 'Amount', 'en');
 insert into LIBELLE (clef, libelle, langue) values ('moyendepaiement_bouton_annuler', 'Cancel', 'en');
 insert into LIBELLE (clef, libelle, langue) values ('moyendepaiement_bouton_creer', 'Save', 'en');
+
+insert into LIBELLE (clef, libelle, langue) values ('cadrelistefacture_titre', 'Liste des réservations facturables/facturées', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('cadrelistefacture_listeReservationsEnCours', 'Réservations en cours :', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('cadrelistefacture_listeReservationsPayes', 'Déjà facturées :', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('cadrelistefacture_titre', 'Booking paid or to paid', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('cadrelistefacture_listeReservationsEnCours', 'Bookings in progress', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('cadrelistefacture_listeReservationsPayes', 'Paid bookings', 'en');
