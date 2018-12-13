@@ -3,6 +3,7 @@ import { Language } from 'angular-l10n';
 
 import { ReservationService } from '../../service/reservation.service';
 import * as model from '../../model/model';
+import { DomSanitizer } from '@angular/platform-browser';
 
 /** Page de gestion des reservations */
 @Component({ selector: 'cadre-calendrier', templateUrl: './cadre-calendrier.component.html', styleUrls: ['./cadre-calendrier.component.css'] })
@@ -36,7 +37,7 @@ export class CadreCalendrierComponent implements OnInit {
   jours: Date[];
 
   /** Un constructeur pour se faire injecter les dépendances */
-  constructor(private reservationsService: ReservationService) { }
+  constructor(private reservationsService: ReservationService, private sanitizer: DomSanitizer) { }
 
   /** A l'initialisation */
   ngOnInit() {
@@ -118,7 +119,13 @@ export class CadreCalendrierComponent implements OnInit {
                 }
                 for (const r of reservations) {
                   if (r.chambre.reference === c.reference && r.dateDebut <= j && j <= r.dateFin) {
+
+                    // Mise en place de la réservation à cette date et dans cette chambre
                     this.reservations[c.reference][j.toISOString()] = r;
+
+                    // Affectation d'une couleur d'affichage
+                    const couleur = '#' + ((1 << 24) * Math.random() | 0).toString(16) + '80';
+                    r.couleurAffichage = this.sanitizer.bypassSecurityTrustStyle('background-color:' + couleur);
                   }
                 }
               }

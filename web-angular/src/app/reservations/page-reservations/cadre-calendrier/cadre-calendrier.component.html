@@ -71,7 +71,7 @@
       <div class="col-2">{{j | date:'dd/MM'}}</div>
       <div [class]="'col-' + nbColParChambre" *ngFor="let c of chambres;">
         <!-- Case avec une reservation -->
-        <div class="reservation" *ngIf="!!reservations[c.reference] && !!reservations[c.reference][j.toISOString()]"
+        <div class="reservation" [style]="reservations[c.reference][j.toISOString()].couleurAffichage" *ngIf="!!reservations[c.reference] && !!reservations[c.reference][j.toISOString()]"
           (click)="afficherDetail(reservations[c.reference][j.toISOString()])">
           <span>{{reservations[c.reference][j.toISOString()].client}}</span>
         </div>
