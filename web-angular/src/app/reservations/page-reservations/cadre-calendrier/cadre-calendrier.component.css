@@ -1,13 +1,20 @@
-/** Structure */
+/** Texte du tableau */
 .tableauDonnees { text-align: center; }
-.tableauDonnees .col-1, .tableauDonnees .col-2, .tableauDonnees .col-3 {  padding:0px!important; }
 div.entete { font-size: 1.3em; margin-bottom: 15px; }
 div.enteteTableau { font-size: 1em; margin-bottom: 5px; }
+
+/** Petit padding entre les colonnes */
+.tableauDonnees .col-1, .tableauDonnees .col-2, .tableauDonnees .col-3 {  padding:0px 2px!important; }
 
 /** Placement des spans dans l'entete */
 span.boutonsAction em { margin: 0px 5px; }
 span.libelleDatePicker { margin-right: 10px; }
 
-/** mise en forme des données du tableau de réservation */
+/** Couleur pour les lignes de weekend */
 div.weekend > div { background-color: lightgray; }
-span.reservation { font-size: 0.8em; cursor: pointer; }
+
+/** Pointeur dans les cases contenant une réservation */
+div.reservation { width:100%; height: 100%; font-size: 0.8em; cursor: pointer; }
+
+/** Pas de marge entre les lignes */
+div.ligneCal > div { margin: 0px!important; }

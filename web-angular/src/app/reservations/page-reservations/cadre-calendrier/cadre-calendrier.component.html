@@ -67,10 +67,16 @@
     </div>
 
     <!-- Tableau de données-->
-    <div [class]="(j.getDay()==0||j.getDay()==6)?'row weekend':'row'" *ngFor="let j of jours">
+    <div [class]="(j.getDay()==0||j.getDay()==6)?'ligneCal row weekend':'ligneCal row'" *ngFor="let j of jours">
       <div class="col-2">{{j | date:'dd/MM'}}</div>
-      <div [class]="'col-' + nbColParChambre" *ngFor="let c of chambres;" (click)="afficherDetail(reservations[c.reference][j.toISOString()])">
-        <span class="reservation">{{(reservations[c.reference])?(reservations[c.reference][j.toISOString()]?reservations[c.reference][j.toISOString()].client:''):''}}</span>
+      <div [class]="'col-' + nbColParChambre" *ngFor="let c of chambres;">
+        <!-- Case avec une reservation -->
+        <div class="reservation" *ngIf="!!reservations[c.reference] && !!reservations[c.reference][j.toISOString()]"
+          (click)="afficherDetail(reservations[c.reference][j.toISOString()])">
+          <span>{{reservations[c.reference][j.toISOString()].client}}</span>
+        </div>
+        <!-- Case sans reservation -->
+        <div *ngIf="!reservations[c.reference] || !reservations[c.reference][j.toISOString()]" (click)="afficherDetail(undefined)"></div>
       </div>
     </div>
   </mat-card-content>
