@@ -18,7 +18,7 @@ import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservat
 
 public interface ReservationRepository extends CrudRepository<Reservation, Long> {
 
-	@Query(value = "select r from Reservation r left join fetch r.chambre left join fetch r.formule left join fetch r.options left join fetch r.consommations where r.id = :idReservation")
+	@Query(value = "select distinct r from Reservation r left join fetch r.chambre left join fetch r.formule left join fetch r.options left join fetch r.consommations where r.id = :idReservation")
 	@QueryHints(value = { @QueryHint(name = org.hibernate.jpa.QueryHints.HINT_READONLY, value = "true") })
 	Optional<Reservation> chargerReservationFetchChambreFormuleOptionsConsommation(@Param("idReservation") Long idReservation);
 
@@ -32,21 +32,21 @@ public interface ReservationRepository extends CrudRepository<Reservation, Long>
 	@Query("select count(r) from Reservation r where r.chambre.id = :chambreId")
 	Long compterReservationsDeLaChambre(@Param("chambreId") Long chambreId);
 
-	@Query("select r from Reservation r left join fetch r.options"//
+	@Query("select distinct r from Reservation r left join fetch r.options"//
 			+ " left join fetch r.chambre left join fetch r.formule"//
 			+ " where r.dateDebut<:dateFin and r.dateFin>:dateDebut order by r.dateDebut, r.chambre.nom")
 	@QueryHints(value = { @QueryHint(name = org.hibernate.jpa.QueryHints.HINT_READONLY, value = "true") })
 	Collection<Reservation> rechercherReservations(@Param("dateDebut") LocalDate dateDebut, @Param("dateFin") LocalDate dateFin);
 
-	@Query("select r from Reservation r left join fetch r.chambre where r.etatCourant = :etat order by r.chambre.nom")
+	@Query("select distinct r from Reservation r left join fetch r.chambre where r.etatCourant = :etat order by r.chambre.nom")
 	@QueryHints(value = { @QueryHint(name = org.hibernate.jpa.QueryHints.HINT_READONLY, value = "true") })
 	Collection<Reservation> rechercherReservationsParEtatFetchChambre(@Param("etat") EtatReservation etat);
 
-	@Query("select r from Reservation r left join fetch r.chambre left join fetch r.formule left join fetch r.options where r.etatCourant = :etat order by r.chambre.nom")
+	@Query("select distinct r from Reservation r left join fetch r.chambre left join fetch r.formule left join fetch r.options where r.etatCourant = :etat order by r.chambre.nom")
 	@QueryHints(value = { @QueryHint(name = org.hibernate.jpa.QueryHints.HINT_READONLY, value = "true") })
 	Collection<Reservation> rechercherReservationsParEtatFetchChambreFormuleOptions(@Param("etat") EtatReservation etat);
 
-	@Query(value = "select r from Reservation r left join fetch r.chambre left join fetch r.formule left join fetch r.options where r.etatCourant = :etat order by r.dateFin, r.chambre.nom", countQuery = "select count(r) from Reservation r where r.etatCourant = :etat")
+	@Query(value = "select distinct r from Reservation r left join fetch r.chambre left join fetch r.formule left join fetch r.options where r.etatCourant = :etat order by r.dateFin, r.chambre.nom", countQuery = "select count(r) from Reservation r where r.etatCourant = :etat")
 	@QueryHints(value = { @QueryHint(name = org.hibernate.jpa.QueryHints.HINT_READONLY, value = "true") })
 	List<Reservation> rechercherReservationsParEtatFetchChambreFormuleOptions(@Param("etat") EtatReservation etat, Pageable pageable);
 

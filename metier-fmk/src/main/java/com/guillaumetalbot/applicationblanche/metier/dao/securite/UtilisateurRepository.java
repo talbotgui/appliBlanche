@@ -13,7 +13,7 @@ import com.guillaumetalbot.applicationblanche.metier.entite.securite.Utilisateur
 
 public interface UtilisateurRepository extends CrudRepository<Utilisateur, String> {
 
-	@Query("select u from Utilisateur u left join fetch u.roles r left join fetch r.ressourcesAutorisees where u.login = :login")
+	@Query("select distinct u from Utilisateur u left join fetch u.roles r left join fetch r.ressourcesAutorisees where u.login = :login")
 	@QueryHints(value = { @QueryHint(name = org.hibernate.jpa.QueryHints.HINT_READONLY, value = "true") })
 	Utilisateur chargerUtilisateurAvecRolesEtRessourcesAutoriseesReadOnly(@Param("login") String login);
 
