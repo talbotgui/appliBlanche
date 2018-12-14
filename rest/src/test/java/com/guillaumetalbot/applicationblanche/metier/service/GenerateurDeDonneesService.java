@@ -98,6 +98,7 @@ public class GenerateurDeDonneesService implements ApplicationListener<Applicati
 				final Reservation reservation = new Reservation(nomClient, c, debut, fin);
 				reservation.setFormule(laFormule);
 				reservation.getOptions().addAll(lesOptions);
+				reservation.setNombrePersonnes((long) (1 + Math.random() * 2));
 
 				// Sauvegarde de la réservation
 				final String referenceReservation = this.reservationService.sauvegarderReservation(reservation);
@@ -134,7 +135,7 @@ public class GenerateurDeDonneesService implements ApplicationListener<Applicati
 	 *
 	 * Le random est généré à partir de Math.random (qui renvoie entre 0.0 et 1.0) multiplié par le nombre d'option et tronqué à la partie entière
 	 * (donc de 0 à options.size()-1).
-	 * 
+	 *
 	 * @param options
 	 *            Les options disponibles
 	 * @return Les options sélectionnnées
