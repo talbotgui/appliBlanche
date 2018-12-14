@@ -319,11 +319,6 @@ public class ReservationServiceImpl implements ReservationService {
 		// Vérifier la présence de la réservation
 		final Reservation reservation = this.validerReservationExistante(referenceReservation);
 
-		// Vérifier les dates de la réservation
-		if (reservation.getDateDebut().isAfter(LocalDate.now()) || reservation.getDateFin().isBefore(LocalDate.now())) {
-			throw new BusinessException(BusinessException.RESERVATION_PAS_EN_COURS, referenceReservation);
-		}
-
 		// Vérifier le statut de la réservation
 		if (!EtatReservation.EN_COURS.equals(reservation.getEtatCourant())) {
 			throw new BusinessException(BusinessException.RESERVATION_PAS_EN_COURS, referenceReservation);

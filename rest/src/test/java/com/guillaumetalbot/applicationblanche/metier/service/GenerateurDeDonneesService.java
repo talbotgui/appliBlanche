@@ -20,9 +20,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Chambre;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Consommation;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.EtatReservation;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Formule;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Option;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Produit;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservation;
 
 /**
@@ -43,6 +45,9 @@ public class GenerateurDeDonneesService implements ApplicationListener<Applicati
 
 	/** Logger */
 	private static final Logger LOG = LoggerFactory.getLogger(GenerateurDeDonneesService.class);
+
+	/** Nombre maximal de consommation. */
+	private static final int NB_CONSOMMATIONS_MAX = 25;
 
 	@Autowired
 	private DataSource datasource;
@@ -67,6 +72,7 @@ public class GenerateurDeDonneesService implements ApplicationListener<Applicati
 		final Collection<Chambre> chambres = this.parametresService.listerChambres();
 		final List<Formule> formules = new ArrayList<>(this.parametresService.listerFormules());
 		final List<Option> options = new ArrayList<>(this.parametresService.listerOptions());
+		final List<Produit> produits = new ArrayList<>(this.parametresService.listerProduits());
 
 		// Création de réservation à partir d'aujourd'hui dans toutes les chambres en alternant les formules mais en laissant une nuit de temps en
 		// temps vide (1/10 délalée par chambre)
@@ -91,6 +97,7 @@ public class GenerateurDeDonneesService implements ApplicationListener<Applicati
 				// Calcul des données de la réservation
 				final Formule laFormule = this.selectionnerAleatoirementUneFormule(formules);
 				final List<Option> lesOptions = this.selectionnerAleatoirementDesOptions(options);
+				final List<Produit> lesProduits = this.selectionnerAleatoirementDesProduits(produits);
 				final String nomClient = debut.getDayOfMonth() + "-" + fin.getDayOfMonth() + "-" + c.getId() + "-" + laFormule.getId() + "-"
 						+ lesOptions.size();
 
@@ -103,12 +110,22 @@ public class GenerateurDeDonneesService implements ApplicationListener<Applicati
 				// Sauvegarde de la réservation
 				final String referenceReservation = this.reservationService.sauvegarderReservation(reservation);
 
-				// Gestion de l'état de la réservation en fonction de ses dates
+				// Si la date de début est passée
 				if (debut.isBefore(LocalDate.now())) {
+
+					// Etat en cours
 					this.reservationService.changeEtatReservation(referenceReservation, EtatReservation.EN_COURS);
-				}
-				if (fin.isBefore(LocalDate.now())) {
-					this.reservationService.facturer(referenceReservation);
+
+					// Ajout de consommations
+					for (final Produit produit : lesProduits) {
+						final Consommation consommation = new Consommation(reservation, produit, produit.getPrix(), 1);
+						this.reservationService.sauvegarderConsommation(consommation);
+					}
+
+					// Facturation si la réservation est passée
+					if (fin.isBefore(LocalDate.now())) {
+						this.reservationService.facturer(referenceReservation);
+					}
 				}
 
 				// Jusqu'à la fin prévue
@@ -148,6 +165,25 @@ public class GenerateurDeDonneesService implements ApplicationListener<Applicati
 			selection.add(options.get(index));
 		}
 		return new ArrayList<>(selection);
+	}
+
+	/**
+	 * Sélection d'un nombre aléatoire de produits parmi les produits possibles. Doublons possibles !
+	 *
+	 * Le random est généré à partir de Math.random (qui renvoie entre 0.0 et 1.0) multiplié par le nombre d'option et tronqué à la partie entière
+	 *
+	 * @param produits
+	 *            Les produits disponibles
+	 * @return Les produits sélectionnnées
+	 */
+	private List<Produit> selectionnerAleatoirementDesProduits(final List<Produit> produits) {
+		final int nbConsommations = (int) (Math.random() * NB_CONSOMMATIONS_MAX);
+		final List<Produit> selection = new ArrayList<>();
+		for (int i = 0; i < nbConsommations; i++) {
+			final int index = (int) (Math.random() * produits.size());
+			selection.add(produits.get(index));
+		}
+		return selection;
 	}
 
 	private Formule selectionnerAleatoirementUneFormule(final List<Formule> formules) {
