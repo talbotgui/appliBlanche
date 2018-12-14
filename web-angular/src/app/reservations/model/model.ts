@@ -1,5 +1,3 @@
-import { SafeStyle } from '@angular/platform-browser';
-
 /** Constante d'état */
 const ETAT_RESERVATION_ENREGISTREE = 'ENREGISTREE';
 /** Constante d'état */
@@ -63,9 +61,6 @@ export class Option {
 
 /** Objet métier Reservation */
 export class Reservation {
-
-  /** Couleur à utiliser dans le calendrier */
-  public couleurAffichage: SafeStyle;
 
   /** Options associées */
   public options: Option[];
