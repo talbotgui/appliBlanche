@@ -80,7 +80,7 @@ insert into LIBELLE (clef, libelle, langue) values ('ERREUR_TRANSITION_ETAT_IMPO
 insert into LIBELLE (clef, libelle, langue) values ('ERREUR_RESERVATION_PAS_EN_COURS', 'La réservation ''{{0}}'' n''est pas en cours', 'fr');
 insert into LIBELLE (clef, libelle, langue) values ('ERREUR_CREATION_DOCUMENT', 'Erreur durant la création du document', 'en');
 -- Page de réservation
-insert into LIBELLE (clef, libelle, langue) values ('reservation_titre', 'Détails de la réservation ', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('reservation_titre', 'Réservation ', 'fr');
 insert into LIBELLE (clef, libelle, langue) values ('reservation_placeholder_dateDebut', 'Date de début', 'fr');
 insert into LIBELLE (clef, libelle, langue) values ('reservation_placeholder_dateFin', 'Date de fin', 'fr');
 insert into LIBELLE (clef, libelle, langue) values ('reservation_placeholder_client', 'Nom du client', 'fr');
