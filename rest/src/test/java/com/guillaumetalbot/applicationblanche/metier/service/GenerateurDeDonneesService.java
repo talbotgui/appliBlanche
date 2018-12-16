@@ -11,6 +11,7 @@ import java.util.Set;
 import javax.sql.DataSource;
 import javax.transaction.Transactional;
 
+import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -140,6 +141,12 @@ public class GenerateurDeDonneesService implements ApplicationListener<Applicati
 
 	@Override
 	public void onApplicationEvent(final ApplicationReadyEvent app) {
+		// Pas de création de jeu de données si l'application est démarrée pour un test
+		if (Mockito.mockingDetails(this.reservationService).isMock()) {
+			return;
+		}
+
+		// Pour ne créer un jeu de données que si aucune donnée n'est présente en base
 		if (this.compterReservationExistantes() == 0) {
 			LOG.info("Démarrage de la création d'un jeu de données");
 			this.initialiserUnJeuDeDonneesDeTest();
