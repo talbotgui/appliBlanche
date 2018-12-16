@@ -128,6 +128,7 @@ export class CadreCalendrierComponent implements OnInit {
                     let bgCouleur = this.couleursReservation[r.reference];
                     let texte = '';
                     if (!bgCouleur) {
+                      // tslint:disable-next-line
                       this.couleursReservation[r.reference] = '#' + ((1 << 24) * Math.random() | 0).toString(16) + '80';
                       bgCouleur = this.couleursReservation[r.reference];
                       texte = r.client;

@@ -39,7 +39,9 @@ export class CadreMenuComponent implements OnInit {
 
     // Menu CONSOMMATION
     pagesDuModule = [];
-    pagesDuModule.push(new model.PageApplicative('menu_consommation', 'wine-bottle', 'reservation.rechercherConsommationsDuneReservation', '/page-consommations-route'));
+    pagesDuModule.push(
+      new model.PageApplicative('menu_consommation', 'wine-bottle', 'reservation.rechercherConsommationsDuneReservation', '/page-consommations-route')
+    );
     pagesDuModule.push(new model.PageApplicative('menu_adminconsommation', 'dolly', 'reservationParametres.listerProduits', '/page-adminconsommations-route'));
     tousLesModules.push(new model.ModuleApplicatif('menu_titre_consommation', 'concierge-bell', pagesDuModule));
 
