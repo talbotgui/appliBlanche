@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter } from '@angular/core';
 import { Language } from 'angular-l10n';
 
 // Import des libs et classes pour faire du PDF
@@ -15,7 +15,11 @@ export class CadreDetailsFactureComponent {
   /** Decorateur nécessaire aux libellés internationnalisés dans des tooltips */
   @Language() lang: string;
 
-  reservationSelectionnee: model.Reservation;
+  /** Réservation sélectionnée */
+  reservationSelectionnee: model.Reservation | undefined;
+
+  /** Bus de message pour communiquer avec le composant parent */
+  busDeMessage = new EventEmitter<string>();
 
   /** Un constructeur pour se faire injecter les dépendances */
   constructor(private reservationsService: ReservationService) { }
@@ -29,10 +33,13 @@ export class CadreDetailsFactureComponent {
   facturer() {
 
     // Changement d'etat, calcul du montant total et génération du PDF
-    this.reservationsService.facturer(this.reservationSelectionnee.reference).subscribe((facture: model.Facture) => {
-      // TODO
-    });
-
+    // Refresh des données à la fin
+    if (this.reservationSelectionnee) {
+      this.reservationsService.facturer(this.reservationSelectionnee.reference).subscribe((facture: model.Facture) => {
+        this.reservationSelectionnee = undefined;
+        this.busDeMessage.emit('');
+      });
+    }
   }
 
   /** Génère le PDF */
@@ -52,9 +59,11 @@ export class CadreDetailsFactureComponent {
         pdf.addImage(contentDataURL, 'PNG', 0, 0, imgWidth, imgHeight);
 
         // Sauvegarde
-        const dateDebut = this.reservationsService.formaterDate(this.reservationSelectionnee.dateDebut);
-        const dateFin = this.reservationsService.formaterDate(this.reservationSelectionnee.dateFin);
-        pdf.save('Note-' + this.reservationSelectionnee.client + '-' + dateDebut + '-' + dateFin + '.pdf');
+        if (this.reservationSelectionnee) {
+          const dateDebut = this.reservationsService.formaterDate(this.reservationSelectionnee.dateDebut);
+          const dateFin = this.reservationsService.formaterDate(this.reservationSelectionnee.dateFin);
+          pdf.save('Note-' + this.reservationSelectionnee.client + '-' + dateDebut + '-' + dateFin + '.pdf');
+        }
       });
     }
   }

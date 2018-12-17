@@ -22,7 +22,22 @@ export class PageFacturationsComponent implements AfterViewInit {
       // sélection d'une réservation
       if (r) {
         this.detailsFacture.selectionnerUneReservation(r);
+
+        // Scroll vers le bas pour affiche le cadre
+        // (avec un petit décalage temporel pour laisser le temps au cadre de s'afficher)
+        setTimeout(() => {
+          const cadre = document.getElementById('cadre-detailsfacture');
+          if (cadre) {
+            cadre.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'center' });
+          }
+        }, 200);
+
       }
+    });
+
+    // A la modification d'une réservation dans le cadre de détails, on raffraichit les données de la liste
+    this.detailsFacture.busDeMessage.subscribe((r: model.Reservation | undefined) => {
+      this.listeFactures.ngOnInit();
     });
   }
 }
