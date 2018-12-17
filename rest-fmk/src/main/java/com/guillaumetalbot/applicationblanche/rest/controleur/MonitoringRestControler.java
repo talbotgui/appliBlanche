@@ -22,6 +22,8 @@ import com.jamonapi.MonKey;
 import com.jamonapi.Monitor;
 import com.jamonapi.MonitorFactory;
 
+import io.swagger.annotations.ApiOperation;
+
 /**
  * Classe exposant les données de monitoring générées par JaMon. *
  */
@@ -33,6 +35,7 @@ public class MonitoringRestControler {
 	private static final String CLEF_A_EXCLURE_3 = "java.sql.SQLFeatureNotSupportedException";
 
 	@GetMapping(value = "/monitoring")
+	@ApiOperation(value = "Lire les données de monitoring", notes = "Lecture paginée")
 	public Page<ElementMonitoring> lireDonneesDuMonitoring(@RequestParam(required = false, value = "pageSize") final Integer pageSize,
 			@RequestParam(required = false, value = "pageNumber") final Integer pageNumber,
 			@RequestParam(required = false, value = "triPar") final String triPar,

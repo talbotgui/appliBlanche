@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.guillaumetalbot.applicationblanche.metier.service.LibelleService;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @CrossOrigin
 public class InternationnalisationRestControler {
@@ -18,6 +20,7 @@ public class InternationnalisationRestControler {
 	private LibelleService libelleService;
 
 	@GetMapping(value = "/i18n/{langue}")
+	@ApiOperation(value = "Rechercher tous les libellés de l'application pour une langue", notes = "")
 	public Map<String, String> chargerLibelles(@PathVariable(value = "langue") final String langue) {
 		return this.libelleService.listerParLangue(langue);
 	}

@@ -29,6 +29,8 @@ import com.guillaumetalbot.applicationblanche.metier.service.ReservationService;
 import com.guillaumetalbot.applicationblanche.rest.controleur.utils.RestControlerUtils;
 import com.guillaumetalbot.applicationblanche.rest.socket.SocketService;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/v1")
 public class ReservationRestControler {
@@ -40,17 +42,20 @@ public class ReservationRestControler {
 	private SocketService socketService;
 
 	@PutMapping("/reservations/{referenceReservation}/etat")
+	@ApiOperation(value = "Modifier l'état d'une réservation", notes = "avec vérification des règles de changement d'état")
 	public void changeEtatReservation(@PathVariable("referenceReservation") final String referenceReservation,
 			@RequestParam(name = "etat", required = true) final EtatReservation etat) {
 		this.reservationService.changeEtatReservation(referenceReservation, etat);
 	}
 
 	@PostMapping("/reservations/{referenceReservation}/facturer")
+	@ApiOperation(value = "Facturer une réservation / un séjour", notes = "Changer l'état, valider les paiements et créer le document de facture")
 	public FactureDto facturer(@PathVariable("referenceReservation") final String referenceReservation) {
 		return this.reservationService.facturer(referenceReservation);
 	}
 
 	@PutMapping("/reservations/{referenceReservation}/consommations/{referenceConsommation}")
+	@ApiOperation(value = "Modifier la quantité associée à une consommation d'une réservation", notes = "Les références doivent être cohérentes entre elles")
 	public void modiferConsommation(@PathVariable("referenceReservation") final String referenceReservation, //
 			@PathVariable("referenceConsommation") final String referenceConsommation, //
 			@RequestParam("quantite") final Integer quantite) {
@@ -58,16 +63,19 @@ public class ReservationRestControler {
 	}
 
 	@GetMapping("/reservations/{referenceReservation}/consommations")
+	@ApiOperation(value = "Rechercher les consommations d'une réservation", notes = "")
 	public Collection<Consommation> rechercherConsommationsDuneReservation(@PathVariable("referenceReservation") final String referenceReservation) {
 		return this.reservationService.rechercherConsommationsDuneReservation(referenceReservation);
 	}
 
-	@GetMapping("/reservations/{referenceReservation}/paiments")
+	@GetMapping("/reservations/{referenceReservation}/paiements")
+	@ApiOperation(value = "Rechercher les paiements d'une réservations", notes = "")
 	public Collection<Paiement> rechercherPaiementsDuneReservation(@PathVariable("referenceReservation") final String referenceReservation) {
 		return this.reservationService.rechercherPaiementsDuneReservation(referenceReservation);
 	}
 
 	@GetMapping("/reservations")
+	@ApiOperation(value = "Rechercher des réservations par état et dates", notes = "Retourne les réservations dont au moins une journée est dans la fourchette de dates passées en paramètre")
 	public Collection<Reservation> rechercherReservations(//
 			@RequestParam(name = "dateDebut", required = false) @DateTimeFormat(iso = ISO.DATE) final LocalDate dateDebut, //
 			@RequestParam(name = "dateFin", required = false) @DateTimeFormat(iso = ISO.DATE) final LocalDate dateFin, //
@@ -93,6 +101,7 @@ public class ReservationRestControler {
 	}
 
 	@PostMapping("/reservations/{referenceReservation}/consommations")
+	@ApiOperation(value = "Sauvegarder une consommation", notes = "La réservation doit être au statut 'en cours'")
 	public String sauvegarderConsommation(@PathVariable("referenceReservation") final String referenceReservation, //
 			@RequestBody final Consommation consommation) {
 
@@ -118,6 +127,7 @@ public class ReservationRestControler {
 	}
 
 	@PostMapping("/reservations/{referenceReservation}/paiements")
+	@ApiOperation(value = "Sauvegarder un paiement", notes = "")
 	public String sauvegarderPaiement(@PathVariable("referenceReservation") final String referenceReservation, //
 			@RequestBody final Paiement paiement) {
 
@@ -143,6 +153,7 @@ public class ReservationRestControler {
 	}
 
 	@PostMapping("/reservations")
+	@ApiOperation(value = "Sauvegarder une réservation", notes = "")
 	public String sauvegarderReservation(@RequestBody final Reservation reservation) {
 
 		// Contrôles de surface
@@ -173,12 +184,14 @@ public class ReservationRestControler {
 	}
 
 	@DeleteMapping("/reservations/{referenceReservation}/consommations/{referenceConsommation}")
+	@ApiOperation(value = "Supprimer une consommation", notes = "")
 	public void supprimerConsommation(@PathVariable("referenceReservation") final String referenceReservation, //
 			@PathVariable("referenceConsommation") final String referenceConsommation) {
 		this.reservationService.supprimerConsommation(referenceReservation, referenceConsommation);
 	}
 
 	@DeleteMapping("/reservations/{referenceReservation}")
+	@ApiOperation(value = "Supprimer une réservation", notes = "")
 	public void supprimerReservation(@PathVariable("referenceReservation") final String referenceReservation) {
 		this.reservationService.supprimerReservation(referenceReservation);
 	}

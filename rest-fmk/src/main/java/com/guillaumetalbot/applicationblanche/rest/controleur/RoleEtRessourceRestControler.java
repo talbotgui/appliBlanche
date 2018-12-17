@@ -18,6 +18,8 @@ import com.guillaumetalbot.applicationblanche.metier.entite.securite.Ressource;
 import com.guillaumetalbot.applicationblanche.metier.service.SecuriteService;
 import com.guillaumetalbot.applicationblanche.rest.controleur.utils.RestControlerUtils;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/v1")
 public class RoleEtRessourceRestControler {
@@ -26,6 +28,7 @@ public class RoleEtRessourceRestControler {
 	private SecuriteService securiteService;
 
 	@PutMapping("/roles/{nomRole}/ressource/{clefRessource}")
+	@ApiOperation(value = "Ajouter ou retirer une ressource à un rôle", notes = "body de type boolean (true pour ajouter)")
 	public void ajouterRetirerAutorisation(@RequestBody() final Boolean statut, //
 			@PathVariable(value = "nomRole") final String nomRole, //
 			@PathVariable(value = "clefRessource") final String clefRessource) {
@@ -37,6 +40,7 @@ public class RoleEtRessourceRestControler {
 	}
 
 	@GetMapping("/ressources")
+	@ApiOperation(value = "Lister les ressources de l'application", notes = "Lecture paginée")
 	public Page<Ressource> listerRessource(@RequestParam(required = false, value = "pageSize") final Integer pageSize,
 			@RequestParam(required = false, value = "pageNumber") final Integer pageNumber,
 			@RequestParam(required = false, value = "triParClef") final Boolean triParClef) {
@@ -46,6 +50,7 @@ public class RoleEtRessourceRestControler {
 	}
 
 	@GetMapping("/roles")
+	@ApiOperation(value = "Lister les rôles de l'application", notes = "Lecture paginée")
 	public Object listerRoles(@RequestParam(required = false, value = "pageSize") final Integer pageSize,
 			@RequestParam(required = false, value = "pageNumber") final Integer pageNumber,
 			@RequestParam(required = false, value = "triParNom") final Boolean triParNom) {
@@ -55,11 +60,13 @@ public class RoleEtRessourceRestControler {
 	}
 
 	@PostMapping("/roles")
+	@ApiOperation(value = "Sauvegarder nouveau un rôle", notes = "")
 	public void sauvegarderRole(@RequestParam(value = "nom") final String nom) {
 		this.securiteService.sauvegarderRole(nom);
 	}
 
 	@DeleteMapping(value = "/roles/{nom}")
+	@ApiOperation(value = "Supprimer un rôle", notes = "")
 	public void supprimerRole(@PathVariable(value = "nom") final String nom) {
 		this.securiteService.supprimerRole(nom);
 	}

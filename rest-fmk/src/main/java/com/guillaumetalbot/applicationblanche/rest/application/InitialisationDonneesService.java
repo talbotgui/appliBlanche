@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.Ressource;
 import com.guillaumetalbot.applicationblanche.metier.service.SecuriteService;
 import com.guillaumetalbot.applicationblanche.rest.securite.IntercepteurDesRessourcesAutorisees;
+
+import io.swagger.annotations.ApiOperation;
 
 /**
  * Ce composant s'exécute au démarrage de l'application (ApplicationListener) et initialise ou met à jour la base de données :
@@ -97,9 +100,19 @@ public class InitialisationDonneesService implements ApplicationListener<Applica
 					chemin = "Put " + String.join("", annotationPut.value());
 				}
 
+				// Recherche de la documentation
+				String description = "";
+				final ApiOperation annotationDocumentaire = methode.getAnnotation(ApiOperation.class);
+				if (annotationDocumentaire != null && StringUtils.isNotEmpty(annotationDocumentaire.value())) {
+					description = annotationDocumentaire.value();
+					if (StringUtils.isNoneEmpty(annotationDocumentaire.notes())) {
+						description += " (" + annotationDocumentaire.notes() + ")";
+					}
+				}
+
 				// Ajout de la clef à la liste
 				if (chemin != null) {
-					clefsRessources.add(new Ressource(clef, chemin, null));
+					clefsRessources.add(new Ressource(clef, chemin, description));
 				}
 			}
 		}

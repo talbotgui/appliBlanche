@@ -20,7 +20,7 @@
 		<version.hsqldb>2.4.0</version.hsqldb>
 		<version.testng>6.13.1</version.testng>
 		<version.mockito>2.13.0</version.mockito>
-		<version.springfox>2.8.0</version.springfox>
+		<version.springfox>2.9.2</version.springfox>
 		<version.jjwt>0.9.1</version.jjwt>
 		<version.jacksonDT>2.9.5</version.jacksonDT>
 

@@ -21,6 +21,8 @@ import com.guillaumetalbot.applicationblanche.metier.entite.securite.Utilisateur
 import com.guillaumetalbot.applicationblanche.metier.service.SecuriteService;
 import com.guillaumetalbot.applicationblanche.rest.controleur.utils.RestControlerUtils;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @CrossOrigin
 public class UtilisateurRestControler {
@@ -29,6 +31,7 @@ public class UtilisateurRestControler {
 	private SecuriteService securiteService;
 
 	@PutMapping("/v1/utilisateurs/{login}/roles/{nomRole}")
+	@ApiOperation(value = "Ajouter ou retirer un rôle à un utilisateur", notes = "")
 	public void ajouterRetirerRole(@RequestBody() final Boolean statut, //
 			@PathVariable(value = "nomRole") final String nomRole, //
 			@PathVariable(value = "login") final String login) {
@@ -40,6 +43,7 @@ public class UtilisateurRestControler {
 	}
 
 	@PostMapping(value = "/v1/utilisateurs/{login}/changeMdp")
+	@ApiOperation(value = "Changer le mot de passe d'un utilisateur", notes = "")
 	public void changerMotDePasseUtilisateur(//
 			@PathVariable(value = "login") final String login, //
 			@RequestParam(value = "mdp", required = false) final String mdp) {
@@ -52,16 +56,20 @@ public class UtilisateurRestControler {
 	}
 
 	@GetMapping(value = "/v1/utilisateurs/moi")
+	@ApiOperation(value = "Charger les données de l'utilisateur connecté", notes = "")
 	public Utilisateur chargerUtilisateurMoi(final HttpServletRequest request) {
 		return this.securiteService.chargerUtilisateurAvecRolesEtRessourcesAutoriseesReadOnly(request.getRemoteUser());
 	}
 
 	@PutMapping(value = "/v1/utilisateurs/{login}/deverrouille")
+	@ApiOperation(value = "Déverrouiller le compte d'un utilisateur bloqué", notes = "")
 	public void deverrouillerUtilisateur(@PathVariable(value = "login") final String login, final HttpServletRequest request) {
 		this.securiteService.deverrouillerUtilisateur(login);
 	}
 
 	@GetMapping(value = "/v1/utilisateurs", produces = { "application/json", "application/json;details" })
+	@ApiOperation(value = "Lister les utilisateurs", notes = "Structure simple en sortie. Ou structure complète contenant roles et ressources avec l'entête 'Accept' et la valeur '"
+			+ RestControlerUtils.MIME_JSON_DETAILS + "'")
 	public Collection<?> listerUtilisateur(@RequestHeader("Accept") final String accept) {
 		if (RestControlerUtils.MIME_JSON_DETAILS.equals(accept)) {
 			return this.securiteService.listerUtilisateursAvecRolesEtAutorisations();
@@ -71,11 +79,13 @@ public class UtilisateurRestControler {
 	}
 
 	@PutMapping(value = "/v1/utilisateurs/{login}/reset")
+	@ApiOperation(value = "Réinitialiser le mot de passe d'un utilisateur", notes = "")
 	public void resetPassword(@PathVariable(value = "login") final String login, final HttpServletRequest request) {
 		this.securiteService.reinitialiserMotDePasse(login);
 	}
 
 	@PostMapping(value = "/v1/utilisateurs")
+	@ApiOperation(value = "Sauvegarder l'utilisateur", notes = "")
 	public void sauvegarderUtilisateur(//
 			@RequestParam(value = "login") final String login, //
 			@RequestParam(value = "mdp", required = false) final String mdp) {
@@ -88,6 +98,7 @@ public class UtilisateurRestControler {
 	}
 
 	@DeleteMapping(value = "/v1/utilisateurs/{login}")
+	@ApiOperation(value = "Supprimer un utilisateur", notes = "")
 	public void supprimerUtilisateur(@PathVariable(value = "login") final String login) {
 		this.securiteService.supprimerUtilisateur(login);
 	}
