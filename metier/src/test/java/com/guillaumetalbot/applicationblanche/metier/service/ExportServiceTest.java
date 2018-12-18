@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
+import java.util.HashSet;
 
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
@@ -38,7 +39,7 @@ public class ExportServiceTest {
 		final LocalDate dateFin = LocalDate.now().plus(1, ChronoUnit.DAYS);
 		final Reservation reservation = new Reservation("client", chambre, dateDebut, dateFin);
 		reservation.setFormule(new Formule("formule_A", 70.0));
-		reservation.setOptions(Arrays.asList(new Option("o1", 2.0, false, true), new Option("o2", 3.0, true, false)));
+		reservation.setOptions(new HashSet<>(Arrays.asList(new Option("o1", 2.0, false, true), new Option("o2", 3.0, true, false))));
 		final Double montantTotal = 100D;
 
 		//

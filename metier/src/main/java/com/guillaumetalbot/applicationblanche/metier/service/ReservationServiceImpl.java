@@ -1,6 +1,7 @@
 package com.guillaumetalbot.applicationblanche.metier.service;
 
 import java.time.LocalDate;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -78,12 +79,20 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override
+	public Reservation chargerReservation(final String referenceReservation) {
+		final Long idReservation = Entite.extraireIdentifiant(referenceReservation, Reservation.class);
+
+		return this.reservationRepo.chargerReservationFetchChambreFormuleOptionsConsommationPaiements(idReservation)
+				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "reservation", referenceReservation));
+	}
+
+	@Override
 	public FactureDto facturer(final String referenceReservation) {
 		// Valider la référence
 		final Long idReservation = Entite.extraireIdentifiant(referenceReservation, Reservation.class);
 
 		// Charger la réservation
-		final Reservation reservation = this.reservationRepo.chargerReservationFetchChambreFormuleOptionsConsommation(idReservation)//
+		final Reservation reservation = this.reservationRepo.chargerReservationFetchChambreFormuleOptionsConsommationManaged(idReservation)//
 				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "reservation", referenceReservation));
 
 		// Calculer le montant total
@@ -92,11 +101,11 @@ public class ReservationServiceImpl implements ReservationService {
 		// Générer un PDF à partir d'un modèle
 		final byte[] pdf = this.exportService.genererPdfFactureReservation(reservation, montantTotal);
 
-		// Changement d'état de la réservation
-		this.changeEtatReservation(referenceReservation, EtatReservation.FACTUREE);
+		// Changement d'état de la réservation (update assuré car l'objet est MANAGED dans la session Hibernate)
+		reservation.changerEtatCourant(EtatReservation.FACTUREE);
 
 		// Renvoi du DTO
-		return new FactureDto(montantTotal, pdf);
+		return new FactureDto(montantTotal, Base64.getEncoder().encodeToString(pdf));
 	}
 
 	@Override

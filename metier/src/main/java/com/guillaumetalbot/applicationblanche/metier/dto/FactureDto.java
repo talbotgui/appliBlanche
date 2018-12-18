@@ -4,13 +4,13 @@ public class FactureDto {
 
 	private Double montantTotal;
 
-	private byte[] pdf;
+	private String pdf;
 
 	public FactureDto() {
 		super();
 	}
 
-	public FactureDto(final Double montantTotal, final byte[] pdf) {
+	public FactureDto(final Double montantTotal, final String pdf) {
 		super();
 		this.montantTotal = montantTotal;
 		this.pdf = pdf;
@@ -20,7 +20,7 @@ public class FactureDto {
 		return this.montantTotal;
 	}
 
-	public byte[] getPdf() {
+	public String getPdf() {
 		return this.pdf;
 	}
 
@@ -28,7 +28,7 @@ public class FactureDto {
 		this.montantTotal = montantTotal;
 	}
 
-	public void setPdf(final byte[] pdf) {
+	public void setPdf(final String pdf) {
 		this.pdf = pdf;
 	}
 

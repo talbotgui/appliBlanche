@@ -165,6 +165,7 @@ export class ReservationService {
     const url = environment.baseUrl + '/v1/moyensDePaiement';
     return this.http.get<model.MoyenDePaiement[]>(url, this.restUtils.creerHeader());
   }
+
   /** Suppression d'un moyen de paiement via l'API */
   supprimerMoyenDePaiement(referenceMoyenDePaiement: string): Observable<{} | void> {
     const url = environment.baseUrl + '/v1/moyensDePaiement/' + referenceMoyenDePaiement;
@@ -175,5 +176,11 @@ export class ReservationService {
   sauvegarderMoyenDePaiement(mdp: model.MoyenDePaiement): Observable<{} | void> {
     const url = environment.baseUrl + '/v1/moyensDePaiement/';
     return this.http.post<void>(url, mdp, this.restUtils.creerHeaderPost());
+  }
+
+  /** Charge une référence */
+  chargerReservation(referenceReservation: string): Observable<model.Reservation> {
+    const url = environment.baseUrl + '/v1/reservations/' + referenceReservation;
+    return this.http.get<model.Reservation>(url, this.restUtils.creerHeader());
   }
 }

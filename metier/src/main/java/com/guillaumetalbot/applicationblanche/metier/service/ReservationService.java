@@ -13,6 +13,8 @@ public interface ReservationService {
 
 	void changeEtatReservation(String referenceReservation, EtatReservation etat);
 
+	Reservation chargerReservation(String referenceReservation);
+
 	FactureDto facturer(String referenceReservation);
 
 	void modifierQuantiteConsommation(String referenceReservation, String referenceConsommation, Integer quantite);

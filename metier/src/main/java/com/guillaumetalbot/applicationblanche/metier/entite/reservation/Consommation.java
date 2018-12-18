@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.guillaumetalbot.applicationblanche.metier.entite.Entite;
 
 @Entity
@@ -24,6 +25,7 @@ public class Consommation extends Entite {
 
 	@ManyToOne
 	@JoinColumn(name = "RESERVATION_ID")
+	@JsonBackReference
 	private Reservation reservation;
 
 	public Consommation() {

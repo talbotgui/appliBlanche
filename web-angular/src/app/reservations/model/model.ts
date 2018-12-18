@@ -146,7 +146,7 @@ export interface IStringToAnyMap<T> {
 /** facture */
 export class Facture {
   /** Montant total */
-  public total: number;
+  public montantTotal: number;
 
   /** Contenu du PDF de la facture en base64 */
   public pdf: Blob;

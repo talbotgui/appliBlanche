@@ -2,7 +2,6 @@ package com.guillaumetalbot.applicationblanche.metier.entite.reservation;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,6 +15,7 @@ import javax.persistence.OneToMany;
 
 import org.hibernate.Hibernate;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.guillaumetalbot.applicationblanche.exception.BusinessException;
 import com.guillaumetalbot.applicationblanche.metier.entite.Entite;
 import com.guillaumetalbot.applicationblanche.metier.entite.MutableUtil;
@@ -31,6 +31,7 @@ public class Reservation extends Entite {
 	private String client;
 
 	@OneToMany(mappedBy = "reservation", fetch = FetchType.LAZY)
+	@JsonManagedReference
 	private Set<Consommation> consommations = new HashSet<>();
 
 	private LocalDate dateDebut;
@@ -53,10 +54,11 @@ public class Reservation extends Entite {
 	@JoinTable(name = "OPTION_RESERVEE", //
 			joinColumns = { @JoinColumn(name = "RESERVATION_ID") }, //
 			inverseJoinColumns = { @JoinColumn(name = "OPTION_ID") })
-	private Collection<Option> options = new HashSet<>();
+	private Set<Option> options = new HashSet<>();
 
 	@OneToMany(mappedBy = "reservation", fetch = FetchType.LAZY)
-	private final Collection<Paiement> paiements = new HashSet<>();
+	@JsonManagedReference
+	private Set<Paiement> paiements = new HashSet<>();
 
 	public Reservation() {
 		super();
@@ -77,7 +79,7 @@ public class Reservation extends Entite {
 
 	/**
 	 * Calcul du montant déjà payé
-	 * 
+	 *
 	 * @return
 	 */
 	public Double calculerMontantPaye() {
@@ -94,7 +96,7 @@ public class Reservation extends Entite {
 
 	/**
 	 * Calcul du montant restant dû.
-	 * 
+	 *
 	 * @return
 	 */
 	public Double calculerMontantRestantDu() {
@@ -188,8 +190,12 @@ public class Reservation extends Entite {
 		return this.nombrePersonnes;
 	}
 
-	public Collection<Option> getOptions() {
+	public Set<Option> getOptions() {
 		return this.options;
+	}
+
+	public Set<Paiement> getPaiements() {
+		return this.paiements;
 	}
 
 	public void setChambre(final Chambre chambre) {
@@ -224,8 +230,12 @@ public class Reservation extends Entite {
 		this.nombrePersonnes = nombrePersonnes;
 	}
 
-	public void setOptions(final Collection<Option> options) {
+	public void setOptions(final Set<Option> options) {
 		this.options = options;
+	}
+
+	public void setPaiements(final Set<Paiement> paiements) {
+		this.paiements = paiements;
 	}
 
 	/**
@@ -251,9 +261,9 @@ public class Reservation extends Entite {
 			return EtatReservation.FACTUREE.equals(etatDemande);
 		}
 
-		// Transition possible depuis EN_COURS
+		// Transition possible depuis FACTUREE
 		else if (EtatReservation.FACTUREE.equals(this.etatCourant)) {
-			return EtatReservation.TERMINEE.equals(etatDemande);
+			return EtatReservation.TERMINEE.equals(etatDemande) || EtatReservation.EN_COURS.equals(etatDemande);
 		}
 
 		// TERMINEE est un état final

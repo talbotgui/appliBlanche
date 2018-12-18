@@ -21,10 +21,18 @@
       </div>
     </mat-card-content>
     <mat-card-footer>
-      <button type="submit" *ngIf="reservationSelectionnee.etatCourant !== 'FACTUREE'" (click)="facturer()" class="btn btn-outline-secondary">Facturer</button>
-      <button type="submit" (click)="editerUneNote()" class="btn btn-outline-secondary">
-        {{ (reservationSelectionnee.etatCourant === 'FACTUREE') ? 'Re-' : '' }}
+      <button (click)="editerUneNote()" type="submit" class="btn btn-outline-secondary">
         Editer une note
+      </button>
+
+      <button (click)="facturer()" type="submit" *ngIf="reservationSelectionnee.etatCourant !== 'FACTUREE'" class="btn btn-outline-secondary">
+        Facturer
+      </button>
+      <button (click)="defacturer()" type="submit" *ngIf="reservationSelectionnee.etatCourant === 'FACTUREE'" class="btn btn-outline-secondary">
+        Permettre la modification de la facture
+      </button>
+      <button (click)="telechargerLaFacture()" type="submit" *ngIf="factureDeLaReservationSelectionee" class="btn btn-outline-secondary">
+        Afficher la facture
       </button>
     </mat-card-footer>
   </mat-card>

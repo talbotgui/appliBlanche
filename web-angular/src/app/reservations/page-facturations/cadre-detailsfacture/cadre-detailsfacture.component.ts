@@ -18,6 +18,9 @@ export class CadreDetailsFactureComponent {
   /** Réservation sélectionnée */
   reservationSelectionnee: model.Reservation | undefined;
 
+  /** Facture courante */
+  factureDeLaReservationSelectionee: model.Facture | undefined;
+
   /** Bus de message pour communiquer avec le composant parent */
   busDeMessage = new EventEmitter<string>();
 
@@ -27,6 +30,7 @@ export class CadreDetailsFactureComponent {
   /** A la sélection d'une réservation dans un autre composant  (pour ignorer la ligne suivante : @@angular:analyse:ignorerLigneSuivante@@) */
   selectionnerUneReservation(r: model.Reservation) {
     this.reservationSelectionnee = r;
+    this.factureDeLaReservationSelectionee = undefined;
   }
 
   /** Acte de facturation */
@@ -36,8 +40,27 @@ export class CadreDetailsFactureComponent {
     // Refresh des données à la fin
     if (this.reservationSelectionnee) {
       this.reservationsService.facturer(this.reservationSelectionnee.reference).subscribe((facture: model.Facture) => {
-        this.reservationSelectionnee = undefined;
-        this.busDeMessage.emit('');
+
+        // Raffraichissement des données de la reservation
+        this.raffraichirDonneesDeLaPage();
+
+        // Sauvegarde de la facture dans les données du composant
+        this.factureDeLaReservationSelectionee = facture;
+      });
+    }
+  }
+
+  telechargerLaFacture() {
+    if (this.factureDeLaReservationSelectionee) {
+      const contenu = new Blob([this.factureDeLaReservationSelectionee.pdf], { type: 'application/pdf' });
+      window.open(URL.createObjectURL(contenu));
+    }
+  }
+
+  defacturer() {
+    if (this.reservationSelectionnee) {
+      this.reservationsService.changerEtatReservation(this.reservationSelectionnee.reference, 'EN_COURS').subscribe(() => {
+        this.raffraichirDonneesDeLaPage();
       });
     }
   }
@@ -65,6 +88,20 @@ export class CadreDetailsFactureComponent {
           pdf.save('Note-' + this.reservationSelectionnee.client + '-' + dateDebut + '-' + dateFin + '.pdf');
         }
       });
+    }
+  }
+
+  /** Raffraichit les données du backend */
+  private raffraichirDonneesDeLaPage() {
+    if (this.reservationSelectionnee) {
+      
+      //Raffraichit les données de la réservation depuis le backend
+      this.reservationsService.chargerReservation(this.reservationSelectionnee.reference).subscribe((r) => {
+        this.reservationSelectionnee = r;
+      });
+
+      // Raffraichissement des données dans le composant d'à coté
+      this.busDeMessage.emit('');
     }
   }
 }
