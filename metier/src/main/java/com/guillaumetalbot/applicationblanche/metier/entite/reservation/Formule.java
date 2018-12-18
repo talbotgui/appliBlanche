@@ -22,6 +22,10 @@ public class Formule extends Entite {
 		this.prixParNuit = prixParNuit;
 	}
 
+	public Double calculerMontantTotal(final long nbNuits) {
+		return this.prixParNuit * nbNuits;
+	}
+
 	public String getNom() {
 		return this.nom;
 	}

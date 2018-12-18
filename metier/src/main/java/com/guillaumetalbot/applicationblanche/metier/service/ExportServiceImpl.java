@@ -5,13 +5,19 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
 import com.guillaumetalbot.applicationblanche.exception.BusinessException;
+import com.guillaumetalbot.applicationblanche.metier.dto.LigneDeFacturePdfDto;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Consommation;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Formule;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Option;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservation;
 
 import net.sf.jasperreports.engine.JRException;
@@ -115,11 +121,37 @@ public class ExportServiceImpl implements ExportService {
 		final Map<String, Object> parametres = new HashMap<>();
 		parametres.put("param1", "valval1");
 
-		// Liste des données
-		final JRBeanCollectionDataSource listeDesOptions = new JRBeanCollectionDataSource(reservation.getOptions());
+		// Création de la liste des lignes facturées
+		final List<LigneDeFacturePdfDto> lignes = new ArrayList<>();
+		final long nbNuits = reservation.calculerNombreNuits();
+		final long nbPersonnes = reservation.getNombrePersonnes();
+
+		// Ajout de la ligne de la formule
+		if (reservation.getFormule() != null) {
+			final Formule formule = reservation.getFormule();
+			lignes.add(
+					new LigneDeFacturePdfDto("Formule", formule.getNom(), formule.getPrixParNuit(), nbNuits, formule.calculerMontantTotal(nbNuits)));
+		}
+
+		// Ajout des options
+		if (reservation.getOptions() != null) {
+			for (final Option o : reservation.getOptions()) {
+				lignes.add(new LigneDeFacturePdfDto("Option", o.getNom(), o.getPrix(), o.calculerMultiplicateurAuPrixUnitaire(nbNuits, nbPersonnes),
+						o.calculerMontantTotal(nbNuits, nbPersonnes)));
+			}
+		}
+
+		// Ajout des consommation
+		if (reservation.getConsommations() != null) {
+			for (final Consommation c : reservation.getConsommations()) {
+				lignes.add(new LigneDeFacturePdfDto("Consommation", c.getProduit().getNom(), c.getPrixPaye(), (long) c.getQuantite(),
+						c.calculerMontantTotal()));
+			}
+		}
 
 		// Alimentation du template
-		return JasperFillManager.fillReport(rapportXml, parametres, listeDesOptions);
+		final JRBeanCollectionDataSource listeDeLignes = new JRBeanCollectionDataSource(lignes);
+		return JasperFillManager.fillReport(rapportXml, parametres, listeDeLignes);
 	}
 
 }

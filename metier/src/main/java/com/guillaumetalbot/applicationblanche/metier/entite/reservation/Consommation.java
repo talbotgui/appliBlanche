@@ -40,6 +40,10 @@ public class Consommation extends Entite {
 		this.quantite = quantite;
 	}
 
+	public Double calculerMontantTotal() {
+		return this.prixPaye * this.quantite;
+	}
+
 	public LocalDate getDateCreation() {
 		return this.dateCreation;
 	}

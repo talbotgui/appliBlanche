@@ -28,6 +28,22 @@ public class Option extends Entite {
 		this.prix = prix;
 	}
 
+	public Double calculerMontantTotal(final long nbNuits, final long nbPersonnes) {
+		return this.prix * this.calculerMultiplicateurAuPrixUnitaire(nbNuits, nbPersonnes);
+	}
+
+	public long calculerMultiplicateurAuPrixUnitaire(final long nbNuits, final long nbPersonnes) {
+		long multiplicateur = 0;
+		if (this.getParNuit() && this.getParPersonne()) {
+			multiplicateur = nbNuits * nbPersonnes;
+		} else if (this.getParNuit()) {
+			multiplicateur = nbNuits;
+		} else if (this.getParPersonne()) {
+			multiplicateur = nbPersonnes;
+		}
+		return multiplicateur;
+	}
+
 	public String getNom() {
 		return this.nom;
 	}

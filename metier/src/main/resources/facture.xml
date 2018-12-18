@@ -1,54 +1,51 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
-<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
-	name="jasper_report_template" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20"
-	bottomMargin="20">
+<!-- <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports jasperreport.xsd" -->
+<!-- 	name="jasper_report_template" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"> -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+	name="jasper_report_template" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 
+	<!-- Définition des structures de données (LigneDeFacturePdfDto) -->
 	<queryString><![CDATA[]]></queryString>
-	<field name="prix" class="java.lang.String"><fieldDescription><![CDATA[prix]]></fieldDescription></field>
-	<field name="nom" class="java.lang.String"><fieldDescription><![CDATA[nom]]></fieldDescription></field>
-<!-- TODO: parameter ? "param1"  -->
+	<field name="categorie" class="java.lang.String"><fieldDescription><![CDATA[categorie]]></fieldDescription></field>
+	<field name="libelle" class="java.lang.String"><fieldDescription><![CDATA[libelle]]></fieldDescription></field>
+	<field name="montantTotal" class="java.lang.String"><fieldDescription><![CDATA[montantTotal]]></fieldDescription></field>
+	<field name="montantUnitaire" class="java.lang.String"><fieldDescription><![CDATA[montantUnitaire]]></fieldDescription></field>
+	<field name="quantite" class="java.lang.String"><fieldDescription><![CDATA[quantite]]></fieldDescription></field>
+	
+	<!-- TODO: parameter ? "param1"  -->
+	
+	<!-- Entete de colonne -->	
 	<columnHeader>
 		<band height="23">
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="3" width="535" height="15" backcolor="#70A9A9" />
-				<box><bottomPen lineWidth="1.0" lineColor="#CCCCCC" /></box>
-				<textElement />
-				<text><![CDATA[]]></text>
+				<reportElement mode="Opaque" x="0" y="3" width="199" height="17" backcolor="#70A9A9" /><box><bottomPen lineWidth="1.0" lineColor="#CCCCCC" /></box><textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Catégorie]]></text>
 			</staticText>
-
 			<staticText>
-				<reportElement x="414" y="3" width="121" height="15" />
-				<textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true" /></textElement>
-				<text><![CDATA[prix]]></text>
+				<reportElement mode="Opaque" x="200" y="3" width="199" height="17" backcolor="#70A9A9" /><box><bottomPen lineWidth="1.0" lineColor="#CCCCCC" /></box><textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Libellé]]></text>
 			</staticText>
-
 			<staticText>
-				<reportElement x="0" y="3" width="136" height="15" />
-				<textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true" /></textElement>
-				<text><![CDATA[nom]]></text>
+				<reportElement mode="Opaque" x="400" y="3" width="80" height="17" backcolor="#70A9A9" /><box><bottomPen lineWidth="1.0" lineColor="#CCCCCC" /></box><textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Montant total]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 
+	<!-- Contenu de la table -->	
 	<detail>
 		<band height="16">
-			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="535" height="14" backcolor="#E5ECF9" />
-				<box><bottomPen lineWidth="0.25" lineColor="#CCCCCC" /></box>
-				<textElement />
-				<text><![CDATA[]]></text>
-			</staticText>
 			<textField>
-				<reportElement x="414" y="0" width="121" height="15" />
-				<textElement textAlignment="Center" verticalAlignment="Middle"><font size="9" /></textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{prix}]]></textFieldExpression>
+				<reportElement mode="Opaque" x="0" y="0" width="199" height="16" backcolor="#E5ECF9" /><box><bottomPen lineWidth="0.25" lineColor="#CCCCCC" /></box><textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{categorie}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="0" width="136" height="15" />
-				<textElement textAlignment="Center" verticalAlignment="Middle" />
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{nom}]]></textFieldExpression>
+				<reportElement mode="Opaque" x="200" y="0" width="199" height="16" backcolor="#E5ECF9" /><box><bottomPen lineWidth="0.25" lineColor="#CCCCCC" /></box><textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{libelle}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="400" y="0" width="80" height="16" backcolor="#E5ECF9" /><box><bottomPen lineWidth="0.25" lineColor="#CCCCCC" /></box><textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{montantTotal}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

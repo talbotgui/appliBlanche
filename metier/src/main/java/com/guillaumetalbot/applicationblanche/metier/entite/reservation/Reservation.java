@@ -111,27 +111,19 @@ public class Reservation extends Entite {
 		}
 
 		// Pré-calculs
-		final long nbNuits = this.dateDebut.until(this.dateFin, ChronoUnit.DAYS);
+		final long nbNuits = this.calculerNombreNuits();
 		final long nbPersonnes = this.nombrePersonnes;
 
 		// Initialisation du prix
 		Double montantTotal = 0D;
 
 		// Ajout du prix de la formule
-		montantTotal += this.formule.getPrixParNuit() * nbNuits;
+		montantTotal += this.formule.calculerMontantTotal(nbNuits);
 
 		// Ajout des options
 		if (this.options != null) {
 			for (final Option o : this.options) {
-				long multiplicateur = 0;
-				if (o.getParNuit() && o.getParPersonne()) {
-					multiplicateur = nbNuits * nbPersonnes;
-				} else if (o.getParNuit()) {
-					multiplicateur = nbNuits;
-				} else if (o.getParPersonne()) {
-					multiplicateur = nbPersonnes;
-				}
-				montantTotal += o.getPrix() * multiplicateur;
+				montantTotal += o.calculerMontantTotal(nbNuits, nbPersonnes);
 			}
 		}
 
@@ -143,6 +135,11 @@ public class Reservation extends Entite {
 		}
 
 		return montantTotal;
+	}
+
+	/** Calcul du nombre de nuits */
+	public long calculerNombreNuits() {
+		return this.dateDebut.until(this.dateFin, ChronoUnit.DAYS);
 	}
 
 	/**
