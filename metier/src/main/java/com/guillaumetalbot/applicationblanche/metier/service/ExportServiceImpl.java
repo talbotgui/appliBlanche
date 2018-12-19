@@ -2,6 +2,7 @@ package com.guillaumetalbot.applicationblanche.metier.service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +27,8 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 @Service
 public class ExportServiceImpl implements ExportService {
+
+	private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 	private final Map<String, JasperReport> cacheDeTemplatesCompiles = new HashMap<>();
 
@@ -102,14 +105,18 @@ public class ExportServiceImpl implements ExportService {
 	private JasperPrint injecterDonneesDansTemplate(final JasperReport rapportXml, final Reservation reservation, final Double montantTotal)
 			throws JRException {
 
+		// Calcul des informations nécessaires à la suite
+		final long nbNuits = reservation.calculerNombreNuits();
+		final long nbPersonnes = reservation.getNombrePersonnes();
+
 		// Paramètres sous forme de clef/valeur
 		final Map<String, Object> parametres = new HashMap<>();
-		parametres.put("param1", "valval1");
+		parametres.put("client", reservation.getClient());
+		parametres.put("dates", "Du " + reservation.getDateDebut().format(DATE_FORMATTER) + " au " + reservation.getDateFin().format(DATE_FORMATTER)
+				+ " soit " + Long.toString(nbNuits) + " nuit(s)");
 
 		// Création de la liste des lignes facturées
 		final List<LigneDeFacturePdfDto> lignes = new ArrayList<>();
-		final long nbNuits = reservation.calculerNombreNuits();
-		final long nbPersonnes = reservation.getNombrePersonnes();
 
 		// Ajout de la ligne de la formule
 		if (reservation.getFormule() != null) {

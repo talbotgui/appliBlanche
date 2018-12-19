@@ -37,7 +37,7 @@ public class ExportServiceTest {
 		final Chambre chambre = new Chambre("chambre1");
 		final LocalDate dateDebut = LocalDate.now();
 		final LocalDate dateFin = LocalDate.now().plus(1, ChronoUnit.DAYS);
-		final Reservation reservation = new Reservation("client", chambre, dateDebut, dateFin);
+		final Reservation reservation = new Reservation("M. Client Jean", chambre, dateDebut, dateFin);
 		reservation.setFormule(new Formule("formule_A", 70.0));
 		reservation.setOptions(new HashSet<>(Arrays.asList(new Option("o1", 2.0, false, true), new Option("o2", 3.0, true, false))));
 		final Double montantTotal = 100D;
