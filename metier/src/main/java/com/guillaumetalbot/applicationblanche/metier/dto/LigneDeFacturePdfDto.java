@@ -1,10 +1,11 @@
 package com.guillaumetalbot.applicationblanche.metier.dto;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 public class LigneDeFacturePdfDto {
 
-	private static final NumberFormat FORMATTER = NumberFormat.getInstance();
+	private static final NumberFormat FORMATTER = new DecimalFormat("#0.00 €");
 
 	private String categorie;
 	private String libelle;

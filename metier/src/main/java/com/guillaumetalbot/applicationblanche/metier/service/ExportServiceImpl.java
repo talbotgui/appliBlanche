@@ -1,12 +1,8 @@
 package com.guillaumetalbot.applicationblanche.metier.service;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,17 +70,6 @@ public class ExportServiceImpl implements ExportService {
 	private byte[] exporterRapport(final JasperPrint rapport) throws JRException {
 		final ByteArrayOutputStream os = new ByteArrayOutputStream();
 		JasperExportManager.exportReportToPdfStream(rapport, os);
-
-		// test
-		try {
-			final FileOutputStream fos = new FileOutputStream(new File("./test-" + new Date().getTime() + ".pdf"));
-			JasperExportManager.exportReportToPdfStream(rapport, fos);
-			fos.flush();
-			fos.close();
-		} catch (final IOException e) {
-			e.printStackTrace();
-		}
-
 		return os.toByteArray();
 	}
 

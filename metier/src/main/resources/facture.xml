@@ -18,15 +18,23 @@
 	<columnHeader>
 		<band height="23">
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="3" width="199" height="17" backcolor="#70A9A9" /><box><bottomPen lineWidth="1.0" lineColor="#CCCCCC" /></box><textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<reportElement mode="Opaque" x="0" y="3" width="135" height="17" backcolor="#70A9A9" /><box><leftPen/><bottomPen lineWidth="1.0" lineColor="#CCCCCC" /></box><textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Catégorie]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="200" y="3" width="199" height="17" backcolor="#70A9A9" /><box><bottomPen lineWidth="1.0" lineColor="#CCCCCC" /></box><textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<reportElement mode="Opaque" x="135" y="3" width="200" height="17" backcolor="#70A9A9" /><box><leftPen lineWidth="0.1" lineColor="#FFFFFF"/><bottomPen lineWidth="1.0" lineColor="#CCCCCC" /></box><textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Libellé]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="400" y="3" width="80" height="17" backcolor="#70A9A9" /><box><bottomPen lineWidth="1.0" lineColor="#CCCCCC" /></box><textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<reportElement mode="Opaque" x="335" y="3" width="80" height="17" backcolor="#70A9A9" /><box><leftPen lineWidth="0.1" lineColor="#FFFFFF"/><bottomPen lineWidth="1.0" lineColor="#CCCCCC" /></box><textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Prix unitaire]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="415" y="3" width="60" height="17" backcolor="#70A9A9" /><box><leftPen lineWidth="0.1" lineColor="#FFFFFF"/><bottomPen lineWidth="1.0" lineColor="#CCCCCC" /></box><textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Quantité]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="475" y="3" width="80" height="17" backcolor="#70A9A9" /><box><leftPen lineWidth="0.1" lineColor="#FFFFFF"/><bottomPen lineWidth="1.0" lineColor="#CCCCCC" /></box><textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Montant total]]></text>
 			</staticText>
 		</band>
@@ -36,15 +44,23 @@
 	<detail>
 		<band height="16">
 			<textField>
-				<reportElement mode="Opaque" x="0" y="0" width="199" height="16" backcolor="#E5ECF9" /><box><bottomPen lineWidth="0.25" lineColor="#CCCCCC" /></box><textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<reportElement mode="Opaque" x="0" y="0" width="135" height="16" backcolor="#E5ECF9" /><box leftPadding="4"><leftPen /><bottomPen lineWidth="0.25" lineColor="#CCCCCC" /></box><textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{categorie}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement mode="Opaque" x="200" y="0" width="199" height="16" backcolor="#E5ECF9" /><box><bottomPen lineWidth="0.25" lineColor="#CCCCCC" /></box><textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<reportElement mode="Opaque" x="135" y="0" width="200" height="16" backcolor="#E5ECF9" /><box leftPadding="4"><leftPen lineWidth="0.1" lineColor="#FFFFFF"/><bottomPen lineWidth="0.25" lineColor="#CCCCCC" /></box><textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{libelle}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement mode="Opaque" x="400" y="0" width="80" height="16" backcolor="#E5ECF9" /><box><bottomPen lineWidth="0.25" lineColor="#CCCCCC" /></box><textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<reportElement mode="Opaque" x="335" y="0" width="80" height="16" backcolor="#E5ECF9" /><box rightPadding="4"><leftPen lineWidth="0.1" lineColor="#FFFFFF"/><bottomPen lineWidth="0.25" lineColor="#CCCCCC" /></box><textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{montantUnitaire}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="415" y="0" width="60" height="16" backcolor="#E5ECF9" /><box rightPadding="4"><leftPen lineWidth="0.1" lineColor="#FFFFFF"/><bottomPen lineWidth="0.25" lineColor="#CCCCCC" /></box><textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{quantite}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="475" y="0" width="80" height="16" backcolor="#E5ECF9" /><box rightPadding="4"><leftPen lineWidth="0.1" lineColor="#FFFFFF"/><bottomPen lineWidth="0.25" lineColor="#CCCCCC" /></box><textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{montantTotal}]]></textFieldExpression>
 			</textField>
 		</band>
