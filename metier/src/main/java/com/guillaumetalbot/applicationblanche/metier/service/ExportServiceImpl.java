@@ -4,26 +4,30 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
 import com.guillaumetalbot.applicationblanche.exception.BusinessException;
 import com.guillaumetalbot.applicationblanche.metier.dto.LigneDeFacturePdfDto;
+import com.guillaumetalbot.applicationblanche.metier.dto.LignePaiementDto;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Consommation;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Formule;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Option;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Paiement;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservation;
 
+import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 @Service
 public class ExportServiceImpl implements ExportService {
@@ -61,6 +65,52 @@ public class ExportServiceImpl implements ExportService {
 		// renvoi du template
 		return template;
 
+	}
+
+	private Collection<LigneDeFacturePdfDto> creerListeLignesFacturees(final Reservation reservation, final long nbNuits, final long nbPersonnes) {
+		// Création de la liste des lignes facturées
+		final List<LigneDeFacturePdfDto> lignesFacturees = new ArrayList<>();
+
+		// Ajout de la ligne de la formule
+		if (reservation.getFormule() != null) {
+			final Formule formule = reservation.getFormule();
+			lignesFacturees.add(
+					new LigneDeFacturePdfDto("Formule", formule.getNom(), formule.getPrixParNuit(), nbNuits, formule.calculerMontantTotal(nbNuits)));
+		}
+
+		// Ajout des options
+		if (reservation.getOptions() != null) {
+			for (final Option o : reservation.getOptions()) {
+				lignesFacturees.add(new LigneDeFacturePdfDto("Option", o.getNom(), o.getPrix(),
+						o.calculerMultiplicateurAuPrixUnitaire(nbNuits, nbPersonnes), o.calculerMontantTotal(nbNuits, nbPersonnes)));
+			}
+		}
+
+		// Ajout des consommation
+		if (reservation.getConsommations() != null) {
+			for (final Consommation c : reservation.getConsommations()) {
+				lignesFacturees.add(new LigneDeFacturePdfDto("Consommation", c.getProduit().getNom(), c.getPrixPaye(), (long) c.getQuantite(),
+						c.calculerMontantTotal()));
+			}
+		}
+
+		return lignesFacturees;
+	}
+
+	/**
+	 * Transformation d'une liste de Paiement en liste de LignePaiementDto (dont la structure est plus simple).
+	 * 
+	 * @param paiements
+	 * @return
+	 */
+	private Collection<LignePaiementDto> creerListeLignesPaiement(final Set<Paiement> paiements) {
+		final List<LignePaiementDto> lignesPaiements = new ArrayList<>();
+		if (paiements != null) {
+			for (final Paiement p : paiements) {
+				lignesPaiements.add(new LignePaiementDto(p.getDateCreation(), p.getMontant(), p.getMoyenDePaiement().getNom()));
+			}
+		}
+		return lignesPaiements;
 	}
 
 	/**
@@ -114,36 +164,11 @@ public class ExportServiceImpl implements ExportService {
 		parametres.put("client", reservation.getClient());
 		parametres.put("dates", "Du " + reservation.getDateDebut().format(DATE_FORMATTER) + " au " + reservation.getDateFin().format(DATE_FORMATTER)
 				+ " soit " + Long.toString(nbNuits) + " nuit(s)");
-
-		// Création de la liste des lignes facturées
-		final List<LigneDeFacturePdfDto> lignes = new ArrayList<>();
-
-		// Ajout de la ligne de la formule
-		if (reservation.getFormule() != null) {
-			final Formule formule = reservation.getFormule();
-			lignes.add(
-					new LigneDeFacturePdfDto("Formule", formule.getNom(), formule.getPrixParNuit(), nbNuits, formule.calculerMontantTotal(nbNuits)));
-		}
-
-		// Ajout des options
-		if (reservation.getOptions() != null) {
-			for (final Option o : reservation.getOptions()) {
-				lignes.add(new LigneDeFacturePdfDto("Option", o.getNom(), o.getPrix(), o.calculerMultiplicateurAuPrixUnitaire(nbNuits, nbPersonnes),
-						o.calculerMontantTotal(nbNuits, nbPersonnes)));
-			}
-		}
-
-		// Ajout des consommation
-		if (reservation.getConsommations() != null) {
-			for (final Consommation c : reservation.getConsommations()) {
-				lignes.add(new LigneDeFacturePdfDto("Consommation", c.getProduit().getNom(), c.getPrixPaye(), (long) c.getQuantite(),
-						c.calculerMontantTotal()));
-			}
-		}
+		parametres.put("lignesFacturees", this.creerListeLignesFacturees(reservation, nbNuits, nbPersonnes));
+		parametres.put("lignesPaiements", this.creerListeLignesPaiement(reservation.getPaiements()));
 
 		// Alimentation du template
-		final JRBeanCollectionDataSource listeDeLignes = new JRBeanCollectionDataSource(lignes);
-		return JasperFillManager.fillReport(rapportXml, parametres, listeDeLignes);
+		return JasperFillManager.fillReport(rapportXml, parametres, new JREmptyDataSource(1));
 	}
 
 }

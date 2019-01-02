@@ -20,7 +20,9 @@ import com.google.common.io.Files;
 import com.guillaumetalbot.applicationblanche.metier.application.SpringApplicationForTests;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Chambre;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Formule;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.MoyenDePaiement;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Option;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Paiement;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservation;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -40,6 +42,9 @@ public class ExportServiceTest {
 		final Reservation reservation = new Reservation("M. Client Jean", chambre, dateDebut, dateFin);
 		reservation.setFormule(new Formule("formule_A", 70.0));
 		reservation.setOptions(new HashSet<>(Arrays.asList(new Option("o1", 2.0, false, true), new Option("o2", 3.0, true, false))));
+		reservation.setPaiements(new HashSet<>(Arrays.asList(//
+				new Paiement(LocalDate.now(), 20.50, new MoyenDePaiement("Liquide", 0.0), null),
+				new Paiement(LocalDate.now(), 19.50, new MoyenDePaiement("CB", 0.0), null))));
 		final Double montantTotal = 100D;
 
 		//
