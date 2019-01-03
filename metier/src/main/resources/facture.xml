@@ -31,6 +31,7 @@
 
  <!-- Liste des paramètres attendus -->
  <parameter name="numeroDeFacture" isForPrompting="false" class="java.lang.String"></parameter>
+ <parameter name="dateDeFacture" isForPrompting="false" class="java.lang.String"></parameter>
  <parameter name="client" isForPrompting="false" class="java.lang.String"></parameter>
  <parameter name="dates" isForPrompting="false" class="java.lang.String"></parameter>
  <parameter name="lignesFacturees" isForPrompting="false" class="java.util.Collection"></parameter>
@@ -51,23 +52,35 @@
    </image>
    
    <!-- Informations du séjour -->
-   <staticText><reportElement mode="Transparent" x="0" y="50" width="555" height="45"/><box borderColor="#000000" bottomBorder="Thin" /><textElement/></staticText>
    <staticText>
     <reportElement mode="Transparent" x="0" y="50" width="300" height="15"/><box /><textElement textAlignment="Left" verticalAlignment="Middle"/>
     <text><![CDATA[Détails du séjour]]></text>
    </staticText>
    <textField>
-    <reportElement mode="Transparent" x="15" y="65" width="300" height="15"/><box /><textElement textAlignment="Left" verticalAlignment="Middle"/>
+    <reportElement mode="Transparent" x="15" y="65" width="285" height="15"/><box /><textElement textAlignment="Left" verticalAlignment="Middle"/>
     <textFieldExpression class="java.lang.String"><![CDATA["Client : " + $P{client}]]></textFieldExpression>
    </textField>
    <textField>
-    <reportElement mode="Transparent" x="15" y="80" width="300" height="15"/><box /><textElement textAlignment="Left" verticalAlignment="Middle"/>
+    <reportElement mode="Transparent" x="15" y="80" width="285" height="15"/><box /><textElement textAlignment="Left" verticalAlignment="Middle"/>
     <textFieldExpression class="java.lang.String"><![CDATA["Dates : " + $P{dates}]]></textFieldExpression>
    </textField>
+   
+   <!-- Informations de la facture -->
+   <staticText>
+    <reportElement mode="Transparent" x="355" y="50" width="200" height="15"/><box /><textElement textAlignment="Left" verticalAlignment="Middle"/>
+    <text><![CDATA[Facture]]></text>
+   </staticText>
    <textField>
-    <reportElement mode="Transparent" x="300" y="50" width="255" height="15"/><box /><textElement textAlignment="Right" verticalAlignment="Middle"/>
-    <textFieldExpression class="java.lang.String"><![CDATA["Facture n°" + $P{numeroDeFacture}]]></textFieldExpression>
+    <reportElement mode="Transparent" x="370" y="65" width="185" height="15"/><box /><textElement textAlignment="Left" verticalAlignment="Middle"/>
+    <textFieldExpression class="java.lang.String"><![CDATA["Numéro : " + $P{numeroDeFacture}]]></textFieldExpression>
    </textField>
+   <textField>
+    <reportElement mode="Transparent" x="370" y="80" width="185" height="15"/><box /><textElement textAlignment="Left" verticalAlignment="Middle"/>
+    <textFieldExpression class="java.lang.String"><![CDATA["Emise le : " + $P{dateDeFacture}]]></textFieldExpression>
+   </textField>
+   
+   <!-- Trait de séparation -->
+   <staticText><reportElement mode="Transparent" x="0" y="50" width="555" height="45"/><box borderColor="#000000" bottomBorder="Thin" /><textElement/></staticText>
   </band>
  </pageHeader>
 
@@ -75,14 +88,9 @@
  <detail>
   <band height="400" splitType="Stretch">
   
-  <staticText>
-    <reportElement mode="Transparent" x="0" y="50" width="300" height="15"/><box /><textElement textAlignment="Left" verticalAlignment="Middle"/>
-    <text><![CDATA[]]></text>
-   </staticText>
-  
    <!-- Tableaux des lignes facturées -->
    <componentElement>
-    <reportElement key="tableLignesFacturees" x="108" y="30" width="450" height="50"/>
+    <reportElement key="tableLignesFacturees" x="10" y="0" width="555" height="50"/>
     <jr:table>
      <datasetRun subDataset="LigneDeFacturePdfDto"><dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{lignesFacturees})]]></dataSourceExpression></datasetRun>
      <jr:column width="90">

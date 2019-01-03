@@ -2,6 +2,7 @@ package com.guillaumetalbot.applicationblanche.metier.service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -162,6 +163,7 @@ public class ExportServiceImpl implements ExportService {
 		// Paramètres sous forme de clef/valeur
 		final Map<String, Object> parametres = new HashMap<>();
 		parametres.put("numeroDeFacture", reservation.getReference());
+		parametres.put("dateDeFacture", LocalDate.now().format(DATE_FORMATTER));
 		parametres.put("client", reservation.getClient());
 		parametres.put("dates", "du " + reservation.getDateDebut().format(DATE_FORMATTER) + " au " + reservation.getDateFin().format(DATE_FORMATTER)
 				+ " soit " + Long.toString(nbNuits) + " nuit(s)");
