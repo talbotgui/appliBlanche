@@ -18,6 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.google.common.io.Files;
 import com.guillaumetalbot.applicationblanche.metier.application.SpringApplicationForTests;
+import com.guillaumetalbot.applicationblanche.metier.entite.Entite;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Chambre;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Formule;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.MoyenDePaiement;
@@ -40,6 +41,7 @@ public class ExportServiceTest {
 		final LocalDate dateDebut = LocalDate.now();
 		final LocalDate dateFin = LocalDate.now().plus(1, ChronoUnit.DAYS);
 		final Reservation reservation = new Reservation("M. Client Jean", chambre, dateDebut, dateFin);
+		reservation.setReference(Entite.genererReference(Reservation.class, 1L));
 		reservation.setFormule(new Formule("formule_A", 70.0));
 		reservation.setOptions(new HashSet<>(Arrays.asList(new Option("o1", 2.0, false, true), new Option("o2", 3.0, true, false))));
 		reservation.setPaiements(new HashSet<>(Arrays.asList(//

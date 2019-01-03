@@ -6,6 +6,14 @@
  xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd"
  name="jasper_report_template" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 
+<!--
+ Documentation :
+  guide : http://jasperreports.sourceforge.net/JasperReports-Ultimate-Guide-3.pdf
+  structure d'une page : https://community.jaspersoft.com/wiki/report-structure-jaspersoft-studio
+  styles conditionnels : http://jasperreports.sourceforge.net/sample.reference/jasper/index.html
+  variables : https://www.tutorialspoint.com/jasper_reports/jasper_report_variables.htm
+ -->
+
  <!-- Description des datasets -->
  <subDataset name="LigneDeFacturePdfDto">
   <field name="categorie" class="java.lang.String"></field>
@@ -22,42 +30,55 @@
  </subDataset>
 
  <!-- Liste des paramètres attendus -->
+ <parameter name="numeroDeFacture" isForPrompting="false" class="java.lang.String"></parameter>
  <parameter name="client" isForPrompting="false" class="java.lang.String"></parameter>
  <parameter name="dates" isForPrompting="false" class="java.lang.String"></parameter>
  <parameter name="lignesFacturees" isForPrompting="false" class="java.util.Collection"></parameter>
  <parameter name="lignesPaiements" isForPrompting="false" class="java.util.Collection"></parameter>
+ 
+ <!-- Entete de la premiere page -->
+ <!--<title></title>-->
 
- <!-- Entete de page avec les détails de la réservation --> 
- <title>
-  <band height="60">
+ <!-- Entete de chaque page -->
+ <pageHeader>
+  <band height="150">
+  
+   <!-- Image d'entete -->
+   <image isUsingCache="false" scaleImage="FillFrame">
+    <reportElement x="0" y="0" width="555" height="50" forecolor="#FFFFFF"/>
+    <graphicElement><pen lineWidth="1.25"/></graphicElement>
+    <imageExpression><![CDATA[this.getClass().getResourceAsStream("entete.jpg")]]></imageExpression>
+   </image>
+   
+   <!-- Informations du séjour -->
+   <staticText><reportElement mode="Transparent" x="0" y="50" width="555" height="45"/><box borderColor="#000000" bottomBorder="Thin" /><textElement/></staticText>
    <staticText>
-    <reportElement mode="Opaque" x="0" y="0" width="300" height="17" backcolor="#70A9A9"/><box /><textElement textAlignment="Left" verticalAlignment="Middle"/>
+    <reportElement mode="Transparent" x="0" y="50" width="300" height="15"/><box /><textElement textAlignment="Left" verticalAlignment="Middle"/>
     <text><![CDATA[Détails du séjour]]></text>
    </staticText>
-   <staticText>
-    <reportElement mode="Opaque" x="0" y="20" width="40" height="17"/><box /><textElement textAlignment="Left" verticalAlignment="Middle"/>
-    <text><![CDATA[Client : ]]></text>
-   </staticText>
    <textField>
-    <reportElement mode="Opaque" x="40" y="20" width="260" height="17"/><box /><textElement textAlignment="Left" verticalAlignment="Middle"/>
-    <textFieldExpression class="java.lang.String"><![CDATA[$P{client}]]></textFieldExpression>
+    <reportElement mode="Transparent" x="15" y="65" width="300" height="15"/><box /><textElement textAlignment="Left" verticalAlignment="Middle"/>
+    <textFieldExpression class="java.lang.String"><![CDATA["Client : " + $P{client}]]></textFieldExpression>
    </textField>
-   <staticText>
-    <reportElement mode="Opaque" x="0" y="40" width="40" height="17"/><box /><textElement textAlignment="Left" verticalAlignment="Middle"/>
-    <text><![CDATA[Dates : ]]></text>
-   </staticText>
    <textField>
-    <reportElement mode="Opaque" x="40" y="40" width="260" height="17"/><box /><textElement textAlignment="Left" verticalAlignment="Middle"/>
-    <textFieldExpression class="java.lang.String"><![CDATA[$P{dates}]]></textFieldExpression>
+    <reportElement mode="Transparent" x="15" y="80" width="300" height="15"/><box /><textElement textAlignment="Left" verticalAlignment="Middle"/>
+    <textFieldExpression class="java.lang.String"><![CDATA["Dates : " + $P{dates}]]></textFieldExpression>
+   </textField>
+   <textField>
+    <reportElement mode="Transparent" x="300" y="50" width="255" height="15"/><box /><textElement textAlignment="Right" verticalAlignment="Middle"/>
+    <textFieldExpression class="java.lang.String"><![CDATA["Facture n°" + $P{numeroDeFacture}]]></textFieldExpression>
    </textField>
   </band>
- </title>
+ </pageHeader>
 
-<!-- <pageHeader></pageHeader> -->
-<!-- <columnHeader></columnHeader> -->
-
+ <!-- Contenu des pages (autant de <detail> que d'éléments dans le DataSource -->
  <detail>
   <band height="400" splitType="Stretch">
+  
+  <staticText>
+    <reportElement mode="Transparent" x="0" y="50" width="300" height="15"/><box /><textElement textAlignment="Left" verticalAlignment="Middle"/>
+    <text><![CDATA[]]></text>
+   </staticText>
   
    <!-- Tableaux des lignes facturées -->
    <componentElement>
@@ -108,6 +129,11 @@
    </componentElement>
   </band>
  </detail>
+
+<!-- ajouter un joli pied de page -->
+<!-- ajouter un joli entête -->
+<!-- mettre en forme les tableaux pour que ce soit plus joli -->
+<!-- tester beaucoup de lignes -->
  
 <!--  <columnFooter></columnFooter> -->
 <!--  <pageFooter></pageFooter> -->

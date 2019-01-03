@@ -99,7 +99,7 @@ public class ExportServiceImpl implements ExportService {
 
 	/**
 	 * Transformation d'une liste de Paiement en liste de LignePaiementDto (dont la structure est plus simple).
-	 * 
+	 *
 	 * @param paiements
 	 * @return
 	 */
@@ -161,8 +161,9 @@ public class ExportServiceImpl implements ExportService {
 
 		// Paramètres sous forme de clef/valeur
 		final Map<String, Object> parametres = new HashMap<>();
+		parametres.put("numeroDeFacture", reservation.getReference());
 		parametres.put("client", reservation.getClient());
-		parametres.put("dates", "Du " + reservation.getDateDebut().format(DATE_FORMATTER) + " au " + reservation.getDateFin().format(DATE_FORMATTER)
+		parametres.put("dates", "du " + reservation.getDateDebut().format(DATE_FORMATTER) + " au " + reservation.getDateFin().format(DATE_FORMATTER)
 				+ " soit " + Long.toString(nbNuits) + " nuit(s)");
 		parametres.put("lignesFacturees", this.creerListeLignesFacturees(reservation, nbNuits, nbPersonnes));
 		parametres.put("lignesPaiements", this.creerListeLignesPaiement(reservation.getPaiements()));
