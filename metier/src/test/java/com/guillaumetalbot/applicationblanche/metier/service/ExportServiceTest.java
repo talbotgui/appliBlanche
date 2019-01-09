@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
@@ -20,10 +21,12 @@ import com.google.common.io.Files;
 import com.guillaumetalbot.applicationblanche.metier.application.SpringApplicationForTests;
 import com.guillaumetalbot.applicationblanche.metier.entite.Entite;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Chambre;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Consommation;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Formule;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.MoyenDePaiement;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Option;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Paiement;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Produit;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservation;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -36,14 +39,26 @@ public class ExportServiceTest {
 
 	private Reservation creerGrandeReservation() {
 		final Reservation reservation = this.creerPetiteReservation();
-		reservation.setOptions(new HashSet<>());
+
+		final Set<Option> listeOption = new HashSet<>();
+		for (int i = 0; i < 20; i++) {
+			listeOption.add(new Option("o", Double.valueOf(i), false, true));
+		}
+		reservation.setOptions(listeOption);
+
+		final Set<Paiement> listePaiement = new HashSet<>();
 		for (int i = 0; i < 10; i++) {
-			reservation.getOptions().add(new Option("o", Double.valueOf(i), false, true));
+			final String moyen = i % 2 == 0 ? "Liquide" : "CB";
+			listePaiement.add(new Paiement(LocalDate.now(), 20.50, new MoyenDePaiement(moyen, 0.0), null));
 		}
-		reservation.setPaiements(new HashSet<>());
+		reservation.setPaiements(listePaiement);
+
+		final Set<Consommation> listeConsomation = new HashSet<>();
 		for (int i = 0; i < 30; i++) {
-			reservation.getPaiements().add(new Paiement(LocalDate.now(), 20.50, new MoyenDePaiement("Liquide", 0.0), null));
+			listeConsomation.add(new Consommation(reservation, new Produit("Produit" + i, 2.1123, ""), 2.3214, i * 3));
 		}
+		reservation.setConsommations(listeConsomation);
+
 		return reservation;
 	}
 
@@ -58,6 +73,10 @@ public class ExportServiceTest {
 		reservation.setPaiements(new HashSet<>(Arrays.asList(//
 				new Paiement(LocalDate.now(), 20.50, new MoyenDePaiement("Liquide", 0.0), null),
 				new Paiement(LocalDate.now(), 19.50, new MoyenDePaiement("CB", 0.0), null))));
+		reservation.setConsommations(new HashSet<>(Arrays.asList(//
+				new Consommation(reservation, new Produit("Produit1", 2.0, ""), 2.25, 7),
+				new Consommation(reservation, new Produit("Produit2", 4.0, ""), 4.5, 1),
+				new Consommation(reservation, new Produit("Produit3", 5.0, ""), 9.0, 2))));
 		return reservation;
 	}
 

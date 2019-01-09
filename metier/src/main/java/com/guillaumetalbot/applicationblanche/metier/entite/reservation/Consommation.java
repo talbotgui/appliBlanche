@@ -38,6 +38,7 @@ public class Consommation extends Entite {
 		this.produit = produit;
 		this.prixPaye = prixPaye;
 		this.quantite = quantite;
+		this.dateCreation = LocalDate.now();
 	}
 
 	public Double calculerMontantTotal() {

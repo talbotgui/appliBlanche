@@ -188,11 +188,11 @@ public class Reservation extends Entite {
 	}
 
 	public Set<Option> getOptions() {
-		return this.options;
+		return MutableUtil.getMutable(this.options);
 	}
 
 	public Set<Paiement> getPaiements() {
-		return this.paiements;
+		return MutableUtil.getMutable(this.paiements);
 	}
 
 	public void setChambre(final Chambre chambre) {

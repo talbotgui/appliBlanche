@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JasperReport;
 @Service
 public class ExportServiceImpl implements ExportService {
 
+	private static final DateTimeFormatter DATE_COURTE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM");
 	private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 	private final Map<String, JasperReport> cacheDeTemplatesCompiles = new HashMap<>();
@@ -70,32 +71,32 @@ public class ExportServiceImpl implements ExportService {
 
 	private Collection<LigneDeFacturePdfDto> creerListeLignesFacturees(final Reservation reservation, final long nbNuits, final long nbPersonnes) {
 		// Création de la liste des lignes facturées
-		final List<LigneDeFacturePdfDto> lignesFacturees = new ArrayList<>();
+		final List<LigneDeFacturePdfDto> lignes = new ArrayList<>();
 
 		// Ajout de la ligne de la formule
 		if (reservation.getFormule() != null) {
 			final Formule formule = reservation.getFormule();
-			lignesFacturees.add(
+			lignes.add(
 					new LigneDeFacturePdfDto("Formule", formule.getNom(), formule.getPrixParNuit(), nbNuits, formule.calculerMontantTotal(nbNuits)));
 		}
 
 		// Ajout des options
 		if (reservation.getOptions() != null) {
 			for (final Option o : reservation.getOptions()) {
-				lignesFacturees.add(new LigneDeFacturePdfDto("Option", o.getNom(), o.getPrix(),
-						o.calculerMultiplicateurAuPrixUnitaire(nbNuits, nbPersonnes), o.calculerMontantTotal(nbNuits, nbPersonnes)));
+				lignes.add(new LigneDeFacturePdfDto("Option", o.getNom(), o.getPrix(), o.calculerMultiplicateurAuPrixUnitaire(nbNuits, nbPersonnes),
+						o.calculerMontantTotal(nbNuits, nbPersonnes)));
 			}
 		}
 
 		// Ajout des consommation
 		if (reservation.getConsommations() != null) {
 			for (final Consommation c : reservation.getConsommations()) {
-				lignesFacturees.add(new LigneDeFacturePdfDto("Consommation", c.getProduit().getNom(), c.getPrixPaye(), (long) c.getQuantite(),
-						c.calculerMontantTotal()));
+				final String libelle = c.getProduit().getNom() + " (" + c.getDateCreation().format(DATE_COURTE_FORMATTER) + ")";
+				lignes.add(new LigneDeFacturePdfDto("Consommation", libelle, c.getPrixPaye(), (long) c.getQuantite(), c.calculerMontantTotal()));
 			}
 		}
 
-		return lignesFacturees;
+		return lignes;
 	}
 
 	/**
