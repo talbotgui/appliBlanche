@@ -34,9 +34,20 @@ public class ExportServiceTest {
 	@Autowired
 	private ExportService exportService;
 
-	@Test
-	public void test01CasSimple() throws IOException {
-		//
+	private Reservation creerGrandeReservation() {
+		final Reservation reservation = this.creerPetiteReservation();
+		reservation.setOptions(new HashSet<>());
+		for (int i = 0; i < 10; i++) {
+			reservation.getOptions().add(new Option("o", Double.valueOf(i), false, true));
+		}
+		reservation.setPaiements(new HashSet<>());
+		for (int i = 0; i < 30; i++) {
+			reservation.getPaiements().add(new Paiement(LocalDate.now(), 20.50, new MoyenDePaiement("Liquide", 0.0), null));
+		}
+		return reservation;
+	}
+
+	private Reservation creerPetiteReservation() {
 		final Chambre chambre = new Chambre("chambre1");
 		final LocalDate dateDebut = LocalDate.now();
 		final LocalDate dateFin = LocalDate.now().plus(1, ChronoUnit.DAYS);
@@ -47,6 +58,13 @@ public class ExportServiceTest {
 		reservation.setPaiements(new HashSet<>(Arrays.asList(//
 				new Paiement(LocalDate.now(), 20.50, new MoyenDePaiement("Liquide", 0.0), null),
 				new Paiement(LocalDate.now(), 19.50, new MoyenDePaiement("CB", 0.0), null))));
+		return reservation;
+	}
+
+	@Test
+	public void test01CasSimple() throws IOException {
+		//
+		final Reservation reservation = this.creerPetiteReservation();
 		final Double montantTotal = 100D;
 
 		//
@@ -55,6 +73,20 @@ public class ExportServiceTest {
 		//
 		Assert.assertNotNull(flux);
 		Files.write(flux, new File("target/test01CasSimple.pdf"));
+	}
+
+	@Test
+	public void test02CasRiche() throws IOException {
+		//
+		final Reservation reservation = this.creerGrandeReservation();
+		final Double montantTotal = 100D;
+
+		//
+		final byte[] flux = this.exportService.genererPdfFactureReservation(reservation, montantTotal);
+
+		//
+		Assert.assertNotNull(flux);
+		Files.write(flux, new File("target/test01CasRiche.pdf"));
 	}
 
 }

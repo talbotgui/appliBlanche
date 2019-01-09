@@ -86,11 +86,16 @@
 
  <!-- Contenu des pages (autant de <detail> que d'éléments dans le DataSource -->
  <detail>
-  <band height="400" splitType="Stretch">
-  
+
+  <band height="45" splitType="Stretch">
+   <staticText>
+    <reportElement mode="Transparent" x="0" y="0" width="300" height="15"/><box /><textElement textAlignment="Left" verticalAlignment="Middle"/>
+    <text><![CDATA[Formule et options]]></text>
+   </staticText>   
+ 
    <!-- Tableaux des lignes facturées -->
    <componentElement>
-    <reportElement key="tableLignesFacturees" x="10" y="0" width="555" height="50"/>
+    <reportElement key="tableLignesFacturees" x="10" y="15" width="540" height="30"/>
     <jr:table>
      <datasetRun subDataset="LigneDeFacturePdfDto"><dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{lignesFacturees})]]></dataSourceExpression></datasetRun>
      <jr:column width="90">
@@ -115,10 +120,17 @@
      </jr:column>
     </jr:table>
    </componentElement>
-  
+  </band>
+   
+  <band height="45" splitType="Stretch">
+   <staticText>
+    <reportElement mode="Transparent" x="0" y="0" width="300" height="15"/><box /><textElement textAlignment="Left" verticalAlignment="Middle"/>
+    <text><![CDATA[Consommations]]></text>
+   </staticText>
+
    <!-- Tableaux des lignes de paiement -->
    <componentElement>
-    <reportElement key="tableLignesPaiement" x="108" y="300" width="450" height="50"/>
+    <reportElement key="tableLignesPaiement" x="15" y="15" width="450" height="30"/>
     <jr:table>
      <datasetRun subDataset="LignePaiementDto"><dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{lignesPaiements})]]></dataSourceExpression></datasetRun>
      <jr:column width="90">

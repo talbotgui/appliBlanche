@@ -5,7 +5,7 @@
   "author": "Guillaume TALBOT <talbotgui@gmail.com>",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --port=8181",
+    "start": "ng serve --port=8181 ",
     "build-prod": "ng build --prod --aot --progress=false --verbose=true --build-optimizer --base-href /applicationBlanche/ --output-path ./dist/unix/applicationBlanche",
     "start-prod": "http-server -p 8282 -c-1 dist/unix/",
     "build-gcloud": "ng build --prod --aot --progress=false --verbose=true --build-optimizer --base-href / --output-path ./dist/gcloud/applicationBlanche",
