@@ -87,7 +87,7 @@
  <!-- Contenu des pages (autant de <detail> que d'éléments dans le DataSource -->
  <detail>
 
-  <band height="45" splitType="Stretch">
+  <band height="55" splitType="Stretch">
    <staticText>
     <reportElement mode="Transparent" x="0" y="0" width="300" height="15"/><box /><textElement textAlignment="Left" verticalAlignment="Middle"/>
     <text><![CDATA[Formule et options]]></text>
@@ -95,34 +95,34 @@
  
    <!-- Tableaux des lignes facturées -->
    <componentElement>
-    <reportElement key="tableLignesFacturees" x="10" y="15" width="540" height="30"/>
+    <reportElement key="tableLignesFacturees" x="10" y="25" width="540" height="15"/>
     <jr:table>
      <datasetRun subDataset="LigneDeFacturePdfDto"><dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{lignesFacturees})]]></dataSourceExpression></datasetRun>
      <jr:column width="90">
-      <jr:tableHeader height="30" rowSpan="1"><staticText><reportElement x="0" y="0" width="90" height="30"/><text><![CDATA[Catégorie]]></text></staticText></jr:tableHeader>
-      <jr:detailCell height="30" rowSpan="1"><textField isStretchWithOverflow="true"><reportElement x="0" y="0" width="90" height="20"/><textFieldExpression><![CDATA[$F{categorie}]]></textFieldExpression></textField></jr:detailCell>
+      <jr:tableHeader height="15" rowSpan="1"><staticText><reportElement x="0" y="0" width="90" height="15"/><text><![CDATA[Catégorie]]></text></staticText></jr:tableHeader>
+      <jr:detailCell height="15" rowSpan="1"><textField isStretchWithOverflow="true"><reportElement x="0" y="0" width="90" height="15"/><textFieldExpression><![CDATA[$F{categorie}]]></textFieldExpression></textField></jr:detailCell>
      </jr:column>
      <jr:column width="90">
-      <jr:tableHeader height="30" rowSpan="1"><staticText><reportElement x="0" y="0" width="90" height="30"/><text><![CDATA[Libellé]]></text></staticText></jr:tableHeader>
-      <jr:detailCell height="30" rowSpan="1"><textField isStretchWithOverflow="true"><reportElement x="0" y="0" width="90" height="20"/><textFieldExpression><![CDATA[$F{libelle}]]></textFieldExpression></textField></jr:detailCell>
+      <jr:tableHeader height="15" rowSpan="1"><staticText><reportElement x="0" y="0" width="90" height="15"/><text><![CDATA[Libellé]]></text></staticText></jr:tableHeader>
+      <jr:detailCell height="15" rowSpan="1"><textField isStretchWithOverflow="true"><reportElement x="0" y="0" width="90" height="15"/><textFieldExpression><![CDATA[$F{libelle}]]></textFieldExpression></textField></jr:detailCell>
      </jr:column>
      <jr:column width="90">
-      <jr:tableHeader height="30" rowSpan="1"><staticText><reportElement x="0" y="0" width="90" height="30"/><text><![CDATA[Prix unitaire]]></text></staticText></jr:tableHeader>
-      <jr:detailCell height="30" rowSpan="1"><textField isStretchWithOverflow="true"><reportElement x="0" y="0" width="90" height="20"/><textFieldExpression><![CDATA[$F{montantUnitaire}]]></textFieldExpression></textField></jr:detailCell>
+      <jr:tableHeader height="15" rowSpan="1"><staticText><reportElement x="0" y="0" width="90" height="15"/><text><![CDATA[Prix unitaire]]></text></staticText></jr:tableHeader>
+      <jr:detailCell height="15" rowSpan="1"><textField isStretchWithOverflow="true"><reportElement x="0" y="0" width="90" height="15"/><textFieldExpression><![CDATA[$F{montantUnitaire}]]></textFieldExpression></textField></jr:detailCell>
      </jr:column>
      <jr:column width="90">
-      <jr:tableHeader height="30" rowSpan="1"><staticText><reportElement x="0" y="0" width="90" height="30"/><text><![CDATA[Quantité]]></text></staticText></jr:tableHeader>
-      <jr:detailCell height="30" rowSpan="1"><textField isStretchWithOverflow="true"><reportElement x="0" y="0" width="90" height="20"/><textFieldExpression><![CDATA[$F{quantite}]]></textFieldExpression></textField></jr:detailCell>
+      <jr:tableHeader height="15" rowSpan="1"><staticText><reportElement x="0" y="0" width="90" height="15"/><text><![CDATA[Quantité]]></text></staticText></jr:tableHeader>
+      <jr:detailCell height="15" rowSpan="1"><textField isStretchWithOverflow="true"><reportElement x="0" y="0" width="90" height="15"/><textFieldExpression><![CDATA[$F{quantite}]]></textFieldExpression></textField></jr:detailCell>
      </jr:column>
      <jr:column width="90">
-      <jr:tableHeader height="30" rowSpan="1"><staticText><reportElement x="0" y="0" width="90" height="30"/><text><![CDATA[Montant total]]></text></staticText></jr:tableHeader>
-      <jr:detailCell height="30" rowSpan="1"><textField isStretchWithOverflow="true"><reportElement x="0" y="0" width="90" height="20"/><textFieldExpression><![CDATA[$F{montantTotal}]]></textFieldExpression></textField></jr:detailCell>
+      <jr:tableHeader height="15" rowSpan="1"><staticText><reportElement x="0" y="0" width="90" height="15"/><text><![CDATA[Montant total]]></text></staticText></jr:tableHeader>
+      <jr:detailCell height="15" rowSpan="1"><textField isStretchWithOverflow="true"><reportElement x="0" y="0" width="90" height="15"/><textFieldExpression><![CDATA[$F{montantTotal}]]></textFieldExpression></textField></jr:detailCell>
      </jr:column>
     </jr:table>
    </componentElement>
   </band>
    
-  <band height="45" splitType="Stretch">
+  <band height="55" splitType="Stretch">
    <staticText>
     <reportElement mode="Transparent" x="0" y="0" width="300" height="15"/><box /><textElement textAlignment="Left" verticalAlignment="Middle"/>
     <text><![CDATA[Consommations]]></text>
@@ -130,20 +130,20 @@
 
    <!-- Tableaux des lignes de paiement -->
    <componentElement>
-    <reportElement key="tableLignesPaiement" x="15" y="15" width="450" height="30"/>
+    <reportElement key="tableLignesPaiement" x="15" y="25" width="450" height="15"/>
     <jr:table>
      <datasetRun subDataset="LignePaiementDto"><dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{lignesPaiements})]]></dataSourceExpression></datasetRun>
      <jr:column width="90">
-      <jr:tableHeader height="30" rowSpan="1"><staticText><reportElement x="0" y="0" width="90" height="30"/><text><![CDATA[Date]]></text></staticText></jr:tableHeader>
-      <jr:detailCell height="30" rowSpan="1"><textField isStretchWithOverflow="true"><reportElement x="0" y="0" width="90" height="20"/><textFieldExpression><![CDATA[$F{dateCreation}]]></textFieldExpression></textField></jr:detailCell>
+      <jr:tableHeader height="15" rowSpan="1"><staticText><reportElement x="0" y="0" width="90" height="15"/><text><![CDATA[Date]]></text></staticText></jr:tableHeader>
+      <jr:detailCell height="15" rowSpan="1"><textField isStretchWithOverflow="true"><reportElement x="0" y="0" width="90" height="15"/><textFieldExpression><![CDATA[$F{dateCreation}]]></textFieldExpression></textField></jr:detailCell>
      </jr:column>
      <jr:column width="90">
-      <jr:tableHeader height="30" rowSpan="1"><staticText><reportElement x="0" y="0" width="90" height="30"/><text><![CDATA[Moyen de paiement]]></text></staticText></jr:tableHeader>
-      <jr:detailCell height="30" rowSpan="1"><textField isStretchWithOverflow="true"><reportElement x="0" y="0" width="90" height="20"/><textFieldExpression><![CDATA[$F{moyenDePaiement}]]></textFieldExpression></textField></jr:detailCell>
+      <jr:tableHeader height="15" rowSpan="1"><staticText><reportElement x="0" y="0" width="90" height="15"/><text><![CDATA[Moyen de paiement]]></text></staticText></jr:tableHeader>
+      <jr:detailCell height="15" rowSpan="1"><textField isStretchWithOverflow="true"><reportElement x="0" y="0" width="90" height="15"/><textFieldExpression><![CDATA[$F{moyenDePaiement}]]></textFieldExpression></textField></jr:detailCell>
      </jr:column>
      <jr:column width="90">
-      <jr:tableHeader height="30" rowSpan="1"><staticText><reportElement x="0" y="0" width="90" height="30"/><text><![CDATA[Montant]]></text></staticText></jr:tableHeader>
-      <jr:detailCell height="30" rowSpan="1"><textField isStretchWithOverflow="true"><reportElement x="0" y="0" width="90" height="20"/><textFieldExpression><![CDATA[$F{montant}]]></textFieldExpression></textField></jr:detailCell>
+      <jr:tableHeader height="15" rowSpan="1"><staticText><reportElement x="0" y="0" width="90" height="15"/><text><![CDATA[Montant]]></text></staticText></jr:tableHeader>
+      <jr:detailCell height="15" rowSpan="1"><textField isStretchWithOverflow="true"><reportElement x="0" y="0" width="90" height="15"/><textFieldExpression><![CDATA[$F{montant}]]></textFieldExpression></textField></jr:detailCell>
      </jr:column>
     </jr:table>
    </componentElement>
