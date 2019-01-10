@@ -2,15 +2,18 @@ package com.guillaumetalbot.applicationblanche.metier.service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.springframework.stereotype.Service;
 
 import com.guillaumetalbot.applicationblanche.exception.BusinessException;
@@ -34,7 +37,8 @@ import net.sf.jasperreports.engine.JasperReport;
 public class ExportServiceImpl implements ExportService {
 
 	private static final DateTimeFormatter DATE_COURTE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM");
-	private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	private static final DateTimeFormatter DATE_FORMATTER = LigneDeFacturePdfDto.DATE_FORMATTER;
+	public static final NumberFormat NUMBER_FORMATTER = LigneDeFacturePdfDto.NUMBER_FORMATTER;
 
 	private final Map<String, JasperReport> cacheDeTemplatesCompiles = new HashMap<>();
 
@@ -90,7 +94,18 @@ public class ExportServiceImpl implements ExportService {
 
 		// Ajout des consommation
 		if (reservation.getConsommations() != null) {
-			for (final Consommation c : reservation.getConsommations()) {
+
+			final List<Consommation> consommationsTriees = new ArrayList<>(reservation.getConsommations());
+			Collections.sort(consommationsTriees, (o1, o2) -> {
+				// tri par date ASc puis par nom
+				// pas de gestion du cas NULL de dateCreation ou produit ou produit.nom
+				// ces données sont obligatoires
+				final int hc1 = new HashCodeBuilder().append(o1.getDateCreation()).append(o1.getProduit().getNom()).toHashCode();
+				final int hc2 = new HashCodeBuilder().append(o2.getDateCreation()).append(o2.getProduit().getNom()).toHashCode();
+				return hc1 - hc2;
+			});
+
+			for (final Consommation c : consommationsTriees) {
 				final String libelle = c.getProduit().getNom() + " (" + c.getDateCreation().format(DATE_COURTE_FORMATTER) + ")";
 				lignes.add(new LigneDeFacturePdfDto("Consommation", libelle, c.getPrixPaye(), (long) c.getQuantite(), c.calculerMontantTotal()));
 			}
@@ -170,6 +185,9 @@ public class ExportServiceImpl implements ExportService {
 				+ " soit " + Long.toString(nbNuits) + " nuit(s)");
 		parametres.put("lignesFacturees", this.creerListeLignesFacturees(reservation, nbNuits, nbPersonnes));
 		parametres.put("lignesPaiements", this.creerListeLignesPaiement(reservation.getPaiements()));
+		parametres.put("montantPaye", NUMBER_FORMATTER.format(reservation.calculerMontantPaye()));
+		parametres.put("montantRestantDu", NUMBER_FORMATTER.format(reservation.calculerMontantRestantDu()));
+		parametres.put("montantTotal", NUMBER_FORMATTER.format(reservation.calculerMontantTotal()));
 
 		// Alimentation du template
 		return JasperFillManager.fillReport(rapportXml, parametres, new JREmptyDataSource(1));

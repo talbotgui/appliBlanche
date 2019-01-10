@@ -38,7 +38,16 @@ public class Consommation extends Entite {
 		this.produit = produit;
 		this.prixPaye = prixPaye;
 		this.quantite = quantite;
-		this.dateCreation = LocalDate.now();
+	}
+
+	public Consommation(final Reservation reservation, final Produit produit, final Double prixPaye, final Integer quantite,
+			final LocalDate dateCreation) {
+		super();
+		this.reservation = reservation;
+		this.produit = produit;
+		this.prixPaye = prixPaye;
+		this.quantite = quantite;
+		this.dateCreation = dateCreation;
 	}
 
 	public Double calculerMontantTotal() {

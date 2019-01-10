@@ -55,7 +55,9 @@ public class ExportServiceTest {
 
 		final Set<Consommation> listeConsomation = new HashSet<>();
 		for (int i = 0; i < 30; i++) {
-			listeConsomation.add(new Consommation(reservation, new Produit("Produit" + i, 2.1123, ""), 2.3214, i * 3));
+			final String nb = (i < 10 ? "0" : "") + i;
+			final LocalDate dateCreation = LocalDate.now().minus(i / 5, ChronoUnit.DAYS);
+			listeConsomation.add(new Consommation(reservation, new Produit("Produit" + nb, 2.1123, ""), 2.3214, i * 3, dateCreation));
 		}
 		reservation.setConsommations(listeConsomation);
 
@@ -74,9 +76,9 @@ public class ExportServiceTest {
 				new Paiement(LocalDate.now(), 20.50, new MoyenDePaiement("Liquide", 0.0), null),
 				new Paiement(LocalDate.now(), 19.50, new MoyenDePaiement("CB", 0.0), null))));
 		reservation.setConsommations(new HashSet<>(Arrays.asList(//
-				new Consommation(reservation, new Produit("Produit1", 2.0, ""), 2.25, 7),
-				new Consommation(reservation, new Produit("Produit2", 4.0, ""), 4.5, 1),
-				new Consommation(reservation, new Produit("Produit3", 5.0, ""), 9.0, 2))));
+				new Consommation(reservation, new Produit("Produit1", 2.0, ""), 2.25, 7, LocalDate.now()),
+				new Consommation(reservation, new Produit("Produit2", 4.0, ""), 4.5, 1, LocalDate.now()),
+				new Consommation(reservation, new Produit("Produit3", 5.0, ""), 9.0, 2, LocalDate.now()))));
 		return reservation;
 	}
 

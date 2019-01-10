@@ -19,37 +19,40 @@
  <style name="enteteTableauCentre" bottomBorder="Thin" bottomBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000"/>
  <style name="caseTableauCentreDerniereColonne"/>
  <style name="caseTableauCentre" rightBorder="Thin" rightBorderColor="#000000"/>
- <style name="titreAvantTableau"/>
+ <style name="titreAvantTableau" forecolor="#B00020"/>
 
  <!-- Description des datasets -->
  <subDataset name="LigneDeFacturePdfDto">
-  <field name="categorie" class="java.lang.String"></field>
-  <field name="libelle" class="java.lang.String"></field>
-  <field name="montantTotal" class="java.lang.String"></field>
-  <field name="montantUnitaire" class="java.lang.String"></field>
-  <field name="quantite" class="java.lang.String"></field>
-  <field name="isPaiement" class="java.lang.Boolean"></field>
+  <field name="categorie" class="java.lang.String"/>
+  <field name="libelle" class="java.lang.String"/>
+  <field name="montantTotal" class="java.lang.String"/>
+  <field name="montantUnitaire" class="java.lang.String"/>
+  <field name="quantite" class="java.lang.String"/>
+  <field name="isPaiement" class="java.lang.Boolean"/>
  </subDataset>
  <subDataset name="LignePaiementDto">
-  <field name="dateCreation" class="java.lang.String"></field>
-  <field name="montant" class="java.lang.String"></field>
-  <field name="moyenDePaiement" class="java.lang.String"></field>
+  <field name="dateCreation" class="java.lang.String"/>
+  <field name="montant" class="java.lang.String"/>
+  <field name="moyenDePaiement" class="java.lang.String"/>
  </subDataset>
 
  <!-- Liste des paramètres attendus -->
- <parameter name="numeroDeFacture" isForPrompting="false" class="java.lang.String"></parameter>
- <parameter name="dateDeFacture" isForPrompting="false" class="java.lang.String"></parameter>
- <parameter name="client" isForPrompting="false" class="java.lang.String"></parameter>
- <parameter name="dates" isForPrompting="false" class="java.lang.String"></parameter>
- <parameter name="lignesFacturees" isForPrompting="false" class="java.util.Collection"></parameter>
- <parameter name="lignesPaiements" isForPrompting="false" class="java.util.Collection"></parameter>
- 
+ <parameter name="numeroDeFacture" isForPrompting="false" class="java.lang.String"/>
+ <parameter name="dateDeFacture" isForPrompting="false" class="java.lang.String"/>
+ <parameter name="client" isForPrompting="false" class="java.lang.String"/>
+ <parameter name="dates" isForPrompting="false" class="java.lang.String"/>
+ <parameter name="lignesFacturees" isForPrompting="false" class="java.util.Collection"/>
+ <parameter name="lignesPaiements" isForPrompting="false" class="java.util.Collection"/>
+ <parameter name="montantPaye" isForPrompting="false" class="java.lang.String"/>
+ <parameter name="montantRestantDu" isForPrompting="false" class="java.lang.String"/>
+ <parameter name="montantTotal" isForPrompting="false" class="java.lang.String"/>
+
  <!-- Entete de la premiere page -->
  <!--<title></title>-->
 
  <!-- Entete de chaque page -->
  <pageHeader>
-  <band height="150">
+  <band height="110">
   
    <!-- Image d'entete -->
    <image isUsingCache="false" scaleImage="FillFrame">
@@ -95,7 +98,7 @@
  <detail>
 
   <!-- Tableaux des lignes facturées -->
-  <!-- Dimensions : largeur de tableau=545 (100%) || prix=50 avec 2 de padding-right (le 48) || catégorie=70 || libelle=leReste--> 
+  <!-- Dimensions : largeur de tableau=545 (100%) || prix=50 avec 2 de padding-right (le 48) || catégorie=70 || libelle=leReste-->
   <band height="55" splitType="Stretch">
    <staticText>
     <reportElement mode="Transparent" x="0" y="0" width="300" height="15" style="titreAvantTableau"/><box /><textElement textAlignment="Left" verticalAlignment="Middle"/>
@@ -130,29 +133,56 @@
   </band>
    
   <!-- Tableaux des lignes de paiement -->
-  <band height="55" splitType="Stretch">
+  <!-- Dimensions : largeur de tableau=190 (pour laisser de la place à droite) || prix=50 avec 2 de padding-right (le 48) || moyen=90 || date=50 -->
+  <band height="90" splitType="Stretch">
    <staticText>
-    <reportElement mode="Transparent" x="0" y="0" width="300" height="15" style="titreAvantTableau"/><box /><textElement textAlignment="Left" verticalAlignment="Middle"/>
+    <reportElement mode="Transparent" x="0" y="0" width="200" height="15" style="titreAvantTableau"/><box /><textElement textAlignment="Left" verticalAlignment="Middle"/>
     <text><![CDATA[Paiements]]></text>
    </staticText>
    <componentElement>
-    <reportElement key="tableLignesPaiement" x="15" y="25" width="450" height="15"/>
+    <reportElement key="tableLignesPaiement" x="15" y="25" width="200" height="15"/>
     <jr:table>
      <datasetRun subDataset="LignePaiementDto"><dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{lignesPaiements})]]></dataSourceExpression></datasetRun>
-     <jr:column width="90">
-      <jr:tableHeader height="15" rowSpan="1" style="enteteTableauCentre"><staticText><reportElement x="0" y="0" width="90" height="15"/><textElement textAlignment="Center" verticalAlignment="Middle"/><text><![CDATA[Date]]></text></staticText></jr:tableHeader>
-      <jr:detailCell height="15" rowSpan="1" style="caseTableauCentre"><textField isStretchWithOverflow="true"><reportElement x="0" y="0" width="90" height="15"/><textElement textAlignment="Center" verticalAlignment="Middle"/><textFieldExpression><![CDATA[$F{dateCreation}]]></textFieldExpression></textField></jr:detailCell>
+     <jr:column width="60">
+      <jr:tableHeader height="15" rowSpan="1" style="enteteTableauCentre"><staticText><reportElement x="0" y="0" width="60" height="15"/><textElement textAlignment="Center" verticalAlignment="Middle"/><text><![CDATA[Date]]></text></staticText></jr:tableHeader>
+      <jr:detailCell height="15" rowSpan="1" style="caseTableauCentre"><textField isStretchWithOverflow="true"><reportElement x="0" y="0" width="60" height="15"/><textElement textAlignment="Center" verticalAlignment="Middle"/><textFieldExpression><![CDATA[$F{dateCreation}]]></textFieldExpression></textField></jr:detailCell>
      </jr:column>
      <jr:column width="90">
       <jr:tableHeader height="15" rowSpan="1" style="enteteTableauCentre"><staticText><reportElement x="0" y="0" width="90" height="15"/><textElement textAlignment="Center" verticalAlignment="Middle"/><text><![CDATA[Moyen de paiement]]></text></staticText></jr:tableHeader>
       <jr:detailCell height="15" rowSpan="1" style="caseTableauCentre"><textField isStretchWithOverflow="true"><reportElement x="0" y="0" width="90" height="15"/><textElement textAlignment="Center" verticalAlignment="Middle"/><textFieldExpression><![CDATA[$F{moyenDePaiement}]]></textFieldExpression></textField></jr:detailCell>
      </jr:column>
-     <jr:column width="90">
-      <jr:tableHeader height="15" rowSpan="1" style="enteteTableauCentreDerniereColonne"><staticText><reportElement x="0" y="0" width="90" height="15"/><textElement textAlignment="Center" verticalAlignment="Middle"/><text><![CDATA[Montant]]></text></staticText></jr:tableHeader>
-      <jr:detailCell height="15" rowSpan="1" style="caseTableauCentreDerniereColonne"><textField isStretchWithOverflow="true"><reportElement x="0" y="0" width="90" height="15"/><textElement textAlignment="Right" verticalAlignment="Middle"/><textFieldExpression><![CDATA[$F{montant}]]></textFieldExpression></textField></jr:detailCell>
+     <jr:column width="50">
+      <jr:tableHeader height="15" rowSpan="1" style="enteteTableauCentreDerniereColonne"><staticText><reportElement x="0" y="0" width="50" height="15"/><textElement textAlignment="Center" verticalAlignment="Middle"/><text><![CDATA[Montant]]></text></staticText></jr:tableHeader>
+      <jr:detailCell height="15" rowSpan="1" style="caseTableauCentreDerniereColonne"><textField isStretchWithOverflow="true"><reportElement x="0" y="0" width="48" height="15"/><textElement textAlignment="Right" verticalAlignment="Middle"/><textFieldExpression><![CDATA[$F{montant}]]></textFieldExpression></textField></jr:detailCell>
      </jr:column>
     </jr:table>
    </componentElement>
+   
+   <staticText>
+    <reportElement mode="Transparent" x="250" y="25" width="100" height="15"/><box /><textElement textAlignment="Left" verticalAlignment="Middle"/>
+    <text><![CDATA[Montant total :]]></text>
+   </staticText>
+   <textField>
+    <reportElement mode="Transparent" x="350" y="25" width="100" height="15"/><box /><textElement textAlignment="Right" verticalAlignment="Middle"/>
+    <textFieldExpression class="java.lang.String"><![CDATA[$P{montantTotal}]]></textFieldExpression>
+   </textField>
+   <staticText>
+    <reportElement mode="Transparent" x="250" y="40" width="100" height="15"/><box /><textElement textAlignment="Left" verticalAlignment="Middle"/>
+    <text><![CDATA[Montant payé :]]></text>
+   </staticText>
+   <textField>
+    <reportElement mode="Transparent" x="350" y="40" width="100" height="15"/><box /><textElement textAlignment="Right" verticalAlignment="Middle"/>
+    <textFieldExpression class="java.lang.String"><![CDATA[$P{montantPaye}]]></textFieldExpression>
+   </textField>
+   <staticText>
+    <reportElement mode="Transparent" x="250" y="55" width="100" height="15"/><box /><textElement textAlignment="Left" verticalAlignment="Middle"/>
+    <text><![CDATA[Total restant dû :]]></text>
+   </staticText>
+   <textField>
+    <reportElement mode="Transparent" x="350" y="55" width="100" height="15"/><box /><textElement textAlignment="Right" verticalAlignment="Middle"/>
+    <textFieldExpression class="java.lang.String"><![CDATA[$P{montantRestantDu}]]></textFieldExpression>
+   </textField>
+ 
   </band>
 
  </detail>
