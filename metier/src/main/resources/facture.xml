@@ -52,7 +52,7 @@
 
  <!-- Entete de chaque page -->
  <pageHeader>
-  <band height="110">
+  <band height="115">
   
    <!-- Image d'entete -->
    <image isUsingCache="false" scaleImage="FillFrame">
@@ -88,9 +88,17 @@
     <reportElement mode="Transparent" x="370" y="80" width="185" height="15"/><box /><textElement textAlignment="Left" verticalAlignment="Middle"/>
     <textFieldExpression class="java.lang.String"><![CDATA["Emise le : " + $P{dateDeFacture}]]></textFieldExpression>
    </textField>
+   <textField>
+    <reportElement mode="Transparent" x="370" y="95" width="50" height="15"/><box /><textElement textAlignment="Left" verticalAlignment="Middle"/>
+    <textFieldExpression class="java.lang.String"><![CDATA["Page : " + (($V{PAGE_NUMBER}<9)?"0":"") + $V{PAGE_NUMBER} ]]></textFieldExpression>
+   </textField>
+   <textField evaluationTime="Report">
+    <reportElement mode="Transparent" x="413" y="95" width="20" height="15"/><box /><textElement textAlignment="Left" verticalAlignment="Middle"/>
+    <textFieldExpression class="java.lang.String"><![CDATA["/" + (($V{PAGE_NUMBER}<9)?"0":"") + $V{PAGE_NUMBER}]]></textFieldExpression>
+   </textField>
    
    <!-- Trait de séparation -->
-   <staticText><reportElement mode="Transparent" x="0" y="50" width="555" height="45"/><box borderColor="#000000" bottomBorder="Thin" /><textElement/></staticText>
+   <staticText><reportElement mode="Transparent" x="0" y="65" width="555" height="45"/><box borderColor="#000000" bottomBorder="Thin" /><textElement/></staticText>
   </band>
  </pageHeader>
 
@@ -193,7 +201,10 @@
 <!-- tester beaucoup de lignes -->
  
 <!--  <columnFooter></columnFooter> -->
-<!--  <pageFooter></pageFooter> -->
+ <pageFooter>
+  <band>
+  </band>
+ </pageFooter>
 <!--  <lastPageFooter></lastPageFooter> -->
 <!--  <summary></summary> -->
 </jasperReport>
