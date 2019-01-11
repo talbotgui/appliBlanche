@@ -60,8 +60,7 @@
    <image isUsingCache="false" scaleImage="FillFrame">
     <reportElement x="0" y="0" width="555" height="50" forecolor="#FFFFFF"/>
     <graphicElement><pen lineWidth="1.25"/></graphicElement>
-<!--     <imageExpression><![CDATA[this.getClass().getResourceAsStream($P{cheminImageEntete})]]></imageExpression> -->
-<imageExpression><![CDATA[this.getClass().getResourceAsStream("enteteParDefaut.jpg")]]></imageExpression>
+    <imageExpression><![CDATA[this.getClass().getResourceAsStream($P{cheminImageEntete})]]></imageExpression>
    </image>
    
    <!-- Informations du séjour -->

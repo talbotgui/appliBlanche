@@ -39,16 +39,15 @@ public class ExportServiceImpl implements ExportService {
 
 	private static final DateTimeFormatter DATE_COURTE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM");
 	private static final DateTimeFormatter DATE_FORMATTER = LigneDeFacturePdfDto.DATE_FORMATTER;
+	private static final String FACTURATION_CHEMIN_RAPPORT_XML = "edition-facture/facture.xml";
 	public static final NumberFormat NUMBER_FORMATTER = LigneDeFacturePdfDto.NUMBER_FORMATTER;
 
 	private final Map<String, JasperReport> cacheDeTemplatesCompiles = new HashMap<>();
 
-	@Value("${edition.facture.chemin-entete:enteteParDefaut.jpg}")
+	@Value("${edition.facture.chemin-entete:edition-facture/enteteParDefaut.jpg}")
 	private String cheminImageEntete;
-	@Value("${edition.facture.chemin-pieddepage:piedDePageParDefaut.jpg}")
+	@Value("${edition.facture.chemin-pieddepage:edition-facture/piedDePageParDefaut.jpg}")
 	private String cheminImagePiedDePage;
-
-	private final String facturationCheminRapportXml = "facture.xml";
 
 	/**
 	 * Recherche du template XML.
@@ -154,7 +153,7 @@ public class ExportServiceImpl implements ExportService {
 		try {
 
 			// Recherche du template XML
-			final JasperReport templateCompile = this.chargementDuTemplateDeRapportCompile(this.facturationCheminRapportXml);
+			final JasperReport templateCompile = this.chargementDuTemplateDeRapportCompile(FACTURATION_CHEMIN_RAPPORT_XML);
 
 			// Remplissage du document
 			final JasperPrint rapportAvecDonnees = this.injecterDonneesDansTemplate(templateCompile, reservation, montantTotal);
