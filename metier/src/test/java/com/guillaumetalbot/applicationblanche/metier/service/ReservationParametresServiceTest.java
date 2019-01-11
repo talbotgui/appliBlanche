@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -90,7 +91,7 @@ public class ReservationParametresServiceTest {
 		if (refOption != null) {
 			final Option option = new Option();
 			option.setReference(refOption);
-			reservation.getOptions().add(option);
+			reservation.setOptions(new HashSet<>(Arrays.asList(option)));
 		}
 
 		// Sauvegarde
