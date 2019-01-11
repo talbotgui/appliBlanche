@@ -46,6 +46,8 @@
  <parameter name="montantPaye" isForPrompting="false" class="java.lang.String"/>
  <parameter name="montantRestantDu" isForPrompting="false" class="java.lang.String"/>
  <parameter name="montantTotal" isForPrompting="false" class="java.lang.String"/>
+ <parameter name="cheminImageEntete" isForPrompting="false" class="java.lang.String"/>
+ <parameter name="cheminImagePiedDePage" isForPrompting="false" class="java.lang.String"/>
 
  <!-- Entete de la premiere page -->
  <!--<title></title>-->
@@ -58,7 +60,8 @@
    <image isUsingCache="false" scaleImage="FillFrame">
     <reportElement x="0" y="0" width="555" height="50" forecolor="#FFFFFF"/>
     <graphicElement><pen lineWidth="1.25"/></graphicElement>
-    <imageExpression><![CDATA[this.getClass().getResourceAsStream("entete.jpg")]]></imageExpression>
+<!--     <imageExpression><![CDATA[this.getClass().getResourceAsStream($P{cheminImageEntete})]]></imageExpression> -->
+<imageExpression><![CDATA[this.getClass().getResourceAsStream("enteteParDefaut.jpg")]]></imageExpression>
    </image>
    
    <!-- Informations du séjour -->
@@ -201,10 +204,18 @@
 <!-- tester beaucoup de lignes -->
  
 <!--  <columnFooter></columnFooter> -->
+
  <pageFooter>
-  <band>
+  <band height="50">
+   <!-- Image de pied de page -->
+   <image isUsingCache="false" scaleImage="FillFrame">
+    <reportElement x="0" y="0" width="555" height="50" forecolor="#FFFFFF"/>
+    <graphicElement><pen lineWidth="1.25"/></graphicElement>
+    <imageExpression><![CDATA[this.getClass().getResourceAsStream($P{cheminImagePiedDePage})]]></imageExpression>
+   </image>
   </band>
  </pageFooter>
+
 <!--  <lastPageFooter></lastPageFooter> -->
 <!--  <summary></summary> -->
 </jasperReport>

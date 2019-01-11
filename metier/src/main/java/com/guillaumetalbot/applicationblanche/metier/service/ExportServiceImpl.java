@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.guillaumetalbot.applicationblanche.exception.BusinessException;
@@ -41,6 +42,11 @@ public class ExportServiceImpl implements ExportService {
 	public static final NumberFormat NUMBER_FORMATTER = LigneDeFacturePdfDto.NUMBER_FORMATTER;
 
 	private final Map<String, JasperReport> cacheDeTemplatesCompiles = new HashMap<>();
+
+	@Value("${edition.facture.chemin-entete:enteteParDefaut.jpg}")
+	private String cheminImageEntete;
+	@Value("${edition.facture.chemin-pieddepage:piedDePageParDefaut.jpg}")
+	private String cheminImagePiedDePage;
 
 	private final String facturationCheminRapportXml = "facture.xml";
 
@@ -178,7 +184,7 @@ public class ExportServiceImpl implements ExportService {
 
 		// Paramètres sous forme de clef/valeur
 		final Map<String, Object> parametres = new HashMap<>();
-		parametres.put("numeroDeFacture", reservation.getReference());
+		parametres.put("numeroDeFacture", "numérosContinusEtStokageSystématique");
 		parametres.put("dateDeFacture", LocalDate.now().format(DATE_FORMATTER));
 		parametres.put("client", reservation.getClient());
 		parametres.put("dates", "du " + reservation.getDateDebut().format(DATE_FORMATTER) + " au " + reservation.getDateFin().format(DATE_FORMATTER)
@@ -188,6 +194,8 @@ public class ExportServiceImpl implements ExportService {
 		parametres.put("montantPaye", NUMBER_FORMATTER.format(reservation.calculerMontantPaye()));
 		parametres.put("montantRestantDu", NUMBER_FORMATTER.format(reservation.calculerMontantRestantDu()));
 		parametres.put("montantTotal", NUMBER_FORMATTER.format(reservation.calculerMontantTotal()));
+		parametres.put("cheminImageEntete", this.cheminImageEntete);
+		parametres.put("cheminImagePiedDePage", this.cheminImagePiedDePage);
 
 		// Alimentation du template
 		return JasperFillManager.fillReport(rapportXml, parametres, new JREmptyDataSource(1));
