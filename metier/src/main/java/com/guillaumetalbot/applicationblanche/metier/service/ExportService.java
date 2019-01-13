@@ -4,6 +4,6 @@ import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservat
 
 public interface ExportService {
 
-	byte[] genererPdfFactureReservation(Reservation reservation, Double montantTotal);
+	byte[] genererPdfFactureReservation(Reservation reservation, Long numeroDeFacture);
 
 }

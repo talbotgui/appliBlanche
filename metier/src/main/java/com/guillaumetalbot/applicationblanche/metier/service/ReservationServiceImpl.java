@@ -1,7 +1,6 @@
 package com.guillaumetalbot.applicationblanche.metier.service;
 
 import java.time.LocalDate;
-import java.util.Base64;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -20,7 +19,6 @@ import com.guillaumetalbot.applicationblanche.metier.dao.reservation.OptionRepos
 import com.guillaumetalbot.applicationblanche.metier.dao.reservation.PaiementRepository;
 import com.guillaumetalbot.applicationblanche.metier.dao.reservation.ProduitRepository;
 import com.guillaumetalbot.applicationblanche.metier.dao.reservation.ReservationRepository;
-import com.guillaumetalbot.applicationblanche.metier.dto.FactureDto;
 import com.guillaumetalbot.applicationblanche.metier.entite.Entite;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Chambre;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Consommation;
@@ -41,9 +39,6 @@ public class ReservationServiceImpl implements ReservationService {
 
 	@Autowired
 	private ConsommationRepository consommationRepo;
-
-	@Autowired
-	private ExportService exportService;
 
 	@Autowired
 	private FormuleRepository formuleRepo;
@@ -84,28 +79,6 @@ public class ReservationServiceImpl implements ReservationService {
 
 		return this.reservationRepo.chargerReservationFetchChambreFormuleOptionsConsommationPaiements(idReservation)
 				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "reservation", referenceReservation));
-	}
-
-	@Override
-	public FactureDto facturer(final String referenceReservation) {
-		// Valider la référence
-		final Long idReservation = Entite.extraireIdentifiant(referenceReservation, Reservation.class);
-
-		// Charger la réservation
-		final Reservation reservation = this.reservationRepo.chargerReservationFetchChambreFormuleOptionsConsommationManaged(idReservation)//
-				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "reservation", referenceReservation));
-
-		// Calculer le montant total
-		final Double montantTotal = reservation.calculerMontantTotal();
-
-		// Générer un PDF à partir d'un modèle
-		final byte[] pdf = this.exportService.genererPdfFactureReservation(reservation, montantTotal);
-
-		// Changement d'état de la réservation (update assuré car l'objet est MANAGED dans la session Hibernate)
-		reservation.changerEtatCourant(EtatReservation.FACTUREE);
-
-		// Renvoi du DTO
-		return new FactureDto(montantTotal, Base64.getEncoder().encodeToString(pdf));
 	}
 
 	@Override

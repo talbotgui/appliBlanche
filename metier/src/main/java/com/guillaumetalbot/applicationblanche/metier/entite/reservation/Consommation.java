@@ -3,6 +3,7 @@ package com.guillaumetalbot.applicationblanche.metier.entite.reservation;
 import java.time.LocalDate;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
@@ -17,13 +18,14 @@ public class Consommation extends Entite {
 
 	private Double prixPaye;
 
+	// ManyToOne chargé en mémoire systématiquement car une consommation n'a pas de sens sans le produit
 	@ManyToOne
 	@JoinColumn(name = "PRODUIT_ID")
 	private Produit produit;
 
 	private Integer quantite;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "RESERVATION_ID")
 	@JsonBackReference
 	private Reservation reservation;

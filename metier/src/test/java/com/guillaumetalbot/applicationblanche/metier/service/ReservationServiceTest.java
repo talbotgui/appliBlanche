@@ -31,6 +31,8 @@ import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Chambre;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Consommation;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.EtatReservation;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Formule;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.MoyenDePaiement;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Paiement;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Produit;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservation;
 
@@ -276,7 +278,7 @@ public class ReservationServiceTest {
 	}
 
 	@Test
-	public void test01Reservation10RechercherParEtat() {
+	public void test01Reservation10RechercherParEtat1() {
 		//
 		final String refChambre1 = this.reservationParametresService.sauvegarderChambre(new Chambre("nom1"));
 		final String refChambre2 = this.reservationParametresService.sauvegarderChambre(new Chambre("nom2"));
@@ -289,6 +291,49 @@ public class ReservationServiceTest {
 
 		//
 		final Collection<Reservation> reservations = this.reservationService.rechercherReservations(EtatReservation.EN_COURS, false);
+
+		//
+		Assert.assertNotNull(reservations);
+		Assert.assertEquals(1, reservations.size());
+		Assert.assertEquals(refResa2EnCours, reservations.iterator().next().getReference());
+	}
+
+	@Test
+	public void test01Reservation11RechercherParEtat2() {
+		//
+		final String refChambre1 = this.reservationParametresService.sauvegarderChambre(new Chambre("nom1"));
+		final String refChambre2 = this.reservationParametresService.sauvegarderChambre(new Chambre("nom2"));
+		final String refResa1Annulee = this.sauvegarderUneReservation("client1", refChambre1, -10, -8);
+		final String refResa2EnCours = this.sauvegarderUneReservation("client2", refChambre1, -8, -6);
+		this.sauvegarderUneReservation("client3", refChambre2, 0, 2);
+		this.reservationService.changeEtatReservation(refResa1Annulee, EtatReservation.EN_COURS);
+		this.reservationService.changeEtatReservation(refResa1Annulee, EtatReservation.ANNULEE);
+		this.reservationService.changeEtatReservation(refResa2EnCours, EtatReservation.EN_COURS);
+
+		//
+		final Collection<Reservation> reservations = this.reservationService.rechercherReservations(EtatReservation.EN_COURS, true);
+
+		//
+		Assert.assertNotNull(reservations);
+		Assert.assertEquals(1, reservations.size());
+		Assert.assertEquals(refResa2EnCours, reservations.iterator().next().getReference());
+	}
+
+	@Test
+	public void test01Reservation11RechercherParEtat3() {
+		//
+		final String refChambre1 = this.reservationParametresService.sauvegarderChambre(new Chambre("nom1"));
+		final String refChambre2 = this.reservationParametresService.sauvegarderChambre(new Chambre("nom2"));
+		final String refResa1Annulee = this.sauvegarderUneReservation("client1", refChambre1, -10, -8);
+		final String refResa2EnCours = this.sauvegarderUneReservation("client2", refChambre1, -8, -6);
+		this.sauvegarderUneReservation("client3", refChambre2, 0, 2);
+		this.reservationService.changeEtatReservation(refResa1Annulee, EtatReservation.EN_COURS);
+		this.reservationService.changeEtatReservation(refResa1Annulee, EtatReservation.ANNULEE);
+		this.reservationService.changeEtatReservation(refResa2EnCours, EtatReservation.EN_COURS);
+		this.reservationService.changeEtatReservation(refResa2EnCours, EtatReservation.FACTUREE);
+
+		//
+		final Collection<Reservation> reservations = this.reservationService.rechercherReservations(EtatReservation.FACTUREE, true);
 
 		//
 		Assert.assertNotNull(reservations);
@@ -511,22 +556,145 @@ public class ReservationServiceTest {
 	}
 
 	@Test
+	public void test02Consommation10ModificationQuantitePourSupprimer() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final String refChambre = this.reservationParametresService.sauvegarderChambre(new Chambre("nom"));
+		final Reservation reservation = new Reservation();
+		reservation.setReference(this.sauvegarderUneReservation("client", refChambre, 0, 8, true));
+		final Produit produit = new Produit();
+		final Double prixProduit = 2.00;
+		produit.setReference(this.reservationParametresService.sauvegarderProduit(new Produit("produit", prixProduit, "rouge")));
+		final String refConso = this.reservationService.sauvegarderConsommation(new Consommation(reservation, produit, null, 4));
+
+		//
+		this.reservationService.modifierQuantiteConsommation(reservation.getReference(), refConso, -3);
+		this.reservationService.modifierQuantiteConsommation(reservation.getReference(), refConso, -1);
+
+		//
+		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from CONSOMMATION", Long.class));
+	}
+
+	@Test
 	public void test03Paiement01CreationPremier() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		this.reservationParametresService.sauvegarderMoyenDePaiement(new MoyenDePaiement("nomMdp", 2.5));
+		final MoyenDePaiement mdp = this.reservationParametresService.listerMoyensDePaiement().iterator().next();
+		final String refChambre = this.reservationParametresService.sauvegarderChambre(new Chambre("C1"));
+		final String refReservation = this.sauvegarderUneReservation("client1", refChambre, -1, 3);
+		final Reservation reservation = this.reservationService.chargerReservation(refReservation);
+
+		//
+		final Paiement paiement = new Paiement(LocalDate.now(), 102.2, mdp, reservation);
+		final String refPaiement = this.reservationService.sauvegarderPaiement(paiement);
+
+		//
+		Assert.assertNotNull(refPaiement);
+		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from PAIEMENT", Long.class));
 	}
 
 	@Test
 	public void test03Paiement02CreationComplement() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		this.reservationParametresService.sauvegarderMoyenDePaiement(new MoyenDePaiement("nomMdp", 2.5));
+		final MoyenDePaiement mdp = this.reservationParametresService.listerMoyensDePaiement().iterator().next();
+		final String refChambre = this.reservationParametresService.sauvegarderChambre(new Chambre("C1"));
+		final String refReservation = this.sauvegarderUneReservation("client1", refChambre, -1, 3);
+		final Reservation reservation = this.reservationService.chargerReservation(refReservation);
+		final Paiement paiement = new Paiement(LocalDate.now(), 102.2, mdp, reservation);
+		this.reservationService.sauvegarderPaiement(paiement);
+
+		//
+		final Paiement paiement2 = new Paiement(LocalDate.now(), 19.1, mdp, reservation);
+		final String refPaiement = this.reservationService.sauvegarderPaiement(paiement2);
+
+		//
+		Assert.assertNotNull(refPaiement);
+		Assert.assertEquals((Long) 2L, jdbc.queryForObject("select count(*) from PAIEMENT", Long.class));
 	}
 
 	@Test
-	public void test03Paiement03CreationKoTropPercu() {
+	public void test03Paiement03Suppression() {
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		this.reservationParametresService.sauvegarderMoyenDePaiement(new MoyenDePaiement("nomMdp", 2.5));
+		final MoyenDePaiement mdp = this.reservationParametresService.listerMoyensDePaiement().iterator().next();
+		final String refChambre = this.reservationParametresService.sauvegarderChambre(new Chambre("C1"));
+		final String refReservation = this.sauvegarderUneReservation("client1", refChambre, -1, 3);
+		final Reservation reservation = this.reservationService.chargerReservation(refReservation);
+		final String refP1 = this.reservationService.sauvegarderPaiement(new Paiement(LocalDate.now(), 102.2, mdp, reservation));
+		final String refP2 = this.reservationService.sauvegarderPaiement(new Paiement(LocalDate.now(), 19.1, mdp, reservation));
+
+		//
+		this.reservationService.supprimerPaiement(refReservation, refP1);
+		this.reservationService.supprimerPaiement(refReservation, refP2);
+
+		//
+		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from PAIEMENT", Long.class));
 	}
 
 	@Test
-	public void test03Paiement04SuppressionPremier() {
+	public void test03Paiement04Rechercher() {
+		this.reservationParametresService.sauvegarderMoyenDePaiement(new MoyenDePaiement("nomMdp", 2.5));
+		final MoyenDePaiement mdp = this.reservationParametresService.listerMoyensDePaiement().iterator().next();
+		final String refChambre = this.reservationParametresService.sauvegarderChambre(new Chambre("C1"));
+		final String refReservation = this.sauvegarderUneReservation("client1", refChambre, -1, 3);
+		final Reservation reservation = this.reservationService.chargerReservation(refReservation);
+		this.reservationService.sauvegarderPaiement(new Paiement(LocalDate.now(), 102.2, mdp, reservation));
+		this.reservationService.sauvegarderPaiement(new Paiement(LocalDate.now(), 19.1, mdp, reservation));
+
+		//
+		final Collection<Paiement> paiements = this.reservationService.rechercherPaiementsDuneReservation(refReservation);
+
+		//
+		Assert.assertEquals(2, paiements.size());
 	}
 
 	@Test
-	public void test03Paiement05SuppressionTous() {
+	public void test03Paiement05SuppressionKo() {
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		this.reservationParametresService.sauvegarderMoyenDePaiement(new MoyenDePaiement("nomMdp", 2.5));
+		final MoyenDePaiement mdp = this.reservationParametresService.listerMoyensDePaiement().iterator().next();
+		final String refChambre = this.reservationParametresService.sauvegarderChambre(new Chambre("C1"));
+		final String refReservation = this.sauvegarderUneReservation("client1", refChambre, -1, 3);
+		final Reservation reservation = this.reservationService.chargerReservation(refReservation);
+		final String refP1 = this.reservationService.sauvegarderPaiement(new Paiement(LocalDate.now(), 19.1, mdp, reservation));
+
+		final String mauvaiseReservation = Entite.genererReference(Reservation.class, 999L);
+
+		//
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.reservationService.supprimerPaiement(mauvaiseReservation, refP1);
+		});
+
+		//
+		Assert.assertNotNull(thrown);
+		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_NON_EXISTANT));
+		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from PAIEMENT", Long.class));
 	}
+
+	@Test
+	public void test03Paiement06CreationKoMdp() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final MoyenDePaiement mdp = new MoyenDePaiement("nomMdp", 2.5);
+		mdp.setReference(Entite.genererReference(MoyenDePaiement.class, 999L));
+		final String refChambre = this.reservationParametresService.sauvegarderChambre(new Chambre("C1"));
+		final String refReservation = this.sauvegarderUneReservation("client1", refChambre, -1, 3);
+		final Reservation reservation = this.reservationService.chargerReservation(refReservation);
+
+		//
+		final Paiement paiement = new Paiement(LocalDate.now(), 102.2, mdp, reservation);
+
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.reservationService.sauvegarderPaiement(paiement);
+		});
+
+		//
+		Assert.assertNotNull(thrown);
+		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_NON_EXISTANT));
+		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from PAIEMENT", Long.class));
+	}
+
 }

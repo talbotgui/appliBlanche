@@ -149,14 +149,14 @@ public class ExportServiceImpl implements ExportService {
 	}
 
 	@Override
-	public byte[] genererPdfFactureReservation(final Reservation reservation, final Double montantTotal) {
+	public byte[] genererPdfFactureReservation(final Reservation reservation, final Long numeroDeFacture) {
 		try {
 
 			// Recherche du template XML
 			final JasperReport templateCompile = this.chargementDuTemplateDeRapportCompile(FACTURATION_CHEMIN_RAPPORT_XML);
 
 			// Remplissage du document
-			final JasperPrint rapportAvecDonnees = this.injecterDonneesDansTemplate(templateCompile, reservation, montantTotal);
+			final JasperPrint rapportAvecDonnees = this.injecterDonneesDansTemplate(templateCompile, reservation, numeroDeFacture);
 
 			// Export en PDF et transformation en base64
 			return this.exporterRapport(rapportAvecDonnees);
@@ -170,11 +170,11 @@ public class ExportServiceImpl implements ExportService {
 	 *
 	 * @param rapportXml
 	 * @param reservation
-	 * @param montantTotal
+	 * @param numeroDeFacture
 	 * @return
 	 * @throws JRException
 	 */
-	private JasperPrint injecterDonneesDansTemplate(final JasperReport rapportXml, final Reservation reservation, final Double montantTotal)
+	private JasperPrint injecterDonneesDansTemplate(final JasperReport rapportXml, final Reservation reservation, final Long numeroDeFacture)
 			throws JRException {
 
 		// Calcul des informations nécessaires à la suite
@@ -183,7 +183,7 @@ public class ExportServiceImpl implements ExportService {
 
 		// Paramètres sous forme de clef/valeur
 		final Map<String, Object> parametres = new HashMap<>();
-		parametres.put("numeroDeFacture", "numérosContinusEtStokageSystématique");
+		parametres.put("numeroDeFacture", numeroDeFacture.toString());
 		parametres.put("dateDeFacture", LocalDate.now().format(DATE_FORMATTER));
 		parametres.put("client", reservation.getClient());
 		parametres.put("dates", "du " + reservation.getDateDebut().format(DATE_FORMATTER) + " au " + reservation.getDateFin().format(DATE_FORMATTER)

@@ -2,6 +2,7 @@ package com.guillaumetalbot.applicationblanche.metier.entite.reservation;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -77,21 +78,25 @@ public class Reservation extends Entite {
 		this.formule = formule;
 	}
 
+	public Reservation(final String client, final Chambre chambre, final LocalDate dateDebut, final LocalDate dateFin, final Formule formule,
+			final Collection<Option> options) {
+		this(client, chambre, dateDebut, dateFin, formule);
+		this.options = new HashSet<>(options);
+	}
+
 	/**
 	 * Calcul du montant déjà payé
 	 *
 	 * @return
 	 */
 	public Double calculerMontantPaye() {
+		Double montant = 0.0;
 		if (Hibernate.isInitialized(this.paiements)) {
-			Double montant = 0.0;
 			for (final Paiement p : this.paiements) {
 				montant += p.getMontant();
 			}
-			return montant;
-		} else {
-			return null;
 		}
+		return montant;
 	}
 
 	/**
@@ -107,7 +112,7 @@ public class Reservation extends Entite {
 		// Si les attributs ne sont pas chargés, renvoi NULL
 		if (!Hibernate.isInitialized(this.getChambre()) || !Hibernate.isInitialized(this.getFormule()) || !Hibernate.isInitialized(this.getOptions())
 				|| !Hibernate.isInitialized(this.getConsommations())) {
-			return null;
+			return 0.0;
 		}
 
 		// Pré-calculs

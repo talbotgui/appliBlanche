@@ -54,6 +54,9 @@ public class GenerateurDeDonneesService implements ApplicationListener<Applicati
 	private DataSource datasource;
 
 	@Autowired
+	private FactureService factureService;
+
+	@Autowired
 	private ReservationParametresService parametresService;
 
 	@Autowired
@@ -125,7 +128,7 @@ public class GenerateurDeDonneesService implements ApplicationListener<Applicati
 
 					// Facturation si la réservation est passée
 					if (fin.isBefore(LocalDate.now())) {
-						this.reservationService.facturer(referenceReservation);
+						this.factureService.facturer(referenceReservation);
 					}
 				}
 

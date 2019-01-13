@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.guillaumetalbot.applicationblanche.exception.RestException;
-import com.guillaumetalbot.applicationblanche.metier.dto.FactureDto;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Consommation;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.EtatReservation;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Paiement;
@@ -52,12 +51,6 @@ public class ReservationRestControler {
 	@ApiOperation(value = "Charger une reservation par sa référence", notes = "avec sa chambre, sa formule, ses options, ses consommation et ses paiements")
 	public Reservation chargerReservation(@PathVariable("referenceReservation") final String referenceReservation) {
 		return this.reservationService.chargerReservation(referenceReservation);
-	}
-
-	@PostMapping("/reservations/{referenceReservation}/facturer")
-	@ApiOperation(value = "Facturer une réservation / un séjour", notes = "Changer l'état, valider les paiements et créer le document de facture")
-	public FactureDto facturer(@PathVariable("referenceReservation") final String referenceReservation) {
-		return this.reservationService.facturer(referenceReservation);
 	}
 
 	@PutMapping("/reservations/{referenceReservation}/consommations/{referenceConsommation}")

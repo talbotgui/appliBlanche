@@ -86,10 +86,9 @@ public class ExportServiceTest {
 	public void test01CasSimple() throws IOException {
 		//
 		final Reservation reservation = this.creerPetiteReservation();
-		final Double montantTotal = 100D;
 
 		//
-		final byte[] flux = this.exportService.genererPdfFactureReservation(reservation, montantTotal);
+		final byte[] flux = this.exportService.genererPdfFactureReservation(reservation, 1L);
 
 		//
 		Assert.assertNotNull(flux);
@@ -100,10 +99,9 @@ public class ExportServiceTest {
 	public void test02CasRiche() throws IOException {
 		//
 		final Reservation reservation = this.creerGrandeReservation();
-		final Double montantTotal = 100D;
 
 		//
-		final byte[] flux = this.exportService.genererPdfFactureReservation(reservation, montantTotal);
+		final byte[] flux = this.exportService.genererPdfFactureReservation(reservation, 10012L);
 
 		//
 		Assert.assertNotNull(flux);

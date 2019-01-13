@@ -18,11 +18,12 @@ public class Paiement extends Entite {
 
 	private Double montant;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	// Un paiement n'a pas de sens sans son moyenDePaiement
+	@ManyToOne
 	@JoinColumn(name = "MOYEN_DE_PAIEMENT_ID")
 	private MoyenDePaiement moyenDePaiement;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "RESERVATION_ID")
 	@JsonBackReference
 	private Reservation reservation;
