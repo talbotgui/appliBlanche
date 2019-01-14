@@ -32,7 +32,7 @@ public class FactureServiceImpl implements FactureService {
 		final Long idReservation = Entite.extraireIdentifiant(referenceReservation, Reservation.class);
 
 		// Charger la réservation
-		final Reservation reservation = this.reservationRepo.chargerReservationFetchChambreFormuleOptionsConsommationManaged(idReservation)//
+		final Reservation reservation = this.reservationRepo.chargerReservationFetchChambreFormuleOptionsConsommationPaiementsManaged(idReservation)//
 				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "reservation", referenceReservation));
 
 		// Prochain numéro de facture

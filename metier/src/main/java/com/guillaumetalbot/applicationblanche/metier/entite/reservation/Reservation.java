@@ -90,11 +90,12 @@ public class Reservation extends Entite {
 	 * @return
 	 */
 	public Double calculerMontantPaye() {
+		if (!Hibernate.isInitialized(this.paiements)) {
+			throw new IllegalStateException("Erreur de code : impossible de calculer le montant total sans avoir chargées toutes les données");
+		}
 		Double montant = 0.0;
-		if (Hibernate.isInitialized(this.paiements)) {
-			for (final Paiement p : this.paiements) {
-				montant += p.getMontant();
-			}
+		for (final Paiement p : this.paiements) {
+			montant += p.getMontant();
 		}
 		return montant;
 	}
@@ -112,7 +113,7 @@ public class Reservation extends Entite {
 		// Si les attributs ne sont pas chargés, renvoi NULL
 		if (!Hibernate.isInitialized(this.getChambre()) || !Hibernate.isInitialized(this.getFormule()) || !Hibernate.isInitialized(this.getOptions())
 				|| !Hibernate.isInitialized(this.getConsommations())) {
-			return 0.0;
+			throw new IllegalStateException("Erreur de code : impossible de calculer le montant total sans avoir chargées toutes les données");
 		}
 
 		// Pré-calculs

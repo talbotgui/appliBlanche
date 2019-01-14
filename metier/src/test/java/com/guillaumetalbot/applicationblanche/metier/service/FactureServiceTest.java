@@ -90,7 +90,7 @@ public class FactureServiceTest {
 
 		final Reservation reservation = this.reservationService.chargerReservation(refReservation);
 		this.reservationService.sauvegarderPaiement(new Paiement(LocalDate.now(), 400.0, mdp, reservation));
-		this.reservationService.sauvegarderPaiement(new Paiement(LocalDate.now(), 99.0, mdp, reservation));
+		this.reservationService.sauvegarderPaiement(new Paiement(LocalDate.now(), 199.0, mdp, reservation));
 
 		//
 		final FactureDto factureDto = this.factureService.facturer(refReservation);
@@ -98,8 +98,10 @@ public class FactureServiceTest {
 		//
 		Assert.assertNotNull(factureDto);
 		Assert.assertNotNull(factureDto.getPdf());
-		Assert.assertEquals((Double) 63.0, factureDto.getMontantRestantDu());
-		Assert.assertEquals((Double) 562.0, factureDto.getMontantTotal());
+		// formule x nbNuit + options x facteur
+		// 200 x 3 + 100x3 + 10x6 + 1x2
+		Assert.assertEquals((Double) 962.0, factureDto.getMontantTotal());
+		Assert.assertEquals((Double) 363.0, factureDto.getMontantRestantDu());
 		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from FACTURE", Long.class));
 	}
 }

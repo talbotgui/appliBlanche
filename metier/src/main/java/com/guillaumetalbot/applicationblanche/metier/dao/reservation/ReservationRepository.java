@@ -19,15 +19,17 @@ import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservat
 public interface ReservationRepository extends CrudRepository<Reservation, Long> {
 
 	@Query(value = "select distinct r from Reservation r"//
-			+ " left join fetch r.chambre left join fetch r.formule left join fetch r.options left join fetch r.consommations"//
-			+ " where r.id = :idReservation")
-	Optional<Reservation> chargerReservationFetchChambreFormuleOptionsConsommationManaged(@Param("idReservation") Long idReservation);
-
-	@Query(value = "select distinct r from Reservation r"//
-			+ " left join fetch r.chambre left join fetch r.formule left join fetch r.options left join fetch r.consommations left join fetch r.paiements"//
+			+ " left join fetch r.chambre left join fetch r.formule left join fetch r.options"//
+			+ " left join fetch r.consommations left join fetch r.paiements"//
 			+ " where r.id = :idReservation")
 	@QueryHints(value = { @QueryHint(name = org.hibernate.jpa.QueryHints.HINT_READONLY, value = "true") })
 	Optional<Reservation> chargerReservationFetchChambreFormuleOptionsConsommationPaiements(@Param("idReservation") Long idReservation);
+
+	@Query(value = "select distinct r from Reservation r"//
+			+ " left join fetch r.chambre left join fetch r.formule left join fetch r.options"//
+			+ " left join fetch r.consommations left join fetch r.paiements"//
+			+ " where r.id = :idReservation")
+	Optional<Reservation> chargerReservationFetchChambreFormuleOptionsConsommationPaiementsManaged(@Param("idReservation") Long idReservation);
 
 	@Query("select count(r) from Reservation r where r.formule.id = :formuleId")
 	Long compterReservationPourCetteFormule(@Param("formuleId") Long id);
