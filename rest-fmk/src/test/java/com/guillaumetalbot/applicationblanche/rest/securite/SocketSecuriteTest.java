@@ -32,7 +32,7 @@ public class SocketSecuriteTest extends BaseTestClass {
 
 	/**
 	 * Ecouter sur le websocket
-	 * 
+	 *
 	 * @param topic
 	 * @return
 	 */
@@ -50,7 +50,6 @@ public class SocketSecuriteTest extends BaseTestClass {
 
 			@Override
 			public void handleFrame(final StompHeaders headers, final Object payload) {
-				System.err.println("coucou");
 				blockingQueue.offer(new String((byte[]) payload));
 			}
 		};
@@ -64,7 +63,7 @@ public class SocketSecuriteTest extends BaseTestClass {
 
 	/**
 	 * Envoi du message
-	 * 
+	 *
 	 * @param topic
 	 * @param message
 	 */
@@ -74,7 +73,7 @@ public class SocketSecuriteTest extends BaseTestClass {
 
 	/**
 	 * Initialisation d'une session du socket
-	 * 
+	 *
 	 * @throws InterruptedException
 	 * @throws ExecutionException
 	 * @throws TimeoutException

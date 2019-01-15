@@ -10,6 +10,7 @@ import java.util.Collection;
 
 import javax.sql.DataSource;
 
+import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -23,8 +24,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.guillaumetalbot.applicationblanche.exception.BusinessException;
 import com.guillaumetalbot.applicationblanche.metier.application.SpringApplicationForTests;
 import com.guillaumetalbot.applicationblanche.metier.dto.FactureDto;
+import com.guillaumetalbot.applicationblanche.metier.entite.Entite;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Chambre;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.EtatReservation;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Formule;
@@ -63,11 +66,7 @@ public class FactureServiceTest {
 
 	}
 
-	@Test
-	public void test01Facturer() {
-		//
-		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
-
+	private Reservation creerReservationFacturable() {
 		this.reservationParametresService.sauvegarderMoyenDePaiement(new MoyenDePaiement("nomMdp", 2.5));
 		final MoyenDePaiement mdp = this.reservationParametresService.listerMoyensDePaiement().iterator().next();
 
@@ -91,9 +90,17 @@ public class FactureServiceTest {
 		final Reservation reservation = this.reservationService.chargerReservation(refReservation);
 		this.reservationService.sauvegarderPaiement(new Paiement(LocalDate.now(), 400.0, mdp, reservation));
 		this.reservationService.sauvegarderPaiement(new Paiement(LocalDate.now(), 199.0, mdp, reservation));
+		return reservation;
+	}
+
+	@Test
+	public void test01Facturer() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final Reservation reservation = this.creerReservationFacturable();
 
 		//
-		final FactureDto factureDto = this.factureService.facturer(refReservation);
+		final FactureDto factureDto = this.factureService.facturer(reservation.getReference());
 
 		//
 		Assert.assertNotNull(factureDto);
@@ -103,5 +110,67 @@ public class FactureServiceTest {
 		Assert.assertEquals((Double) 962.0, factureDto.getMontantTotal());
 		Assert.assertEquals((Double) 363.0, factureDto.getMontantRestantDu());
 		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from FACTURE", Long.class));
+	}
+
+	@Test
+	public void test02FacturerDeuxFoisUneReservation() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final Reservation reservation = this.creerReservationFacturable();
+		this.factureService.facturer(reservation.getReference());
+
+		final MoyenDePaiement mdp = this.reservationParametresService.listerMoyensDePaiement().iterator().next();
+		this.reservationService.sauvegarderPaiement(new Paiement(LocalDate.now(), 363.0, mdp, reservation));
+
+		//
+		final FactureDto secondeFactureDto = this.factureService.facturer(reservation.getReference());
+
+		//
+		Assert.assertNotNull(secondeFactureDto);
+		Assert.assertNotNull(secondeFactureDto.getPdf());
+		Assert.assertEquals((Double) 962.0, secondeFactureDto.getMontantTotal());
+		Assert.assertEquals((Double) 0.0, secondeFactureDto.getMontantRestantDu());
+		Assert.assertEquals((Long) 2L, jdbc.queryForObject("select count(*) from FACTURE", Long.class));
+	}
+
+	@Test
+	public void test03FacturerAvecTropPercu() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final Reservation reservation = this.creerReservationFacturable();
+		this.factureService.facturer(reservation.getReference());
+
+		final MoyenDePaiement mdp = this.reservationParametresService.listerMoyensDePaiement().iterator().next();
+		this.reservationService.sauvegarderPaiement(new Paiement(LocalDate.now(), 301.0, mdp, reservation));
+		this.factureService.facturer(reservation.getReference());
+
+		this.reservationService.sauvegarderPaiement(new Paiement(LocalDate.now(), 63.0, mdp, reservation));
+
+		//
+		final FactureDto secondeFactureDto = this.factureService.facturer(reservation.getReference());
+
+		//
+		Assert.assertNotNull(secondeFactureDto);
+		Assert.assertNotNull(secondeFactureDto.getPdf());
+		Assert.assertEquals((Double) 962.0, secondeFactureDto.getMontantTotal());
+		Assert.assertEquals((Double) (0.0 - 1.0), secondeFactureDto.getMontantRestantDu());
+		Assert.assertEquals((Long) 3L, jdbc.queryForObject("select count(*) from FACTURE", Long.class));
+	}
+
+	@Test
+	public void test04FacturerUneReservationInexistante() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		final String referenceReservation = Entite.genererReference(Reservation.class, 1L);
+
+		//
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.factureService.facturer(referenceReservation);
+		});
+
+		//
+		Assert.assertNotNull(thrown);
+		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_NON_EXISTANT));
+		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from FACTURE", Long.class));
 	}
 }

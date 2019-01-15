@@ -94,4 +94,46 @@ public class EntiteTest {
 		Assert.assertTrue(BusinessException.equals((BusinessException) thrown, BusinessException.REFERENCE_NON_VALIDE));
 	}
 
+	@Test
+	public void test04ChaineVide() {
+		//
+
+		//
+		final Long id = Entite.extraireIdentifiant("", EntiteDeTest1.class);
+
+		//
+		Assert.assertNull(id);
+	}
+
+	@Test
+	public void test05GenererAvecNull1() {
+		//
+		//
+		final String ref = Entite.genererReference(EntiteDeTest1.class, null);
+		//
+		Assert.assertNull(ref);
+	}
+
+	@Test
+	public void test06GenererAvecNull2() {
+		//
+		//
+		final String ref = Entite.genererReference(null, 1L);
+		//
+		Assert.assertNull(ref);
+	}
+
+	@Test
+	public void test07BoutAboutParReference() {
+		//
+		final Long id = 1L;
+		final String reference = Entite.genererReference(EntiteDeTest1.class, id);
+
+		//
+		final EntiteDeTest1 e = new EntiteDeTest1();
+		e.setReference(reference);
+
+		//
+		Assert.assertEquals(id, e.getId());
+	}
 }
