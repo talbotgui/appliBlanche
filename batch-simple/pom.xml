@@ -17,7 +17,7 @@
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
 
-		<version.flyway>5.0.5</version.flyway>
+		<version.flyway>5.2.4</version.flyway>
 		<version.sun-jaxb>2.3.0</version.sun-jaxb>
 		
 		<dependency.locations.enabled>false</dependency.locations.enabled>
