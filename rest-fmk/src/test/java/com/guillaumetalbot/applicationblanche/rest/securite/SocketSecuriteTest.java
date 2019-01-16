@@ -113,7 +113,7 @@ public class SocketSecuriteTest extends BaseTestClass {
 		this.envoyerMessageAuWebSocket(topic, message);
 
 		// Assert
-		Assert.assertEquals(file.poll(3, TimeUnit.SECONDS), message);
+		Assert.assertEquals(file.poll(5, TimeUnit.SECONDS), message);
 	}
 
 	@Test
