@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module.Feature;
@@ -38,7 +37,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 		RestApplication.PACKAGE_REST_APPLICATION, RestApplication.PACKAGE_METIER_DAO, RestApplication.PACKAGE_METIER_SERVICE,
 		RestApplication.PACKAGE_REST_MONITORING, RestApplication.PACKAGE_REST_WEBSOCKET, RestApplication.PACKAGE_REST_SCHEDULER })
 @EnableJpaRepositories(RestApplication.PACKAGE_METIER_DAO)
-@EnableGlobalMethodSecurity
 public class RestApplication {
 
 	/** Logger. */
@@ -70,13 +68,22 @@ public class RestApplication {
 		LOG.info("Application disponible sur http://localhost:{}{}", port, context);
 	}
 
+	/** Configuration Jackson */
+	@Bean
+	public com.fasterxml.jackson.databind.Module configurerJackson() {
+		final Hibernate5Module hibernate5Module = new Hibernate5Module();
+		hibernate5Module.enable(Feature.REPLACE_PERSISTENT_COLLECTIONS);
+		hibernate5Module.disable(Feature.USE_TRANSIENT_ANNOTATION);
+		return hibernate5Module;
+	}
+
 	/**
 	 * Configuration SpringFox.
 	 *
 	 * @return SpringFox configuration
 	 */
 	@Bean
-	public Docket configuerSwagger() {
+	public Docket configurerSwagger() {
 
 		// see http://springfox.github.io/springfox/docs/current/#springfox-samples
 		return new Docket(DocumentationType.SWAGGER_2)//
@@ -86,14 +93,5 @@ public class RestApplication {
 				.genericModelSubstitutes(ResponseEntity.class)//
 				.enableUrlTemplating(true)//
 				.tags(new Tag("API Application blanche", "Description de l'API REST"));
-	}
-
-	/** Configuration Jackson */
-	@Bean
-	public com.fasterxml.jackson.databind.Module configurerJackson() {
-		final Hibernate5Module hibernate5Module = new Hibernate5Module();
-		hibernate5Module.enable(Feature.REPLACE_PERSISTENT_COLLECTIONS);
-		hibernate5Module.disable(Feature.USE_TRANSIENT_ANNOTATION);
-		return hibernate5Module;
 	}
 }

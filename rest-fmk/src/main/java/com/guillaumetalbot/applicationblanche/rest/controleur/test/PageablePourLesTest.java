@@ -85,7 +85,11 @@ public class PageablePourLesTest<T> implements Page<T> {
 
 	@Override
 	public Iterator<T> iterator() {
-		return null;
+		if (this.contenu != null) {
+			return this.contenu.iterator();
+		} else {
+			return null;
+		}
 	}
 
 	@Override

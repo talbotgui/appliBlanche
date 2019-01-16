@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -32,7 +31,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 		"com.guillaumetalbot.applicationblanche.metier.service", "com.guillaumetalbot.applicationblanche.rest.application.monitoring",
 		"com.guillaumetalbot.applicationblanche.rest.socket" })
 @EnableJpaRepositories("com.guillaumetalbot.applicationblanche.metier.dao")
-@EnableGlobalMethodSecurity
 public class RestApplicationForTests {
 
 	/** Contexte applicatif démarré. */
@@ -46,8 +44,7 @@ public class RestApplicationForTests {
 	/**
 	 * Méthode de démarrage de l'application
 	 *
-	 * @param args
-	 *            paramètres de lancement
+	 * @param args paramètres de lancement
 	 */
 	public static void main(final String[] args) {
 		ac = SpringApplication.run(RestApplicationForTests.class);

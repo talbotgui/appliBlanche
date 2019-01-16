@@ -85,7 +85,7 @@ public class ReservationRestControlerTest extends BaseTestClass {
 
 		// ASSERT
 		Assert.assertNotNull(thrown);
-		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.class);
+		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.BadRequest.class);
 		final HttpClientErrorException e = (HttpClientErrorException) thrown;
 		Assert.assertEquals(e.getRawStatusCode(), HttpStatus.BAD_REQUEST.value());
 		Mockito.verifyNoMoreInteractions(this.reservationService);
@@ -105,7 +105,7 @@ public class ReservationRestControlerTest extends BaseTestClass {
 
 		// ASSERT
 		Assert.assertNotNull(thrown);
-		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.class);
+		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.BadRequest.class);
 		final HttpClientErrorException e = (HttpClientErrorException) thrown;
 		Assert.assertEquals(e.getRawStatusCode(), HttpStatus.BAD_REQUEST.value());
 		Mockito.verifyNoMoreInteractions(this.reservationService);
@@ -126,7 +126,7 @@ public class ReservationRestControlerTest extends BaseTestClass {
 
 		// ASSERT
 		Assert.assertNotNull(thrown);
-		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.class);
+		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.BadRequest.class);
 		final HttpClientErrorException e = (HttpClientErrorException) thrown;
 		Assert.assertEquals(e.getRawStatusCode(), HttpStatus.BAD_REQUEST.value());
 		Mockito.verifyNoMoreInteractions(this.reservationService);
@@ -147,7 +147,7 @@ public class ReservationRestControlerTest extends BaseTestClass {
 
 		// ASSERT
 		Assert.assertNotNull(thrown);
-		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.class);
+		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.BadRequest.class);
 		final HttpClientErrorException e = (HttpClientErrorException) thrown;
 		Assert.assertEquals(e.getRawStatusCode(), HttpStatus.BAD_REQUEST.value());
 		Mockito.verifyNoMoreInteractions(this.reservationService);
@@ -170,7 +170,7 @@ public class ReservationRestControlerTest extends BaseTestClass {
 
 		// ASSERT
 		Assert.assertNotNull(thrown);
-		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.class);
+		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.BadRequest.class);
 		final HttpClientErrorException e = (HttpClientErrorException) thrown;
 		Assert.assertEquals(e.getRawStatusCode(), HttpStatus.BAD_REQUEST.value());
 		Mockito.verifyNoMoreInteractions(this.reservationService);
@@ -303,7 +303,7 @@ public class ReservationRestControlerTest extends BaseTestClass {
 
 		// ASSERT
 		Assert.assertNotNull(thrown);
-		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.class);
+		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.BadRequest.class);
 		final HttpClientErrorException e = (HttpClientErrorException) thrown;
 		Assert.assertEquals(e.getRawStatusCode(), HttpStatus.BAD_REQUEST.value());
 		Mockito.verifyNoMoreInteractions(this.reservationService);
@@ -325,7 +325,7 @@ public class ReservationRestControlerTest extends BaseTestClass {
 
 		// ASSERT
 		Assert.assertNotNull(thrown);
-		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.class);
+		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.BadRequest.class);
 		final HttpClientErrorException e = (HttpClientErrorException) thrown;
 		Assert.assertEquals(e.getRawStatusCode(), HttpStatus.BAD_REQUEST.value());
 		Mockito.verifyNoMoreInteractions(this.reservationService);

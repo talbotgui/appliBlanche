@@ -1,4 +1,4 @@
-package com.guillaumetalbot.applicationblanche.rest.application;
+package com.guillaumetalbot.applicationblanche.rest.test;
 
 import java.time.LocalDate;
 
@@ -12,7 +12,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+
+import com.guillaumetalbot.applicationblanche.rest.application.RestApplication;
 
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -34,7 +35,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 		RestApplication.PACKAGE_METIER_DAO, RestApplication.PACKAGE_METIER_SERVICE, RestApplication.PACKAGE_REST_MONITORING,
 		RestApplication.PACKAGE_REST_SCHEDULER, RestApplication.PACKAGE_REST_WEBSOCKET })
 @EnableJpaRepositories(RestApplication.PACKAGE_METIER_DAO)
-@EnableGlobalMethodSecurity
 public class RestApplicationForTests {
 
 	/** Contexte applicatif démarré. */
@@ -63,7 +63,7 @@ public class RestApplicationForTests {
 	 * @return SpringFox configuration
 	 */
 	@Bean
-	public Docket configuerSwagger() {
+	public Docket configurerSwagger() {
 
 		// see http://springfox.github.io/springfox/docs/current/#springfox-samples
 		return new Docket(DocumentationType.SWAGGER_2)//

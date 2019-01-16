@@ -41,7 +41,7 @@ public class SecuriteTest extends BaseTestClass {
 		// ASSERT
 		Mockito.verifyNoMoreInteractions(this.getListeServices());
 		Assert.assertNotNull(thrown);
-		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.class);
+		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.Forbidden.class);
 		final HttpClientErrorException e = (HttpClientErrorException) thrown;
 		Assert.assertEquals(e.getRawStatusCode(), HttpStatus.FORBIDDEN.value());
 		final String message = e.getResponseBodyAsString().replaceAll("\"timestamp\":\"[^\"]*\"", "\"timestamp\":\"\"");
@@ -65,7 +65,7 @@ public class SecuriteTest extends BaseTestClass {
 		// ASSERT
 		Mockito.verifyNoMoreInteractions(this.getListeServices());
 		Assert.assertNotNull(thrown);
-		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.class);
+		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.Forbidden.class);
 		final HttpClientErrorException e = (HttpClientErrorException) thrown;
 		Assert.assertEquals(e.getRawStatusCode(), HttpStatus.FORBIDDEN.value());
 		final String message = e.getResponseBodyAsString().replaceAll("\"timestamp\":\"[^\"]*\"", "\"timestamp\":\"\"");
@@ -88,7 +88,7 @@ public class SecuriteTest extends BaseTestClass {
 		// ASSERT
 		Mockito.verifyNoMoreInteractions(this.getListeServices());
 		Assert.assertNotNull(thrown);
-		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.class);
+		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.Forbidden.class);
 		final HttpClientErrorException e = (HttpClientErrorException) thrown;
 		Assert.assertEquals(e.getRawStatusCode(), HttpStatus.FORBIDDEN.value());
 		final String message = e.getResponseBodyAsString().replaceAll("\"timestamp\":\"[^\"]*\"", "\"timestamp\":\"\"");
@@ -135,7 +135,7 @@ public class SecuriteTest extends BaseTestClass {
 
 		//
 		Assert.assertNotNull(thrown);
-		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.class);
+		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.Forbidden.class);
 		final HttpClientErrorException e = (HttpClientErrorException) thrown;
 		Assert.assertEquals(e.getRawStatusCode(), HttpStatus.FORBIDDEN.value());
 		Assert.assertEquals(e.getResponseBodyAsString(), "");
@@ -156,7 +156,7 @@ public class SecuriteTest extends BaseTestClass {
 
 		//
 		Assert.assertNotNull(thrown);
-		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.class);
+		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.Forbidden.class);
 		final HttpClientErrorException e = (HttpClientErrorException) thrown;
 		Assert.assertEquals(e.getRawStatusCode(), HttpStatus.FORBIDDEN.value());
 		Assert.assertEquals(e.getResponseBodyAsString(), "");
@@ -205,7 +205,7 @@ public class SecuriteTest extends BaseTestClass {
 
 		// ASSERT
 		Assert.assertNotNull(thrown);
-		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.class);
+		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.Forbidden.class);
 		final HttpClientErrorException e = (HttpClientErrorException) thrown;
 		Assert.assertEquals(e.getRawStatusCode(), HttpStatus.FORBIDDEN.value());
 		Mockito.verify(this.securiteService).chargerUtilisateurAvecRolesEtRessourcesAutoriseesReadOnly(Mockito.anyString());
@@ -235,7 +235,7 @@ public class SecuriteTest extends BaseTestClass {
 
 		// ASSERT
 		Assert.assertNotNull(thrown);
-		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.class);
+		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.Forbidden.class);
 		final HttpClientErrorException e = (HttpClientErrorException) thrown;
 		Assert.assertEquals(e.getRawStatusCode(), HttpStatus.FORBIDDEN.value());
 		Mockito.verify(this.securiteService).chargerUtilisateurAvecRolesEtRessourcesAutoriseesReadOnly(Mockito.anyString());
@@ -264,7 +264,7 @@ public class SecuriteTest extends BaseTestClass {
 
 		// ASSERT
 		Assert.assertNotNull(thrown);
-		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.class);
+		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.Forbidden.class);
 		final HttpClientErrorException e = (HttpClientErrorException) thrown;
 		Assert.assertEquals(e.getRawStatusCode(), HttpStatus.FORBIDDEN.value());
 		Mockito.verify(this.securiteService).chargerUtilisateurAvecRolesEtRessourcesAutoriseesReadOnly(Mockito.anyString());

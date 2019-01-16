@@ -10,8 +10,8 @@ import com.guillaumetalbot.applicationblanche.metier.service.LibelleService;
 import com.guillaumetalbot.applicationblanche.metier.service.ReservationParametresService;
 import com.guillaumetalbot.applicationblanche.metier.service.ReservationService;
 import com.guillaumetalbot.applicationblanche.rest.application.RestApplication;
-import com.guillaumetalbot.applicationblanche.rest.application.RestApplicationForTests;
 import com.guillaumetalbot.applicationblanche.rest.controleur.test.JwtIntegrationWebTest;
+import com.guillaumetalbot.applicationblanche.rest.test.RestApplicationForTests;
 
 @SpringBootTest(classes = RestApplicationForTests.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations = "classpath:application-test.properties")

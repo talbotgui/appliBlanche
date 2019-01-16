@@ -100,7 +100,7 @@ public class ComposantPourTestTransactionRestControlerTest extends IntegrationWe
 		// ASSERT
 		Assert.assertNotNull(thrown);
 		Assert.assertNotNull(thrown);
-		Assert.assertEquals(thrown.getClass(), HttpServerErrorException.class);
+		Assert.assertEquals(thrown.getClass(), HttpServerErrorException.InternalServerError.class);
 		final HttpServerErrorException e = (HttpServerErrorException) thrown;
 		Assert.assertEquals(e.getRawStatusCode(), BusinessException.ERREUR_SHA.getHttpStatusCode());
 
