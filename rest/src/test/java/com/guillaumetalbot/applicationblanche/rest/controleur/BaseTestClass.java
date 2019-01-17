@@ -6,6 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.TestPropertySource;
 
+import com.guillaumetalbot.applicationblanche.metier.service.FactureService;
 import com.guillaumetalbot.applicationblanche.metier.service.LibelleService;
 import com.guillaumetalbot.applicationblanche.metier.service.ReservationParametresService;
 import com.guillaumetalbot.applicationblanche.metier.service.ReservationService;
@@ -16,6 +17,9 @@ import com.guillaumetalbot.applicationblanche.rest.test.RestApplicationForTests;
 @SpringBootTest(classes = RestApplicationForTests.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations = "classpath:application-test.properties")
 public class BaseTestClass extends JwtIntegrationWebTest {
+
+	@MockBean
+	protected FactureService factureService;
 
 	/** Mock de service créé par Mockito. */
 	@MockBean
@@ -34,7 +38,7 @@ public class BaseTestClass extends JwtIntegrationWebTest {
 
 	@Override
 	protected Object[] getListeServices() {
-		return Arrays.array(super.securiteService, this.libelleService, this.reservationService);
+		return Arrays.array(super.securiteService, this.libelleService, this.reservationService, this.factureService);
 	}
 
 }

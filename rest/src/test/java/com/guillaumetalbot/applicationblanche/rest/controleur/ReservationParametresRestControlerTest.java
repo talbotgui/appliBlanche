@@ -387,4 +387,20 @@ public class ReservationParametresRestControlerTest extends BaseTestClass {
 		Mockito.verifyNoMoreInteractions(this.reservationParametresService);
 		Assert.assertEquals(ref, '"' + refRetournee + '"');
 	}
+
+	@Test
+	public void test04MoyenDePaiement03Supprimer() {
+
+		// ARRANGE
+		final String ref = Entite.genererReference(MoyenDePaiement.class, 2L);
+		Mockito.doNothing().when(this.reservationParametresService).supprimerMoyenDePaiement(ref);
+
+		// ACT
+		this.getREST().delete(this.getURL() + "/v1/moyensDePaiement/" + ref);
+
+		// ASSERT
+		Mockito.verify(this.reservationParametresService).supprimerMoyenDePaiement(ref);
+		Mockito.verifyNoMoreInteractions(this.reservationParametresService);
+	}
+
 }

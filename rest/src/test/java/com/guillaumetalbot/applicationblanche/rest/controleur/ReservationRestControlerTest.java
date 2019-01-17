@@ -24,6 +24,8 @@ import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Chambre;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Consommation;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.EtatReservation;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Formule;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.MoyenDePaiement;
+import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Paiement;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Produit;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservation;
 
@@ -234,6 +236,40 @@ public class ReservationRestControlerTest extends BaseTestClass {
 	}
 
 	@Test
+	public void test01Reservations06RechercherReservations() {
+
+		// ARRANGE
+
+		// ACT
+		final ParameterizedTypeReference<Collection<Reservation>> typeRetour = new ParameterizedTypeReference<Collection<Reservation>>() {
+		};
+		final ResponseEntity<Collection<Reservation>> reservations = this.getREST().exchange(this.getURL() + "/v1/reservations", HttpMethod.GET, null,
+				typeRetour);
+
+		// ASSERT
+		Assert.assertNotNull(reservations);
+		Assert.assertEquals(0, reservations.getBody().size());
+		Mockito.verifyNoMoreInteractions(this.reservationService);
+	}
+
+	@Test
+	public void test01Reservations07ChargerReservation() {
+
+		// ARRANGE
+		final String referenceReservation = Entite.genererReference(Reservation.class, 1L);
+		final Reservation toReturn = new Reservation();
+		Mockito.doReturn(toReturn).when(this.reservationService).chargerReservation(referenceReservation);
+
+		// ACT
+		final Reservation reservation = this.getREST().getForObject(this.getURL() + "/v1/reservations/" + referenceReservation, Reservation.class);
+
+		// ASSERT
+		Assert.assertNotNull(reservation);
+		Mockito.verify(this.reservationService).chargerReservation(referenceReservation);
+		Mockito.verifyNoMoreInteractions(this.reservationService);
+	}
+
+	@Test
 	public void test02Consommation01Lister() {
 
 		// ARRANGE
@@ -371,4 +407,101 @@ public class ReservationRestControlerTest extends BaseTestClass {
 		Mockito.verifyNoMoreInteractions(this.reservationService);
 		Assert.assertEquals(ref, '"' + refRetournee + '"');
 	}
+
+	@Test
+	public void test03Paiement01Lister() {
+
+		// ARRANGE
+		final String referenceReservation = Entite.genererReference(Reservation.class, 1L);
+		final Reservation reservation = new Reservation();
+		final Collection<Paiement> toReturn = Arrays.asList(new Paiement(LocalDate.now(), 2.2, new MoyenDePaiement("CB", null), reservation),
+				new Paiement(LocalDate.now(), 2.2, new MoyenDePaiement("CB", null), reservation));
+		Mockito.doReturn(toReturn).when(this.reservationService).rechercherPaiementsDuneReservation(referenceReservation);
+
+		// ACT
+		final ParameterizedTypeReference<Collection<Paiement>> typeRetour = new ParameterizedTypeReference<>() {
+		};
+		final Map<String, Object> uriVars = new HashMap<String, Object>();
+		final ResponseEntity<Collection<Paiement>> paiements = this.getREST()
+				.exchange(this.getURL() + "/v1/reservations/" + referenceReservation + "/paiements", HttpMethod.GET, null, typeRetour, uriVars);
+
+		// ASSERT
+		Mockito.verify(this.reservationService).rechercherPaiementsDuneReservation(referenceReservation);
+		Mockito.verifyNoMoreInteractions(this.reservationService);
+		Assert.assertNotNull(paiements.getBody());
+		Assert.assertEquals(paiements.getBody().size(), toReturn.size());
+	}
+
+	@Test
+	public void test03Paiement02SauvegarderOk() {
+
+		// ARRANGE
+		final String refReservation = Entite.genererReference(Reservation.class, 1L);
+		final String refRetournee = Entite.genererReference(Paiement.class, 1L);
+		final Reservation reservation = new Reservation("client", null, LocalDate.now(), LocalDate.now());
+		reservation.setReference(refReservation);
+		final MoyenDePaiement mdp = new MoyenDePaiement("CB", null);
+		mdp.setReference(Entite.genererReference(MoyenDePaiement.class, 1L));
+		final Paiement paim = new Paiement(LocalDate.now(), 2.2, mdp, reservation);
+		Mockito.doReturn(refRetournee).when(this.reservationService).sauvegarderPaiement(Mockito.any(Paiement.class));
+
+		// ACT
+		final String ref = this.getREST().postForObject(this.getURL() + "/v1/reservations/" + refReservation + "/paiements", paim, String.class);
+
+		// ASSERT
+		Mockito.verify(this.reservationService).sauvegarderPaiement(Mockito.any(Paiement.class));
+		Mockito.verifyNoMoreInteractions(this.reservationService);
+		Assert.assertEquals(ref, '"' + refRetournee + '"');
+	}
+
+	public void test03Paiement03SauvegarderKoMdp() {
+
+		// ARRANGE
+		final String refReservation = Entite.genererReference(Reservation.class, 1L);
+		final String refRetournee = Entite.genererReference(Paiement.class, 1L);
+		final Reservation reservation = new Reservation("client", null, LocalDate.now(), LocalDate.now());
+		reservation.setReference(refReservation);
+		final MoyenDePaiement mdp = new MoyenDePaiement("CB", null);
+		final Paiement paim = new Paiement(LocalDate.now(), 2.2, mdp, reservation);
+		Mockito.doReturn(refRetournee).when(this.reservationService).sauvegarderPaiement(Mockito.any(Paiement.class));
+
+		// ACT
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.getREST().postForObject(this.getURL() + "/v1/reservations/" + refReservation + "/paiements", paim, String.class);
+		});
+
+		// ASSERT
+		Assert.assertNotNull(thrown);
+		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.BadRequest.class);
+		final HttpClientErrorException e = (HttpClientErrorException) thrown;
+		Assert.assertEquals(e.getRawStatusCode(), HttpStatus.BAD_REQUEST.value());
+		Mockito.verifyNoMoreInteractions(this.reservationService);
+	}
+
+	@Test
+	public void test03Paiement04SauvegarderKoMontant() {
+
+		// ARRANGE
+		final String refReservation = Entite.genererReference(Reservation.class, 1L);
+		final String refRetournee = Entite.genererReference(Paiement.class, 1L);
+		final Reservation reservation = new Reservation("client", null, LocalDate.now(), LocalDate.now());
+		reservation.setReference(refReservation);
+		final MoyenDePaiement mdp = new MoyenDePaiement("CB", null);
+		mdp.setReference(Entite.genererReference(MoyenDePaiement.class, 1L));
+		final Paiement paim = new Paiement(LocalDate.now(), null, mdp, reservation);
+		Mockito.doReturn(refRetournee).when(this.reservationService).sauvegarderPaiement(Mockito.any(Paiement.class));
+
+		// ACT
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.getREST().postForObject(this.getURL() + "/v1/reservations/" + refReservation + "/paiements", paim, String.class);
+		});
+
+		// ASSERT
+		Assert.assertNotNull(thrown);
+		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.BadRequest.class);
+		final HttpClientErrorException e = (HttpClientErrorException) thrown;
+		Assert.assertEquals(e.getRawStatusCode(), HttpStatus.BAD_REQUEST.value());
+		Mockito.verifyNoMoreInteractions(this.reservationService);
+	}
+
 }
