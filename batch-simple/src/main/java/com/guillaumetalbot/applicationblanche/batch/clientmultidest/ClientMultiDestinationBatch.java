@@ -102,7 +102,7 @@ public class ClientMultiDestinationBatch extends AbstractBatch {
 				// Traitement d'un fichier déjà existant
 				.append(false).shouldDeleteIfExists(this.supprimeFichierSiExistant)
 				// Paramètres du fichier de sortie
-				.encoding(StandardCharsets.UTF_8).lineSeparator("\n")
+				.encoding(StandardCharsets.UTF_8.name()).lineSeparator("\n")
 				// Definition de l'entete du fichier
 				.headerCallback(entete)
 				// Paramètres de concaténation des lignes
@@ -128,7 +128,7 @@ public class ClientMultiDestinationBatch extends AbstractBatch {
 
 		return new StaxEventItemWriterBuilder<LigneCsvImportClient>().name(NOM_STEP_2 + BEAN_SUFFIX_DESTINATION)
 				// Paramètres du fichier de sortie
-				.encoding(StandardCharsets.UTF_8).overwriteOutput(this.supprimeFichierSiExistant)
+				.encoding(StandardCharsets.UTF_8.name()).overwriteOutput(this.supprimeFichierSiExistant)
 				// Fichier de destination
 				.resource(new FileSystemResource(new File(this.cheminDestinationXml)))
 				// Paramètres du formation XML

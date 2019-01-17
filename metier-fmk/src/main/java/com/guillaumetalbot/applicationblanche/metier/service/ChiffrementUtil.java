@@ -1,6 +1,5 @@
 package com.guillaumetalbot.applicationblanche.metier.service;
 
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -13,7 +12,7 @@ public final class ChiffrementUtil {
 			final MessageDigest md = MessageDigest.getInstance("SHA-256");
 			md.update(mdp.getBytes(StandardCharsets.UTF_8));
 			return new String(md.digest(), StandardCharsets.UTF_8);
-		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+		} catch (final NoSuchAlgorithmException e) {
 			throw new BusinessException(BusinessException.ERREUR_SHA, e);
 		}
 	}
