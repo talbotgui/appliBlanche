@@ -94,8 +94,8 @@ export class CadreDetailsFactureComponent {
   /** Raffraichit les données du backend */
   private raffraichirDonneesDeLaPage() {
     if (this.reservationSelectionnee) {
-      
-      //Raffraichit les données de la réservation depuis le backend
+
+      // Raffraichit les données de la réservation depuis le backend
       this.reservationsService.chargerReservation(this.reservationSelectionnee.reference).subscribe((r) => {
         this.reservationSelectionnee = r;
       });
