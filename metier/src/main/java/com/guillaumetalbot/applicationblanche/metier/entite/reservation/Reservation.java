@@ -255,7 +255,7 @@ public class Reservation extends Entite {
 		}
 
 		// Transition possible depuis ENREGISTREE
-		if (EtatReservation.ENREGISTREE.equals(this.etatCourant)) {
+		else if (EtatReservation.ENREGISTREE.equals(this.etatCourant)) {
 			return EtatReservation.EN_COURS.equals(etatDemande);
 		}
 

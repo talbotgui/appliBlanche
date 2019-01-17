@@ -10,7 +10,7 @@ import { DataSourcePagineTrieComponent } from '../../shared/service/datasourcePa
 import { MonitoringService } from '../service/monitoring.service';
 
 /** Page listant les éléments de monitoring */
-@Component({ selector: 'page-monitoring', templateUrl: './page-monitoring.component.html', styleUrls: ['./page-monitoring.component.css'] })
+@Component({ selector: 'page-monitoring', templateUrl: './page-monitoring.component.html'})
 export class PageMonitoringComponent implements OnInit {
 
   /** Decorateur nécessaire aux libellés internationnalisés dans des tooltips */

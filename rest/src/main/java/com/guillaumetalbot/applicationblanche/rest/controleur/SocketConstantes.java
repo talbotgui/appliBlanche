@@ -1,6 +1,10 @@
 package com.guillaumetalbot.applicationblanche.rest.controleur;
 
-public interface SocketConstantes {
+public class SocketConstantes {
 
-	static final String TOPIC_CREATION_RESERVATION = "nouvelleReservation";
+	public static final String TOPIC_CREATION_RESERVATION = "nouvelleReservation";
+
+	private SocketConstantes() {
+		// Classe utilitaire non instanciable
+	}
 }

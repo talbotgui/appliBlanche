@@ -6,10 +6,7 @@ import { DataSourceSimpleComponent } from '../../../shared/service/datasourceSim
 import * as model from '../../model/model';
 
 /** Page d'administration du module des reservations */
-@Component({
-  selector: 'cadre-moyendepaiement', templateUrl: './cadre-moyendepaiement.component.html',
-  styleUrls: ['./cadre-moyendepaiement.component.css']
-})
+@Component({ selector: 'cadre-moyendepaiement', templateUrl: './cadre-moyendepaiement.component.html' })
 export class CadreMoyenDePaiementComponent implements OnInit {
 
   /** Decorateur nécessaire aux libellés internationnalisés dans des tooltips */

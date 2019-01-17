@@ -56,7 +56,7 @@ public class MonitoringRestControler {
 		final Set<Map.Entry<MonKey, Monitor>> entreesSet = MonitorFactory.getMap().entrySet();
 
 		// Suppression des clefs à exclures
-		final List<Map.Entry<MonKey, Monitor>> entrees = entreesSet.stream().filter((entree) -> {
+		final List<Map.Entry<MonKey, Monitor>> entrees = entreesSet.stream().filter(entree -> {
 			final String clef = entree.getKey().getDetails().toString();
 			return !(clef.startsWith(CLEF_A_EXCLURE_1) || clef.startsWith(CLEF_A_EXCLURE_2) || clef.startsWith(CLEF_A_EXCLURE_3));
 		}).collect(Collectors.toList());
@@ -123,7 +123,7 @@ public class MonitoringRestControler {
 			resultats.add(new ElementMonitoring(clef, nbAppels, tempsMin, tempsMoyen, tempsMax, tempsCumule));
 		}
 
-		return new PageImpl<ElementMonitoring>(resultats, page, entrees.size());
+		return new PageImpl<>(resultats, page, entrees.size());
 
 	}
 }

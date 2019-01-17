@@ -5,7 +5,7 @@ import { CadreDetailsFactureComponent } from './cadre-detailsfacture/cadre-detai
 import { CadreListeFacturesComponent } from './cadre-listefactures/cadre-listefactures.component';
 
 /** Page de gestion des factures */
-@Component({ selector: 'page-facturations', templateUrl: './page-facturations.component.html', styleUrls: ['./page-facturations.component.css'] })
+@Component({ selector: 'page-facturations', templateUrl: './page-facturations.component.html' })
 export class PageFacturationsComponent implements AfterViewInit {
 
   /** Instance du composant enfant */
