@@ -31,11 +31,20 @@
 				<configuration>
 					<filesets>
 						<fileset><directory>dist</directory></fileset>
-						<fileset><directory>node</directory></fileset>
-						<fileset><directory>node_modules</directory></fileset>
 						<fileset><directory>target</directory></fileset>
 					</filesets>
 				</configuration>
+				<executions>
+					<execution>
+						<id>clean node</id>
+						<goals><goal>clean</goal></goals>
+						<phase>initialize</phase>
+						<configuration>
+							<fileset><directory>node</directory></fileset>
+							<fileset><directory>node_modules</directory></fileset>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>com.guillaumetalbot</groupId>
@@ -162,6 +171,7 @@
 				<version>2.1</version>
 				<executions>
 					<execution>
+						<id>package Tomcat</id>
 						<phase>package</phase>
 						<goals><goal>exec-war-only</goal></goals>
 					</execution>
@@ -187,6 +197,16 @@
 			<build>
 				<plugins>
 					<plugin>
+						<artifactId>maven-clean-plugin</artifactId>
+						<version>3.0.0</version>
+						<executions>
+							<execution>
+								<id>clean node</id>
+								<phase>none</phase>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
 						<groupId>com.github.eirslett</groupId>
 						<artifactId>frontend-maven-plugin</artifactId>
 						<version>1.5</version>
@@ -211,6 +231,37 @@
 								<goals><goal>npm</goal></goals>
 								<phase>integration-test</phase>
 								<configuration><arguments>run quality-doc</arguments></configuration>
+							</execution>
+							<!-- Pour ne pas faire "install node and npm" dans ce profil -->
+							<execution>
+								<id>install node and npm</id>
+								<phase>none</phase>
+							</execution>
+							<!-- Pour ne pas faire "npm install" dans ce profil -->
+							<execution>
+								<id>npm install</id>
+								<phase>none</phase>
+							</execution>
+							<!-- Pour ne pas faire "npm run build unix" dans ce profil -->
+							<execution>
+								<id>npm run build unix</id>
+								<phase>none</phase>
+							</execution>
+							<!-- Pour ne pas faire "npm run build gcloud" dans ce profil -->
+							<execution>
+								<id>npm run build gcloud</id>
+								<phase>none</phase>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.tomcat.maven</groupId>
+						<artifactId>tomcat7-maven-plugin</artifactId>
+						<version>2.1</version>
+						<executions>
+							<execution>
+								<id>package Tomcat</id>
+								<phase>none</phase>
 							</execution>
 						</executions>
 					</plugin>
