@@ -18,7 +18,7 @@ pipeline {
 
 		stage ('Build & Tests') {
 			agent any
-			environment { JAVA_HOME = '/usr/lib/jvm/jdk-10.0.1/' }
+			environment { JAVA_HOME = '/usr/lib/jvm/jdk-11.0.2/' }
 			steps {
 				script { currentBuild.displayName = currentBuild.number + "-build" }
 				sh "mvn clean install"
@@ -28,7 +28,7 @@ pipeline {
 
 		stage ('Quality') {
 			agent any
-			environment { JAVA_HOME = '/usr/lib/jvm/jdk-10.0.1/' }
+			environment { JAVA_HOME = '/usr/lib/jvm/jdk-11.0.2/' }
 			steps {
 				script { currentBuild.displayName = currentBuild.number + "-qualimétrie Maven" }
 				sh "mvn angular:analyse -pl web-angular"
@@ -47,7 +47,7 @@ pipeline {
 
 		stage ('Deploy Unix') {
 			agent any
-			environment { JAVA_HOME = '/usr/lib/jvm/jdk-10.0.1/' }
+			environment { JAVA_HOME = '/usr/lib/jvm/jdk-11.0.2/' }
 			when { branch 'master' }
 			steps {
 				script {
