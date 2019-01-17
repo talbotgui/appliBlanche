@@ -33,7 +33,7 @@ public class FactureServiceImpl implements FactureService {
 
 		// Charger la réservation
 		final Reservation reservation = this.reservationRepo.chargerReservationFetchChambreFormuleOptionsConsommationPaiementsManaged(idReservation)//
-				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "reservation", referenceReservation));
+				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, Reservation.class, referenceReservation));
 
 		// Prochain numéro de facture
 		final Long numeroDeFactureSuivant = this.genererNumeroDeFacture();

@@ -64,7 +64,7 @@ public class ReservationServiceImpl implements ReservationService {
 
 		// Chargement de la réservation
 		final Reservation reservation = this.reservationRepo.findById(idReservation)//
-				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "reservation", referenceReservation));
+				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, Reservation.class, referenceReservation));
 
 		// Validation et changement d'état
 		reservation.changerEtatCourant(etatDemande);
@@ -78,7 +78,7 @@ public class ReservationServiceImpl implements ReservationService {
 		final Long idReservation = Entite.extraireIdentifiant(referenceReservation, Reservation.class);
 
 		return this.reservationRepo.chargerReservationFetchChambreFormuleOptionsConsommationPaiements(idReservation)
-				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "reservation", referenceReservation));
+				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, Reservation.class, referenceReservation));
 	}
 
 	@Override
@@ -91,7 +91,7 @@ public class ReservationServiceImpl implements ReservationService {
 		final Long idConsommation = Entite.extraireIdentifiant(referenceConsommation, Consommation.class);
 		final Optional<Consommation> consommationOpt = this.consommationRepo.findById(idConsommation);
 		final Consommation consommation = consommationOpt//
-				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Consommation", referenceConsommation));
+				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, Consommation.class, referenceConsommation));
 
 		// Si c'est une suppression
 		if (consommation.getQuantite() < 2) {
@@ -138,7 +138,8 @@ public class ReservationServiceImpl implements ReservationService {
 		// Vérifier le produit
 		final Long idProduit = Entite.extraireIdentifiant(consommation.getProduit().getReference(), Produit.class);
 		final Produit produit = this.produitRepo.findById(idProduit)//
-				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Produit", consommation.getProduit().getReference()));
+				.orElseThrow(
+						() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, Produit.class, consommation.getProduit().getReference()));
 
 		// Validation que la réservation existe et est en cours (date et statut)
 		final Long idReservation = Entite.extraireIdentifiant(consommation.getReservation().getReference(), Reservation.class);
@@ -174,7 +175,7 @@ public class ReservationServiceImpl implements ReservationService {
 		// Vérifier le moyen
 		final Long idMdp = Entite.extraireIdentifiant(paiement.getMoyenDePaiement().getReference(), MoyenDePaiement.class);
 		this.moyenDePaiementRepo.findById(idMdp)//
-				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "MoyenDePaiement",
+				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, MoyenDePaiement.class,
 						paiement.getMoyenDePaiement().getReference()));
 
 		// Validation que la réservation existe (on peut payer quand on veut)
@@ -207,16 +208,16 @@ public class ReservationServiceImpl implements ReservationService {
 			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, "chambre", reservation.getChambre().getReference());
 		}
 		final Long idChambre = Entite.extraireIdentifiant(reservation.getChambre().getReference(), Chambre.class);
-		final Chambre chambre = this.chambreRepo.findById(idChambre)
-				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "chambre", reservation.getChambre().getReference()));
+		final Chambre chambre = this.chambreRepo.findById(idChambre).orElseThrow(
+				() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, Chambre.class, reservation.getChambre().getReference()));
 
 		// Validation de la formule
 		if (reservation.getFormule() == null) {
-			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, "formule", reservation.getFormule().getReference());
+			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, Formule.class, reservation.getFormule().getReference());
 		}
 		final Long idFormule = Entite.extraireIdentifiant(reservation.getFormule().getReference(), Formule.class);
 		if (!this.formuleRepo.findById(idFormule).isPresent()) {
-			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, "formule", reservation.getFormule().getReference());
+			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, Formule.class, reservation.getFormule().getReference());
 		}
 
 		// Validation des options
@@ -246,7 +247,7 @@ public class ReservationServiceImpl implements ReservationService {
 
 		// Valide les ids entre eux
 		if (!this.consommationRepo.getIdReservationByIdConsommation(idConsommation).equals(idReservation)) {
-			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Reservation", referenceReservation);
+			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, Reservation.class, referenceReservation);
 		}
 
 		this.consommationRepo.deleteById(idConsommation);
@@ -259,7 +260,7 @@ public class ReservationServiceImpl implements ReservationService {
 
 		// Valide les ids entre eux
 		if (!this.paiementRepo.getIdReservationByIdPaiement(idPaiement).equals(idReservation)) {
-			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Reservation", referenceReservation);
+			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, Reservation.class, referenceReservation);
 		}
 
 		this.paiementRepo.deleteById(idPaiement);
@@ -287,14 +288,13 @@ public class ReservationServiceImpl implements ReservationService {
 		final Long idReservation = Entite.extraireIdentifiant(referenceReservation, Reservation.class);
 		final Optional<Reservation> resaOpt = this.reservationRepo.findById(idReservation);
 		return resaOpt//
-				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, "Reservation", referenceReservation));
+				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, Reservation.class, referenceReservation));
 	}
 
 	/**
 	 * Validation que la réservation est bien en cours par son existance, ses dates et son statut
 	 *
-	 * @param referenceReservation
-	 *            Reference de la réservation
+	 * @param referenceReservation Reference de la réservation
 	 */
 	private void validerReservationExistanteEtEnCoursParDateEtStatut(final String referenceReservation) {
 

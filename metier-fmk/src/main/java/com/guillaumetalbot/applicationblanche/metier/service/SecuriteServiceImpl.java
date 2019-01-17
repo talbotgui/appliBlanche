@@ -98,7 +98,7 @@ public class SecuriteServiceImpl implements SecuriteService {
 		if (lien != null) {
 			this.lienRoleRessourceRepo.delete(lien);
 		} else {
-			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, LienRoleRessource.class.getSimpleName(), nomRole + "-" + clefRessource);
+			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, LienRoleRessource.class, nomRole + "-" + clefRessource);
 		}
 	}
 
@@ -108,14 +108,14 @@ public class SecuriteServiceImpl implements SecuriteService {
 		if (lien != null) {
 			this.lienUtilisateurRoleRepo.delete(lien);
 		} else {
-			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, LienUtilisateurRole.class.getSimpleName(), login + "-" + nomRole);
+			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, LienUtilisateurRole.class, login + "-" + nomRole);
 		}
 	}
 
 	@Override
 	public void deverrouillerUtilisateur(final String login) {
 		final Utilisateur u = this.utilisateurRepo.findById(login)
-				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, Utilisateur.class.getSimpleName(), login));
+				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, Utilisateur.class, login));
 		u.declarerConnexionReussie();
 		this.utilisateurRepo.save(u);
 	}
@@ -219,7 +219,7 @@ public class SecuriteServiceImpl implements SecuriteService {
 	@Override
 	public void reinitialiserMotDePasse(final String login) {
 		final Utilisateur u = this.utilisateurRepo.findById(login)
-				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, Utilisateur.class.getSimpleName(), login));
+				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, Utilisateur.class, login));
 		u.setMdp(ChiffrementUtil.encrypt(login));
 		this.utilisateurRepo.save(u);
 	}

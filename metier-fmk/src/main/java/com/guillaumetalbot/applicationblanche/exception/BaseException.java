@@ -40,8 +40,7 @@ public abstract class BaseException extends RuntimeException {
 	/**
 	 * Constructor.
 	 *
-	 * @param exceptionId
-	 *            Exception identifier.
+	 * @param exceptionId Exception identifier.
 	 */
 	public BaseException(final ExceptionId exceptionId) {
 		super();
@@ -54,10 +53,8 @@ public abstract class BaseException extends RuntimeException {
 	/**
 	 * Constructor.
 	 *
-	 * @param pExceptionId
-	 *            Exception identifier.
-	 * @param pParameters
-	 *            Message parameters.
+	 * @param pExceptionId Exception identifier.
+	 * @param pParameters  Message parameters.
 	 */
 	public BaseException(final ExceptionId pExceptionId, final Serializable... pParameters) {
 		this.exceptionId = pExceptionId;
@@ -69,10 +66,8 @@ public abstract class BaseException extends RuntimeException {
 	/**
 	 * Constructor.
 	 *
-	 * @param exceptionId
-	 *            Exception identifier.
-	 * @param nestedException
-	 *            Embedded exception.
+	 * @param exceptionId     Exception identifier.
+	 * @param nestedException Embedded exception.
 	 */
 	public BaseException(final ExceptionId exceptionId, final Throwable nestedException) {
 		super(nestedException);
@@ -85,12 +80,9 @@ public abstract class BaseException extends RuntimeException {
 	/**
 	 * Constructor.
 	 *
-	 * @param pExceptionId
-	 *            Exception identifier.
-	 * @param pNested
-	 *            Embedded exception.
-	 * @param pParameters
-	 *            Message parameters.
+	 * @param pExceptionId Exception identifier.
+	 * @param pNested      Embedded exception.
+	 * @param pParameters  Message parameters.
 	 */
 	public BaseException(final ExceptionId pExceptionId, final Throwable pNested, final Serializable... pParameters) {
 		super(pNested);
@@ -164,8 +156,7 @@ public abstract class BaseException extends RuntimeException {
 	/**
 	 * Transforme le parameter[i] en string
 	 *
-	 * @param i
-	 *            L'index du paramètre
+	 * @param i L'index du paramètre
 	 * @return la String
 	 */
 	private String transformParameterToString(final int i) {
@@ -177,6 +168,8 @@ public abstract class BaseException extends RuntimeException {
 					valeurs.add(p.toString());
 				}
 				valeur = valeurs.toString();
+			} else if (Class.class.isInstance(this.parameters[i])) {
+				valeur = ((Class<?>) this.parameters[i]).getSimpleName();
 			} else {
 				valeur = this.parameters[i].toString();
 			}
