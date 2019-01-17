@@ -18,7 +18,7 @@
 		<version.jxr>2.5</version.jxr>
 		<version.javadoc>3.0.1</version.javadoc>
 		<version.surefireReport>2.22.0</version.surefireReport>
-		<version.pmd>3.10.0</version.pmd>
+		<version.pmd>3.11.0</version.pmd>
 		<version.findbugs>3.0.5</version.findbugs>
 		<version.jdepend>2.0</version.jdepend>
 		<version.site>3.3</version.site>
