@@ -162,6 +162,7 @@ public class ReservationServiceImpl implements ReservationService {
 
 		// Si elle n'existe pas
 		else {
+			consommation.setDateCreation(LocalDate.now());
 			return this.consommationRepo.save(consommation).getReference();
 		}
 	}
