@@ -43,14 +43,56 @@ public class InitialisationDonneesService implements ApplicationListener<Applica
 	public static final String ADMIN_PAR_DEFAUT_ROLE = "administrateur";
 
 	/**
+	 * Extraction du chemin s'il y en a un.
+	 * 
+	 * @param methode
+	 * @return
+	 */
+	private static String extraireCheminDeLannotation(final Method methode) {
+		String chemin = null;
+		final RequestMapping annotation = methode.getAnnotation(RequestMapping.class);
+		final GetMapping annotationGet = methode.getAnnotation(GetMapping.class);
+		final PostMapping annotationPost = methode.getAnnotation(PostMapping.class);
+		final DeleteMapping annotationDelete = methode.getAnnotation(DeleteMapping.class);
+		final PutMapping annotationPut = methode.getAnnotation(PutMapping.class);
+		if (annotation != null) {
+			chemin = annotation.method()[0].name() + " " + String.join("", annotation.value());
+		} else if (annotationGet != null) {
+			chemin = "Get " + String.join("", annotationGet.value());
+		} else if (annotationPost != null) {
+			chemin = "Post " + String.join("", annotationPost.value());
+		} else if (annotationDelete != null) {
+			chemin = "Delete " + String.join("", annotationDelete.value());
+		} else if (annotationPut != null) {
+			chemin = "Put " + String.join("", annotationPut.value());
+		}
+		return chemin;
+	}
+
+	/**
+	 * Extraction de la description s'il y en a une.
+	 *
+	 * @param methode
+	 * @return
+	 */
+	private static String extraireDescriptionDeLanotation(final Method methode) {
+		String description = "";
+		final ApiOperation annotationDocumentaire = methode.getAnnotation(ApiOperation.class);
+		if (annotationDocumentaire != null && StringUtils.isNotEmpty(annotationDocumentaire.value())) {
+			description = annotationDocumentaire.value();
+			if (StringUtils.isNoneEmpty(annotationDocumentaire.notes())) {
+				description += " (" + annotationDocumentaire.notes() + ")";
+			}
+		}
+		return description;
+	}
+
+	/**
 	 * Recherche de tous les controleurs REST et les méthodes qu'ils exposent.
 	 *
-	 * @param applicationContext
-	 *            Contexte Spring
-	 * @param controleursRestSuffix
-	 *            Suffixe des controleurs REST
-	 * @param packageDesControleursRest
-	 *            Liste des packages contenant des controleurs
+	 * @param applicationContext        Contexte Spring
+	 * @param controleursRestSuffix     Suffixe des controleurs REST
+	 * @param packageDesControleursRest Liste des packages contenant des controleurs
 	 *
 	 * @return
 	 */
@@ -69,54 +111,46 @@ public class InitialisationDonneesService implements ApplicationListener<Applica
 			final Object bean = entry.getValue();
 			final Class<?> classeReelle = AopUtils.getTargetClass(bean);
 
-			// ... s'il est présent dans les packages qui nous intéresse ...
-			if (!listepackageDesControleursRest.contains(classeReelle.getPackage().getName())) {
-				continue;
-			}
+			traiterLesMethodesDeLaClasse(controleursRestSuffix, listepackageDesControleursRest, clefsRessources, entry, classeReelle);
+		}
+		return clefsRessources;
+	}
 
-			// ... parcours des méthodes
-			for (final Method methode : classeReelle.getDeclaredMethods()) {
+	/**
+	 * Traitement d'un des bean du contexte à la recherche de méthodes de controleur REST
+	 *
+	 * @param controleursRestSuffix
+	 * @param listepackageDesControleursRest
+	 * @param clefsRessources
+	 * @param entry
+	 * @param classeReelle
+	 */
+	private static void traiterLesMethodesDeLaClasse(final String controleursRestSuffix, final List<String> listepackageDesControleursRest,
+			final Collection<Ressource> clefsRessources, final Map.Entry<String, Object> entry, final Class<?> classeReelle) {
+
+		// ... s'il est présent dans les packages qui nous intéresse ...
+		if (!listepackageDesControleursRest.contains(classeReelle.getPackage().getName())) {
+			return;
+		}
+
+		// ... parcours des méthodes
+		for (final Method methode : classeReelle.getDeclaredMethods()) {
+
+			// Recherche de l'URI en fonction du type d'annotation utilisée
+			final String chemin = extraireCheminDeLannotation(methode);
+
+			if (chemin != null) {
+				// Recherche de la documentation
+				final String description = extraireDescriptionDeLanotation(methode);
 
 				// Création d'une clef
 				final String clef = IntercepteurDesRessourcesAutorisees.calculerClefDeSecuriteDepuisMethode(entry.getKey(), methode,
 						controleursRestSuffix);
 
-				// Recherche de l'URI en fonction du type d'annotation utilisée
-				String chemin = null;
-				final RequestMapping annotation = methode.getAnnotation(RequestMapping.class);
-				final GetMapping annotationGet = methode.getAnnotation(GetMapping.class);
-				final PostMapping annotationPost = methode.getAnnotation(PostMapping.class);
-				final DeleteMapping annotationDelete = methode.getAnnotation(DeleteMapping.class);
-				final PutMapping annotationPut = methode.getAnnotation(PutMapping.class);
-				if (annotation != null) {
-					chemin = annotation.method()[0].name() + " " + String.join("", annotation.value());
-				} else if (annotationGet != null) {
-					chemin = "Get " + String.join("", annotationGet.value());
-				} else if (annotationPost != null) {
-					chemin = "Post " + String.join("", annotationPost.value());
-				} else if (annotationDelete != null) {
-					chemin = "Delete " + String.join("", annotationDelete.value());
-				} else if (annotationPut != null) {
-					chemin = "Put " + String.join("", annotationPut.value());
-				}
-
-				// Recherche de la documentation
-				String description = "";
-				final ApiOperation annotationDocumentaire = methode.getAnnotation(ApiOperation.class);
-				if (annotationDocumentaire != null && StringUtils.isNotEmpty(annotationDocumentaire.value())) {
-					description = annotationDocumentaire.value();
-					if (StringUtils.isNoneEmpty(annotationDocumentaire.notes())) {
-						description += " (" + annotationDocumentaire.notes() + ")";
-					}
-				}
-
 				// Ajout de la clef à la liste
-				if (chemin != null) {
-					clefsRessources.add(new Ressource(clef, chemin, description));
-				}
+				clefsRessources.add(new Ressource(clef, chemin, description));
 			}
 		}
-		return clefsRessources;
 	}
 
 	@Value("${security.restcontroleur.suffixe}")
