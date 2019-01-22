@@ -30,7 +30,6 @@
 				<version>3.0.0</version>
 				<configuration>
 					<filesets>
-						<fileset><directory>dist</directory></fileset>
 						<fileset><directory>target</directory></fileset>
 					</filesets>
 				</configuration>
@@ -40,6 +39,7 @@
 						<goals><goal>clean</goal></goals>
 						<phase>initialize</phase>
 						<configuration>
+						<fileset><directory>dist</directory></fileset>
 							<fileset><directory>node</directory></fileset>
 							<fileset><directory>node_modules</directory></fileset>
 						</configuration>
