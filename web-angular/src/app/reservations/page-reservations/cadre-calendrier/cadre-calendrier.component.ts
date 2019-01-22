@@ -89,7 +89,9 @@ export class CadreCalendrierComponent implements OnInit {
   /** Chargement de la liste des chambres, puis des réservations et calcul du tableau de données */
   chargerDonnees() {
 
+    // reset des données
     this.reservations = {};
+    this.couleursReservation = {};
 
     // Chargement des chambres
     this.reservationsService.listerChambres().subscribe(
