@@ -6,6 +6,9 @@ import com.guillaumetalbot.applicationblanche.exception.ExceptionId.ExceptionLev
 
 public class BusinessException extends BaseException {
 
+	public static final ExceptionId ERREUR_AUCUN_MONTANT = new ExceptionId("ERREUR_AUCUN_MONTANT",
+			"Aucun montant dans le paiement ni dans le moyen de paiement", ExceptionLevel.INFORMATION, 400);
+
 	public static final ExceptionId ERREUR_CREATION_DOCUMENT = new ExceptionId("ERREUR_CREATION_DOCUMENT", "Erreur durant la création du document",
 			ExceptionLevel.ERROR, 500);
 

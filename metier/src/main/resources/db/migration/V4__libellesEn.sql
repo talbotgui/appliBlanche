@@ -79,6 +79,7 @@ insert into LIBELLE (clef, libelle, langue) values ('ERREUR_SUPPRESSION_IMPOSSIB
 insert into LIBELLE (clef, libelle, langue) values ('ERREUR_TRANSITION_ETAT_IMPOSSIBLE', 'Can not change state from ''{{0}}'' to ''{{1}}''.', 'en');
 insert into LIBELLE (clef, libelle, langue) values ('ERREUR_RESERVATION_PAS_EN_COURS', 'Booking ''{{0}}'' not in progress', 'en');
 insert into LIBELLE (clef, libelle, langue) values ('ERREUR_CREATION_DOCUMENT', 'Error during document creation', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('ERREUR_AUCUN_MONTANT', 'No amount neither in payment nor in means of payment', 'en');
 -- Page de réservation
 insert into LIBELLE (clef, libelle, langue) values ('reservation_titre', 'Booking ', 'en');
 insert into LIBELLE (clef, libelle, langue) values ('reservation_placeholder_dateDebut', 'Start date', 'en');

@@ -603,7 +603,7 @@ public class ReservationServiceTest {
 		final String refChambre = this.reservationParametresService.sauvegarderChambre(new Chambre("C1"));
 		final String refReservation = this.sauvegarderUneReservation("client1", refChambre, -1, 3);
 		final Reservation reservation = this.reservationService.chargerReservation(refReservation);
-		final Paiement paiement = new Paiement(LocalDate.now(), 102.2, mdp, reservation);
+		final Paiement paiement = new Paiement(LocalDate.now(), null, mdp, reservation);
 		this.reservationService.sauvegarderPaiement(paiement);
 
 		//
@@ -694,6 +694,29 @@ public class ReservationServiceTest {
 		//
 		Assert.assertNotNull(thrown);
 		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_NON_EXISTANT));
+		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from PAIEMENT", Long.class));
+	}
+
+	@Test
+	public void test03Paiement07CreationKoMontant() {
+		//
+		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
+		this.reservationParametresService.sauvegarderMoyenDePaiement(new MoyenDePaiement("nomMdp", null));
+		final MoyenDePaiement mdp = this.reservationParametresService.listerMoyensDePaiement().iterator().next();
+		final String refChambre = this.reservationParametresService.sauvegarderChambre(new Chambre("C1"));
+		final String refReservation = this.sauvegarderUneReservation("client1", refChambre, -1, 3);
+		final Reservation reservation = this.reservationService.chargerReservation(refReservation);
+
+		//
+		final Paiement paiement = new Paiement(LocalDate.now(), null, mdp, reservation);
+
+		final Throwable thrown = Assertions.catchThrowable(() -> {
+			this.reservationService.sauvegarderPaiement(paiement);
+		});
+
+		//
+		Assert.assertNotNull(thrown);
+		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.ERREUR_AUCUN_MONTANT));
 		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from PAIEMENT", Long.class));
 	}
 

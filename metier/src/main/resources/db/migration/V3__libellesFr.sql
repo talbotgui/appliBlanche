@@ -78,7 +78,8 @@ insert into LIBELLE (clef, libelle, langue) values ('ERREUR_SHA', 'Erreur de cry
 insert into LIBELLE (clef, libelle, langue) values ('ERREUR_SUPPRESSION_IMPOSSIBLE_OBJETS_LIES', 'Suppression impossible car un ou plusieurs objets de type ''{{0}}'' sont liés.', 'fr');
 insert into LIBELLE (clef, libelle, langue) values ('ERREUR_TRANSITION_ETAT_IMPOSSIBLE', 'Impossible de passer de l''état ''{{0}}'' à l''état ''{{1}}''.', 'fr');
 insert into LIBELLE (clef, libelle, langue) values ('ERREUR_RESERVATION_PAS_EN_COURS', 'La réservation ''{{0}}'' n''est pas en cours', 'fr');
-insert into LIBELLE (clef, libelle, langue) values ('ERREUR_CREATION_DOCUMENT', 'Erreur durant la création du document', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('ERREUR_CREATION_DOCUMENT', 'Erreur durant la création du document', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('ERREUR_AUCUN_MONTANT', 'Aucun montant dans le paiement ni dans le moyen de paiement', 'fr');
 -- Page de réservation
 insert into LIBELLE (clef, libelle, langue) values ('reservation_titre', 'Réservation ', 'fr');
 insert into LIBELLE (clef, libelle, langue) values ('reservation_placeholder_dateDebut', 'Date de début', 'fr');

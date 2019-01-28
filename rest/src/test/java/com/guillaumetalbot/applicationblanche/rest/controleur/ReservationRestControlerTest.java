@@ -477,31 +477,4 @@ public class ReservationRestControlerTest extends BaseTestClass {
 		Assert.assertEquals(e.getRawStatusCode(), HttpStatus.BAD_REQUEST.value());
 		Mockito.verifyNoMoreInteractions(this.reservationService);
 	}
-
-	@Test
-	public void test03Paiement04SauvegarderKoMontant() {
-
-		// ARRANGE
-		final String refReservation = Entite.genererReference(Reservation.class, 1L);
-		final String refRetournee = Entite.genererReference(Paiement.class, 1L);
-		final Reservation reservation = new Reservation("client", null, LocalDate.now(), LocalDate.now());
-		reservation.setReference(refReservation);
-		final MoyenDePaiement mdp = new MoyenDePaiement("CB", null);
-		mdp.setReference(Entite.genererReference(MoyenDePaiement.class, 1L));
-		final Paiement paim = new Paiement(LocalDate.now(), null, mdp, reservation);
-		Mockito.doReturn(refRetournee).when(this.reservationService).sauvegarderPaiement(Mockito.any(Paiement.class));
-
-		// ACT
-		final Throwable thrown = Assertions.catchThrowable(() -> {
-			this.getREST().postForObject(this.getURL() + "/v1/reservations/" + refReservation + "/paiements", paim, String.class);
-		});
-
-		// ASSERT
-		Assert.assertNotNull(thrown);
-		Assert.assertEquals(thrown.getClass(), HttpClientErrorException.BadRequest.class);
-		final HttpClientErrorException e = (HttpClientErrorException) thrown;
-		Assert.assertEquals(e.getRawStatusCode(), HttpStatus.BAD_REQUEST.value());
-		Mockito.verifyNoMoreInteractions(this.reservationService);
-	}
-
 }

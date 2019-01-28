@@ -181,7 +181,7 @@ public class ReservationServiceImpl implements ReservationService {
 
 		// Vérifier le montant
 		if (paiement.getMontant() == null && mdp.getMontantAssocie() == null) {
-			throw new BusinessException(BusinessException.REFERENCE_NON_VALIDE, refMdp);
+			throw new BusinessException(BusinessException.ERREUR_AUCUN_MONTANT);
 		}
 
 		// Validation que la réservation existe (on peut payer quand on veut)
