@@ -7,6 +7,8 @@ import html2canvas from 'html2canvas';
 
 import * as model from '../../model/model';
 import { ReservationService } from '../../service/reservation.service';
+import { MatDialog } from '@angular/material';
+import { DialogPaiementComponent } from './dialog-paiement/dialog-paiement.component';
 
 /** Page de gestion des reservations */
 @Component({ selector: 'cadre-detailsfacture', templateUrl: './cadre-detailsfacture.component.html', styleUrls: ['./cadre-detailsfacture.component.css'] })
@@ -25,7 +27,7 @@ export class CadreDetailsFactureComponent {
   busDeMessage = new EventEmitter<string>();
 
   /** Un constructeur pour se faire injecter les dépendances */
-  constructor(private reservationsService: ReservationService) { }
+  constructor(private reservationsService: ReservationService, private dialogPaiement: MatDialog) { }
 
   /** A la sélection d'une réservation dans un autre composant  (pour ignorer la ligne suivante : @@angular:analyse:ignorerLigneSuivante@@) */
   selectionnerUneReservation(r: model.Reservation) {
@@ -89,6 +91,17 @@ export class CadreDetailsFactureComponent {
         }
       });
     }
+  }
+
+  afficherPopupPaiement() {
+
+    // Ouverture de la popup
+    const dialogRef = this.dialogPaiement.open(DialogPaiementComponent, { data: this.reservationSelectionnee });
+
+    // A sa fermeturenp
+    dialogRef.afterClosed().subscribe((dataRetour: any) => {
+      console.log(dataRetour);
+    });
   }
 
   /** Raffraichit les données du backend */

@@ -65,6 +65,9 @@ export class Reservation {
   /** Options associées */
   public options: Option[];
 
+  /** Paiements associées */
+  public paiements: Paiement[];
+
   /** Statut */
   public etatCourant: string;
 
@@ -150,4 +153,14 @@ export class Facture {
 
   /** Contenu du PDF de la facture en base64 */
   public pdf: Blob;
+}
+
+/** Un paiement */
+export class Paiement {
+  /** Date de création du paiement */
+  public dateCreation: Date;
+  /** Montant */
+  public montant: number;
+  /** Moyen de paiement */
+  public moyenDePaiement: MoyenDePaiement;
 }

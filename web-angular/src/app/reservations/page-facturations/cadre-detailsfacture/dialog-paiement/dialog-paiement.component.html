@@ -1,0 +1,49 @@
+<div mat-dialog-title class="mat-dialog-title">
+  <h3>Paiements</h3>
+  <div>
+    <em class="fa fa-times-circle" (click)="annuler()"></em>
+  </div>
+</div>
+<div mat-dialog-content class="mat-dialog-content">
+  <div *ngIf="!nouveauPaiement">
+
+    <!-- Liste des paiements-->
+    <div *ngIf="paiements.length > 0">
+      <h5>Enregistrés</h5>
+      <ul>
+        <li *ngFor="let p of paiements">
+          <span *ngIf="!!p.montant">{{p.montant}}</span>
+          <span *ngIf="!!p.moyenDePaiement.montantAssocie">{{p.moyenDePaiement.montantAssocie}}</span>
+          <span> ({{p.moyenDePaiement.nom}})</span>
+        </li>
+      </ul>
+    </div>
+    <div *ngIf="paiements.length == 0">Aucun paiement enregistré</div>
+
+    <!-- Affichage du formulaire -->
+    <button type="submit" (click)="initialiserFormulaire()" class="btn btn-outline-secondary">Ajouter un paiement</button>
+  </div>
+
+  <!-- Formulaire d'ajout -->
+  <div *ngIf="nouveauPaiement">
+    <h5>Nouveau paiement</h5>
+    <form novalidate #leForm="ngForm">
+      <div class="row">
+        <mat-form-field>
+          <mat-select #mdp="ngModel" [(ngModel)]="nouveauPaiement.moyenDePaiement" name="mdp" placeholder="moyen de paiement">
+            <mat-option *ngFor="let m of moyensDePaiement" [value]="m">{{m.nom}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="row" *ngIf="!mdp.value || !mdp.value.montantAssocie">
+        <mat-form-field>
+          <input matInput name="montant" type="number" [(ngModel)]="nouveauPaiement.montant" placeholder="montant"
+            required>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <button type="submit" (click)="enregistrer()" class="btn btn-outline-secondary" [disabled]="!formulaireValide">Enregistrer</button>
+      </div>
+    </form>
+  </div>
+</div>

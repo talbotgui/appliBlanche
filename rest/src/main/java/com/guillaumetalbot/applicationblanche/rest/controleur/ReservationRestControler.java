@@ -131,9 +131,6 @@ public class ReservationRestControler {
 			@RequestBody final Paiement paiement) {
 
 		// Controles de surface
-		if (paiement.getMontant() == null) {
-			throw new RestException(RestException.ERREUR_PARAMETRE_MANQUANT, "dateCreation");
-		}
 		if (paiement.getMoyenDePaiement() == null || StringUtils.isEmpty(paiement.getMoyenDePaiement().getReference())) {
 			throw new RestException(RestException.ERREUR_PARAMETRE_MANQUANT, "moyenDePaiement");
 		}

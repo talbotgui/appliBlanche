@@ -34,6 +34,10 @@
       <button (click)="telechargerLaFacture()" type="submit" *ngIf="factureDeLaReservationSelectionee" class="btn btn-outline-secondary">
         Afficher la facture
       </button>
+      <button (click)="afficherPopupPaiement()" type="submit" *ngIf="reservationSelectionnee.etatCourant !== 'FACTUREE'"
+        class="btn btn-outline-secondary">
+        Ajouter un paiement
+      </button>
     </mat-card-footer>
   </mat-card>
 </div>

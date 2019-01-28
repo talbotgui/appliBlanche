@@ -178,6 +178,12 @@ export class ReservationService {
     return this.http.post<void>(url, mdp, this.restUtils.creerHeaderPost());
   }
 
+  /** Sauvegarde d'un Paiement via l'API */
+  sauvegarderPaiement(referenceReservation: string, paiement: model.Paiement): Observable<{} | void> {
+    const url = environment.baseUrl + '/v1/reservations/' + referenceReservation + '/paiements/';
+    return this.http.post<void>(url, paiement, this.restUtils.creerHeaderPost());
+  }
+
   /** Charge une référence */
   chargerReservation(referenceReservation: string): Observable<model.Reservation> {
     const url = environment.baseUrl + '/v1/reservations/' + referenceReservation;

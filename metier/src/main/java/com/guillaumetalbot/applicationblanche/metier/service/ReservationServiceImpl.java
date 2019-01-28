@@ -174,9 +174,14 @@ public class ReservationServiceImpl implements ReservationService {
 		paiement.setDateCreation(LocalDate.now());
 
 		// Vérifier le moyen
-		final Long idMdp = Entite.extraireIdentifiant(paiement.getMoyenDePaiement().getReference(), MoyenDePaiement.class);
-		if (!this.moyenDePaiementRepo.existsById(idMdp)) {
-			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, MoyenDePaiement.class, paiement.getMoyenDePaiement().getReference());
+		final String refMdp = paiement.getMoyenDePaiement().getReference();
+		final Long idMdp = Entite.extraireIdentifiant(refMdp, MoyenDePaiement.class);
+		final MoyenDePaiement mdp = this.moyenDePaiementRepo.findById(idMdp)//
+				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, MoyenDePaiement.class, refMdp));
+
+		// Vérifier le montant
+		if (paiement.getMontant() == null && mdp.getMontantAssocie() == null) {
+			throw new BusinessException(BusinessException.REFERENCE_NON_VALIDE, refMdp);
 		}
 
 		// Validation que la réservation existe (on peut payer quand on veut)

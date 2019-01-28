@@ -26,6 +26,7 @@ import { CadreMoyenDePaiementComponent } from './page-adminconsommations/cadre-m
 
 // Les composants injectables
 import { ReservationService } from './service/reservation.service';
+import { DialogPaiementComponent } from './page-facturations/cadre-detailsfacture/dialog-paiement/dialog-paiement.component';
 
 @NgModule({
   imports: [
@@ -39,7 +40,12 @@ import { ReservationService } from './service/reservation.service';
     PageConsommationsComponent,
     PageAdminReservationsComponent, CadreChambresComponent, CadreFormulesComponent, CadreOptionsComponent,
     PageAdminConsommationsComponent, CadreProduitsComponent, CadreMoyenDePaiementComponent,
-    PageFacturationsComponent, CadreListeFacturesComponent, CadreDetailsFactureComponent
+    PageFacturationsComponent, CadreListeFacturesComponent, CadreDetailsFactureComponent, DialogPaiementComponent, DialogPaiementComponent
+  ],
+
+  // Toutes les Dialog
+  entryComponents: [
+    DialogPaiementComponent
   ],
 
   // Les services
