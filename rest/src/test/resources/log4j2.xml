@@ -15,29 +15,33 @@
 	</Appenders>
 
 	<Loggers>
+	
+		<!-- Par défaut, tous les frameworks logguent à fond (cf. root). Ici, on les verrouille un à un -->
 		<Logger additivity="false" name="com.zaxxer.hikari" level="warn"><AppenderRef ref="Console" /></Logger>
 		<Logger additivity="false" name="hsqldb.db" level="warn"><AppenderRef ref="Console" /></Logger>
-		
 		<Logger additivity="false" name="org.flywaydb" level="warn"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
-		<Logger additivity="false" name="org.flywaydb.core.internal.command.DbMigrate" level="info"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
-
 		<Logger additivity="false" name="com.gargoylesoftware" level="error"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
 		<Logger additivity="false" name="com.gargoylesoftware.htmlunit.javascript.StrictErrorReporter" level="fatal"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
-
 		<Logger additivity="false" name="org.apache" level="error"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
-
 		<Logger additivity="false" name="org.springframework" level="warn"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
-		<Logger additivity="false" name="org.springframework.boot.autoconfigure.security" level="info"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
 		<Logger additivity="false" name="org.thymeleaf" level="warn"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
+		<Logger additivity="false" name="org.springframework.boot.autoconfigure.groovy.template" level="error"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
+		<Logger additivity="false" name="net.sf.jasperreports" level="warn"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
+		<Logger additivity="false" name="org.hibernate" level="warn"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
+		<Logger additivity="false" name="org.hibernate.engine.jdbc.spi.SqlExceptionHelper" level="error"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
+		<Logger additivity="false" name="springfox" level="warn"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
 		
-		<!-- Pour voir les URL mappées -->
+		<Logger additivity="false" name="org.springframework.boot.autoconfigure.security" level="info"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
+
+		<!-- Pour voir l'application démarrer et le webSocket (INFO) -->
+		<!-- Pour voir les URL mappées (DEBUG) -->
 		<Logger additivity="false" name="org.springframework.web" level="info"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
 
-		<Logger additivity="false" name="org.hibernate" level="warn"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
-		<Logger additivity="false" name="org.hibernate.SQL" level="trace"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
-		<Logger additivity="false" name="org.hibernate.engine.jdbc.spi.SqlExceptionHelper" level="error"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
+		<!-- Pour voir l'exécution des scripts au démarrage de l'application -->
+		<Logger additivity="false" name="org.flywaydb.core.internal.command.DbMigrate" level="info"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
 
-		<Logger additivity="false" name="springfox" level="warn"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
+		<!-- Pour les requêtes SQL générées par Hibernate -->
+		<Logger additivity="false" name="org.hibernate.SQL" level="trace"><AppenderRef ref="Console" /><AppenderRef ref="RollingFile" /></Logger>
 
 		<Root level="debug">
 			<AppenderRef ref="Console" /><AppenderRef ref="RollingFile" />

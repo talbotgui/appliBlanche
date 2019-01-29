@@ -7,7 +7,9 @@
   <mat-card-content>
     <ul>
       <li *ngFor="let c of options">
-        <span>{{c.nom}} ({{c.prix}} €{{(c.parNuit?' par nuit':'')}}{{(c.parPersonne?' par personne':'')}})</span>
+        <span>{{c.nom}} ({{c.prix}} €</span>
+        <span *ngIf="c.parNuit" l10nTranslate>commun_parNuit</span>
+        <span *ngIf="c.parPersonne" l10nTranslate>commun_parPersonne</span>
         <em class="fa fa-edit" (click)="modifierOption(c)" *ngIf="!nouvelleOption || c.reference !== nouvelleOption.reference"
           matTooltip="{{ 'commun_tooltip_editer' | translate: lang }}"></em>
         <em class="fa fa-ban" (click)="annulerModificationOption()" *ngIf="nouvelleOption && c.reference === nouvelleOption.reference"

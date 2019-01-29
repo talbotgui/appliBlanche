@@ -1,5 +1,5 @@
 <div mat-dialog-title class="mat-dialog-title">
-  <h3>Paiements</h3>
+  <h3 l10nTranslate>dialogpaiement_titre</h3>
   <div>
     <em class="fa fa-times-circle" (click)="annuler()"></em>
   </div>
@@ -9,7 +9,7 @@
 
     <!-- Liste des paiements-->
     <div *ngIf="paiements.length > 0">
-      <h5>Enregistrés</h5>
+      <h5 l10nTranslate>dialogpaiement_sstitrePaiement</h5>
       <ul>
         <li *ngFor="let p of paiements">
           <span *ngIf="!!p.montant">{{p.montant}}</span>
@@ -18,31 +18,31 @@
         </li>
       </ul>
     </div>
-    <div *ngIf="paiements.length == 0">Aucun paiement enregistré</div>
+    <div *ngIf="paiements.length == 0" l10nTranslate>dialogpaiement_aucunPaiement</div>
 
     <!-- Affichage du formulaire -->
-    <button type="submit" (click)="initialiserFormulaire()" class="btn btn-outline-secondary">Ajouter un paiement</button>
+    <button type="submit" (click)="initialiserFormulaire()" class="btn btn-outline-secondary" l10nTranslate>dialogpaiement_bouton_ajouter</button>
   </div>
 
   <!-- Formulaire d'ajout -->
   <div *ngIf="nouveauPaiement">
-    <h5>Nouveau paiement</h5>
+    <h5 l10nTranslate>dialogpaiement_sstitreNouveau</h5>
     <form novalidate #leForm="ngForm">
       <div class="row">
         <mat-form-field>
-          <mat-select #mdp="ngModel" [(ngModel)]="nouveauPaiement.moyenDePaiement" name="mdp" placeholder="moyen de paiement">
+          <mat-select #mdp="ngModel" [(ngModel)]="nouveauPaiement.moyenDePaiement" name="mdp" placeholder="{{ 'dialogpaiement_placeholder_mdp' | translate: lang }}">
             <mat-option *ngFor="let m of moyensDePaiement" [value]="m">{{m.nom}}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
       <div class="row" *ngIf="!mdp.value || !mdp.value.montantAssocie">
         <mat-form-field>
-          <input matInput name="montant" type="number" [(ngModel)]="nouveauPaiement.montant" placeholder="montant"
-            required>
+          <input matInput name="montant" type="number" [(ngModel)]="nouveauPaiement.montant" placeholder="{{ 'dialogpaiement_placeholder_montant' | translate: lang }}">
         </mat-form-field>
       </div>
       <div class="row">
-        <button type="submit" (click)="enregistrer()" class="btn btn-outline-secondary" [disabled]="!formulaireValide">Enregistrer</button>
+        <button type="submit" (click)="enregistrer()" class="btn btn-outline-secondary" [disabled]="!formulaireValide"
+          l10nTranslate>dialogpaiement_bouton_creer</button>
       </div>
     </form>
   </div>

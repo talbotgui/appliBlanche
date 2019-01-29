@@ -1,43 +1,40 @@
 <div *ngIf="reservationSelectionnee">
   <mat-card>
     <mat-card-title>
-      <span>Facturation pour </span>
+      <span l10nTranslate>cadredetailfacture_titre</span>
       <span>{{reservationSelectionnee.client}}</span>
       <span> ({{reservationSelectionnee.chambre.nom}})</span>
     </mat-card-title>
     <mat-card-content id="contenuNote">
       <div class="col-12">
-        <span class="libelle">Formule : </span>
-        <span>{{reservationSelectionnee.formule.nom}} ({{reservationSelectionnee.formule.prixParNuit}} / nuit)</span>
+        <span class="libelle" l10nTranslate>cadredetailfacture_formules</span>
+        <span>{{reservationSelectionnee.formule.nom}} ({{reservationSelectionnee.formule.prixParNuit}}</span>
+        <span l10nTranslate>commun_parNuit</span>
+        <span>)</span>
       </div>
       <div class="col-12">
-        <span class="libelle">Options : </span>
+        <span class="libelle" l10nTranslate>cadredetailfacture_options</span>
         <span *ngIf="reservationSelectionnee.options.length === 0">-</span>
         <ul>
           <li *ngFor="let o of reservationSelectionnee.options">
-            <span>{{o.nom}} ({{o.prix}} €{{(o.parNuit?' par nuit':'')}}{{(o.parPersonne?' par personne':'')}})</span>
+            <span>{{o.nom}} ({{o.prix}} €</span>
+            <span *ngIf="o.parNuit" l10nTranslate>commun_parNuit</span>
+            <span *ngIf="o.parPersonne" l10nTranslate>commun_parPersonne</span>
           </li>
         </ul>
       </div>
     </mat-card-content>
     <mat-card-footer>
-      <button (click)="editerUneNote()" type="submit" class="btn btn-outline-secondary">
-        Editer une note
-      </button>
+      <button (click)="editerUneNote()" type="submit" class="btn btn-outline-secondary" l10nTranslate>cadredetailfacture_bouton_editerNote</button>
 
-      <button (click)="facturer()" type="submit" *ngIf="reservationSelectionnee.etatCourant !== 'FACTUREE'" class="btn btn-outline-secondary">
-        Facturer
-      </button>
-      <button (click)="defacturer()" type="submit" *ngIf="reservationSelectionnee.etatCourant === 'FACTUREE'" class="btn btn-outline-secondary">
-        Permettre la modification de la facture
-      </button>
-      <button (click)="telechargerLaFacture()" type="submit" *ngIf="factureDeLaReservationSelectionee" class="btn btn-outline-secondary">
-        Afficher la facture
-      </button>
+      <button (click)="facturer()" type="submit" *ngIf="reservationSelectionnee.etatCourant !== 'FACTUREE'" class="btn btn-outline-secondary"
+        l10nTranslate>cadredetailfacture_bouton_facturer</button>
+      <button (click)="defacturer()" type="submit" *ngIf="reservationSelectionnee.etatCourant === 'FACTUREE'" class="btn btn-outline-secondary"
+        l10nTranslate>cadredetailfacture_bouton_rendreFactureModifiable</button>
+      <button (click)="telechargerLaFacture()" type="submit" *ngIf="factureDeLaReservationSelectionee" class="btn btn-outline-secondary"
+        l10nTranslate>cadredetailfacture_bouton_afficherFacture</button>
       <button (click)="afficherPopupPaiement()" type="submit" *ngIf="reservationSelectionnee.etatCourant !== 'FACTUREE'"
-        class="btn btn-outline-secondary">
-        Ajouter un paiement
-      </button>
+        class="btn btn-outline-secondary" l10nTranslate>cadredetailfacture_bouton_ajouterPaiement</button>
     </mat-card-footer>
   </mat-card>
 </div>

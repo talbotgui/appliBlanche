@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { Language } from 'angular-l10n';
 
 import * as model from '../../../model/model';
 import { ReservationService } from '../../../service/reservation.service';
@@ -10,6 +11,9 @@ import { ReservationService } from '../../../service/reservation.service';
   styleUrls: ['./dialog-paiement.component.scss']
 })
 export class DialogPaiementComponent implements OnInit {
+
+  /** Decorateur nécessaire aux libellés internationnalisés dans des tooltips (ici, nécessaire car c'est un Dialog) */
+  @Language() lang: string;
 
   /** Validation du formulaire */
   get formulaireValide(): boolean {
