@@ -15,7 +15,7 @@ export class Page<T> {
   /** Elements de la page */
   content: T[];
   /** Nombre d'éléments dans la page */
-  numberElements: number;
+  numberOfElements: number;
   /** Nombre d'éléments au total */
   totalElements: number;
   /** Nombre de pages au total */
