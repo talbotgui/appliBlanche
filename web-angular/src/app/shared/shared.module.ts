@@ -38,6 +38,7 @@ import { IntercepteurHttp } from './exception/IntercepteurHttp';
 import { HttpProxy } from './service/httpProxy.component';
 import { RestUtilsService } from './service/restUtils.service';
 import { BrowserComponent } from './service/browser.component';
+import { ExportService } from './service/export-excel.service';
 import { MyTranslationProvider } from './service/myTranslationProvider.component';
 import { Context } from './service/context';
 import { NotificationsService } from './service/notifications.service';
@@ -87,7 +88,7 @@ export const l10nConfig: L10nConfig = {
     { provide: HTTP_INTERCEPTORS, useClass: IntercepteurHttp, multi: true },
 
     // Les composants injectables
-    RestUtilsService, BrowserComponent, HttpProxy, MyTranslationProvider, Context, NotificationsService
+    RestUtilsService, BrowserComponent, HttpProxy, MyTranslationProvider, Context, NotificationsService, ExportService
 
   ],
 

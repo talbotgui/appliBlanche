@@ -1,6 +1,8 @@
 <!-- Page du monitoring -->
 <h3 l10nTranslate>monitoring_titre</h3>
 
+<button class="btn btn-outline-secondary" (click)="exporterInformations()" l10nTranslate>monitoring_bouton_export</button>
+
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 col-12" matSort matSortActive="clef"
  matSortDirection="asc" matSortDisableClear>
 
