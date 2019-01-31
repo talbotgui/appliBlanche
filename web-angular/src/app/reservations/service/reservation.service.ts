@@ -202,4 +202,10 @@ export class ReservationService {
     paiements.forEach((p) => montantPaye += (p.montant) ? p.montant : p.moyenDePaiement.montantAssocie);
     return montantTotal - montantPaye;
   }
+
+  /** Suppression d'un paiement via l'API */
+  supprimerPaiement(referenceReservation: string, referencePaiement: string): Observable<{} | void> {
+    const url = environment.baseUrl + '/v1/reservations/' + referenceReservation + '/paiements/' + referencePaiement;
+    return this.http.delete<void>(url, this.restUtils.creerHeader());
+  }
 }

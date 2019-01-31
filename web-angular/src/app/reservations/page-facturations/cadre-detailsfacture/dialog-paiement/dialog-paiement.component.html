@@ -15,6 +15,7 @@
           <span *ngIf="!!p.montant">{{p.montant}}</span>
           <span *ngIf="!!p.moyenDePaiement.montantAssocie">{{p.moyenDePaiement.montantAssocie}}</span>
           <span> ({{p.moyenDePaiement.nom}})</span>
+          <em class="fa fa-trash-alt" (click)="supprimerPaiement(p.reference)"></em>
         </li>
       </ul>
     </div>

@@ -192,6 +192,13 @@ public class ReservationRestControler {
 		this.reservationService.supprimerConsommation(referenceReservation, referenceConsommation);
 	}
 
+	@DeleteMapping("/reservations/{referenceReservation}/paiements/{referencePaiement}")
+	@ApiOperation(value = "Supprimer un paiement", notes = "")
+	public void supprimerPaiement(@PathVariable("referenceReservation") final String referenceReservation, //
+			@PathVariable("referencePaiement") final String referencePaiement) {
+		this.reservationService.supprimerPaiement(referenceReservation, referencePaiement);
+	}
+
 	@DeleteMapping("/reservations/{referenceReservation}")
 	@ApiOperation(value = "Supprimer une réservation", notes = "")
 	public void supprimerReservation(@PathVariable("referenceReservation") final String referenceReservation) {

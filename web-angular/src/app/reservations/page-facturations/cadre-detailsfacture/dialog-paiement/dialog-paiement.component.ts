@@ -79,4 +79,11 @@ export class DialogPaiementComponent implements OnInit {
     this.nouveauPaiement.moyenDePaiement = new model.MoyenDePaiement('', 0, '');
     this.nouveauPaiement.montant = this.service.calculerMontantRestantDu(this.montantTotal, this.paiements);
   }
+
+  /** Suppression d'un paiement */
+  supprimerPaiement(referencePaiement: string) {
+    this.service.supprimerPaiement(this.dataInput.reference, referencePaiement).subscribe(() => {
+      this.paiements = this.paiements.filter((p) => p.reference !== referencePaiement);
+    });
+  }
 }

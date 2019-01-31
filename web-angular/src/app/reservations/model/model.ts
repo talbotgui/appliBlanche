@@ -157,6 +157,8 @@ export class Facture {
 
 /** Un paiement */
 export class Paiement {
+  /** Reference unique */
+  public reference: string;
   /** Date de création du paiement */
   public dateCreation: Date;
   /** Montant */

@@ -409,6 +409,22 @@ public class ReservationRestControlerTest extends BaseTestClass {
 	}
 
 	@Test
+	public void test03Consommation04Supprimer() {
+		final String refReservation = Entite.genererReference(Reservation.class, 1L);
+		final String ref = Entite.genererReference(Paiement.class, 1L);
+
+		// ARRANGE
+		Mockito.doNothing().when(this.reservationService).supprimerPaiement(refReservation, ref);
+
+		// ACT
+		this.getREST().delete(this.getURL() + "/v1/reservations/" + refReservation + "/paiements/" + ref);
+
+		// ASSERT
+		Mockito.verify(this.reservationService).supprimerPaiement(refReservation, ref);
+		Mockito.verifyNoMoreInteractions(this.reservationService);
+	}
+
+	@Test
 	public void test03Paiement01Lister() {
 
 		// ARRANGE
@@ -477,4 +493,5 @@ public class ReservationRestControlerTest extends BaseTestClass {
 		Assert.assertEquals(e.getRawStatusCode(), HttpStatus.BAD_REQUEST.value());
 		Mockito.verifyNoMoreInteractions(this.reservationService);
 	}
+
 }
