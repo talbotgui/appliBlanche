@@ -14,7 +14,7 @@
           matTooltip="{{ 'commun_tooltip_editer' | translate: lang }}"></em>
         <em class="fa fa-ban" (click)="annulerModificationOption()" *ngIf="nouvelleOption && c.reference === nouvelleOption.reference"
           matTooltip="{{ 'commun_tooltip_annuler' | translate: lang }}"></em>
-        <em class="fa fa-remove" (click)="supprimerOption(c)" *ngIf="!nouvelleOption || c.reference !== nouvelleOption.reference"
+        <em class="fa fa-trash-alt" (click)="supprimerOption(c)" *ngIf="!nouvelleOption || c.reference !== nouvelleOption.reference"
           matTooltip="{{ 'commun_tooltip_supprimer' | translate: lang }}"></em>
       </li>
     </ul>

@@ -15,7 +15,7 @@
 			<em class="actionDansUnEntete fa fa-plus" (click)="creer(); leForm.reset(roleSelectionne);" matTooltip="{{ 'commun_tooltip_ajouter' | translate: lang }}"></em>
 		</th>
 		<td mat-cell *matCellDef="let element">
-			<em class="fa fa-remove" (click)="supprimer(element);" matTooltip="{{ 'commun_tooltip_supprimer' | translate: lang }}"></em>
+			<em class="fa fa-trash-alt" (click)="supprimer(element);" matTooltip="{{ 'commun_tooltip_supprimer' | translate: lang }}"></em>
 		</td>
 	</ng-container>
 

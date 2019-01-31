@@ -27,7 +27,7 @@
 		</th>
 		<td mat-cell *matCellDef="let element">
 			<em class="fa fa-edit" (click)="selectionnerUtilisateur(element)" matTooltip="{{ 'commun_tooltip_editer' | translate: lang }}"></em>
-			<em class="fa fa-remove" (click)="supprimerUtilisateur(element)" matTooltip="{{ 'commun_tooltip_supprimer' | translate: lang }}"></em>
+			<em class="fa fa-trash-alt" (click)="supprimerUtilisateur(element)" matTooltip="{{ 'commun_tooltip_supprimer' | translate: lang }}"></em>
 		</td>
 	</ng-container>
 

@@ -46,7 +46,7 @@
         </mat-card-title>
         <mat-card-content>
           <div *ngFor="let conso of consommationsDeLaReservationSelectionnee">
-            <em class="fa fa-remove" (click)="supprimerConsommation(conso)"></em>
+            <em class="fa fa-trash-alt" (click)="supprimerConsommation(conso)"></em>
             <em class="fa fa-angle-down" (click)="reduireConsommation(conso)"></em>
             &nbsp;
             <span>{{conso.quantite}} x {{conso.produit.nom}}</span>
