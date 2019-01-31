@@ -59,6 +59,12 @@ public class ReservationServiceImpl implements ReservationService {
 	private ReservationRepository reservationRepo;
 
 	@Override
+	public Double calculerMontantTotalDuneReservation(final String referenceReservation) {
+		final Reservation reservation = this.chargerReservation(referenceReservation);
+		return reservation.calculerMontantTotal();
+	}
+
+	@Override
 	public void changeEtatReservation(final String referenceReservation, final EtatReservation etatDemande) {
 		final Long idReservation = Entite.extraireIdentifiant(referenceReservation, Reservation.class);
 
@@ -121,9 +127,9 @@ public class ReservationServiceImpl implements ReservationService {
 		if (!fetchTout) {
 			return this.reservationRepo.rechercherReservationsParEtatFetchChambre(etat);
 		} else if (!EtatReservation.FACTUREE.equals(etat)) {
-			return this.reservationRepo.rechercherReservationsParEtatFetchChambreFormuleOptions(etat);
+			return this.reservationRepo.rechercherReservationsParEtatFetchChambreFormuleOptionsPaiements(etat);
 		} else {
-			return this.reservationRepo.rechercherReservationsParEtatFetchChambreFormuleOptions(etat, PageRequest.of(0, 20));
+			return this.reservationRepo.rechercherReservationsParEtatFetchChambreFormuleOptionsPaiements(etat, PageRequest.of(0, 20));
 		}
 	}
 

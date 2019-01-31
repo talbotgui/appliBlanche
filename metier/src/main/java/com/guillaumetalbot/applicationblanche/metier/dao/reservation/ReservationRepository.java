@@ -53,12 +53,12 @@ public interface ReservationRepository extends CrudRepository<Reservation, Long>
 	@QueryHints(value = { @QueryHint(name = org.hibernate.jpa.QueryHints.HINT_READONLY, value = "true") })
 	Collection<Reservation> rechercherReservationsParEtatFetchChambre(@Param("etat") EtatReservation etat);
 
-	@Query("select distinct r from Reservation r left join fetch r.chambre left join fetch r.formule left join fetch r.options where r.etatCourant = :etat order by r.chambre.nom")
+	@Query("select distinct r from Reservation r left join fetch r.chambre left join fetch r.formule left join fetch r.options left join fetch r.paiements where r.etatCourant = :etat order by r.chambre.nom")
 	@QueryHints(value = { @QueryHint(name = org.hibernate.jpa.QueryHints.HINT_READONLY, value = "true") })
-	Collection<Reservation> rechercherReservationsParEtatFetchChambreFormuleOptions(@Param("etat") EtatReservation etat);
+	Collection<Reservation> rechercherReservationsParEtatFetchChambreFormuleOptionsPaiements(@Param("etat") EtatReservation etat);
 
-	@Query(value = "select distinct r from Reservation r left join fetch r.chambre left join fetch r.formule left join fetch r.options where r.etatCourant = :etat order by r.dateFin, r.chambre.nom", countQuery = "select count(r) from Reservation r where r.etatCourant = :etat")
+	@Query(value = "select distinct r from Reservation r left join fetch r.chambre left join fetch r.formule left join fetch r.options left join fetch r.paiements where r.etatCourant = :etat order by r.dateFin, r.chambre.nom", countQuery = "select count(r) from Reservation r where r.etatCourant = :etat")
 	@QueryHints(value = { @QueryHint(name = org.hibernate.jpa.QueryHints.HINT_READONLY, value = "true") })
-	List<Reservation> rechercherReservationsParEtatFetchChambreFormuleOptions(@Param("etat") EtatReservation etat, Pageable pageable);
+	List<Reservation> rechercherReservationsParEtatFetchChambreFormuleOptionsPaiements(@Param("etat") EtatReservation etat, Pageable pageable);
 
 }

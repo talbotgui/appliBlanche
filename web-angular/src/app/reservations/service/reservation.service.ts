@@ -189,4 +189,17 @@ export class ReservationService {
     const url = environment.baseUrl + '/v1/reservations/' + referenceReservation;
     return this.http.get<model.Reservation>(url, this.restUtils.creerHeader());
   }
+
+  /** Appel à l'API pour obtenir le montant total */
+  calculerMontantTotal(referenceReservation: string): Observable<number> {
+    const url = environment.baseUrl + '/v1/reservations/' + referenceReservation + '/montantTotal';
+    return this.http.get<number>(url, this.restUtils.creerHeader());
+  }
+
+  /** Calcul du montant restant du à partir des paiements chargés et du montant total calculé par l'API */
+  calculerMontantRestantDu(montantTotal: number, paiements: model.Paiement[]): number {
+    let montantPaye = 0;
+    paiements.forEach((p) => montantPaye += (p.montant) ? p.montant : p.moyenDePaiement.montantAssocie);
+    return montantTotal - montantPaye;
+  }
 }

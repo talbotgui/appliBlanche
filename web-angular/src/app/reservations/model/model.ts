@@ -160,7 +160,7 @@ export class Paiement {
   /** Date de création du paiement */
   public dateCreation: Date;
   /** Montant */
-  public montant: number;
+  public montant: number | undefined;
   /** Moyen de paiement */
   public moyenDePaiement: MoyenDePaiement;
 }

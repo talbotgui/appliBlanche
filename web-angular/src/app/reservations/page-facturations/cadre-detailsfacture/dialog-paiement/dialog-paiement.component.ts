@@ -12,9 +12,6 @@ import { ReservationService } from '../../../service/reservation.service';
 })
 export class DialogPaiementComponent implements OnInit {
 
-  /** Decorateur nécessaire aux libellés internationnalisés dans des tooltips (ici, nécessaire car c'est un Dialog) */
-  @Language() lang: string;
-
   /** Validation du formulaire */
   get formulaireValide(): boolean {
     // Données obligatoires
@@ -22,6 +19,9 @@ export class DialogPaiementComponent implements OnInit {
       // soit le moyen de paiement présente un montant soit le montant est saisi
       && (!!this.nouveauPaiement.moyenDePaiement.montantAssocie || !!this.nouveauPaiement.montant);
   }
+
+  /** Decorateur nécessaire aux libellés internationnalisés dans des tooltips (ici, nécessaire car c'est un Dialog) */
+  @Language() lang: string;
 
   /** Liste des paiements déjà enregistrés */
   paiements: model.Paiement[] = [];
@@ -31,6 +31,9 @@ export class DialogPaiementComponent implements OnInit {
 
   /** Moyens de paiement disponibles */
   moyensDePaiement: model.MoyenDePaiement[] = [];
+
+  /** Montant total de la réservation */
+  private montantTotal: number;
 
   /** Référence de la réservation (nécessaire pour la sauvegarde du paiement) */
   private referenceReservation: string;
@@ -44,13 +47,19 @@ export class DialogPaiementComponent implements OnInit {
     this.paiements = this.dataInput.paiements;
     this.referenceReservation = this.dataInput.reference;
 
-    // Chargemnt de la liste des moyenDePaiement
+    // Recherche du montant total
+    this.service.calculerMontantTotal(this.referenceReservation).subscribe((n) => this.montantTotal = n);
+
+    // Chargement de la liste des moyenDePaiement
     this.service.listerMoyensDePaiement().subscribe((liste) => this.moyensDePaiement = liste);
   }
 
   /** Enregistrement du paiement */
   enregistrer() {
     if (this.nouveauPaiement) {
+      if (this.nouveauPaiement.moyenDePaiement.montantAssocie) {
+        this.nouveauPaiement.montant = undefined;
+      }
       this.service.sauvegarderPaiement(this.referenceReservation, this.nouveauPaiement).subscribe(() => {
         this.paiements.push(this.nouveauPaiement as model.Paiement);
         this.nouveauPaiement = undefined;
@@ -60,7 +69,7 @@ export class DialogPaiementComponent implements OnInit {
 
   /** Annulation */
   annuler() {
-    this.dialogRef.close(null);
+    this.dialogRef.close(this.paiements);
   }
 
   /** Initialisation du formulaire */
@@ -68,5 +77,6 @@ export class DialogPaiementComponent implements OnInit {
     // objet pour le formulaire
     this.nouveauPaiement = new model.Paiement();
     this.nouveauPaiement.moyenDePaiement = new model.MoyenDePaiement('', 0, '');
+    this.nouveauPaiement.montant = this.service.calculerMontantRestantDu(this.montantTotal, this.paiements);
   }
 }

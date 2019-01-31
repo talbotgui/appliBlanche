@@ -58,7 +58,7 @@ insert into LIBELLE (clef, libelle, langue) values ('dialogpaiement_placeholder_
 insert into LIBELLE (clef, libelle, langue) values ('dialogpaiement_placeholder_montant', 'Amount', 'en');
 insert into LIBELLE (clef, libelle, langue) values ('dialogpaiement_bouton_creer', 'Save', 'en');
 
-insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_bouton_ajouterPaiement', 'Ajouter un paiement', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_bouton_paiements', 'Gérer les paiements', 'fr');
 insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_bouton_afficherFacture', 'Afficher la facture', 'fr');
 insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_bouton_rendreFactureModifiable', 'Permettre la modification de la facture', 'fr');
 insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_bouton_facturer', 'Facturer', 'fr');
@@ -66,7 +66,7 @@ insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_bouton_e
 insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_options', 'Options : ', 'fr');
 insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_formules', 'Formule : ', 'fr');
 insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_titre', 'Facturation pour ', 'fr');
-insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_bouton_ajouterPaiement', 'Add a paiment', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_bouton_paiements', 'Paiments', 'en');
 insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_bouton_afficherFacture', 'Display bill', 'en');
 insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_bouton_rendreFactureModifiable', 'Enable bill modifications', 'en');
 insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_bouton_facturer', 'Bill', 'en');

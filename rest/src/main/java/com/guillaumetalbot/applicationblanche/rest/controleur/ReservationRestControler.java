@@ -40,6 +40,12 @@ public class ReservationRestControler {
 	@Autowired
 	private SocketService socketService;
 
+	@GetMapping("/reservations/{referenceReservation}/montantTotal")
+	@ApiOperation(value = "Calcul du montant total d'une réservation", notes = "")
+	public Double calculerMontantTotalDuneReservation(@PathVariable("referenceReservation") final String referenceReservation) {
+		return this.reservationService.calculerMontantTotalDuneReservation(referenceReservation);
+	}
+
 	@PutMapping("/reservations/{referenceReservation}/etat")
 	@ApiOperation(value = "Modifier l'état d'une réservation", notes = "avec vérification des règles de changement d'état")
 	public void changeEtatReservation(@PathVariable("referenceReservation") final String referenceReservation,
