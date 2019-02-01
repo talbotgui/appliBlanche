@@ -39,7 +39,10 @@ export class DialogPaiementComponent implements OnInit {
   private referenceReservation: string;
 
   /** Injection de dépendances */
-  constructor(private dialogRef: MatDialogRef<DialogPaiementComponent>, @Inject(MAT_DIALOG_DATA) private dataInput: { reservation: model.Reservation, montantTotal: number }, private service: ReservationService) { }
+  constructor(
+    private dialogRef: MatDialogRef<DialogPaiementComponent>,
+    @Inject(MAT_DIALOG_DATA) private dataInput: { reservation: model.Reservation, montantTotal: number },
+    private service: ReservationService) { }
 
   /** A l'initialisation */
   ngOnInit() {
