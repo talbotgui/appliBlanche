@@ -1,8 +1,13 @@
 <div class="container-fluid">
 
 	<div class="row">
-		<div class="col-9"></div>
-		<div class="col-2"></div>
+
+		<!-- Menu -->
+		<div class="col-11">
+			<cadre-menu></cadre-menu>
+		</div>
+
+		<!-- Gestion des langues-->
 		<div class="col-1 drapeaux">
 			<a href="#" class="en" (click)="changerLaLangueDesLibelles('en');" matTooltip="{{ 'commun_tooltip_flagEn' | translate: lang }}">
 				<img src="./assets/images/flag_en.jpg" alt="flag_en" />
@@ -12,9 +17,6 @@
 			</a>
 		</div>
 	</div>
-
-	<!-- Menu -->
-	<cadre-menu></cadre-menu>
 
 	<!-- Cadre principal contenant la page pointée par la route -->
 	<router-outlet></router-outlet>

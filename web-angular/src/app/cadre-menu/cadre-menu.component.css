@@ -3,3 +3,6 @@
 
 /** Pour écarter un peu l'icone du texte */
 .iconeBouton { margin-right: 4px; }
+
+/** Pour permettre un affichage sur une seule ligne des boutons du menu sur les petits écrans */
+.mat-button { min-width:40px!important; }
