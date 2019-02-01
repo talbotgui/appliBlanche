@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { PageAccueilComponent } from './page-accueil/page-accueil.component';
 import { PageConnexionComponent } from './page-connexion/page-connexion.component';
 import { CadreMenuComponent } from './cadre-menu/cadre-menu.component';
+import { CadrePwaComponent } from './cadre-pwa/cadre-pwa.component';
 
 // Les composants injectabables de ce module
 import { SecuriteService } from './service/securite.service';
@@ -32,7 +33,7 @@ import { ReservationsRoutingModule } from './reservations/reservations-routing.m
   bootstrap: [AppComponent],
 
   // Tous les composants applicatifs de ce module
-  declarations: [AppComponent, PageAccueilComponent, PageConnexionComponent, CadreMenuComponent],
+  declarations: [AppComponent, PageAccueilComponent, PageConnexionComponent, CadreMenuComponent, CadrePwaComponent],
 
   // Les modules importés
   imports: [

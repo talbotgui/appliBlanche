@@ -9,43 +9,18 @@ import { NotificationsService } from './shared/service/notifications.service';
 @Component({ selector: 'app-root', templateUrl: './app.component.html', styleUrls: ['./app.component.css'] })
 export class AppComponent {
 
-  /** L'application, dans ses conditions d'utilisation, est-elle éligible à l'installation semi-automatique */
-  get installationPwaSemiAutomatiqueAutorisee(): boolean {
-    return this.flagMessagePwa && this.pwaService.installationPwaSemiAutomatiqueAutorisee();
-  }
-
-  /** L'application, dans ses conditions d'utilisation, est-elle éligible à l'installation sur IOS */
-  get installationPwaManuelleIosAutorisee(): boolean {
-    return this.flagMessagePwa && this.pwaService.installationPwaManuelleIosAutorisee();
-  }
-
-  /** Le navigateur ne supporte pas les PWA */
-  get installationPwaImpossible(): boolean {
-    return this.flagMessagePwa && this.pwaService.installationPwaImpossible();
-  }
-
   /** Decorateur nécessaire aux libellés internationnalisés dans des tooltips */
   @Language() lang: string;
-
-  private flagMessagePwa = true;
 
   /**
    * Constructeur avec injection
    * (l'import de NotificationsService n'est là que pour forcer son initialisation)
    */
-  constructor(public locale: LocaleService, private pwaService: PwaService, private notificationsService: NotificationsService) { }
+  constructor(public locale: LocaleService, private notificationsService: NotificationsService) { }
 
   /** Méthode permettant de changer de langue */
   changerLaLangueDesLibelles(language: string): void {
     this.locale.setCurrentLanguage(language);
   }
 
-  /** Installer l'application comme une application mobile */
-  installerPwa(): void {
-    this.pwaService.installerPwa();
-  }
-
-  masquerMessagePwa() {
-    this.flagMessagePwa = false;
-  }
 }

@@ -21,23 +21,6 @@
 	<!-- Cadre principal contenant la page pointée par la route -->
 	<router-outlet></router-outlet>
 
-	<div class="row installerPwa" *ngIf="installationPwaSemiAutomatiqueAutorisee">
-		<em class="fa fa-times-circle" (click)="masquerMessagePwa()"></em>
-		<span>Cette application est disponible hors connexion (<a href="https://fr.wikipedia.org/wiki/Progressive_web_app"
-			 target="blank">application
-				PWA</a>).</span>
-		<button class="btn btn-outline-secondary" (click)="installerPwa()">Cliquer pour installer</button>
-	</div>
-	<div class="row installerPwa" *ngIf="!installationPwaSemiAutomatiqueAutorisee && installationPwaManuelleIosAutorisee">
-		<em class="fa fa-times-circle" (click)="masquerMessagePwa()"></em>
-		<span>Cette application est disponible hors connexion (<a href="https://fr.wikipedia.org/wiki/Progressive_web_app"
-			 target="blank">application
-				PWA</a>). Cliquer sur le bouton 'Partager' du navigateur puis sur Ajouter à l'écran d'accueil.</span>
-	</div>
-	<div class="row installerPwa" *ngIf="installationPwaImpossible">
-		<em class="fa fa-times-circle" (click)="masquerMessagePwa()"></em>
-		<span>Cette application est disponible hors connexion (<a href="https://fr.wikipedia.org/wiki/Progressive_web_app"
-			 target="blank">application
-				PWA</a>). Mais votre navigateur ne supporte pas cette fonctionnalité.</span>
-	</div>
+	<!-- Message pour installer l'application en PWA -->
+	<cadre-pwa></cadre-pwa>
 </div>
