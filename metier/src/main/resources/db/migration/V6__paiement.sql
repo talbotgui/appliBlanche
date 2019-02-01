@@ -80,3 +80,9 @@ insert into LIBELLE (clef, libelle, langue) values ('commun_parPersonne', ' / pe
 insert into LIBELLE (clef, libelle, langue) values ('commun_parNuit', ' per night', 'en');
 insert into LIBELLE (clef, libelle, langue) values ('commun_parPersonne', ' per person', 'en');
 
+insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_paiement', 'Paiements', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_paiement', 'Payments', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_restantDu', 'Restant dû : ', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_restantDu', 'To pay: ', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_montantTotal', 'Montant total : ', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_montantTotal', 'Total amount: ', 'en');

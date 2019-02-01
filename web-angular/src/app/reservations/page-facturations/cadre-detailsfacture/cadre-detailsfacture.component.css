@@ -1,1 +1,4 @@
 span.libelle { color:darkslategray; font-weight: bold; }
+ul.paye .montant { color: green; }
+ul.tropPercu .montant { color: red; }
+ul.aPaye .montant { color: orange; }

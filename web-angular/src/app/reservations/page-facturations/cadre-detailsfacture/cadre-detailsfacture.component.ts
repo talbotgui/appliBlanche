@@ -26,13 +26,24 @@ export class CadreDetailsFactureComponent {
   /** Bus de message pour communiquer avec le composant parent */
   busDeMessage = new EventEmitter<string>();
 
+  /** Montant calculé */
+  montantRestantDu: number;
+
+  /** Montant calculé */
+  montantTotal: number;
+
   /** Un constructeur pour se faire injecter les dépendances */
   constructor(private reservationsService: ReservationService, private dialogPaiement: MatDialog) { }
 
-  /** A la sélection d'une réservation dans un autre composant  (pour ignorer la ligne suivante : @@angular:analyse:ignorerLigneSuivante@@) */
+  /** A la sélection d'une réservation dans un autre composant  (pour ignorer la ligne suivante car ce n'est pas une méthode appelée de l'HTML : @@angular:analyse:ignorerLigneSuivante@@) */
   selectionnerUneReservation(r: model.Reservation) {
     this.reservationSelectionnee = r;
     this.factureDeLaReservationSelectionee = undefined;
+
+    this.reservationsService.calculerMontantTotal(r.reference).subscribe((m) => {
+      this.montantTotal = m;
+      this.montantRestantDu = this.reservationsService.calculerMontantRestantDu(this.montantTotal, r.paiements);
+    });
   }
 
   /** Acte de facturation */
@@ -93,14 +104,18 @@ export class CadreDetailsFactureComponent {
     }
   }
 
+  /** Affichage du popup de gestion des paiements */
   afficherPopupPaiement() {
 
     // Ouverture de la popup
-    const dialogRef = this.dialogPaiement.open(DialogPaiementComponent, { data: this.reservationSelectionnee });
+    const dialogRef = this.dialogPaiement.open(DialogPaiementComponent, { data: { reservation: this.reservationSelectionnee, montantTotal: this.montantTotal } });
 
-    // A sa fermeturenp
+    // A sa fermeture
     dialogRef.afterClosed().subscribe((dataRetour: any) => {
-      console.log(dataRetour);
+      if (this.reservationSelectionnee) {
+        this.reservationSelectionnee.paiements = dataRetour;
+        this.montantRestantDu = this.reservationsService.calculerMontantRestantDu(this.montantTotal, this.reservationSelectionnee.paiements);
+      }
     });
   }
 

@@ -23,6 +23,13 @@
           </li>
         </ul>
       </div>
+      <div class="col-12">
+        <span class="libelle" l10nTranslate>cadredetailfacture_paiement</span>
+        <ul [class]="(montantRestantDu===0)?'paye':(montantRestantDu<0)?'tropPercu':'aPaye'">
+          <li><span l10nTranslate>cadredetailfacture_restantDu</span><span class="montant">{{montantRestantDu}} €</span></li>
+          <li><span l10nTranslate>cadredetailfacture_montantTotal</span><span class="montant">{{montantTotal}} €</span></li>
+        </ul>
+      </div>
     </mat-card-content>
     <mat-card-footer>
       <button (click)="editerUneNote()" type="submit" class="btn btn-outline-secondary" l10nTranslate>cadredetailfacture_bouton_editerNote</button>

@@ -39,16 +39,14 @@ export class DialogPaiementComponent implements OnInit {
   private referenceReservation: string;
 
   /** Injection de dépendances */
-  constructor(private dialogRef: MatDialogRef<DialogPaiementComponent>, @Inject(MAT_DIALOG_DATA) private dataInput: model.Reservation, private service: ReservationService) { }
+  constructor(private dialogRef: MatDialogRef<DialogPaiementComponent>, @Inject(MAT_DIALOG_DATA) private dataInput: { reservation: model.Reservation, montantTotal: number }, private service: ReservationService) { }
 
   /** A l'initialisation */
   ngOnInit() {
     // sauvegarde des données déjà enregistrées
-    this.paiements = this.dataInput.paiements;
-    this.referenceReservation = this.dataInput.reference;
-
-    // Recherche du montant total
-    this.service.calculerMontantTotal(this.referenceReservation).subscribe((n) => this.montantTotal = n);
+    this.paiements = this.dataInput.reservation.paiements;
+    this.referenceReservation = this.dataInput.reservation.reference;
+    this.montantTotal = this.dataInput.montantTotal;
 
     // Chargement de la liste des moyenDePaiement
     this.service.listerMoyensDePaiement().subscribe((liste) => this.moyensDePaiement = liste);
@@ -82,7 +80,7 @@ export class DialogPaiementComponent implements OnInit {
 
   /** Suppression d'un paiement */
   supprimerPaiement(referencePaiement: string) {
-    this.service.supprimerPaiement(this.dataInput.reference, referencePaiement).subscribe(() => {
+    this.service.supprimerPaiement(this.dataInput.reservation.reference, referencePaiement).subscribe(() => {
       this.paiements = this.paiements.filter((p) => p.reference !== referencePaiement);
     });
   }
