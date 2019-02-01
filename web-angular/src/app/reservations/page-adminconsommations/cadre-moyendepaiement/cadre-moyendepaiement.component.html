@@ -54,8 +54,8 @@
     </mat-form-field>
 
     <!-- Boutons -->
-    <button type="submit" class="btn btn-outline-secondary" (click)="annulerModification()" l10nTranslate>moyendepaiement_bouton_annuler</button>
     <button type="submit" class="btn btn-outline-secondary" [disabled]="!leForm.form.valid" (click)="validerAjout()"
       l10nTranslate>moyendepaiement_bouton_creer</button>
+    <button type="submit" class="btn btn-outline-secondary" (click)="annulerModification()" l10nTranslate>moyendepaiement_bouton_annuler</button>
   </div>
 </form>

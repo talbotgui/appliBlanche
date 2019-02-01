@@ -43,8 +43,8 @@
 		</mat-form-field>
 
 		<!-- Boutons -->
-		<button type="submit" class="btn btn-outline-secondary" (click)="annulerCreation()" l10nTranslate>role_bouton_annuler</button>
 		<button type="submit" class="btn btn-outline-secondary" [disabled]="!leForm.form.valid" (click)="sauvegarder()"
 		 l10nTranslate>role_bouton_creer</button>
+		<button type="submit" class="btn btn-outline-secondary" (click)="annulerCreation()" l10nTranslate>role_bouton_annuler</button>
 	</div>
 </form>
