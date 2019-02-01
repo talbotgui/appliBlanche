@@ -35,7 +35,8 @@ export class CadreDetailsFactureComponent {
   /** Un constructeur pour se faire injecter les dépendances */
   constructor(private reservationsService: ReservationService, private dialogPaiement: MatDialog) { }
 
-  /** A la sélection d'une réservation dans un autre composant  (pour ignorer la ligne suivante car ce n'est pas une méthode appelée de l'HTML : @@angular:analyse:ignorerLigneSuivante@@) */
+  /** A la sélection d'une réservation dans un autre composant */
+  // pour ignorer la ligne suivante car ce n'est pas une méthode appelée de l'HTML : @@angular:analyse:ignorerLigneSuivante@@
   selectionnerUneReservation(r: model.Reservation) {
     this.reservationSelectionnee = r;
     this.factureDeLaReservationSelectionee = undefined;
@@ -108,7 +109,10 @@ export class CadreDetailsFactureComponent {
   afficherPopupPaiement() {
 
     // Ouverture de la popup
-    const dialogRef = this.dialogPaiement.open(DialogPaiementComponent, { data: { reservation: this.reservationSelectionnee, montantTotal: this.montantTotal } });
+    const dialogRef = this.dialogPaiement.open(
+      DialogPaiementComponent,
+      { data: { reservation: this.reservationSelectionnee, montantTotal: this.montantTotal } }
+    );
 
     // A sa fermeture
     dialogRef.afterClosed().subscribe((dataRetour: any) => {
