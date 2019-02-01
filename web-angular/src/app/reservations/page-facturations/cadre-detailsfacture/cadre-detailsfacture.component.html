@@ -24,6 +24,15 @@
         </ul>
       </div>
       <div class="col-12">
+        <span class="libelle" l10nTranslate>cadredetailfacture_consommations</span>
+        <span *ngIf="reservationSelectionnee.consomations.length === 0">-</span>
+        <ul>
+          <li *ngFor="let c of reservationSelectionnee.consomations">
+            <span>{{c.quantite}} {{c.produit.nom}} ({{c.prixPaye}} € / u)</span>
+          </li>
+        </ul>
+      </div>
+      <div class="col-12">
         <span class="libelle" l10nTranslate>cadredetailfacture_paiement</span>
         <ul [class]="(montantRestantDu===0)?'paye':(montantRestantDu<0)?'tropPercu':'aPaye'">
           <li><span l10nTranslate>cadredetailfacture_restantDu</span><span class="montant">{{montantRestantDu}} €</span></li>
