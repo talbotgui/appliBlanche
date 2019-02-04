@@ -15,7 +15,7 @@
         <em class="fa fa-trash-alt" (click)="supprimerProduit(p)" *ngIf="!nouveauProduit || p.reference !== nouveauProduit.reference"
           matTooltip="{{ 'commun_tooltip_supprimer' | translate: lang }}"></em>
       </li>
-      <li *ngIf="nouveauProduit">
+      <li *ngIf="nouveauProduit" id="formulaireProduit">
         <mat-form-field l10nTranslate>
           <input type="text" matInput name="nom" [(ngModel)]="nouveauProduit.nom" l10n-placeholder placeholder="adminConso_placeholder_nomProduit"
             required>

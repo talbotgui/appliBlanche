@@ -3,6 +3,7 @@ import { Language } from 'angular-l10n';
 
 import { ReservationService } from '../../service/reservation.service';
 import * as model from '../../model/model';
+import { AnimationComponent } from '../../../shared/service/animation.component';
 
 /** Page d'administration du module des reservations */
 @Component({
@@ -21,7 +22,7 @@ export class CadreChambresComponent implements OnInit {
   nouvelleChambre: model.Chambre | undefined;
 
   /** Un constructeur pour se faire injecter les dépendances */
-  constructor(private reservationsService: ReservationService) { }
+  constructor(private reservationsService: ReservationService, private animationComponent: AnimationComponent) { }
 
   /** A l'initialisation */
   ngOnInit() {
@@ -29,10 +30,16 @@ export class CadreChambresComponent implements OnInit {
   }
 
   /** Affichage du formulaire d'ajout de chambre */
-  proposerAjoutChambre() { this.nouvelleChambre = new model.Chambre('', ''); }
+  proposerAjoutChambre() {
+    this.nouvelleChambre = new model.Chambre('', '');
+    this.animationComponent.deplacerLaVueSurLeComposant('formulaireChambre');
+  }
 
   /** Edition d'une chambre existante */
-  modifierChambre(c: model.Chambre) { this.nouvelleChambre = new model.Chambre(c.reference, c.nom); }
+  modifierChambre(c: model.Chambre) {
+    this.nouvelleChambre = new model.Chambre(c.reference, c.nom);
+    this.animationComponent.deplacerLaVueSurLeComposant('formulaireChambre');
+  }
 
   /** Annulation de la modification de la chambre */
   annulerModificationChambre() { this.nouvelleChambre = undefined; }

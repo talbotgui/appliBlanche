@@ -16,7 +16,7 @@
           matTooltip="{{ 'commun_tooltip_supprimer' | translate: lang }}"></em>
       </li>
     </ul>
-    <div class="bordureHaute" *ngIf="nouvelleFormule">
+    <div class="bordureHaute" id="formulaireFormule" *ngIf="nouvelleFormule">
       <mat-form-field l10nTranslate>
         <input matInput name="nom" [(ngModel)]="nouvelleFormule.nom" l10n-placeholder placeholder="adminResa_placeholder_nomFormule"
           required>

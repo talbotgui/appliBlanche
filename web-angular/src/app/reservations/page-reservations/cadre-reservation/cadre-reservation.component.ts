@@ -63,8 +63,7 @@ export class CadreReservationComponent implements OnInit {
   changerEtatEnCours() {
     if (this.reservationSelectionnee) {
       this.reservationsService.changerEtatReservation(this.reservationSelectionnee.reference, 'EN_COURS').subscribe(() => {
-        this.reservationSelectionnee = undefined;
-        this.busDeMessage.emit('');
+        this.annulerOuFermer();
       });
     }
   }
@@ -80,5 +79,11 @@ export class CadreReservationComponent implements OnInit {
         this.optionsCalculeesPourLaReservationSelectionnee[o.reference] = estSelectionnee;
       }
     }
+  }
+
+  /** Annulation ou fermeture du formulaire */
+  annulerOuFermer() {
+    this.reservationSelectionnee = undefined;
+    this.busDeMessage.emit('');
   }
 }

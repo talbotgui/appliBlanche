@@ -64,6 +64,11 @@
 
         <button type="submit" (click)="changerEtatEnCours()" class="btn btn-outline-secondary" *ngIf="reservationSelectionnee.etatCourant==='ENREGISTREE'"
           l10nTranslate>reservation_bouton_arriveeClient</button>
+
+        <button type="submit" (click)="annulerOuFermer()" class="btn btn-outline-secondary" *ngIf="reservationSelectionnee.reference"
+          l10nTranslate>reservation_bouton_fermer</button>
+        <button type="submit" (click)="annulerOuFermer()" class="btn btn-outline-secondary" *ngIf="!reservationSelectionnee.reference"
+          l10nTranslate>reservation_bouton_annuler</button>
       </div>
     </form>
   </mat-card-content>

@@ -4,6 +4,7 @@ import { Language } from 'angular-l10n';
 import { ReservationService } from '../../service/reservation.service';
 import { DataSourceSimpleComponent } from '../../../shared/service/datasourceSimple.component';
 import * as model from '../../model/model';
+import { AnimationComponent } from '../../../shared/service/animation.component';
 
 /** Page d'administration du module des reservations */
 @Component({ selector: 'cadre-moyendepaiement', templateUrl: './cadre-moyendepaiement.component.html' })
@@ -22,7 +23,7 @@ export class CadreMoyenDePaiementComponent implements OnInit {
   nouveauMoyenDePaiement: model.MoyenDePaiement | undefined;
 
   /** Un constructeur pour se faire injecter les dépendances */
-  constructor(private reservationsService: ReservationService) { }
+  constructor(private reservationsService: ReservationService, private animationComponent: AnimationComponent) { }
 
   /** A l'initialisation */
   ngOnInit() {
@@ -30,10 +31,16 @@ export class CadreMoyenDePaiementComponent implements OnInit {
   }
 
   /** Affichage du formulaire d'ajout */
-  proposerAjout() { this.nouveauMoyenDePaiement = new model.MoyenDePaiement('', 0, ''); }
+  proposerAjout() {
+    this.nouveauMoyenDePaiement = new model.MoyenDePaiement('', 0, '');
+    this.animationComponent.deplacerLaVueSurLeComposant('formulaireMdp');
+  }
 
   /** Edition d'un existant */
-  modifier(m: model.MoyenDePaiement) { this.nouveauMoyenDePaiement = new model.MoyenDePaiement(m.reference, m.montantAssocie, m.nom); }
+  modifier(m: model.MoyenDePaiement) {
+    this.nouveauMoyenDePaiement = new model.MoyenDePaiement(m.reference, m.montantAssocie, m.nom);
+    this.animationComponent.deplacerLaVueSurLeComposant('formulaireMdp');
+  }
 
   /** Annulation de la modification */
   annulerModification() { this.nouveauMoyenDePaiement = undefined; }

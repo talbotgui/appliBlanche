@@ -3,6 +3,7 @@ import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import * as model from '../model/model';
 import { CadreDetailsFactureComponent } from './cadre-detailsfacture/cadre-detailsfacture.component';
 import { CadreListeFacturesComponent } from './cadre-listefactures/cadre-listefactures.component';
+import { AnimationComponent } from '../../shared/service/animation.component';
 
 /** Page de gestion des factures */
 @Component({ selector: 'page-facturations', templateUrl: './page-facturations.component.html' })
@@ -14,6 +15,9 @@ export class PageFacturationsComponent implements AfterViewInit {
   /** Instance du composant enfant */
   @ViewChild(CadreDetailsFactureComponent) detailsFacture: CadreDetailsFactureComponent;
 
+  /** Constructeur avec injection. */
+  constructor(private animationComponent: AnimationComponent) { }
+
   /** Après le onInit et après que la vue se soit initialisée */
   ngAfterViewInit() {
 
@@ -22,16 +26,7 @@ export class PageFacturationsComponent implements AfterViewInit {
       // sélection d'une réservation
       if (r) {
         this.detailsFacture.selectionnerUneReservation(r);
-
-        // Scroll vers le bas pour affiche le cadre
-        // (avec un petit décalage temporel pour laisser le temps au cadre de s'afficher)
-        setTimeout(() => {
-          const cadre = document.getElementById('cadre-detailsfacture');
-          if (cadre) {
-            cadre.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'center' });
-          }
-        }, 200);
-
+        this.animationComponent.deplacerLaVueSurLeComposant('cadre-detailsfacture');
       }
     });
 

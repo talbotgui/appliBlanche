@@ -6,6 +6,7 @@ import { UtilisateurService } from '../service/utilisateur.service';
 import * as model from '../../model/model';
 import { DataSourceSimpleComponent } from '../../shared/service/datasourceSimple.component';
 import { RoleService } from '../service/role.service';
+import { AnimationComponent } from '../../shared/service/animation.component';
 
 /**
  * Page de visualisation et création des utilisateurs
@@ -32,7 +33,9 @@ export class PageUtilisateurComponent implements OnInit {
   tousLesRoles: model.Role[];
 
   /** Un constructeur pour se faire injecter les dépendances */
-  constructor(private route: ActivatedRoute, private utilisateurService: UtilisateurService, private roleService: RoleService) { }
+  constructor(
+    private route: ActivatedRoute, private utilisateurService: UtilisateurService,
+    private roleService: RoleService, private animationComponent: AnimationComponent) { }
 
   /** Appel au service à l'initialisation du composant */
   ngOnInit(): void {
@@ -59,6 +62,7 @@ export class PageUtilisateurComponent implements OnInit {
   creerUtilisateur() {
     this.utilisateurSelectionne = new model.Utilisateur();
     this.creation = true;
+    this.animationComponent.deplacerLaVueSurLeComposant('formulaireUtilisateur');
   }
 
   /** Appel au service de sauvegarde puis rechargement des données */
@@ -75,6 +79,7 @@ export class PageUtilisateurComponent implements OnInit {
   selectionnerUtilisateur(utilisateur: model.Utilisateur) {
     this.utilisateurSelectionne = utilisateur;
     this.creation = false;
+    this.animationComponent.deplacerLaVueSurLeComposant('formulaireUtilisateur');
   }
 
   /** A la suppression  */

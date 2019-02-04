@@ -3,6 +3,7 @@ import { Language } from 'angular-l10n';
 
 import { ReservationService } from '../../service/reservation.service';
 import * as model from '../../model/model';
+import { AnimationComponent } from '../../../shared/service/animation.component';
 
 /** Page d'administration du module des reservations */
 @Component({
@@ -21,7 +22,7 @@ export class CadreOptionsComponent implements OnInit {
   nouvelleOption: model.Option | undefined;
 
   /** Un constructeur pour se faire injecter les dépendances */
-  constructor(private reservationsService: ReservationService) { }
+  constructor(private reservationsService: ReservationService, private animationComponent: AnimationComponent) { }
 
   /** A l'initialisation */
   ngOnInit() {
@@ -29,10 +30,16 @@ export class CadreOptionsComponent implements OnInit {
   }
 
   /** Affichage du formulaire d'ajout de option */
-  proposerAjoutOption() { this.nouvelleOption = new model.Option('', '', 0, false, false); }
+  proposerAjoutOption() {
+    this.nouvelleOption = new model.Option('', '', 0, false, false);
+    this.animationComponent.deplacerLaVueSurLeComposant('formulaireOption');
+  }
 
   /** Edition d'une option existante */
-  modifierOption(o: model.Option) { this.nouvelleOption = new model.Option(o.reference, o.nom, o.prix, o.parNuit, o.parPersonne); }
+  modifierOption(o: model.Option) {
+    this.nouvelleOption = new model.Option(o.reference, o.nom, o.prix, o.parNuit, o.parPersonne);
+    this.animationComponent.deplacerLaVueSurLeComposant('formulaireOption');
+  }
 
   /** Annulation de la modification de la option */
   annulerModificationOption() { this.nouvelleOption = undefined; }

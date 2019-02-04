@@ -3,6 +3,7 @@ import { Language } from 'angular-l10n';
 
 import { ReservationService } from '../../service/reservation.service';
 import * as model from '../../model/model';
+import { AnimationComponent } from '../../../shared/service/animation.component';
 
 /** Page d'administration du module des reservations */
 @Component({
@@ -40,7 +41,7 @@ export class CadreProduitsComponent implements OnInit {
   nouveauProduit: model.Produit | undefined;
 
   /** Un constructeur pour se faire injecter les dépendances */
-  constructor(private reservationsService: ReservationService) { }
+  constructor(private reservationsService: ReservationService, private animationComponent: AnimationComponent) { }
 
   /** A l'initialisation */
   ngOnInit() {
@@ -48,10 +49,16 @@ export class CadreProduitsComponent implements OnInit {
   }
 
   /** Affichage du formulaire d'ajout de produit */
-  proposerAjoutProduit() { this.nouveauProduit = new model.Produit('', '', '', 0); }
+  proposerAjoutProduit() {
+    this.nouveauProduit = new model.Produit('', '', '', 0);
+    this.animationComponent.deplacerLaVueSurLeComposant('formulaireProduit');
+  }
 
   /** Edition d'un produit existant */
-  modifierProduit(p: model.Produit) { this.nouveauProduit = new model.Produit(p.reference, p.couleur, p.nom, p.prix); }
+  modifierProduit(p: model.Produit) {
+    this.nouveauProduit = new model.Produit(p.reference, p.couleur, p.nom, p.prix);
+    this.animationComponent.deplacerLaVueSurLeComposant('formulaireProduit');
+  }
 
   /** Annulation de la modification du produit */
   annulerModificationProduit() { this.nouveauProduit = undefined; }

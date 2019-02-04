@@ -3,6 +3,7 @@ import { Language } from 'angular-l10n';
 
 import { ReservationService } from '../../service/reservation.service';
 import * as model from '../../model/model';
+import { AnimationComponent } from '../../../shared/service/animation.component';
 
 /** Page d'administration du module des reservations */
 @Component({
@@ -21,7 +22,7 @@ export class CadreFormulesComponent implements OnInit {
   nouvelleFormule: model.Formule | undefined;
 
   /** Un constructeur pour se faire injecter les dépendances */
-  constructor(private reservationsService: ReservationService) { }
+  constructor(private reservationsService: ReservationService, private animationComponent: AnimationComponent) { }
 
   /** A l'initialisation */
   ngOnInit() {
@@ -29,10 +30,16 @@ export class CadreFormulesComponent implements OnInit {
   }
 
   /** Affichage du formulaire d'ajout de formule */
-  proposerAjoutFormule() { this.nouvelleFormule = new model.Formule('', '', 0); }
+  proposerAjoutFormule() {
+    this.nouvelleFormule = new model.Formule('', '', 0);
+    this.animationComponent.deplacerLaVueSurLeComposant('formulaireFormule');
+  }
 
   /** Edition d'une formule existante */
-  modifierFormule(f: model.Formule) { this.nouvelleFormule = new model.Formule(f.reference, f.nom, f.prixParNuit); }
+  modifierFormule(f: model.Formule) {
+    this.nouvelleFormule = new model.Formule(f.reference, f.nom, f.prixParNuit);
+    this.animationComponent.deplacerLaVueSurLeComposant('formulaireFormule');
+  }
 
   /** Annulation de la modification de la formule */
   annulerModificationFormule() { this.nouvelleFormule = undefined; }

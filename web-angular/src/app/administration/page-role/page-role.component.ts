@@ -5,9 +5,11 @@ import { tap } from 'rxjs/operators';
 import { merge } from 'rxjs';
 import { Language } from 'angular-l10n';
 
-import { RoleService } from '../service/role.service';
 import * as model from '../../model/model';
+
+import { RoleService } from '../service/role.service';
 import { DataSourcePagineTrieComponent } from '../../shared/service/datasourcePagineTrie.component';
+import { AnimationComponent } from '../../shared/service/animation.component';
 
 /** Page listant les roles et permettant leur création, modification et suppression */
 @Component({ selector: 'page-role', templateUrl: './page-role.component.html', styleUrls: ['./page-role.component.css'] })
@@ -32,7 +34,7 @@ export class PageRoleComponent implements OnInit {
   roleSelectionne: model.Role | undefined;
 
   /** Un constructeur pour se faire injecter les dépendances */
-  constructor(private route: ActivatedRoute, private roleService: RoleService) { }
+  constructor(private route: ActivatedRoute, private roleService: RoleService, private animationComponent: AnimationComponent) { }
 
   /** Initialisation des composants de la page */
   ngOnInit(): void {
@@ -71,6 +73,7 @@ export class PageRoleComponent implements OnInit {
   /** Initialiser le formulaire de création */
   creer() {
     this.roleSelectionne = new model.Role();
+    this.animationComponent.deplacerLaVueSurLeComposant('formulaireAjoutRole');
   }
 
   /** sauvegarder un role et recharger les données sans changer la pagination */

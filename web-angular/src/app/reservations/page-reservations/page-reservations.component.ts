@@ -3,6 +3,7 @@ import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import * as model from '../model/model';
 import { CadreReservationComponent } from './cadre-reservation/cadre-reservation.component';
 import { CadreCalendrierComponent } from './cadre-calendrier/cadre-calendrier.component';
+import { AnimationComponent } from '../../shared/service/animation.component';
 
 /** Page de gestion des reservations */
 @Component({ selector: 'page-reservations', templateUrl: './page-reservations.component.html', styleUrls: ['./page-reservations.component.css'] })
@@ -14,6 +15,9 @@ export class PageReservationsComponent implements AfterViewInit {
   /** Instance du composant enfant */
   @ViewChild(CadreReservationComponent) cadreReservation: CadreReservationComponent;
 
+  /** Constructeur avec injection. */
+  constructor(private animationComponent: AnimationComponent) { }
+
   /** Après le onInit et après que la vue se soit initialisée */
   ngAfterViewInit() {
 
@@ -22,15 +26,7 @@ export class PageReservationsComponent implements AfterViewInit {
       if (r) {
         // sélection d'une réservation
         this.cadreReservation.selectionnerUneReservation(r);
-
-        // Scroll vers le bas pour affiche le cadre
-        // (avec un petit décalage temporel pour laisser le temps au cadre de s'afficher)
-        setTimeout(() => {
-          const cadre = document.getElementById('cadre-reservation');
-          if (cadre) {
-            cadre.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'center' });
-          }
-        }, 200);
+        this.animationComponent.deplacerLaVueSurLeComposant('cadre-reservation');
       }
     });
 

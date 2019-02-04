@@ -89,3 +89,8 @@ insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_montantT
 
 insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_consommations', 'Consommations :', 'fr');
 insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_consommations', 'Goods: ', 'en');
+
+insert into LIBELLE (clef, libelle, langue) values ('reservation_bouton_fermer', 'Fermer', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('reservation_bouton_fermer', 'Close', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('reservation_bouton_annuler', 'Annuler', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('reservation_bouton_annuler', 'Cancel', 'en');

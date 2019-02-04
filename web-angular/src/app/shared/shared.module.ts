@@ -42,6 +42,7 @@ import { ExportService } from './service/export-excel.service';
 import { MyTranslationProvider } from './service/myTranslationProvider.component';
 import { Context } from './service/context';
 import { NotificationsService } from './service/notifications.service';
+import { AnimationComponent } from './service/animation.component';
 
 // Gestion des locales et des formats de date pour Angular 5
 // @see https://angular.io/guide/i18n#i18n-pipes
@@ -88,7 +89,7 @@ export const l10nConfig: L10nConfig = {
     { provide: HTTP_INTERCEPTORS, useClass: IntercepteurHttp, multi: true },
 
     // Les composants injectables
-    RestUtilsService, BrowserComponent, HttpProxy, MyTranslationProvider, Context, NotificationsService, ExportService
+    RestUtilsService, BrowserComponent, HttpProxy, MyTranslationProvider, Context, NotificationsService, ExportService, AnimationComponent
 
   ],
 
