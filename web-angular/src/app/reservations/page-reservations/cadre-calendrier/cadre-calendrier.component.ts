@@ -80,7 +80,7 @@ export class CadreCalendrierComponent implements OnInit {
   initaliserNouvelleReservation() {
     // Pour prévenir le composant parent qu'une réservation est sélectionnée
     const debut = new Date();
-    const fin = new Date(debut.getTime() + (1 * 1000 * 3600 * 24));
+    const fin = undefined;
     const reservation = new model.Reservation('', debut, fin, '', new model.Chambre('', ''), new model.Formule('', '', 0));
     reservation.nombrePersonnes = 2;
     this.busDeMessage.emit(reservation);
@@ -123,7 +123,7 @@ export class CadreCalendrierComponent implements OnInit {
                   this.reservations[c.reference] = {};
                 }
                 for (const r of reservations) {
-                  if (r.chambre.reference === c.reference && r.dateDebut <= j && j <= r.dateFin) {
+                  if (r.dateFin && r.chambre.reference === c.reference && r.dateDebut <= j && j <= r.dateFin) {
 
                     // Affectation d'une couleur de fond pour toute la réservation
                     // Si la couleur de fond existe déjà pour cette réservation, on masque le texte

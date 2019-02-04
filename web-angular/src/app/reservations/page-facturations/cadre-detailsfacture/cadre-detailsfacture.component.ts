@@ -96,7 +96,7 @@ export class CadreDetailsFactureComponent {
         pdf.addImage(contentDataURL, 'PNG', 0, 0, imgWidth, imgHeight);
 
         // Sauvegarde
-        if (this.reservationSelectionnee) {
+        if (this.reservationSelectionnee && this.reservationSelectionnee.dateFin) {
           const dateDebut = this.reservationsService.formaterDate(this.reservationSelectionnee.dateDebut);
           const dateFin = this.reservationsService.formaterDate(this.reservationSelectionnee.dateFin);
           pdf.save('Note-' + this.reservationSelectionnee.client + '-' + dateDebut + '-' + dateFin + '.pdf');

@@ -81,7 +81,7 @@ export class Reservation {
     /** Date de début de la réservation */
     public dateDebut: Date,
     /** Date de fin de la réservation */
-    public dateFin: Date,
+    public dateFin: Date | undefined,
     /** Nom du client */
     public client: string,
     /** Chambre associée */
