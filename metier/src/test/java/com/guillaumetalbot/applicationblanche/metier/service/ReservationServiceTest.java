@@ -342,6 +342,27 @@ public class ReservationServiceTest {
 	}
 
 	@Test
+	public void test01Reservation12MontantTotal() {
+		//
+		final String refChambre = this.reservationParametresService.sauvegarderChambre(new Chambre("nom1"));
+		final String refResa = this.sauvegarderUneReservation("client2", refChambre, -8, -6);
+		this.reservationService.changeEtatReservation(refResa, EtatReservation.EN_COURS);
+
+		final Reservation reservation = new Reservation();
+		reservation.setReference(refResa);
+		final Produit produit = new Produit();
+		produit.setReference(this.reservationParametresService.sauvegarderProduit(new Produit("produit", 2.1, "rouge")));
+		this.reservationService.sauvegarderConsommation(new Consommation(reservation, produit, null, 2));
+
+		//
+		final Double montantTotal = this.reservationService.calculerMontantTotalDuneReservation(refResa);
+
+		//
+		Assert.assertNotNull(montantTotal);
+		Assert.assertEquals((Double) 8.2, montantTotal);
+	}
+
+	@Test
 	public void test02Consommation01CreationSansRemise() {
 		//
 		final JdbcTemplate jdbc = new JdbcTemplate(this.dataSource);
