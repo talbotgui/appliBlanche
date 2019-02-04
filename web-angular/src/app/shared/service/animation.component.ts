@@ -12,11 +12,33 @@ export class AnimationComponent {
    * @param idComposant Identifiant unique du composant
    */
   deplacerLaVueSurLeComposant(idComposant: string): void {
-    setTimeout(() => {
+
+    const execution = () => {
+
+      // Recherche du cadre par son ID
       const cadre = document.getElementById(idComposant);
       if (cadre) {
+
+        // Scroll
         cadre.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'center' });
+
+        // Focus sur le premier champ du formulaire
+        const premierChamp = cadre.querySelector('input');
+        if (premierChamp) {
+          const estDatePicker = !!premierChamp.attributes.getNamedItem('ng-reflect-mat-datepicker');
+          if (estDatePicker) {
+            const datePicker = cadre.querySelector('mat-datepicker-toggle button') as HTMLElement;
+            if (datePicker) {
+              setTimeout(() => { datePicker.click(); }, 400);
+            }
+          } else {
+            premierChamp.focus();
+          }
+        }
       }
-    }, 200);
+    };
+
+    // Petit timeout pour laisser le formulaire s'afficher
+    setTimeout(execution, 200);
   }
 }
