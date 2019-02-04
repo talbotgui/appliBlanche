@@ -1,0 +1,12 @@
+/* Réduction de la taille des chip */
+.mat-chip-list-wrapper .mat-standard-chip, .mat-chip-list-wrapper input.mat-input-element { margin: 2px 0px; }
+.mat-standard-chip { padding: 0px; }
+
+/* Petit cadre à gauche dans les chip avec qtt et boutons */
+.quantiteDansChip { max-width: 40px; }
+
+/* Petit trait séparant les divs qttEtBoutons et nomDuProduit */
+.nomProduit { border-left: solid thin grey; }
+
+/* Pointeur */
+.cliquable { cursor: pointer; }

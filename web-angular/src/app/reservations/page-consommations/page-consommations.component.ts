@@ -31,6 +31,15 @@ export class PageConsommationsComponent implements OnInit {
     this.consommationsDeLaReservationSelectionnee = [];
   }
 
+  calculerQuantitePourProduit(referenceProduit: string): number {
+    const conso = this.rechercherConsommation(referenceProduit);
+    if (conso) {
+      return conso.quantite;
+    } else {
+      return 0;
+    }
+  }
+
   /** A la selection d'une réservation */
   selectionnerReservation(resa: model.Reservation) {
     this.reservationSelectionee = resa;
@@ -45,15 +54,25 @@ export class PageConsommationsComponent implements OnInit {
   }
 
   /** Suppression d'une consommation */
-  supprimerConsommation(consommation: model.Consommation) {
-    this.reservationsService.supprimerConsommation(this.reservationSelectionee.reference, consommation.reference)
-      .subscribe(() => this.rechercherLesConsommationsDeLaReservation());
+  supprimerConsommation(referenceProduit: string) {
+    const conso = this.rechercherConsommation(referenceProduit);
+    if (conso) {
+      this.reservationsService.supprimerConsommation(this.reservationSelectionee.reference, conso.reference)
+        .subscribe(() => conso.quantite = 0);
+    }
   }
 
   /** Réduire la quantite d'une consommation */
-  reduireConsommation(consommation: model.Consommation) {
-    this.reservationsService.reduireConsommation(this.reservationSelectionee.reference, consommation.reference)
-      .subscribe(() => this.rechercherLesConsommationsDeLaReservation());
+  reduireConsommation(referenceProduit: string) {
+    const conso = this.rechercherConsommation(referenceProduit);
+    if (conso) {
+      this.reservationsService.reduireConsommation(this.reservationSelectionee.reference, conso.reference)
+        .subscribe(() => conso.quantite--);
+    }
+  }
+
+  private rechercherConsommation(referenceProduit: string): model.Consommation | undefined {
+    return this.consommationsDeLaReservationSelectionnee.find((c) => c.produit.reference === referenceProduit);
   }
 
   /** Raffrichissement de la liste des consommations de la réservation sélectionnée */

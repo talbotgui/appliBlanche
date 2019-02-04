@@ -2,7 +2,7 @@
   <div class="row">
 
     <!-- Partie gauche : sélection -->
-    <div class="col-8">
+    <div class="col-12">
       <mat-card>
         <mat-card-title>
           <span l10nTranslate>consommations_titre_maincourante</span>
@@ -14,7 +14,7 @@
             <div class="col-12">
               <span l10nTranslate *ngIf="reservations && reservations.length == 0">consommations_titre_aucuneReservationEnCours</span>
               <mat-chip-list class="chipListSpaceEvenly chipListSelectionnable" [selectable]="true">
-                <mat-chip *ngFor="let reservation of reservations" (click)="selectionnerReservation(reservation)"
+                <mat-chip class="cliquable" *ngFor="let reservation of reservations" (click)="selectionnerReservation(reservation)"
                   [class.chipSelectionne]="reservationSelectionee === reservation">
                   <div>{{reservation.chambre.nom}} - {{reservation.client}}</div>
                 </mat-chip>
@@ -28,28 +28,20 @@
           <div class="row">
             <div class="col-12">
               <mat-chip-list class="chipListSpaceEvenly chipListSelectionnable" [selectable]="true" *ngIf="reservationSelectionee">
-                <mat-chip *ngFor="let produit of produits" [style.backgroundColor]="produit.couleur" (click)="ajouterConsomation(chambreSelectionee, produit)">
-                  <div>{{produit.nom}}</div>
+                <mat-chip *ngFor="let produit of produits" [style.backgroundColor]="produit.couleur">
+                  <div class="quantiteDansChip">
+                    <span *ngIf="calculerQuantitePourProduit(produit.reference)">
+                      <em class="fa fa-trash-alt" (click)="supprimerConsommation(produit.reference)"></em>
+                    </span>
+                    <span>{{calculerQuantitePourProduit(produit.reference)}}</span>
+                    <span *ngIf="calculerQuantitePourProduit(produit.reference)">
+                      <em class="fa fa-angle-down" (click)="reduireConsommation(produit.reference)"></em>
+                    </span>
+                  </div>
+                  <div (click)="ajouterConsomation(chambreSelectionee, produit)" class="nomProduit cliquable">{{produit.nom}}</div>
                 </mat-chip>
               </mat-chip-list>
             </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
-    </div>
-
-    <!-- Partie droite : consommations de la réservation -->
-    <div class="col-4" *ngIf="reservationSelectionee">
-      <mat-card>
-        <mat-card-title>
-          <span>{{reservationSelectionee.chambre.nom}} - {{reservationSelectionee.client}}</span>
-        </mat-card-title>
-        <mat-card-content>
-          <div *ngFor="let conso of consommationsDeLaReservationSelectionnee">
-            <em class="fa fa-trash-alt" (click)="supprimerConsommation(conso)"></em>
-            <em class="fa fa-angle-down" (click)="reduireConsommation(conso)"></em>
-            &nbsp;
-            <span>{{conso.quantite}} x {{conso.produit.nom}}</span>
           </div>
         </mat-card-content>
       </mat-card>
