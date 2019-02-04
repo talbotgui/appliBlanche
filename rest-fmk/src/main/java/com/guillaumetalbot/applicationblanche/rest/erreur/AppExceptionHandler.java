@@ -32,10 +32,8 @@ public class AppExceptionHandler {
 		// Log de l'erreur
 		LOG.info(LOG_MESSAGE, req.getRequestURI(), e);
 
-		// Transformation de l'exception en une String
-		final String erreur = e.getMessage();
-
-		return new ResponseEntity<>(erreur, HttpStatus.INTERNAL_SERVER_ERROR);
+		// Renvoi de la réponse
+		return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	@ResponseBody
@@ -58,26 +56,15 @@ public class AppExceptionHandler {
 		return new ResponseEntity<>(erreur, HttpStatus.valueOf(e.getExceptionId().getHttpStatusCode()));
 	}
 
+	/** Uniquement pour l'exception MissingServletRequestParameterException */
 	@ResponseBody
 	@ExceptionHandler({ MissingServletRequestParameterException.class })
 	public ResponseEntity<Object> creerReponsePourExceptionTechniquesConnues(final HttpServletRequest req, final Exception e) {
-		HttpStatus statut;
-
-		// Transformation de l'exception en une String
-		final String erreur = e.getMessage();
 
 		// Log et statut de l'erreur
-		if (MissingServletRequestParameterException.class.isInstance(e)) {
-			LOG.info(LOG_MESSAGE_AVEC_MESSAGE_EXCEPTION, req.getRequestURI(), e.getMessage());
-			statut = HttpStatus.BAD_REQUEST;
-		}
-		// Cas par défaut
-		else {
-			LOG.warn(LOG_MESSAGE, req.getRequestURI(), e);
-			statut = HttpStatus.INTERNAL_SERVER_ERROR;
-		}
+		LOG.info(LOG_MESSAGE_AVEC_MESSAGE_EXCEPTION, req.getRequestURI(), e.getMessage());
 
 		// Renvoi de la réponse
-		return new ResponseEntity<>(erreur, statut);
+		return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 	}
 }
