@@ -1,6 +1,7 @@
 package com.guillaumetalbot.applicationblanche.rest.securite.jwt;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -120,7 +121,7 @@ public class JWTConnexionFilter extends AbstractAuthenticationProcessingFilter {
 		// On ajoute l'utilisateur, ses roles et ressources autorisées dans la réponse
 		res.setContentType("application/json");
 		final String json = new ObjectMapper().writeValueAsString(utilisateur);
-		res.getOutputStream().write(json.getBytes("UTF8"));
+		res.getOutputStream().write(json.getBytes(StandardCharsets.UTF_8));
 		res.getOutputStream().flush();
 	}
 
