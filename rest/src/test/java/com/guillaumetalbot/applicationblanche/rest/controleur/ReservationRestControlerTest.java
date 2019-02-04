@@ -200,6 +200,25 @@ public class ReservationRestControlerTest extends BaseTestClass {
 	}
 
 	@Test
+	public void test01Reservation08MontantTotal() {
+
+		// ARRANGE
+		final Double toReturn = 50.23;
+		final String referenceReservation = Entite.genererReference(Reservation.class, 1L);
+		Mockito.doReturn(toReturn).when(this.reservationService).calculerMontantTotalDuneReservation(referenceReservation);
+
+		// ACT
+		final ResponseEntity<Double> montantTotal = this.getREST()
+				.getForEntity(this.getURL() + "/v1/reservations/" + referenceReservation + "/montantTotal", Double.class);
+
+		// ASSERT
+		Mockito.verify(this.reservationService).calculerMontantTotalDuneReservation(referenceReservation);
+		Mockito.verifyNoMoreInteractions(this.reservationService);
+		Assert.assertNotNull(montantTotal.getBody());
+		Assert.assertEquals(toReturn, montantTotal.getBody());
+	}
+
+	@Test
 	public void test01Reservations04ChangerEtat() {
 
 		// ARRANGE
