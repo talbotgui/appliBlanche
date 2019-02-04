@@ -19,7 +19,7 @@
   </button>
 
   <!-- pour chaque module, utilisation d'un seul "mat-menu" dont le contenu est dynamique -->
-  <mat-menu #subMenu="matMenu">
+  <mat-menu #subMenu="matMenu" backdropClass="overlayLaisseLeMenuAccessible">
     <button mat-menu-item *ngFor="let page of pagesSelectionees" [routerLink]="page.route">
       <em class="iconeBouton fa fa-{{page.icone}}"></em>
       <span l10nTranslate>{{page.nom}}</span>
