@@ -19,6 +19,8 @@ insert into LIBELLE (clef, libelle, langue) values ('menu_consommation', 'Goods'
 insert into LIBELLE (clef, libelle, langue) values ('menu_adminconsommation', 'Products', 'en');
 insert into LIBELLE (clef, libelle, langue) values ('menu_deconnexion', 'Logout', 'en');
 insert into LIBELLE (clef, libelle, langue) values ('menu_monitoring', 'Monitoring', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('menu_facturation', 'Billing', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('menu_titre_facturation', 'Paiments', 'en');
 -- Page de gestion des utilisateurs
 insert into LIBELLE (clef, libelle, langue) values ('utilisateur_titre', 'Users management', 'en');
 insert into LIBELLE (clef, libelle, langue) values ('utilisateur_entete_identifiant', 'Login', 'en');
@@ -95,6 +97,8 @@ insert into LIBELLE (clef, libelle, langue) values ('reservations_titre_calendri
 insert into LIBELLE (clef, libelle, langue) values ('reservations_header_date','Date', 'en');
 insert into LIBELLE (clef, libelle, langue) values ('reservations_form_du','From', 'en');
 insert into LIBELLE (clef, libelle, langue) values ('reservations_form_au','To', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('reservation_bouton_annuler', 'Annuler', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('reservation_bouton_annuler', 'Cancel', 'en');
 -- Page d'administration des consommations
 insert into LIBELLE (clef, libelle, langue) values ('adminConso_titre_listeDesProduits','Products', 'en');
 insert into LIBELLE (clef, libelle, langue) values ('adminConso_placeholder_nomProduit','Product name', 'en');
@@ -125,5 +129,43 @@ insert into LIBELLE (clef, libelle, langue) values ('monitoring_entete_tempsCumu
 insert into LIBELLE (clef, libelle, langue) values ('monitoring_entete_tempsMoyen', 'Average', 'en');
 insert into LIBELLE (clef, libelle, langue) values ('monitoring_entete_tempsMax', 'Max', 'en');
 insert into LIBELLE (clef, libelle, langue) values ('monitoring_entete_tempsMin', 'Min', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('monitoring_bouton_export', 'Export', 'en');
 -- Notifications
 insert into LIBELLE (clef, libelle, langue) values ('notification_nouvelleReservation', 'A new booking has been created', 'en');
+-- Gestion des moyens de paiement 
+insert into LIBELLE (clef, libelle, langue) values ('moyendepaiement_titre', 'Paiment modes', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('moyendepaiement_entete_nom', 'Name', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('moyendepaiement_entete_montantAssocie', 'Amount', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('moyendepaiement_formulaire_titre', 'Add/edit', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('moyendepaiement_placeholder_nom_validation', 'The name is mandatory', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('moyendepaiement_placeholder_nom', 'Name', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('moyendepaiement_placeholder_montantAssocie', 'Amount', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('moyendepaiement_bouton_annuler', 'Cancel', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('moyendepaiement_bouton_creer', 'Save', 'en');
+-- Facturation
+insert into LIBELLE (clef, libelle, langue) values ('cadrelistefacture_titre', 'Booking paid or to paid', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('cadrelistefacture_listeReservationsEnCours', 'Bookings in progress', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('cadrelistefacture_listeReservationsPayes', 'Paid bookings', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('dialogpaiement_titre', 'Paiments', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('dialogpaiement_sstitrePaiement', 'Already paid', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('dialogpaiement_sstitreNouveau', 'New paiment', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('dialogpaiement_aucunPaiement', 'No paiment recorded', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('dialogpaiement_bouton_ajouter', 'Add a paiment', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('dialogpaiement_placeholder_mdp', 'means of paiment', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('dialogpaiement_placeholder_montant', 'Amount', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('dialogpaiement_bouton_creer', 'Save', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_bouton_paiements', 'Paiments', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_bouton_afficherFacture', 'Display bill', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_bouton_rendreFactureModifiable', 'Enable bill modifications', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_bouton_facturer', 'Bill', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_bouton_editerNote', 'Create a ticket', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_options', 'Options : ', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_formules', 'Formula : ', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_titre', 'Billing for ', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_restantDu', 'To pay: ', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_montantTotal', 'Montant total : ', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_montantTotal', 'Total amount: ', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_consommations', 'Goods: ', 'en');
+-- Commun
+insert into LIBELLE (clef, libelle, langue) values ('commun_parNuit', ' per night', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('commun_parPersonne', ' per person', 'en');

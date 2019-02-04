@@ -19,6 +19,8 @@ insert into LIBELLE (clef, libelle, langue) values ('menu_consommation', 'Main c
 insert into LIBELLE (clef, libelle, langue) values ('menu_adminconsommation', 'Produits', 'fr');
 insert into LIBELLE (clef, libelle, langue) values ('menu_deconnexion', 'Déconnexion', 'fr');
 insert into LIBELLE (clef, libelle, langue) values ('menu_monitoring', 'Monitoring', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('menu_facturation', 'Facturation', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('menu_titre_facturation', 'Paiements', 'fr');
 -- Page de gestion des utilisateurs
 insert into LIBELLE (clef, libelle, langue) values ('utilisateur_titre', 'Administration des utilisateurs', 'fr');
 insert into LIBELLE (clef, libelle, langue) values ('utilisateur_entete_identifiant', 'Identifiant', 'fr');
@@ -95,6 +97,8 @@ insert into LIBELLE (clef, libelle, langue) values ('reservations_titre_calendri
 insert into LIBELLE (clef, libelle, langue) values ('reservations_header_date','Date', 'fr');
 insert into LIBELLE (clef, libelle, langue) values ('reservations_form_du','Du', 'fr');
 insert into LIBELLE (clef, libelle, langue) values ('reservations_form_au','Au', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('reservation_bouton_fermer', 'Fermer', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('reservation_bouton_fermer', 'Close', 'en');
 -- Page d'administration des consommations
 insert into LIBELLE (clef, libelle, langue) values ('adminConso_titre_listeDesProduits','Liste des produits', 'fr');
 insert into LIBELLE (clef, libelle, langue) values ('adminConso_placeholder_nomProduit','Nom du produit', 'fr');
@@ -125,5 +129,43 @@ insert into LIBELLE (clef, libelle, langue) values ('monitoring_entete_tempsCumu
 insert into LIBELLE (clef, libelle, langue) values ('monitoring_entete_tempsMoyen', 'Moyen', 'fr');
 insert into LIBELLE (clef, libelle, langue) values ('monitoring_entete_tempsMax', 'Max', 'fr');
 insert into LIBELLE (clef, libelle, langue) values ('monitoring_entete_tempsMin', 'Min', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('monitoring_bouton_export', 'Exporter', 'fr');
 -- Notifications
 insert into LIBELLE (clef, libelle, langue) values ('notification_nouvelleReservation', 'Une nouvelle réservation vient d''être enregistrée', 'fr');
+-- Gestion des moyens de paiement 
+insert into LIBELLE (clef, libelle, langue) values ('moyendepaiement_titre', 'Liste des moyens de paiement', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('moyendepaiement_entete_nom', 'Nom', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('moyendepaiement_entete_montantAssocie', 'Montant associé', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('moyendepaiement_formulaire_titre', 'Ajout/modifcation', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('moyendepaiement_placeholder_nom_validation', 'Nom obligatoire', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('moyendepaiement_placeholder_nom', 'Nom', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('moyendepaiement_placeholder_montantAssocie', 'Montant associé', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('moyendepaiement_bouton_annuler', 'Annuler', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('moyendepaiement_bouton_creer', 'Sauvegarder', 'fr');
+-- Facturation
+insert into LIBELLE (clef, libelle, langue) values ('cadrelistefacture_titre', 'Liste des réservations facturables/facturées', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('cadrelistefacture_listeReservationsEnCours', 'Réservations en cours :', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('cadrelistefacture_listeReservationsPayes', 'Déjà facturées :', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('dialogpaiement_titre', 'Paiements', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('dialogpaiement_sstitrePaiement', 'Enregistrés', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('dialogpaiement_sstitreNouveau', 'Nouveau paiement', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('dialogpaiement_aucunPaiement', 'Aucun paiement enregistré', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('dialogpaiement_bouton_ajouter', 'Ajouter un paiement', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('dialogpaiement_placeholder_mdp', 'moyen de paiement', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('dialogpaiement_placeholder_montant', 'montant', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('dialogpaiement_bouton_creer', 'Enregistrer', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_bouton_paiements', 'Gérer les paiements', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_bouton_afficherFacture', 'Afficher la facture', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_bouton_rendreFactureModifiable', 'Permettre la modification de la facture', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_bouton_facturer', 'Facturer', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_bouton_editerNote', 'Editer une note', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_options', 'Options : ', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_formules', 'Formule : ', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_titre', 'Facturation pour ', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_paiement', 'Paiements : ', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_paiement', 'Payments: ', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_restantDu', 'Restant dû : ', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('cadredetailfacture_consommations', 'Consommations :', 'fr');
+-- Commun
+insert into LIBELLE (clef, libelle, langue) values ('commun_parNuit', ' / nuit', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('commun_parPersonne', ' / personne', 'fr');
