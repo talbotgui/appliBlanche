@@ -7,7 +7,7 @@ INSERT INTO MOYEN_DE_PAIEMENT (montant_associe, nom) VALUES (0,'Carte bancaire')
 INSERT INTO MOYEN_DE_PAIEMENT (montant_associe, nom) VALUES (0,'Liquide');
 INSERT INTO MOYEN_DE_PAIEMENT (montant_associe, nom) VALUES (80,'DakotaBox');
 INSERT INTO MOYEN_DE_PAIEMENT (montant_associe, nom) VALUES (80,'Smartbox');
-INSERT INTO MOYEN_DE_PAIEMENT (montant_associe, nom) VALUES (0,'Ch\u00e8que');
+INSERT INTO MOYEN_DE_PAIEMENT (montant_associe, nom) VALUES (0,'Chèque');
 
 
 insert into LIBELLE (clef, libelle, langue) values ('menu_facturation', 'Facturation', 'fr');
