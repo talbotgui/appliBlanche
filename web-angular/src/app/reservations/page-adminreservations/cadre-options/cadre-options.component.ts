@@ -32,7 +32,7 @@ export class CadreOptionsComponent implements OnInit {
   /** Affichage du formulaire d'ajout de option */
   proposerAjoutOption() {
     this.nouvelleOption = new model.Option('', '', 0, false, false);
-    this.animationComponent.deplacerLaVueSurLeComposant('formulaireOption');
+    this.animationComponent.deplacerLaVueSurLeComposant('formulaireOption', true);
   }
 
   /** Edition d'une option existante */

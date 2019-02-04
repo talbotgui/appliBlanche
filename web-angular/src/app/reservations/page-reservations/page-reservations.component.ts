@@ -26,7 +26,7 @@ export class PageReservationsComponent implements AfterViewInit {
       if (r) {
         // sélection d'une réservation
         this.cadreReservation.selectionnerUneReservation(r);
-        this.animationComponent.deplacerLaVueSurLeComposant('cadre-reservation');
+        this.animationComponent.deplacerLaVueSurLeComposant('cadre-reservation', !r.reference);
       }
     });
 

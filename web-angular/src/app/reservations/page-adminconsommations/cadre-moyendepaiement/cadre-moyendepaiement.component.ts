@@ -33,7 +33,7 @@ export class CadreMoyenDePaiementComponent implements OnInit {
   /** Affichage du formulaire d'ajout */
   proposerAjout() {
     this.nouveauMoyenDePaiement = new model.MoyenDePaiement('', 0, '');
-    this.animationComponent.deplacerLaVueSurLeComposant('formulaireMdp');
+    this.animationComponent.deplacerLaVueSurLeComposant('formulaireMdp', true);
   }
 
   /** Edition d'un existant */

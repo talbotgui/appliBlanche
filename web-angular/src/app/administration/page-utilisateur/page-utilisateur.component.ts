@@ -62,7 +62,7 @@ export class PageUtilisateurComponent implements OnInit {
   creerUtilisateur() {
     this.utilisateurSelectionne = new model.Utilisateur();
     this.creation = true;
-    this.animationComponent.deplacerLaVueSurLeComposant('formulaireUtilisateur');
+    this.animationComponent.deplacerLaVueSurLeComposant('formulaireUtilisateur', true);
   }
 
   /** Appel au service de sauvegarde puis rechargement des données */

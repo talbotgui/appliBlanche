@@ -51,7 +51,7 @@ export class CadreProduitsComponent implements OnInit {
   /** Affichage du formulaire d'ajout de produit */
   proposerAjoutProduit() {
     this.nouveauProduit = new model.Produit('', '', '', 0);
-    this.animationComponent.deplacerLaVueSurLeComposant('formulaireProduit');
+    this.animationComponent.deplacerLaVueSurLeComposant('formulaireProduit', true);
   }
 
   /** Edition d'un produit existant */

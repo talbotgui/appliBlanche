@@ -32,7 +32,7 @@ export class CadreChambresComponent implements OnInit {
   /** Affichage du formulaire d'ajout de chambre */
   proposerAjoutChambre() {
     this.nouvelleChambre = new model.Chambre('', '');
-    this.animationComponent.deplacerLaVueSurLeComposant('formulaireChambre');
+    this.animationComponent.deplacerLaVueSurLeComposant('formulaireChambre', true);
   }
 
   /** Edition d'une chambre existante */

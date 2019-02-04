@@ -26,7 +26,7 @@ export class PageFacturationsComponent implements AfterViewInit {
       // sélection d'une réservation
       if (r) {
         this.detailsFacture.selectionnerUneReservation(r);
-        this.animationComponent.deplacerLaVueSurLeComposant('cadre-detailsfacture');
+        this.animationComponent.deplacerLaVueSurLeComposant('cadre-detailsfacture', true);
       }
     });
 

@@ -73,7 +73,7 @@ export class PageRoleComponent implements OnInit {
   /** Initialiser le formulaire de création */
   creer() {
     this.roleSelectionne = new model.Role();
-    this.animationComponent.deplacerLaVueSurLeComposant('formulaireAjoutRole');
+    this.animationComponent.deplacerLaVueSurLeComposant('formulaireAjoutRole', true);
   }
 
   /** sauvegarder un role et recharger les données sans changer la pagination */

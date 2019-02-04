@@ -32,7 +32,7 @@ export class CadreFormulesComponent implements OnInit {
   /** Affichage du formulaire d'ajout de formule */
   proposerAjoutFormule() {
     this.nouvelleFormule = new model.Formule('', '', 0);
-    this.animationComponent.deplacerLaVueSurLeComposant('formulaireFormule');
+    this.animationComponent.deplacerLaVueSurLeComposant('formulaireFormule', true);
   }
 
   /** Edition d'une formule existante */
