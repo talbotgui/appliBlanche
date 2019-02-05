@@ -21,7 +21,7 @@ export default class Menu extends Vue {
     /** Méthode appelée dès que le composant est chargé. */
     public mounted() {
         console.log('monted');
-        this.securiteService.getTest().then((data) => {
+        this.securiteService.getTest().subscribe((data) => {
             console.log(data);
         });
     }
