@@ -116,10 +116,12 @@ pipeline {
 				}
 			}
 		}
+		
+		stage ('Clean') {
+			agent any
+			steps {
+				cleanWs notFailBuild: true
+			}
+		}
 	}
-    post { 
-        always { 
-            cleanWs notFailBuild: true
-        }
-    }
 }
