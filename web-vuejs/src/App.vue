@@ -1,14 +1,10 @@
 <template>
-  <div id="app">
-    <!-- Menu -->
+  <div>
     <Menu></Menu>
-    <div id="nav">
-      <router-link to="/">Accueil</router-link>|
-      <router-link to="/about">infos</router-link>
-    </div>
 
-    <!-- Routeur -->
-    <router-view/>
+    <v-content>
+      <router-view/>
+    </v-content>
   </div>
 </template>
 
