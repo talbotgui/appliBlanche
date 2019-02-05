@@ -20,13 +20,16 @@ export default class Menu extends Vue {
 
     /** Méthode appelée dès que le composant est chargé. */
     public mounted() {
-        console.log('monted');
         this.securiteService.getTest().subscribe((data) => {
+            /* tslint:disable-next-line */
+            console.log('coucou dans le composant');
+            /* tslint:disable-next-line */
             console.log(data);
         });
     }
 
     public cliquerSurMenu() {
+        /* tslint:disable-next-line */
         console.log('coucou');
     }
 }

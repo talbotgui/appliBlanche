@@ -10,10 +10,17 @@ import RestUtils from './utilitaire/restUtils';
  * Documentation Axios : https://fr.vuejs.org/v2/cookbook/using-axios-to-consume-apis.html
  */
 export default class SecuriteService {
-    private restUtils = new RestUtils();
+
+    /** Dépendance */
+    private restUtils: RestUtils;
+
+    /** Constructeur instanciant les dépendances */
+    constructor() {
+        this.restUtils = new RestUtils();
+    }
+
 
     public getTest(): Observable<any> {
-        return from(axios.get(process.env.VUE_APP_URL_API + '/i18n/fr', this.restUtils.creerHeader()))
-            .pipe(map((reponse: AxiosResponse) => reponse.data));
+        return from(axios.get(process.env.VUE_APP_URL_API + '/chambres', this.restUtils.creerHeader()));
     }
 }
