@@ -1,4 +1,7 @@
 import axios from 'axios';
+import * as store from '@/store';
+import { MessageErreur, Severite } from '@/model/erreur';
+
 
 export default class RestUtils {
 
@@ -35,6 +38,7 @@ export default class RestUtils {
         // Définition d'un code de message
         let codeMessage = 'erreur_http';
         let parametresMessage: string[] = [];
+        let severite: Severite = Severite.Error;
 
         // Si on est offline
         if (!navigator.onLine) {
@@ -55,6 +59,7 @@ export default class RestUtils {
                 // TODO: tester le cas d'une erreur RestException ou BusinessException
                 codeMessage = error.data.error.codeException;
                 parametresMessage = error.data.error.details;
+                severite = error.data.error.level;
             }
         } else if (error.request) {
             // TODO: tester le cas d'une erreur RestException ou BusinessException
@@ -71,6 +76,9 @@ export default class RestUtils {
         console.log('codeMessage=' + codeMessage);
         /* tslint:disable-next-line */
         console.log('parametresMessage=' + parametresMessage);
+
+        // Notification du store avec le message d'erreur
+        store.default.commit('declarerErreurHttp', new MessageErreur(codeMessage, severite));
 
         // Renvoi d'une erreur
         // Ce code déclenche dans la console la ligne 'Uncaught {data:......}

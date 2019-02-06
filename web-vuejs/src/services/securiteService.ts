@@ -21,6 +21,6 @@ export default class SecuriteService {
 
 
     public getTest(): Observable<any> {
-        return from(axios.get(process.env.VUE_APP_URL_API + '/chambres', this.restUtils.creerHeader()));
+        return from(axios.get(process.env.VUE_APP_URL_API + '/i18n/fr', this.restUtils.creerHeader()));
     }
 }
