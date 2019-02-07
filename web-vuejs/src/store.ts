@@ -11,7 +11,8 @@ export default new Vuex.Store({
 
     // Les états conservés par Vuex
     state: {
-        'messageErreurHttp':new MessageErreur('Bienvenue dans l\'application',Severite.Info)
+        messageErreurHttp: new MessageErreur('Bienvenue dans l\'application', Severite.Info),
+        tokenApi: '',
     },
 
     // Getter donnant accès aux états
@@ -19,12 +20,24 @@ export default new Vuex.Store({
         getDernierMessageErreurHttp(state, getters): MessageErreur {
             return state.messageErreurHttp;
         },
+        getTokenApi(state, getters): string {
+            return state.tokenApi;
+        },
     },
 
     // Modifications synchrones des états
     mutations: {
         declarerErreurHttp(state: any, message: MessageErreur) {
             state.messageErreurHttp = message;
+        },
+        viderErreurHttp(state: any) {
+            state.messageErreurHttp = undefined;
+        },
+        declarerUneConnexionUtilisateur(state: any, token: string) {
+            state.tokenApi = token;
+        },
+        invaliderConnexionUtilisateur(state: any) {
+            state.tokenApi = undefined;
         },
     },
 

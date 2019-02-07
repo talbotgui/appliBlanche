@@ -12,15 +12,15 @@ export default class Snackbar extends Vue {
 
     /** Méthode calculée */
     public get flagAfficherSnackbar() { return !!this.message; }
-    public set flagAfficherSnackbar(valeur: boolean) { this.message = undefined; }
+    public set flagAfficherSnackbar(valeur: boolean) { this.$store.commit('viderErreurHttp'); }
 
     /** Méthode calculée */
     public get color(): string {
         if (!this.message) {
             return 'white';
-        } else if (this.message.severite == Severite.Info) {
+        } else if (this.message.severite === Severite.Info) {
             return 'blue';
-        } else if (this.message.severite == Severite.Warn) {
+        } else if (this.message.severite === Severite.Warn) {
             return 'orange';
         } else {
             return 'red';

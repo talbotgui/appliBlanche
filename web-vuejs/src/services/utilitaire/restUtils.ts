@@ -2,27 +2,36 @@ import axios from 'axios';
 import * as store from '@/store';
 import { MessageErreur, Severite } from '@/model/erreur';
 
-
 export default class RestUtils {
 
     /** Constructeur initialisant le gestionnaire d'erreur */
     constructor() {
-
-        // Creation d'un intercepteur HTTP à la réception de la réponse
-        axios.interceptors.response.use(
-            // qui ne renvoie que  les données (méthode onFulfilled de l'intercepteur)
-            (response: any) => {
-                return response.data;
-            },
-            // qui traite les erreur (méthode onRejected de l'intercepteur)
-            this.errorHandler,
-        );
+        this.declarerIntercepteurGestionDerreur();
     }
 
     /** Creation des entetes d'appel à une méthode REST */
     public creerHeader(): { headers: any } | undefined {
         const entete: any = { 'Content-Type': 'application/json' };
         return { headers: entete };
+    }
+
+    // Creation d'un intercepteur HTTP à la réception de la réponse HTTP
+    private declarerIntercepteurGestionDerreur() {
+        axios.interceptors.response.use(
+            // méthode onFulfilled de l'intercepteur
+            (response: any) => {
+                // Si c'est une requete de connexion, on sauvegarde le token
+                if (response && response.request && response.request.responseURL && response.request.responseURL.endsWith('login')
+                    && response.headers && response.headers.authorization) {
+                    store.default.commit('declarerUneConnexionUtilisateur', response.headers.authorization);
+                }
+
+                // Renvoi uniquement des données de la réponse et de rien d'autre
+                return response.data;
+            },
+            // qui traite les erreur (méthode onRejected de l'intercepteur)
+            this.errorHandler,
+        );
     }
 
     /**
@@ -79,6 +88,12 @@ export default class RestUtils {
 
         // Notification du store avec le message d'erreur
         store.default.commit('declarerErreurHttp', new MessageErreur(codeMessage, severite));
+
+        // Si c'est une requête de login, on supprime le token présent dans le store
+        if (error && error.request && error.request.responseURL
+            && error.request.responseURL.endsWith('/login') && error.response.status === 403) {
+            store.default.commit('invaliderConnexionUtilisateur');
+        }
 
         // Renvoi d'une erreur
         // Ce code déclenche dans la console la ligne 'Uncaught {data:......}

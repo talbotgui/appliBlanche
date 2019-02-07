@@ -1,9 +1,9 @@
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import { from, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
+import RestUtils from '@/services/utilitaire/restUtils';
 
-import RestUtils from './utilitaire/restUtils';
+import { Utilisateur } from '@/model/model';
 
 /**
  * Composant responsable des appels aux APIs.
@@ -19,8 +19,10 @@ export default class SecuriteService {
         this.restUtils = new RestUtils();
     }
 
+    public connecter(login: string, mdp: string): Observable<any> {
 
-    public getTest(): Observable<any> {
-        return from(axios.get(process.env.VUE_APP_URL_API + '/i18n/fr', this.restUtils.creerHeader()));
+        // Appel au login
+        const donnees = { login, mdp };
+        return from(axios.post(process.env.VUE_APP_URL_API + '/login', donnees, this.restUtils.creerHeader()));
     }
 }

@@ -7,7 +7,11 @@ export default class Menu extends Vue {
 
     public message: string = 'I am using TypeScript classes with Vue';
 
-    public items: Array<{ title: string, to: string }> = [{ title: 'el1', to: '/' }, { title: 'el2', to: '/about' }];
+    public items: Array<{ title: string, to: string }> = [
+        { title: 'el1', to: '/' },
+        { title: 'el2', to: '/about' },
+        { title: 'login', to: '/login' },
+    ];
 
     /** Composant de service */
     private securiteService: SecuriteService;
@@ -20,16 +24,12 @@ export default class Menu extends Vue {
 
     /** Méthode appelée dès que le composant est chargé. */
     public mounted() {
-        this.securiteService.getTest().subscribe((data) => {
-            /* tslint:disable-next-line */
-            console.log('coucou dans le composant');
-            /* tslint:disable-next-line */
-            console.log(data);
-        });
+        /* tslint:disable-next-line */
+        console.log('coucou mounted');
     }
 
     public cliquerSurMenu() {
         /* tslint:disable-next-line */
-        console.log('coucou');
+        console.log('coucou cliquerSurMenu');
     }
 }
