@@ -14,6 +14,14 @@ const routeur = new Router({
     routes: [
         { path: '/', name: 'accueil', component: Accueil },
         { path: '/login', name: 'login', component: () => import(/* webpackChunkName: "login" */ './pages/page-login/page-login.vue') },
+        {
+            path: '/administration-utilisateurs', name: 'administration-utilisateurs',
+            component: () => import(/* webpackChunkName: "login" */ './pages/page-administration-utilisateurs/page-administration-utilisateurs.vue'),
+        },
+        {
+            path: '/administration-ressources', name: 'administration-ressources',
+            component: () => import(/* webpackChunkName: "login" */ './pages/page-administration-ressources/page-administration-ressources.vue'),
+        },
     ],
 });
 

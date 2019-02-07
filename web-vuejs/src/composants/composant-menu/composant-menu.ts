@@ -9,8 +9,8 @@ export default class Menu extends Vue {
 
     public items: Array<{ title: string, to: string }> = [
         { title: 'el1', to: '/' },
-        { title: 'el2', to: '/about' },
-        { title: 'login', to: '/login' },
+        { title: 'utilisateurs', to: '/administration-utilisateurs' },
+        { title: 'ressources', to: '/administration-ressources' },
     ];
 
     /** Composant de service */

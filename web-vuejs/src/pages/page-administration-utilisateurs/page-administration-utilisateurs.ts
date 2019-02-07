@@ -4,10 +4,7 @@ import SecuriteService from '@/services/service-securite';
 import routeur from '@/router';
 
 @Component
-export default class PageLogin extends Vue {
-
-    public login: string = 'adminAsupprimer';
-    public mdp: string = 'adminAsupprimer';
+export default class PageAdministrationUtilisateurs extends Vue {
 
     /** Une dépendance */
     private securiteService: SecuriteService;
@@ -18,10 +15,4 @@ export default class PageLogin extends Vue {
         this.securiteService = new SecuriteService();
     }
 
-    /** Connexion */
-    public connecter() {
-        this.securiteService.connecter(this.login, this.mdp).subscribe(() => {
-            routeur.push('/');
-        });
-    }
 }
