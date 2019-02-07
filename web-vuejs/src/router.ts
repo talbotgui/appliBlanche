@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router, { Route } from 'vue-router';
-import Accueil from './views/accueil/accueil.vue';
-import * as store from './store';
+import Accueil from '@/pages/page-accueil/page-accueil.vue';
+import * as store from '@/store';
 
 Vue.use(Router);
 
@@ -13,8 +13,7 @@ Vue.use(Router);
 const routeur = new Router({
     routes: [
         { path: '/', name: 'accueil', component: Accueil },
-        { path: '/about', name: 'about', component: () => import(/* webpackChunkName: "about" */ './views/About.vue') },
-        { path: '/login', name: 'login', component: () => import(/* webpackChunkName: "login" */ './views/login/login.vue') },
+        { path: '/login', name: 'login', component: () => import(/* webpackChunkName: "login" */ './pages/page-login/page-login.vue') },
     ],
 });
 

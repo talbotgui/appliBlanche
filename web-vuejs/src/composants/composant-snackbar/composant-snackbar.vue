@@ -12,5 +12,5 @@
   </div>
 </template>
 
-<script lang="ts" src="./snackbar.ts"/>
-<style scoped lang="scss" src="./snackbar.scss"/>
+<script lang="ts" src="./composant-snackbar.ts"/>
+<style scoped lang="scss" src="./composant-snackbar.scss"/>

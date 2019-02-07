@@ -3,8 +3,6 @@ import { from, Observable } from 'rxjs';
 
 import RestUtils from '@/services/utilitaire/restUtils';
 
-import { Utilisateur } from '@/model/model';
-
 /**
  * Composant responsable des appels aux APIs.
  * Documentation Axios : https://fr.vuejs.org/v2/cookbook/using-axios-to-consume-apis.html

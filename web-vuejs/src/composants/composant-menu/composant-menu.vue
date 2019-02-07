@@ -14,5 +14,5 @@
   </div>
 </template>
 
-<script lang="ts" src="./menu.ts"/>
-<style scoped lang="scss" src="./menu.scss"/>
+<script lang="ts" src="./composant-menu.ts"/>
+<style scoped lang="scss" src="./composant-menu.scss"/>

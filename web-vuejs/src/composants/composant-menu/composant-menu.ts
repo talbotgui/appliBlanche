@@ -1,6 +1,6 @@
 import { Component, Vue } from 'vue-property-decorator';
 
-import SecuriteService from '@/services/securiteService';
+import SecuriteService from '@/services/service-securite';
 
 @Component
 export default class Menu extends Vue {
