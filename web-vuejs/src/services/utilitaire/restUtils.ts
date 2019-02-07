@@ -10,8 +10,20 @@ export default class RestUtils {
     }
 
     /** Creation des entetes d'appel à une méthode REST */
-    public creerHeader(): { headers: any } | undefined {
+    public creerHeader(enteteSupplementaire?: { clef: string, valeur: string }): { headers: any } | undefined {
+        // Entete de base
         const entete: any = { 'Content-Type': 'application/json' };
+
+        // Ajout d'un entete supplémentaire
+        if (enteteSupplementaire) {
+            entete[enteteSupplementaire.clef] = enteteSupplementaire.valeur;
+        }
+
+        // Ajout du token de l'API (si disponible)
+        if (store.default.getters.getTokenApi) {
+            entete.authorization = store.default.getters.getTokenApi;
+        }
+
         return { headers: entete };
     }
 
@@ -26,8 +38,12 @@ export default class RestUtils {
                     store.default.commit('declarerUneConnexionUtilisateur', response.headers.authorization);
                 }
 
-                // Renvoi uniquement des données de la réponse et de rien d'autre
-                return response.data;
+                // Renvoi uniquement des données de la réponse et pas de la requête elle même
+                if (response.data) {
+                    return response.data;
+                } else {
+                    return response;
+                }
             },
             // qui traite les erreur (méthode onRejected de l'intercepteur)
             this.errorHandler,
