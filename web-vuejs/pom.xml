@@ -47,8 +47,8 @@
 						<goals><goal>install-node-and-npm</goal></goals>
 						<phase>initialize</phase>
 						<configuration>
-							<nodeVersion>v8.9.1</nodeVersion>
-							<npmVersion>5.5.1</npmVersion>
+							<nodeVersion>v10.11.0</nodeVersion>
+							<npmVersion>6.4.1</npmVersion>
 							<nodeDownloadRoot>https://nodejs.org/dist/</nodeDownloadRoot>
 							<npmDownloadRoot>http://registry.npmjs.org/npm/-/</npmDownloadRoot>
 						</configuration>
@@ -99,6 +99,7 @@
 				</executions>
 			</plugin>
 			<!-- Génération d'un fichier avec les informations du commit dans le répertoire de destination de la compilation de NPM -->
+			<!-- En phase de test car VueJS supprime le /dist au démarrage du build-prod -->
 			<plugin>
 				<groupId>pl.project13.maven</groupId>
 				<artifactId>git-commit-id-plugin</artifactId>
@@ -107,7 +108,7 @@
 					<execution>
 						<id>default</id>
 						<goals><goal>revision</goal></goals>
-						<phase>generate-sources</phase>
+						<phase>test</phase>
 					</execution>
 				</executions>
 				<configuration>
