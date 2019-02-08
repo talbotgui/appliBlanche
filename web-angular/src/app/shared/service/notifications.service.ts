@@ -65,15 +65,48 @@ export class NotificationsService {
     this.stompService.activate();
 
     // Ecoute des messages envoyés par le backend sur le topic 'nouvelleReservation'
-    this.stompService.watch('/topic/nouvelleReservation').subscribe(
-      (m: Message) => {
-        let message = this.translationService.translate('notification_nouvelleReservation', undefined, this.localService.getCurrentLanguage());
-        if (m.body) {
-          const r: Reservation = JSON.parse(m.body);
-          message += ' ' + r.client + ' (' + r.dateDebut + ' => ' + r.dateFin + ')';
+    this.stompService.watch('/topic/nouvelleReservation').subscribe(this.traiterNotificationNouvelleReservation.bind(this));
+  }
+
+  private traiterNotificationNouvelleReservation(m: Message) {
+
+    // Recupération des données
+    let message = this.translationService.translate('notification_nouvelleReservation', undefined, this.localService.getCurrentLanguage());
+
+    // Lecture des données et complément au message
+    if (!m.body) {
+      const r: Reservation = JSON.parse(m.body);
+      message += ' ' + r.client + ' (' + r.dateDebut + ' => ' + r.dateFin + ')';
+    }
+
+    // Affichage d'un message dans la snackbar
+    this.snackBar.open(message, undefined, this.snackbarConfig);
+
+    // Notification par l'API NOTIFICATION
+    // Documentation https://developer.mozilla.org/en-US/docs/Web/API/Notifications_API/Using_the_Notifications_API
+    this.notifierDansLos(message);
+  }
+
+  /** Notification dans l'OS (Windows, OSx, Android) */
+  // Documentation https://developer.mozilla.org/en-US/docs/Web/API/Notifications_API/Using_the_Notifications_API
+  private notifierDansLos(message: string) {
+    // Verification que le navigateur supporte les notifications
+    if (!('Notification' in window)) {
+      return;
+    }
+
+    // Si les notifications sont autorisées, on notifie
+    else if (Notification.permission === 'granted') {
+      const notification = new Notification(message);
+    }
+
+    // Sinon, on demande la permission puis on notifie une fois autorisé
+    else if (Notification.permission !== 'denied') {
+      Notification.requestPermission(function(permission) {
+        if (permission === 'granted') {
+          const notification = new Notification('Hi there!');
         }
-        this.snackBar.open(message, undefined, this.snackbarConfig);
-      }
-    );
+      });
+    }
   }
 }
