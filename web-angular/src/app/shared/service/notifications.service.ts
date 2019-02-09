@@ -102,7 +102,8 @@ export class NotificationsService {
 
     // Sinon, on demande la permission puis on notifie une fois autorisé
     else if (Notification.permission !== 'denied') {
-      Notification.requestPermission(function(permission) {
+      Notification.requestPermission((permission) => {
+
         if (permission === 'granted') {
           const notification = new Notification('Hi there!');
         }
