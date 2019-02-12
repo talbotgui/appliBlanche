@@ -25,20 +25,13 @@ export class NotificationsService {
   constructor(private snackBar: MatSnackBar, private translationService: TranslationService, private localService: LocaleService, private context: Context) {
 
     // A la connexion d'un utilisateur, on initialise le socket
-    this.context.notificationsConnexionDunUtilisateur.subscribe((u) => {
+    this.context.notificationsConnexionDunUtilisateur.subscribe((u: any) => {
       if (u) {
         this.initialiserSocketPostConnexion();
       } else {
         this.deconnexion();
       }
     });
-  }
-
-  /** Déconnexion */
-  deconnexion() {
-    if (this.stompService) {
-      this.stompService.deactivate();
-    }
   }
 
   /** Initialisation de la socket */
@@ -53,12 +46,17 @@ export class NotificationsService {
       return;
     }
 
+    // Si un socket existe déjà, on le ferme
+    this.deconnexion();
+
+    // Instanciation
+    this.stompService = new RxStompService();
+
     // Configuration
     const config: RxStompConfig = {
       brokerURL: url, connectHeaders: { Authorization: token },
       heartbeatIncoming: 0, heartbeatOutgoing: 20000, reconnectDelay: 5000
     };
-    this.stompService = new RxStompService();
     this.stompService.configure(config);
 
     // Démarrage
@@ -66,6 +64,13 @@ export class NotificationsService {
 
     // Ecoute des messages envoyés par le backend sur le topic 'nouvelleReservation'
     this.stompService.watch('/topic/nouvelleReservation').subscribe(this.traiterNotificationNouvelleReservation.bind(this));
+  }
+
+  /** Déconnexion */
+  private deconnexion() {
+    if (this.stompService) {
+      this.stompService.deactivate();
+    }
   }
 
   private traiterNotificationNouvelleReservation(m: Message) {
@@ -103,9 +108,8 @@ export class NotificationsService {
     // Sinon, on demande la permission puis on notifie une fois autorisé
     else if (Notification.permission !== 'denied') {
       Notification.requestPermission((permission) => {
-
         if (permission === 'granted') {
-          const notification = new Notification('Hi there!');
+          const notification = new Notification(message);
         }
       });
     }

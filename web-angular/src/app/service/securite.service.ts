@@ -33,7 +33,7 @@ export class SecuriteService {
     // Appel au login
     const donnees = { login, mdp };
     this.http.postForResponse<void>(environment.baseUrl + '/login', donnees, { observe: 'response' })
-      .pipe(catchError<any>((error) => {
+      .pipe(catchError<any>((error: any) => {
         // Suppression du token si le login est une erreur
         localStorage.removeItem('JWT');
 
@@ -48,18 +48,16 @@ export class SecuriteService {
       }))
       .subscribe((reponse: HttpResponse<void>) => {
 
-        // Lecture du token
+        // Sauvegarde du token dans le localstorage
         const token = reponse.headers.get('Authorization');
+        if (token) {
+          localStorage.setItem('JWT', token);
+          this.tokenDejaValide = true;
+        }
 
         // Sauvegarde des informations de l'utilisateur connecté
         if (reponse.body) {
           this.conserverUtilisateurConnecteEnMemoire(reponse.body);
-        }
-
-        // Sauvegarde du token dans le localstorage
-        if (token) {
-          localStorage.setItem('JWT', token);
-          this.tokenDejaValide = true;
         }
 
         // Appel à la callback
