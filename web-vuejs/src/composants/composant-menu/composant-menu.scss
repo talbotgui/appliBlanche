@@ -1,1 +1,5 @@
-.toto { color: red; }
+/** Pour masquer le texte sur les écrans peu larges */
+@media screen and (max-width: 540px) { .libelleBouton { display: none; } }
+
+/** Pour écarter un peu l'icone du texte */
+.iconeBouton { margin-right: 4px; }

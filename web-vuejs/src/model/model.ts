@@ -62,3 +62,26 @@ export class Ressource {
     /** Description */
     public description!: string;
 }
+
+/** Gestion du menu (cette classe n'a pas d'équivalent dans le backend) */
+export class PageApplicative {
+    /**
+     *  Constructeur
+     * @param nom Nom
+     * @param icone Icone FontAwesome
+     * @param clefApi Clef de l'API
+     * @param route Route dans le routeur Angular
+     */
+    constructor(public nom: string, public icone: string, public clefApi: string, public route: string) { }
+}
+
+/** Module applicatif dans le menu (cette classe n'a pas d'équivalent dans le backend) */
+export class ModuleApplicatif {
+    /**
+     * Constructeur
+     * @param nom Nom
+     * @param icone Icone FontAwesome
+     * @param pages Pages du module
+     */
+    constructor(public nom: string, public icone: string, public pages: PageApplicative[]) { }
+}
