@@ -68,7 +68,7 @@ export default class RestUtils {
         // Si on est offline
         if (!navigator.onLine) {
             codeMessage = 'erreur_aucuneConnexionInternet';
-        } else if (error.response) {
+        } else if (error && error.response) {
             /* tslint:disable-next-line */
             console.log(error.response);
             if (error.response.status === 0) {
@@ -86,7 +86,7 @@ export default class RestUtils {
                 parametresMessage = error.data.error.details;
                 severite = error.data.error.level;
             }
-        } else if (error.request) {
+        } else if (error && error.request) {
             // TODO: tester le cas d'une erreur RestException ou BusinessException
             /* tslint:disable-next-line */
             console.log('cas d\'erreur non traité');
