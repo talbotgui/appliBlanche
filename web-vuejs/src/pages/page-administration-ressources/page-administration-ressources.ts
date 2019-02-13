@@ -7,7 +7,11 @@ import { Page, Ressource } from '@/model/model';
 export default class PageAdministrationRessources extends Vue {
 
     /** Page de données */
-    public page!: Page<Ressource>;
+    public page: Page<Ressource> = new Page(10, 0);
+
+    /** Liste alimentant les selectbox */
+    public listeNbElementsParPage: number[] = [5, 10, 20, 50, 100];
+    public listeIndexesDePage: number[] = [];
 
     /** Une dépendance */
     private ressourcesService: RessourceService;
@@ -20,7 +24,14 @@ export default class PageAdministrationRessources extends Vue {
 
     /** Méthode appelée dès que le composant est chargé. */
     public mounted() {
-        this.page = new Page(10, 0);
-        this.ressourcesService.listerRessources(this.page).subscribe((p) => { this.page = p; console.log(p); });
+        this.ressourcesService.listerRessources(this.page).subscribe((p) => {
+            this.page = p;
+
+            const listeIndexes = [];
+            for (let i = 0; i < this.page.totalPages; i++) {
+                listeIndexes.push(i);
+            }
+            this.listeIndexesDePage = listeIndexes;
+        });
     }
 }
