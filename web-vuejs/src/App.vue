@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-app>
     <Menu></Menu>
 
     <v-content>
@@ -7,7 +7,7 @@
     </v-content>
 
     <Snackbar></Snackbar>
-  </div>
+  </v-app>
 </template>
 
 <!-- Balises pour charger le ts -->
