@@ -67,7 +67,6 @@ export default new Vuex.Store({
         },
         demandeDeDeconnexion(state: any) {
             state.aDemandeLaDeconnexion = true;
-
         },
     },
 

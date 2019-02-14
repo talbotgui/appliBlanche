@@ -55,22 +55,28 @@ export default class Menu extends Vue {
 
         // A la connexion/déconnexion d'un utilisateur
         this.$store.subscribe((mutation: MutationPayload, state: any) => {
-            if (mutation.type !== 'declarerUneConnexionUtilisateur') {
-                return;
+
+            // A la connexion
+            if (mutation.type === 'declarerUneConnexionUtilisateur') {
+
+                // Validation des éléments du menu autorisés à cet utilisateur
+                const modulesAutorises: ModuleApplicatif[] = [];
+                const clefsAutorisees = this.securiteService.validerAutorisations(clefs);
+                tousLesModules.forEach((m) => {
+                    const pagesAutorisees = m.pages.filter((p) => clefsAutorisees.indexOf(p.clefApi) !== -1);
+                    if (pagesAutorisees.length > 0) {
+                        modulesAutorises.push(new ModuleApplicatif(m.nom, m.icone, pagesAutorisees));
+                    }
+                });
+
+                // Affectation des modules autorisés
+                this.modules = modulesAutorises;
             }
 
-            // Validation des éléments du menu autorisés à cet utilisateur
-            const clefsAutorisees = this.securiteService.validerAutorisations(clefs);
-            const modulesAutorises: ModuleApplicatif[] = [];
-            tousLesModules.forEach((m) => {
-                const pagesAutorisees = m.pages.filter((p) => clefsAutorisees.indexOf(p.clefApi) !== -1);
-                if (pagesAutorisees.length > 0) {
-                    modulesAutorises.push(new ModuleApplicatif(m.nom, m.icone, pagesAutorisees));
-                }
-            });
-
-            // Affectation des modules autorisés
-            this.modules = modulesAutorises;
+            // A la déconnexion
+            else if (mutation.type === 'demandeDeDeconnexion') {
+                this.modules = [];
+            }
         });
     }
 

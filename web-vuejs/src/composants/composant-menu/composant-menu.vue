@@ -1,5 +1,5 @@
 <template>
-  <v-layout wrap align-center>
+  <v-layout wrap align-center v-if="modules.length > 0">
 
     <!-- Accueil -->
     <router-link to="/" tag="button">
