@@ -10,7 +10,9 @@
             <v-list>
               <v-list-tile v-for="p in moduleSelectionne.pages" :key="p.nom">
                 <v-list-tile-title>
-                  <router-link :to="p.route">{{ p.nom }}</router-link>
+                  <router-link :to="p.route">
+                    <em :class="'iconeBouton fa fa-' + p.icone"></em>
+                    <span>{{ p.nom }}</span></router-link>
                 </v-list-tile-title>
               </v-list-tile>
             </v-list>
