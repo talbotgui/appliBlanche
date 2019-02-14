@@ -2,6 +2,8 @@ import { Component, Vue } from 'vue-property-decorator';
 
 import SecuriteService from '@/services/service-securite';
 import { ModuleApplicatif, PageApplicative } from '@/model/model';
+import { MutationPayload } from 'vuex';
+import routeur from '@/router';
 
 @Component
 export default class Menu extends Vue {
@@ -45,7 +47,36 @@ export default class Menu extends Vue {
         pagesDuModule.push(new PageApplicative('menu_facturation', 'donate', 'reservation.rechercherReservations', ''));
         tousLesModules.push(new ModuleApplicatif('menu_titre_facturation', 'dollar-sign', pagesDuModule));
 
-        // TODO: sécuriser les menus
-        this.modules = tousLesModules;
+        // Résumé des clefs nécessaires aux pages
+        let clefs: string[] = [];
+        tousLesModules.forEach((m) => {
+            clefs = clefs.concat(m.pages.map((p) => p.clefApi));
+        });
+
+        // A la connexion/déconnexion d'un utilisateur
+        this.$store.subscribe((mutation: MutationPayload, state: any) => {
+            if (mutation.type !== 'declarerUneConnexionUtilisateur') {
+                return;
+            }
+
+            // Validation des éléments du menu autorisés à cet utilisateur
+            const clefsAutorisees = this.securiteService.validerAutorisations(clefs);
+            const modulesAutorises: ModuleApplicatif[] = [];
+            tousLesModules.forEach((m) => {
+                const pagesAutorisees = m.pages.filter((p) => clefsAutorisees.indexOf(p.clefApi) !== -1);
+                if (pagesAutorisees.length > 0) {
+                    modulesAutorises.push(new ModuleApplicatif(m.nom, m.icone, pagesAutorisees));
+                }
+            });
+
+            // Affectation des modules autorisés
+            this.modules = modulesAutorises;
+        });
+    }
+
+    /** méthode de déconnexion */
+    public deconnecter() {
+        this.securiteService.deconnecter();
+        routeur.push('/login');
     }
 }

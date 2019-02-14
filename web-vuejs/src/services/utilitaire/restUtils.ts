@@ -1,5 +1,5 @@
 import axios from 'axios';
-import * as store from '@/store';
+import store from '@/store';
 import { MessageErreur, Severite } from '@/model/erreur';
 
 export default class RestUtils {
@@ -20,8 +20,8 @@ export default class RestUtils {
         }
 
         // Ajout du token de l'API (si disponible)
-        if (store.default.getters.getTokenApi) {
-            entete.authorization = store.default.getters.getTokenApi;
+        if (store.getters.getTokenApi) {
+            entete.authorization = store.getters.getTokenApi;
         }
 
         return { headers: entete };
@@ -35,7 +35,7 @@ export default class RestUtils {
                 // Si c'est une requete de connexion, on sauvegarde le token
                 if (response && response.request && response.request.responseURL && response.request.responseURL.endsWith('login')
                     && response.headers && response.headers.authorization) {
-                    store.default.commit('declarerUneConnexionUtilisateur', response.headers.authorization);
+                    store.commit('declarerUneConnexionUtilisateurToken', response.headers.authorization);
                 }
 
                 // Renvoi uniquement des données de la réponse et pas de la requête elle même
@@ -103,12 +103,12 @@ export default class RestUtils {
         console.log('parametresMessage=' + parametresMessage);
 
         // Notification du store avec le message d'erreur
-        store.default.commit('declarerErreurHttp', new MessageErreur(codeMessage, severite));
+        store.commit('declarerErreurHttp', new MessageErreur(codeMessage, severite));
 
         // Si c'est une requête de login, on supprime le token présent dans le store
         if (error && error.request && error.request.responseURL
             && error.request.responseURL.endsWith('/login') && error.response.status === 403) {
-            store.default.commit('invaliderConnexionUtilisateur');
+            store.commit('invaliderConnexionUtilisateur');
         }
 
         // Renvoi d'une erreur

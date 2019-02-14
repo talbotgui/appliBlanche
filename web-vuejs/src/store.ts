@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import { MessageErreur, Severite } from './model/erreur';
+import { Utilisateur } from './model/model';
 
 Vue.use(Vuex);
 
@@ -11,8 +12,16 @@ export default new Vuex.Store({
 
     // Les états conservés par Vuex
     state: {
+        // Dernier message
         messageErreurHttp: new MessageErreur('Bienvenue dans l\'application', Severite.Info),
-        tokenApi: '',
+        // Token pour appeler l'API
+        tokenApi: (localStorage.getItem('JWT')) ? '' + localStorage.getItem('JWT') : '',
+        // Utilisateur connecté
+        utilisateur: null,
+        /// Flag indiquant que l'utilisateur s'est déconnecté
+        aDemandeLaDeconnexion: false,
+        /// Flag evitant l'appel REST pour valider le token
+        tokenDejaValide: false,
     },
 
     // Getter donnant accès aux états
@@ -22,6 +31,12 @@ export default new Vuex.Store({
         },
         getTokenApi(state, getters): string {
             return state.tokenApi;
+        },
+        getDemandeLaDeconnexion(state, getter): boolean {
+            return state.aDemandeLaDeconnexion;
+        },
+        getTokenDejaValide(state, getter): boolean {
+            return state.tokenDejaValide;
         },
     },
 
@@ -33,11 +48,26 @@ export default new Vuex.Store({
         viderErreurHttp(state: any) {
             state.messageErreurHttp = undefined;
         },
-        declarerUneConnexionUtilisateur(state: any, token: string) {
+        declarerUneConnexionUtilisateurToken(state: any, token: string) {
+            localStorage.setItem('JWT', token);
+            state.tokenDejaValide = true;
             state.tokenApi = token;
+        },
+        declarerUneConnexionUtilisateur(state: any, utilisateur: Utilisateur) {
+            state.utilisateur = utilisateur;
         },
         invaliderConnexionUtilisateur(state: any) {
             state.tokenApi = undefined;
+            state.tokenDejaValide = false;
+            localStorage.removeItem('JWT');
+        },
+        demandeDeConnexion(state: any) {
+            state.aDemandeLaDeconnexion = false;
+            state.tokenDejaValide = false;
+        },
+        demandeDeDeconnexion(state: any) {
+            state.aDemandeLaDeconnexion = true;
+
         },
     },
 

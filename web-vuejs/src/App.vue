@@ -1,12 +1,14 @@
 <template>
   <v-app>
-    <Menu></Menu>
+    <v-container fluid grid-list-xl>
 
-    <v-content>
-      <router-view/>
-    </v-content>
+      <Menu></Menu>
 
-    <Snackbar></Snackbar>
+      <v-content><router-view/></v-content>
+
+      <Snackbar></Snackbar>
+
+    </v-container>
   </v-app>
 </template>
 
