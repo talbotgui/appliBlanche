@@ -1,10 +1,10 @@
 <template>
   <div>
-    login :
+    {{ $t('message.login') }}
     <input type="text" name="login" v-model="login">
-    password :
+    {{ $t('message.password') }}
     <input type="text" name="password" v-model="mdp">
-    <v-btn @click="connecter()">Se connecter</v-btn>
+    <v-btn @click="connecter()">{{ $t('message.doLogin') }}</v-btn>
   </div>
 </template>
 

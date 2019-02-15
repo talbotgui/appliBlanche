@@ -1,7 +1,6 @@
 <template>
   <v-app>
     <v-container fluid grid-list-xl>
-
       <Menu></Menu>
 
       <v-content><router-view/></v-content>
