@@ -3,3 +3,7 @@
 
 /** Pour écarter un peu l'icone du texte */
 .iconeBouton { margin-right: 4px; }
+
+/** Pour réduire la taille des boutons */
+.container.grid-list-xl .layout .flex { padding: 0px; }
+.child-flex>*, .flex { flex: 0 0 auto; }
