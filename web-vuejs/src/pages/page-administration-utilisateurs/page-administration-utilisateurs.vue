@@ -1,5 +1,7 @@
 <template>
-  <div>utilisateurs</div>
+  <div>
+    <h3>{{ $t('utilisateur_titre') }}</h3>
+  </div>
 </template>
 
 <script lang="ts" src="./page-administration-utilisateurs.ts"/>

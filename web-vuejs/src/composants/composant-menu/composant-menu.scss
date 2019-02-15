@@ -5,5 +5,4 @@
 .iconeBouton { margin-right: 4px; }
 
 /** Pour réduire la taille des boutons */
-.container.grid-list-xl .layout .flex { padding: 0px; }
-.child-flex>*, .flex { flex: 0 0 auto; }
+.container.grid-list-xl .layout .flex { padding: 0px 10px; }

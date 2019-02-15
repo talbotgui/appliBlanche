@@ -1,11 +1,11 @@
 <template>
   <v-layout wrap align-center>
     <v-flex xs12 d-flex>
-      <h3>Administration des ressources</h3>
+      <h3>{{ $t('ressource_titre') }}</h3>
     </v-flex>
     <v-flex xs12 d-flex>
       <table>
-        <thead><tr><th>Clef</th><th>Description</th></tr></thead>
+        <thead><tr><th>{{ $t('ressource_entete_clef') }}</th><th>{{ $t('ressource_entete_description') }}</th></tr></thead>
         <tbody>
           <tr v-for="r in page.content" v-bind:key="r.clef">
             <td>{{r.clef}}</td>

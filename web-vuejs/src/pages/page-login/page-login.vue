@@ -1,10 +1,9 @@
 <template>
   <div>
-    {{ $t('message.login') }}
-    <input type="text" name="login" v-model="login">
-    {{ $t('message.password') }}
-    <input type="text" name="password" v-model="mdp">
-    <v-btn @click="connecter()">{{ $t('message.doLogin') }}</v-btn>
+    <h2>{{ $t('connexion_titre') }}</h2>
+    <input type="text" name="login" v-model="login" :placeholder="$t('connexion_identifiant')">
+    <input type="password" autocomplete="current-password" name="password" v-model="mdp" :placeholder="$t('connexion_motDePasse')">
+    <v-btn @click="connecter()">{{ $t('connexion_boutonConnexion') }}</v-btn>
   </div>
 </template>
 

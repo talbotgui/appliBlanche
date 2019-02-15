@@ -4,22 +4,22 @@
     <!-- Accueil -->
     <router-link to="/" tag="button">
       <em class="iconeBouton fa fa-home"></em>
-      <span class="libelleBouton">menu_accueil</span>
+      <span class="libelleBouton">{{ $t('menu_accueil') }}</span>
     </router-link>
 
     <!-- Pour chaque module -->
     <v-flex d-flex v-for="m in modules" :key="m.nom">
       <v-menu offset-y>
-          <v-btn @click="moduleSelectionne=m" slot="activator">
+          <button @click="moduleSelectionne=m" slot="activator" class="router-link-exact-active router-link-active">
             <em :class="'iconeBouton fa fa-' + m.icone"></em>
-            <span class="libelleBouton">{{ m.nom }}</span>
-            </v-btn>
+            <span class="libelleBouton">{{ $t(m.nom) }}</span>
+          </button>
           <v-list>
             <v-list-tile v-for="p in moduleSelectionne.pages" :key="p.nom">
               <v-list-tile-title>
                 <router-link :to="p.route">
                   <em :class="'iconeBouton fa fa-' + p.icone"></em>
-                  <span>{{ p.nom }}</span></router-link>
+                  <span>{{ $t(p.nom) }}</span></router-link>
               </v-list-tile-title>
             </v-list-tile>
           </v-list>
@@ -29,7 +29,7 @@
     <!-- Deconnexion -->
     <button @click="deconnecter" class="router-link-exact-active router-link-active" >
       <em class="iconeBouton fa fa-window-close"></em>
-      <span class="libelleBouton">menu_deconnexion</span>
+      <span class="libelleBouton">{{ $t('menu_deconnexion') }}</span>
     </button>
     
   </v-layout>
