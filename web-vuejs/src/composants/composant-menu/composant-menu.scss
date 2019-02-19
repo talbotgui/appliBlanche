@@ -6,3 +6,6 @@
 
 /** Pour réduire la taille des boutons */
 .container.grid-list-xl .layout .flex { padding: 0px 10px; }
+
+/** Pour forcer les boutons de langue à droite dans le cas où le menu n'est pas encore rempli */
+.forceDivAdroite { position: absolute; right: 0px; }
