@@ -15,8 +15,8 @@ import './registerServiceWorker';
 // i18n
 Vue.use(VueI18n);
 const i18n = new VueI18n({
-    locale: 'fr', fallbackLocale: 'en',
-    messages: {},
+    locale: 'en', fallbackLocale: 'en',
+    messages: {}, sync: true,
 });
 
 Vue.config.productionTip = false;

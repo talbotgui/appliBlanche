@@ -1,6 +1,6 @@
 <template>
   <div>
-      <span>{{ $t('accueil_message') }}</span>
+    <span v-t="'accueil_message'"></span>
     <span> VueJS</span>
   </div>
 </template>

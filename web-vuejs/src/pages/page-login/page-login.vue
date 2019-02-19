@@ -1,9 +1,9 @@
 <template>
   <div>
-    <h2>{{ $t('connexion_titre') }}</h2>
+    <h2 v-t="'connexion_titre'"></h2>
     <input type="text" name="login" v-model="login" :placeholder="$t('connexion_identifiant')">
     <input type="password" autocomplete="current-password" name="password" v-model="mdp" :placeholder="$t('connexion_motDePasse')">
-    <v-btn @click="connecter()">{{ $t('connexion_boutonConnexion') }}</v-btn>
+    <v-btn @click="connecter()" v-t="'connexion_boutonConnexion'"></v-btn>
   </div>
 </template>
 
