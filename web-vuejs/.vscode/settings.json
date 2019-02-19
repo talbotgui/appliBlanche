@@ -1,4 +1,14 @@
 {
-  "json.format.enable": false,
-  "html.format.wrapAttributes": "aligned-multiple"
+"vetur.format.defaultFormatter.html": "js-beautify-html",
+"vetur.format.defaultFormatterOptions": {
+"js-beautify-html": {
+"wrap_line_length": 140,
+"wrap_attributes": "aligned-multiple",
+"wrap-attributes-indent-size": 140,
+"indent_with_tabs": true,
+"indent-inner-html": true
 }
+}
+}
+
+ 
