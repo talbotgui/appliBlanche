@@ -1,11 +1,12 @@
 import { Component, Vue } from 'vue-property-decorator';
-
-import SecuriteService from '@/services/service-securite';
-import { ModuleApplicatif, PageApplicative } from '@/model/model';
 import { MutationPayload } from 'vuex';
 import routeur from '@/router';
 
-@Component
+import { ModuleApplicatif, PageApplicative } from '@/model/model';
+import SecuriteService from '@/services/service-securite';
+import Langues from '@/composants/composant-langues/composant-langues';
+
+@Component({ components: { Langues } })
 export default class Menu extends Vue {
 
     /** Liste des modules du menu autorisés à l'utilisateur connecté */

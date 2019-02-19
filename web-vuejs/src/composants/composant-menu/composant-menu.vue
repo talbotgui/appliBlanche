@@ -31,6 +31,9 @@
       <em class="iconeBouton fa fa-window-close"></em>
       <span class="libelleBouton">{{ $t('menu_deconnexion') }}</span>
     </button>
+
+    <!-- Changement de langue -->
+    <Langues></Langues>
     
   </v-layout>
 </template>
