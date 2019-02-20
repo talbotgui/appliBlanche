@@ -9,7 +9,7 @@ export default class PageAdministrationRessources extends Vue {
     /** Page de données */
     public page: Page<Ressource> = new Page(10, 0);
 
-    /** Liste alimentant les selectbox */
+    /** Listes alimentant les selectbox */
     public listeNbElementsParPage: number[] = [5, 10, 20, 50, 100];
     public listeIndexesDePage: number[] = [];
 
