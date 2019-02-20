@@ -28,7 +28,7 @@ export default class Menu extends Vue {
         const tousLesModules: ModuleApplicatif[] = [];
         // Menu ADMINISTRATION
         let pagesDuModule = [];
-        pagesDuModule.push(new PageApplicative('menu_utilisateur', 'user', 'utilisateur.listerUtilisateur', ''));
+        pagesDuModule.push(new PageApplicative('menu_utilisateur', 'user', 'utilisateur.listerUtilisateur', '/administration-utilisateurs'));
         pagesDuModule.push(new PageApplicative('menu_role', 'users', 'roleEtRessource.listerRoles', ''));
         pagesDuModule.push(new PageApplicative('menu_ressource', 'magic', 'roleEtRessource.listerRessource', '/administration-ressources'));
         pagesDuModule.push(new PageApplicative('menu_monitoring', 'binoculars', 'monitoring.lireDonneesDuMonitoring', ''));
