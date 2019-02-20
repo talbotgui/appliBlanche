@@ -12,19 +12,19 @@ export default class RestUtils {
     /** Creation des entetes d'appel à une méthode REST */
     public creerHeader(enteteSupplementaire?: { clef: string, valeur: string }): { headers: any } | undefined {
         // Entete de base
-        const entete: any = { 'Content-Type': 'application/json' };
+        const entetes: any = { 'Content-Type': 'application/json' };
 
         // Ajout d'un entete supplémentaire
         if (enteteSupplementaire) {
-            entete[enteteSupplementaire.clef] = enteteSupplementaire.valeur;
+            entetes[enteteSupplementaire.clef] = enteteSupplementaire.valeur;
         }
 
         // Ajout du token de l'API (si disponible)
         if (store.getters.getTokenApi) {
-            entete.authorization = store.getters.getTokenApi;
+            entetes.authorization = store.getters.getTokenApi;
         }
 
-        return { headers: entete };
+        return { headers: entetes };
     }
 
     // Creation d'un intercepteur HTTP à la réception de la réponse HTTP

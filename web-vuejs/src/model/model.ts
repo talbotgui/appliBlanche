@@ -38,7 +38,7 @@ export class Utilisateur {
     /** Mot de passe */
     public mdp!: string;
     /** Liste des rôles */
-    public roles!: Role[];
+    public roles: Role[] = [];
     /** Date d'un échec de connexion */
     public premierEchec!: Date;
     /** Date d'un échec de connexion */
