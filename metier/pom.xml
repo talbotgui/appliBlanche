@@ -84,6 +84,12 @@
 			<artifactId>groovy-all</artifactId>
 			<version>${version.groovy}</version>
 			<type>pom</type>
+			<exclusions>
+				<exclusion>
+					<groupId>org.testng</groupId>
+					<artifactId>testng</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 	</dependencies>
 </project>
