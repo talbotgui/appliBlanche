@@ -140,7 +140,11 @@ public abstract class BaseException extends RuntimeException {
 		final JsonObjectBuilder detailsBuilder = Json.createObjectBuilder();
 		int i = 0;
 		for (final Object param : this.getParameters()) {
-			detailsBuilder.add(Integer.toString(i), param.toString());
+			String paramS = param.toString();
+			if (Class.class.isInstance(param)) {
+				paramS = ((Class<?>) param).getSimpleName();
+			}
+			detailsBuilder.add(Integer.toString(i), paramS);
 			i++;
 		}
 
