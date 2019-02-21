@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -56,10 +57,28 @@ public class AppExceptionHandler {
 		return new ResponseEntity<>(erreur, HttpStatus.valueOf(e.getExceptionId().getHttpStatusCode()));
 	}
 
+	/**
+	 * Uniquement pour l'exception EmptyResultDataAccessException.
+	 *
+	 * Cette erreur ne doit pas survenir. Le code doit s'en prémunir
+	 */
+	@ResponseBody
+	@ExceptionHandler({ EmptyResultDataAccessException.class })
+	public ResponseEntity<Object> creerReponsePourExceptionTechniquesConnues(final HttpServletRequest req, final EmptyResultDataAccessException e) {
+
+		// Log car cette erreur ne doit pas survenir !
+		LOG.error("Cette erreur ne doit jamais survenir ! Le code doit s'en prémunir en utilisant la méthode delete et non deleteById");
+
+		// Renvoi de la réponse
+		final BaseException exceptionDeSubstitution = new BusinessException(BusinessException.OBJET_NON_EXISTANT, "inconnu", "inconnu");
+		return this.creerReponsePourExceptionDuProjet(req, exceptionDeSubstitution);
+	}
+
 	/** Uniquement pour l'exception MissingServletRequestParameterException */
 	@ResponseBody
 	@ExceptionHandler({ MissingServletRequestParameterException.class })
-	public ResponseEntity<Object> creerReponsePourExceptionTechniquesConnues(final HttpServletRequest req, final Exception e) {
+	public ResponseEntity<Object> creerReponsePourExceptionTechniquesConnues(final HttpServletRequest req,
+			final MissingServletRequestParameterException e) {
 
 		// Log et statut de l'erreur
 		LOG.info(LOG_MESSAGE_AVEC_MESSAGE_EXCEPTION, req.getRequestURI(), e.getMessage());
@@ -67,4 +86,5 @@ public class AppExceptionHandler {
 		// Renvoi de la réponse
 		return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 	}
+
 }

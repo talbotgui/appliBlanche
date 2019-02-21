@@ -293,12 +293,17 @@ public class SecuriteServiceImpl implements SecuriteService {
 		}
 
 		this.lienRoleRessourceRepo.supprimerParRole(nom);
-		this.roleRepo.deleteById(nom);
+
+		final Role aSupprimer = this.roleRepo.findById(nom)
+				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, Role.class, nom));
+		this.roleRepo.delete(aSupprimer);
 	}
 
 	@Override
 	public void supprimerUtilisateur(final String login) {
-		this.utilisateurRepo.deleteById(login);
+		final Utilisateur aSupprimer = this.utilisateurRepo.findById(login)
+				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, Utilisateur.class, login));
+		this.utilisateurRepo.delete(aSupprimer);
 	}
 
 	private void valideLoginOuMotDePasse(final String loginOuMdp) {

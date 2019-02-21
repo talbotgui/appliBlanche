@@ -166,7 +166,9 @@ public class ReservationParametresServiceImpl implements ReservationParametresSe
 			throw new BusinessException(BusinessException.SUPPRESSION_IMPOSSIBLE_OBJETS_LIES, "Reservation");
 		}
 
-		this.chambreRepo.deleteById(id);
+		final Chambre aSupprimer = this.chambreRepo.findById(id)
+				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, Chambre.class, reference));
+		this.chambreRepo.delete(aSupprimer);
 	}
 
 	@Override
@@ -178,7 +180,9 @@ public class ReservationParametresServiceImpl implements ReservationParametresSe
 			throw new BusinessException(BusinessException.SUPPRESSION_IMPOSSIBLE_OBJETS_LIES, "Reservation");
 		}
 
-		this.formuleRepo.deleteById(id);
+		final Formule aSupprimer = this.formuleRepo.findById(id)
+				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, Formule.class, reference));
+		this.formuleRepo.delete(aSupprimer);
 	}
 
 	@Override
@@ -190,7 +194,9 @@ public class ReservationParametresServiceImpl implements ReservationParametresSe
 			throw new BusinessException(BusinessException.SUPPRESSION_IMPOSSIBLE_OBJETS_LIES, "Paiement");
 		}
 
-		this.moyenDePaiementRepo.deleteById(id);
+		final MoyenDePaiement aSupprimer = this.moyenDePaiementRepo.findById(id)
+				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, MoyenDePaiement.class, reference));
+		this.moyenDePaiementRepo.delete(aSupprimer);
 	}
 
 	@Override
@@ -202,7 +208,9 @@ public class ReservationParametresServiceImpl implements ReservationParametresSe
 			throw new BusinessException(BusinessException.SUPPRESSION_IMPOSSIBLE_OBJETS_LIES, "OptionReservee");
 		}
 
-		this.optionRepo.deleteById(id);
+		final Option aSupprimer = this.optionRepo.findById(id)
+				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, Option.class, reference));
+		this.optionRepo.delete(aSupprimer);
 	}
 
 	@Override
@@ -214,6 +222,8 @@ public class ReservationParametresServiceImpl implements ReservationParametresSe
 			throw new BusinessException(BusinessException.SUPPRESSION_IMPOSSIBLE_OBJETS_LIES, "Consommation");
 		}
 
-		this.produitRepo.deleteById(idProduit);
+		final Produit aSupprimer = this.produitRepo.findById(idProduit)
+				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, Produit.class, referenceProduit));
+		this.produitRepo.delete(aSupprimer);
 	}
 }

@@ -262,7 +262,9 @@ public class ReservationServiceImpl implements ReservationService {
 			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, Reservation.class, referenceReservation);
 		}
 
-		this.consommationRepo.deleteById(idConsommation);
+		final Consommation aSupprimer = this.consommationRepo.findById(idConsommation)
+				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, Consommation.class, referenceConsommation));
+		this.consommationRepo.delete(aSupprimer);
 	}
 
 	@Override
@@ -275,7 +277,9 @@ public class ReservationServiceImpl implements ReservationService {
 			throw new BusinessException(BusinessException.OBJET_NON_EXISTANT, Reservation.class, referenceReservation);
 		}
 
-		this.paiementRepo.deleteById(idPaiement);
+		final Paiement aSupprimer = this.paiementRepo.findById(idPaiement)
+				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, Paiement.class, referencePaiement));
+		this.paiementRepo.delete(aSupprimer);
 	}
 
 	@Override
@@ -287,7 +291,9 @@ public class ReservationServiceImpl implements ReservationService {
 			throw new BusinessException(BusinessException.SUPPRESSION_IMPOSSIBLE_OBJETS_LIES, "Consommation");
 		}
 
-		this.reservationRepo.deleteById(idReservation);
+		final Reservation aSupprimer = this.reservationRepo.findById(idReservation)
+				.orElseThrow(() -> new BusinessException(BusinessException.OBJET_NON_EXISTANT, Reservation.class, referenceReservation));
+		this.reservationRepo.delete(aSupprimer);
 	}
 
 	/**
