@@ -24,10 +24,7 @@ export class UtilisateurService {
 
   /** Création d'un utilisateur */
   sauvegarderUtilisateur(utilisateur: model.Utilisateur): Observable<{} | void> {
-    const donnees = new HttpParams()
-      .set('login', utilisateur.login)
-      .set('mdp', utilisateur.mdp);
-
+    const donnees = {login:utilisateur.login,mdp: utilisateur.mdp};
     const url = environment.baseUrl + '/v1/utilisateurs';
     return this.http.post<void>(url, donnees, this.restUtils.creerHeaderPost());
   }

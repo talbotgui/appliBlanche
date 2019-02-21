@@ -23,6 +23,7 @@ import com.guillaumetalbot.applicationblanche.metier.dto.UtilisateurAvecRolesEtA
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.Utilisateur;
 import com.guillaumetalbot.applicationblanche.rest.controleur.test.ControlerTestUtil;
 import com.guillaumetalbot.applicationblanche.rest.controleur.utils.RestControlerUtils;
+import com.guillaumetalbot.applicationblanche.rest.dto.UtilisateurAcreerDto;
 
 public class UtilisateurRestControlerTest extends BaseTestClass {
 
@@ -77,11 +78,11 @@ public class UtilisateurRestControlerTest extends BaseTestClass {
 		// ARRANGE
 		Mockito.doReturn(toReturn).when(this.securiteService).sauvegarderUtilisateur(Mockito.anyString(), Mockito.anyString());
 
-		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("login", login, "mdp", mdp);
+		final UtilisateurAcreerDto utilisateurAcreer = new UtilisateurAcreerDto(login, mdp);
 		final Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT
-		this.getREST().postForObject(this.getURL() + "/v1/utilisateurs", requestParam, Void.class, uriVars);
+		this.getREST().postForObject(this.getURL() + "/v1/utilisateurs", utilisateurAcreer, Void.class, uriVars);
 
 		// ASSERT
 		Mockito.verify(this.securiteService).sauvegarderUtilisateur(login, mdp);
@@ -114,12 +115,12 @@ public class UtilisateurRestControlerTest extends BaseTestClass {
 		final String mdp = "monMdp";
 
 		// ARRANGE
-		final MultiValueMap<String, Object> requestParam = ControlerTestUtil.creeMapParamRest("login", login, "mdp", mdp);
+		final UtilisateurAcreerDto utilisateurAcreer = new UtilisateurAcreerDto(login, mdp);
 		final Map<String, Object> uriVars = new HashMap<String, Object>();
 
 		// ACT
 		final Throwable thrown = Assertions.catchThrowable(() -> {
-			this.getREST().postForObject(this.getURL() + "/v1/utilisateurs", requestParam, Void.class, uriVars);
+			this.getREST().postForObject(this.getURL() + "/v1/utilisateurs", utilisateurAcreer, Void.class, uriVars);
 		});
 
 		// ASSERT

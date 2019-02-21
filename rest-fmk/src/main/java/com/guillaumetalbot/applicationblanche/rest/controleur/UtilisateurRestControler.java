@@ -20,6 +20,7 @@ import com.guillaumetalbot.applicationblanche.exception.RestException;
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.Utilisateur;
 import com.guillaumetalbot.applicationblanche.metier.service.SecuriteService;
 import com.guillaumetalbot.applicationblanche.rest.controleur.utils.RestControlerUtils;
+import com.guillaumetalbot.applicationblanche.rest.dto.UtilisateurAcreerDto;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -87,14 +88,13 @@ public class UtilisateurRestControler {
 	@PostMapping(value = "/v1/utilisateurs")
 	@ApiOperation(value = "Sauvegarder l'utilisateur", notes = "")
 	public void sauvegarderUtilisateur(//
-			@RequestParam(value = "login") final String login, //
-			@RequestParam(value = "mdp", required = false) final String mdp) {
+			@RequestBody final UtilisateurAcreerDto utilisateurAcreer) {
 		// Validation coté WEB car elle est nécessaire à cause d'un problème WEB
 		// (au delete avec un . dans le parametre)
-		if (login.contains(".")) {
+		if (utilisateurAcreer.getLogin().contains(".")) {
 			throw new RestException(RestException.ERREUR_VALEUR_PARAMETRE, "login", "a-zA-Z0-9", "avec des caractères speciaux");
 		}
-		this.securiteService.sauvegarderUtilisateur(login, mdp);
+		this.securiteService.sauvegarderUtilisateur(utilisateurAcreer.getLogin(), utilisateurAcreer.getMdp());
 	}
 
 	@DeleteMapping(value = "/v1/utilisateurs/{login}")

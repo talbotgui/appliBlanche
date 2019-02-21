@@ -27,8 +27,7 @@ export class UtilisateurService {
     /** Création d'un utilisateur */
     public sauvegarderUtilisateur(utilisateur: Utilisateur): Observable<{} | void> {
         const donnees = { login: utilisateur.login, mdp: utilisateur.mdp };
-
-        const url = process.env.VUE_APP_URL_API + '/v1/utilisateurs?login=' + utilisateur.login + '&mdp=' + utilisateur.mdp;
+        const url = process.env.VUE_APP_URL_API + '/v1/utilisateurs';
         return from(axios.post(url, donnees, this.restUtils.creerHeader()));
     }
 
