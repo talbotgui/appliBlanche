@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -89,6 +90,12 @@ public class UtilisateurRestControler {
 	@ApiOperation(value = "Sauvegarder l'utilisateur", notes = "")
 	public void sauvegarderUtilisateur(//
 			@RequestBody final UtilisateurAcreerDto utilisateurAcreer) {
+		if (StringUtils.isEmpty(utilisateurAcreer.getLogin())) {
+			throw new RestException(RestException.ERREUR_PARAMETRE_MANQUANT, "login");
+		}
+		if (StringUtils.isEmpty(utilisateurAcreer.getMdp())) {
+			throw new RestException(RestException.ERREUR_PARAMETRE_MANQUANT, "mdp");
+		}
 		// Validation coté WEB car elle est nécessaire à cause d'un problème WEB
 		// (au delete avec un . dans le parametre)
 		if (utilisateurAcreer.getLogin().contains(".")) {
