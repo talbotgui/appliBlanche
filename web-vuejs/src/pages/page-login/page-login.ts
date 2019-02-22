@@ -6,13 +6,23 @@ import routeur from '@/router';
 @Component
 export default class PageLogin extends Vue {
 
+    /** Flag indiquant l'état de validation du formulaire */
+    public valid: boolean = true;
+
+    /** Regles de validation du formulaire */
+    public loginRegles = [(v: any) => !!v || 'utilisateur_placeholder_login_validation'];
+    public mdpRegles = [(v: any) => !!v || 'utilisateur_placeholder_mdp_validation'];
+
+    /** Identifiant */
     public login: string = 'adminAsupprimer';
+
+    /** Mot de passe */
     public mdp: string = 'adminAsupprimer';
 
     /** Une dépendance */
     private securiteService: SecuriteService;
 
-    /** Constructeur avec création des dépendances */
+    /** Constructeur avec création des dép ndances */
     constructor() {
         super();
         this.securiteService = new SecuriteService();
