@@ -7,15 +7,17 @@ import '@fortawesome/fontawesome-free/css/all.css';
 import '@/plugins/vuetify';
 // Ces imports déclenche les mécaniques des plugins - fin
 
-import App from './App.vue';
-import router from './router';
-import store from './store';
-import './registerServiceWorker';
+import App from '@/App.vue';
+import router from '@/router';
+import store from '@/store';
+import '@/registerServiceWorker';
+import { I18nFormatter } from '@/services/utilitaire/i18nFormater';
 
 // i18n
 Vue.use(VueI18n);
 const i18n = new VueI18n({
     locale: 'en', fallbackLocale: 'en',
+    formatter: new I18nFormatter(),
     messages: {}, sync: true,
 });
 

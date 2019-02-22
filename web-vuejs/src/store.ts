@@ -13,7 +13,7 @@ export default new Vuex.Store({
     // Les états conservés par Vuex
     state: {
         // Dernier message
-        messageErreurHttp: new MessageErreur('Bienvenue dans l\'application', Severite.Info),
+        messageErreurHttp: new MessageErreur('Bienvenue dans l\'application', Severite.Info, []),
         // Token pour appeler l'API
         tokenApi: (localStorage.getItem('JWT')) ? '' + localStorage.getItem('JWT') : '',
         // Utilisateur connecté
