@@ -1,6 +1,5 @@
 import { Component, Vue } from 'vue-property-decorator';
 
-import SecuriteService from '@/services/service-securite';
 import { Role, Utilisateur, Page } from '@/model/model';
 import { RoleService } from '@/services/service-role';
 import { UtilisateurService } from '@/services/service-utilisateur';

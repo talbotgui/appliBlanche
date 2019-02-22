@@ -1,7 +1,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { MutationPayload } from 'vuex';
-import routeur from '@/router';
 
+import routeur from '@/router';
 import { ModuleApplicatif, PageApplicative } from '@/model/model';
 import SecuriteService from '@/services/service-securite';
 import Langues from '@/composants/composant-langues/composant-langues';

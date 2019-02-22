@@ -3,7 +3,6 @@ import { from, empty, Observable } from 'rxjs';
 import { expand, map, reduce } from 'rxjs/operators';
 
 import RestUtils from '@/services/utilitaire/restUtils';
-
 import { Page } from '@/model/model';
 import { ElementMonitoring } from '@/model/administration-model';
 

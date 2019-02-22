@@ -1,7 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { MessageErreur, Severite } from './model/erreur';
-import { Utilisateur } from './model/model';
+
+import { MessageErreur, Severite } from '@/model/erreur';
+import { Utilisateur } from '@/model/model';
 
 Vue.use(Vuex);
 

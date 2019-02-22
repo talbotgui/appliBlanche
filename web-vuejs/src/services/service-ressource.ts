@@ -2,7 +2,6 @@ import axios from 'axios';
 import { from, Observable } from 'rxjs';
 
 import RestUtils from '@/services/utilitaire/restUtils';
-
 import { Page, Ressource, Role } from '@/model/model';
 
 /**

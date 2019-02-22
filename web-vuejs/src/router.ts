@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import Router, { Route } from 'vue-router';
+
 import Accueil from '@/pages/page-accueil/page-accueil.vue';
-import SecuriteService from './services/service-securite';
-import { map } from 'rxjs/operators';
+import SecuriteService from '@/services/service-securite';
 
 Vue.use(Router);
 

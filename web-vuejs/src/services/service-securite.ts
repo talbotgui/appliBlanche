@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { from, Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import RestUtils from '@/services/utilitaire/restUtils';
-import { map, catchError } from 'rxjs/operators';
 import { Utilisateur } from '@/model/model';
 import store from '@/store';
 
