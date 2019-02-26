@@ -25,7 +25,7 @@ export class AnimationComponent {
 
         // Focus sur le premier champ du formulaire
         if (focus) {
-          const premierChamp = cadre.querySelector('input');
+          const premierChamp = cadre.querySelector('input:not([ng-reflect-disabled="true"])') as HTMLElement;
           if (premierChamp) {
             const estDatePicker = !!premierChamp.attributes.getNamedItem('ng-reflect-mat-datepicker');
             if (estDatePicker) {
