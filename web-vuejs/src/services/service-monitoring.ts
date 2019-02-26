@@ -25,7 +25,7 @@ export class MonitoringService {
      *
      * @param page La page demandée (nb éléments par page, index de la page et ordre de tri)
      */
-    public lireInformations(page: Page<ElementMonitoring>): Observable<{} | Page<ElementMonitoring>> {
+    public lireInformations(page: Page<ElementMonitoring>): Observable<any | Page<ElementMonitoring>> {
 
         // Toutes les colonnes sont triables mais, par défaut, c'est par clef
         let triPar: string = 'clef';

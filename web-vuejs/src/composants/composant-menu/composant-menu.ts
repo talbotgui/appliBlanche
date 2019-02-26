@@ -31,7 +31,7 @@ export default class Menu extends Vue {
         pagesDuModule.push(new PageApplicative('menu_utilisateur', 'user', 'utilisateur.listerUtilisateur', '/administration-utilisateurs'));
         pagesDuModule.push(new PageApplicative('menu_role', 'users', 'roleEtRessource.listerRoles', ''));
         pagesDuModule.push(new PageApplicative('menu_ressource', 'magic', 'roleEtRessource.listerRessource', '/administration-ressources'));
-        pagesDuModule.push(new PageApplicative('menu_monitoring', 'binoculars', 'monitoring.lireDonneesDuMonitoring', ''));
+        pagesDuModule.push(new PageApplicative('menu_monitoring', 'binoculars', 'monitoring.lireDonneesDuMonitoring', '/administration-monitoring'));
         tousLesModules.push(new ModuleApplicatif('menu_titre_administration', 'shield-alt', pagesDuModule));
         // Menu RESERVATION
         pagesDuModule = [];

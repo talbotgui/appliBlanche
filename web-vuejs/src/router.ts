@@ -23,6 +23,10 @@ const routeur = new Router({
             path: '/administration-ressources', name: 'administration-ressources',
             component: () => import(/* webpackChunkName: "login" */ './pages/page-administration-ressources/page-administration-ressources.vue'),
         },
+        {
+            path: '/administration-monitoring', name: 'administration-monitoring',
+            component: () => import(/* webpackChunkName: "login" */ './pages/page-administration-monitoring/page-administration-monitoring.vue'),
+        },
     ],
 });
 
