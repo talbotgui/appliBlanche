@@ -18,11 +18,11 @@
 				<tbody>
 					<tr v-for="e in page.content" v-bind:key="e.clef">
 						<td>{{e.clef}}</td>
-						<td>{{e.nbAppels}}</td>
-						<td>{{e.tempsCumule}}</td>
-						<td>{{e.tempsMoyen}}</td>
-						<td>{{e.tempsMax}}</td>
-						<td>{{e.tempsMin}},0000 000'00</td>
+						<td>{{e.nbAppels | enNombre}}</td>
+						<td>{{e.tempsCumule | enNombre}}</td>
+						<td>{{e.tempsMoyen | enNombre(2)}}</td>
+						<td>{{e.tempsMax | enNombre}}</td>
+						<td>{{e.tempsMin | enNombre}}</td>
 					</tr>
 				</tbody>
 			</table>
