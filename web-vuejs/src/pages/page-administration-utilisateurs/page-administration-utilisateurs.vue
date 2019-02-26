@@ -44,7 +44,7 @@
 
 		<v-flex xs12 d-flex>
 			<!-- Création ou édition d'utilisateur -->
-			<form novalidate>
+			<v-form v-model="valide">
 				<div id="formulaireUtilisateur" v-if="!!utilisateurSelectionne">
 
 					<!-- Titre -->
@@ -52,16 +52,16 @@
 					<h3 v-t="'utilisateur_formulaire_titre'"></h3>
 
 					<!-- Champs -->
-					<v-text-field required minlength="6" v-model="utilisateurSelectionne.login" name="login" :label="$t('utilisateur_placeholder_login')"
+					<v-text-field required minlength="6" v-model="utilisateurSelectionne.login" name="login" :rules="loginRegles" :label="$t('utilisateur_placeholder_login')"
 					              :disabled="!creation"></v-text-field>
-					<v-text-field matInput required minlength="6" type="password" v-model="utilisateurSelectionne.mdp" name="mdp" :label="$t('utilisateur_placeholder_mdp')"></v-text-field>
+					<v-text-field matInput required minlength="6" type="password" v-model="utilisateurSelectionne.mdp" name="mdp" :rules="mdpRegles"
+					              :label="$t('utilisateur_placeholder_mdp')"></v-text-field>
 
 					<!-- Boutons -->
-					<!-- TODO: :disabled="!utilisateurForm.form.valid" -->
-					<v-btn @click="sauvegarderUtilisateur()" v-t="'utilisateur_bouton_creer'"></v-btn>
+					<v-btn @click="sauvegarderUtilisateur()" :disabled="!valide" v-t="'utilisateur_bouton_creer'"></v-btn>
 					<v-btn @click="annulerCreationUtilisateur()" v-t="'utilisateur_bouton_annuler'"></v-btn>
 				</div>
-			</form>
+			</v-form>
 		</v-flex>
 	</v-layout>
 </template>

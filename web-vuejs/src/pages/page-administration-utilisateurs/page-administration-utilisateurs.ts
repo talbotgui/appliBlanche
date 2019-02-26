@@ -23,6 +23,13 @@ export default class PageAdministrationUtilisateurs extends Vue {
     /** Liste complète de tous les roles */
     public tousLesRoles: Role[] = [];
 
+    /** Flag indiquant l'état de validation du formulaire */
+    public valide: boolean = true;
+
+    /** Regles de validation du formulaire */
+    public loginRegles = [(v: any) => (!!v && v.length > 5) || 'utilisateur_placeholder_login_validation'];
+    public mdpRegles = [(v: any) => (!!v && v.length > 5) || 'utilisateur_placeholder_mdp_validation'];
+
     /** Une dépendance */
     private utilisateurService: UtilisateurService;
     private roleService: RoleService;
