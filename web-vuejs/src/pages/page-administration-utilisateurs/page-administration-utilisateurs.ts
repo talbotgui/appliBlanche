@@ -3,6 +3,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import { Role, Utilisateur, Page } from '@/model/model';
 import { RoleService } from '@/services/service-role';
 import { UtilisateurService } from '@/services/service-utilisateur';
+import AnimationUtils from '@/services/utilitaire/animationUtils';
 
 @Component
 export default class PageAdministrationUtilisateurs extends Vue {
@@ -62,7 +63,7 @@ export default class PageAdministrationUtilisateurs extends Vue {
     public creerUtilisateur() {
         this.utilisateurSelectionne = new Utilisateur();
         this.creation = true;
-        // TODO: deplacerLaVueSurLeComposant
+        this.deplacerLaVueSurLeFormulaire();
     }
 
     /** Appel au service de sauvegarde puis rechargement des données */
@@ -82,7 +83,7 @@ export default class PageAdministrationUtilisateurs extends Vue {
     public selectionnerUtilisateur(utilisateur: Utilisateur) {
         this.utilisateurSelectionne = utilisateur;
         this.creation = false;
-        // TODO: deplacerLaVueSurLeComposant
+        this.deplacerLaVueSurLeFormulaire();
     }
 
     /** A la suppression  */
@@ -104,5 +105,9 @@ export default class PageAdministrationUtilisateurs extends Vue {
 
     private chargerDonnees() {
         this.utilisateurService.listerUtilisateurs().subscribe((utilisateurs: any) => this.utilisateurs = utilisateurs);
+    }
+
+    private deplacerLaVueSurLeFormulaire() {
+        (new AnimationUtils()).deplacerLaVueSurLeComposant('formulaireUtilisateur', true);
     }
 }
