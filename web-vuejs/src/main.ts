@@ -14,7 +14,7 @@ import '@/registerServiceWorker';
 import { I18nFormatter } from '@/services/utilitaire/i18nFormater';
 
 // Déclaration de filtre de mise en forme
-Vue.filter('enNombre', function(value: number, nbDecimales: number = 0) {
+Vue.filter('enNombre', (value: number, nbDecimales: number = 0) => {
     if (!value) { return ''; }
     return value.toFixed(nbDecimales).toString();
 });
