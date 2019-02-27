@@ -8,10 +8,6 @@ import AnimationUtils from '@/services/utilitaire/animationUtils';
 @Component
 export default class PageAdministrationUtilisateurs extends Vue {
 
-    /** Listes alimentant les selectbox */
-    public listeNbElementsParPage: number[] = [5, 10, 20, 50, 100];
-    public listeIndexesDePage: number[] = [];
-
     /** Utilisateur en cours d'édition */
     public utilisateurSelectionne: Utilisateur | null = null;
 
