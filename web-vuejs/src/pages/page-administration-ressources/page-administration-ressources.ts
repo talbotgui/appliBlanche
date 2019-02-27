@@ -2,16 +2,13 @@ import { Component, Vue } from 'vue-property-decorator';
 
 import { RessourceService } from '@/services/service-ressource';
 import { Page, Ressource } from '@/model/model';
+import Pagination from '@/composants/composant-pagination/composant-pagination';
 
-@Component
+@Component({ components: { Pagination } })
 export default class PageAdministrationRessources extends Vue {
 
     /** Page de données */
-    public page: Page<Ressource> = new Page(10, 0);
-
-    /** Listes alimentant les selectbox */
-    public listeNbElementsParPage: number[] = [5, 10, 20, 50, 100];
-    public listeIndexesDePage: number[] = [];
+    public page: Page<Ressource> = new Page(0, 0);
 
     /** Une dépendance */
     private ressourcesService: RessourceService;
@@ -23,35 +20,15 @@ export default class PageAdministrationRessources extends Vue {
     }
 
     /** Méthode appelée dès que le composant est chargé. */
-    public mounted() { this.chargerDonnees(); }
-
-    /** Au changement du nombre d'élément par page */
-    public selectionnerNbElements(size: number) {
-        this.page.size = size;
-        this.page.number = 0;
-        this.chargerDonnees();
-    }
-
-    /** Au changement d'index de page */
-    public selectionnerIndexPage(pageNumber: number) {
-        this.page.number = pageNumber - 1;
-        this.chargerDonnees();
-    }
+    public mounted() { this.chargerDonnees(new Page(10, 0)); }
 
     /** Chargement des données */
-    private chargerDonnees() {
-        this.ressourcesService.listerRessources(this.page).subscribe((p) => {
-
-            // Sauvegarde de la page
+    public chargerDonnees(nouvellePage: Page<any>) {
+        this.ressourcesService.listerRessources(nouvellePage).subscribe((p) => {
+            // Sauvegarde de la page pour en afficher le contenu
             this.page = p;
-            this.page.number = this.page.number + 1;
-
-            // Constutition des indexes de page pour la liste déroulante
-            const listeIndexes = [];
-            for (let i = 0; i < this.page.totalPages; i++) {
-                listeIndexes.push(i + 1);
-            }
-            this.listeIndexesDePage = listeIndexes;
+            // Envoi de la page au composant de pagination pour prise en compte
+            (this.$refs.pagination as Pagination).prendreEnComptePage(p);
         });
     }
 }

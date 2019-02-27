@@ -9,7 +9,7 @@ import Pagination from '@/composants/composant-pagination/composant-pagination';
 export default class PageAdministrationMonitoring extends Vue {
 
     /** Page dont le contenu est affiché */
-    public page: Page<ElementMonitoring> = new Page(10, 0);
+    public page: Page<ElementMonitoring> = new Page(0, 0);
 
     /** Une dépendance */
     private monitoringService: MonitoringService;
@@ -22,12 +22,12 @@ export default class PageAdministrationMonitoring extends Vue {
 
     /** Méthode appelée dès que le composant est chargé. */
     public mounted() {
-        this.chargerDonnees(this.page);
+        this.chargerDonnees(new Page(10, 0));
     }
 
     /** Chargement des données */
-    public chargerDonnees(page: Page<any>) {
-        this.monitoringService.lireInformations(page).subscribe((p) => {
+    public chargerDonnees(nouvellePage: Page<any>) {
+        this.monitoringService.lireInformations(nouvellePage).subscribe((p) => {
             // Sauvegarde de la page pour en afficher le contenu
             this.page = p;
             // Envoi de la page au composant de pagination pour prise en compte
