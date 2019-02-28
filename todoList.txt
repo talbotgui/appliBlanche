@@ -37,21 +37,22 @@ Sujets FRONT (partie sécurité) :
 
 Sujets FRONT (partie structure) :
 	ANG	VUE	SUJET
-			ajouter la sélection de roles dans l'utilisateur
-			ajouter le crud de role et l'association avec les ressources
-			utiliser angular-material pour la gestion des erreurs
+			Une progressBar dans l'export Excel de ressource ?
+	x	x	ajouter la sélection de roles dans l'utilisateur
+	x		ajouter le crud de role et l'association avec les ressources
+	x	x	utiliser material pour la gestion des erreurs
 	x		revalider le token au chargement de l'écran et rediriger vers le login quand il est invalide
-	x		mise en place de drapeaux et non de boutons pour l'i18n
+	x	x	mise en place de drapeaux et non de boutons pour l'i18n
 			appel à une API avec un DEBOUNCE sur un INPUT
 	x	x	appel à l'API en get
 	x	x	appel à l'API en post
-	x		pagination toute simple
+	x	x	pagination toute simple
 	x	x	internationnalisation avec l'appel à l'API
 	x		internationnalisation des messages de validation de surface
-	x		internationnalisation des messages d'erreurs venant de l'API
-	x		internationnalisation des messages d'erreurs communes
+	x	x	internationnalisation des messages d'erreurs venant de l'API
+	x	x	internationnalisation des messages d'erreurs communes
 	x		rechercher les libelles en dur dans l'application et les ajouter dans la bdd
-	x		ajouter des tooltips sur les FA et les internationnaliser
+	x	x	ajouter des tooltips sur les FA et les internationnaliser
 	x	x	utiliser un service depuis les pages
 	x	x	utiliser un style.css général
 	x	x	utiliser le bon logo en favicon
