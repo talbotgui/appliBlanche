@@ -26,7 +26,7 @@ export default class Pagination extends Vue {
         super();
     }
 
-    /** Methode mettant à jour les listes déroulantes de pagination en fonction de la page*/
+    /** Methode mettant à jour les listes déroulantes de pagination en fonction de la page */
     public prendreEnComptePage(p: Page<any>) {
 
         // Sauvegarde de la dernière page pour la passer dans l'évènement de rechargement
