@@ -34,4 +34,10 @@ export default class PageAdministrationMonitoring extends Vue {
             (this.$refs.pagination as Pagination).prendreEnComptePage(p);
         });
     }
+
+    /** Export en excel */
+    public exporterInformations() {
+        this.monitoringService.exporterInformations();
+    }
+
 }

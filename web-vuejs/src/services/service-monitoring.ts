@@ -5,6 +5,7 @@ import { expand, map, reduce } from 'rxjs/operators';
 import RestUtils from '@/services/utilitaire/restUtils';
 import { Page } from '@/model/model';
 import { ElementMonitoring } from '@/model/administration-model';
+import { ExportService } from './export-excel.service';
 
 /**
  * Composant responsable des appels aux APIs.
@@ -14,10 +15,12 @@ export class MonitoringService {
 
     /** Dépendance */
     private restUtils: RestUtils;
+    private exportService: ExportService;
 
     /** Constructeur instanciant les dépendances */
     constructor() {
         this.restUtils = new RestUtils();
+        this.exportService = new ExportService();
     }
 
     /**
@@ -66,7 +69,7 @@ export class MonitoringService {
                 // des appels systématiques aux autres pages (i s'incrémente à chaque fois et commence à 0)
                 // tant que le retour n'est pas empty
                 expand((reponse: any, i: number) => {
-                    if (reponse.data.numberOfElements === reponse.data.size) {
+                    if (reponse.numberOfElements === reponse.size) {
                         return appelApi(i + 1);
                     } else {
                         return empty();
@@ -74,7 +77,7 @@ export class MonitoringService {
                 }),
 
                 // transformation des données en tableau d'élément (la notion de page n'ayant plus de sens à la fin)
-                map((reponse) => reponse.data.content),
+                map((reponse: any) => reponse.content),
 
                 // Reduce pour n'avoir qu'un seul appel au suscribe à la fin
                 // Le reduce concatene le contenu des différents tableaux
@@ -97,8 +100,7 @@ export class MonitoringService {
             });
 
             // Export
-            // TODO: finir ce code
-            // this.exportService.exporterTableauEnExcel(data, 'monitoring', 'monitoring');
+            this.exportService.exporterTableauEnExcel(data, 'monitoring', 'monitoring');
         });
     }
 }

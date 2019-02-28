@@ -4,6 +4,9 @@
 			<h3 v-t="'monitoring_titre'"></h3>
 		</v-flex>
 		<v-flex xs12 d-flex>
+			<v-btn @click="exporterInformations()" v-t="'monitoring_bouton_export'"></v-btn>
+		</v-flex>
+		<v-flex xs12 d-flex>
 			<table>
 				<thead>
 					<tr>
