@@ -37,7 +37,7 @@
 
 		<v-flex xs12 d-flex>
 			<!-- Création ou édition -->
-			<v-form v-model="valide" @keyup.native.enter="valide && sauvegarder()">
+			<v-form v-model="valide" @keyup.native.enter="valide && sauvegarder()" v-on:submit.prevent>
 				<div id="formulaireRole" v-if="!!elementSelectionne">
 
 					<!-- Titre -->

@@ -44,7 +44,7 @@
 
 		<v-flex xs12 d-flex>
 			<!-- Création ou édition d'utilisateur -->
-			<v-form v-model="valide" @keyup.native.enter="valide && sauvegarderUtilisateur()">
+			<v-form v-model="valide" @keyup.native.enter="valide && sauvegarderUtilisateur()" v-on:submit.prevent>
 				<div id="formulaireUtilisateur" v-if="!!utilisateurSelectionne">
 
 					<!-- Titre -->
