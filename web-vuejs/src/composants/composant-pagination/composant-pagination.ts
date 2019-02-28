@@ -9,6 +9,15 @@ export default class Pagination extends Vue {
     public listeNbElementsParPage: number[] = [5, 10, 20, 50, 100];
     public listeIndexesDePage: number[] = [];
 
+    /** Index courant de la page (réel + 1) */
+    get indexPageCourant() {
+        if (this.page && this.page.number) {
+            return this.page.number + 1;
+        } else {
+            return 1;
+        }
+    }
+
     /** Page de données */
     private page: Page<any> = new Page(10, 0);
 
@@ -19,9 +28,6 @@ export default class Pagination extends Vue {
 
     /** Methode mettant à jour les listes déroulantes de pagination en fonction de la page*/
     public prendreEnComptePage(p: Page<any>) {
-
-        // Traitement du numéro de page qui commence à 0
-        p.number = p.number + 1;
 
         // Sauvegarde de la dernière page pour la passer dans l'évènement de rechargement
         this.page = p;

@@ -42,9 +42,8 @@ export class RoleService {
 
     /** Sauvegarde d'un role via l'API */
     public sauvegarderRole(role: Role): Observable<{} | void> {
-        const donnees = { nom: role.nom };
-        const url = process.env.VUE_APP_URL_API + '/v1/roles';
-        return from(axios.post(url, donnees, this.restUtils.creerHeader()));
+        const url = process.env.VUE_APP_URL_API + '/v1/roles?nom=' + role.nom;
+        return from(axios.post(url, {}, this.restUtils.creerHeader()));
     }
 
     /** Suppression d'un role via l'API */

@@ -27,6 +27,10 @@ const routeur = new Router({
             path: '/administration-monitoring', name: 'administration-monitoring',
             component: () => import(/* webpackChunkName: "login" */ './pages/page-administration-monitoring/page-administration-monitoring.vue'),
         },
+        {
+            path: '/administration-roles', name: 'administration-roles',
+            component: () => import(/* webpackChunkName: "login" */ './pages/page-administration-roles/page-administration-roles.vue'),
+        },
     ],
 });
 
