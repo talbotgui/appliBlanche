@@ -17,19 +17,19 @@ const routeur = new Router({
         { path: '/login', name: 'login', component: () => import(/* webpackChunkName: "login" */ './pages/page-login/page-login.vue') },
         {
             path: '/administration-utilisateurs', name: 'administration-utilisateurs',
-            component: () => import(/* webpackChunkName: "login" */ './pages/page-administration-utilisateurs/page-administration-utilisateurs.vue'),
+            component: () => import(/* webpackChunkName: "login" */ './pages/administration/page-utilisateurs/page-utilisateurs.vue'),
         },
         {
             path: '/administration-ressources', name: 'administration-ressources',
-            component: () => import(/* webpackChunkName: "login" */ './pages/page-administration-ressources/page-administration-ressources.vue'),
+            component: () => import(/* webpackChunkName: "login" */ './pages/administration/page-ressources/page-ressources.vue'),
         },
         {
             path: '/administration-monitoring', name: 'administration-monitoring',
-            component: () => import(/* webpackChunkName: "login" */ './pages/page-administration-monitoring/page-administration-monitoring.vue'),
+            component: () => import(/* webpackChunkName: "login" */ './pages/administration/page-monitoring/page-monitoring.vue'),
         },
         {
             path: '/administration-roles', name: 'administration-roles',
-            component: () => import(/* webpackChunkName: "login" */ './pages/page-administration-roles/page-administration-roles.vue'),
+            component: () => import(/* webpackChunkName: "login" */ './pages/administration/page-roles/page-roles.vue'),
         },
     ],
 });

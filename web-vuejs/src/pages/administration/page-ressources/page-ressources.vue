@@ -23,5 +23,5 @@
 	</v-layout>
 </template>
 
-<script lang="ts" src="./page-administration-ressources.ts"/>
-<style scoped lang="scss" src="./page-administration-ressources.scss"/>
+<script lang="ts" src="./page-ressources.ts"/>
+<style scoped lang="scss" src="./page-ressources.scss"/>

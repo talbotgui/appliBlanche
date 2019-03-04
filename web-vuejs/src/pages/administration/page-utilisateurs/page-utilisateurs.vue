@@ -66,5 +66,5 @@
 	</v-layout>
 </template>
 
-<script lang="ts" src="./page-administration-utilisateurs.ts"/>
-<style scoped lang="scss" src="./page-administration-utilisateurs.scss"/>
+<script lang="ts" src="./page-utilisateurs.ts"/>
+<style scoped lang="scss" src="./page-utilisateurs.scss"/>

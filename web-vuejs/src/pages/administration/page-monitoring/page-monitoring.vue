@@ -34,5 +34,5 @@
 	</v-layout>
 </template>
 
-<script lang="ts" src="./page-administration-monitoring.ts"/>
-<style scoped lang="scss" src="./page-administration-monitoring.scss"/>
+<script lang="ts" src="./page-monitoring.ts"/>
+<style scoped lang="scss" src="./page-monitoring.scss"/>

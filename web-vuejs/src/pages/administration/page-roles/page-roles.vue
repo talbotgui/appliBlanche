@@ -56,5 +56,5 @@
 	</v-layout>
 </template>
 
-<script lang="ts" src="./page-administration-roles.ts"/>
-<style scoped lang="scss" src="./page-administration-roles.scss"/>
+<script lang="ts" src="./page-roles.ts"/>
+<style scoped lang="scss" src="./page-roles.scss"/>
