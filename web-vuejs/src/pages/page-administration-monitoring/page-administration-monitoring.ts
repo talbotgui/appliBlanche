@@ -2,7 +2,7 @@ import { Component, Vue } from 'vue-property-decorator';
 
 import { Page } from '@/model/model';
 import { ElementMonitoring } from '@/model/administration-model';
-import { MonitoringService } from '@/services/service-monitoring';
+import { MonitoringService } from '@/services/administration/service-monitoring';
 import Pagination from '@/composants/composant-pagination/composant-pagination';
 
 @Component({ components: { Pagination } })

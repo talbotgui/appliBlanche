@@ -1,7 +1,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 
 import { Role, Page } from '@/model/model';
-import { RoleService } from '@/services/service-role';
+import { RoleService } from '@/services/administration/service-role';
 import AnimationUtils from '@/services/utilitaire/animationUtils';
 import Pagination from '@/composants/composant-pagination/composant-pagination';
 

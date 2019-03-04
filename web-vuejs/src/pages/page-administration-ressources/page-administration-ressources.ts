@@ -1,6 +1,6 @@
 import { Component, Vue } from 'vue-property-decorator';
 
-import { RessourceService } from '@/services/service-ressource';
+import { RessourceService } from '@/services/administration/service-ressource';
 import { Page, Ressource } from '@/model/model';
 import Pagination from '@/composants/composant-pagination/composant-pagination';
 

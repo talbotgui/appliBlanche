@@ -3,9 +3,9 @@ import { from, empty, Observable } from 'rxjs';
 import { expand, map, reduce } from 'rxjs/operators';
 
 import RestUtils from '@/services/utilitaire/restUtils';
+import { ExportService } from '@/services/export-excel.service';
 import { Page } from '@/model/model';
 import { ElementMonitoring } from '@/model/administration-model';
-import { ExportService } from './export-excel.service';
 
 /**
  * Composant responsable des appels aux APIs.
