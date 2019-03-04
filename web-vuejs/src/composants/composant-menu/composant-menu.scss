@@ -1,5 +1,5 @@
 /** Pour masquer le texte sur les écrans peu larges */
-@media screen and (max-width: 540px) { .libelleBouton { display: none; } }
+@media screen and (max-width: 700px) { .libelleBouton { display: none; } }
 
 /** Pour écarter un peu l'icone du texte */
 .iconeBouton { margin-right: 4px; }
@@ -9,3 +9,15 @@
 
 /** Pour forcer les boutons de langue à droite dans le cas où le menu n'est pas encore rempli */
 .forceDivAdroite { position: absolute; right: 0px; }
+
+/** Pour personnaliser les items dans les sous-menu */
+.lienDuMenu { color: rgb(44, 62, 80); }
+.theme--light.v-list { background: #fafafa!important; }
+.libelleMenu { font-size: 14px; }
+
+/** Pour avoir un cadre plus grand et le voir encadré plus proprement */
+.v-menu { padding: 10px 10px; }
+.v-menu__activator { width:100%; height: 100%; }
+
+/** Pour aligner le bouton comme les éléments de menu */
+button { text-align: left; }
