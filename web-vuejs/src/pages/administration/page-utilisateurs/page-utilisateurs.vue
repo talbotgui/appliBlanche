@@ -54,8 +54,7 @@
 					<!-- Champs -->
 					<v-text-field required minlength="6" v-model="utilisateurSelectionne.login" name="login" :rules="loginRegles" :label="$t('utilisateur_placeholder_login')"
 					              :disabled="!creation"></v-text-field>
-					<v-text-field matInput required minlength="6" type="password" v-model="utilisateurSelectionne.mdp" name="mdp" :rules="mdpRegles"
-					              :label="$t('utilisateur_placeholder_mdp')"></v-text-field>
+					<v-text-field required minlength="6" type="password" v-model="utilisateurSelectionne.mdp" name="mdp" :rules="mdpRegles" :label="$t('utilisateur_placeholder_mdp')"></v-text-field>
 
 					<!-- Boutons -->
 					<v-btn @click="sauvegarderUtilisateur()" :disabled="!valide" v-t="'utilisateur_bouton_creer'"></v-btn>
