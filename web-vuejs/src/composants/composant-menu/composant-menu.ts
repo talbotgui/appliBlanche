@@ -36,7 +36,7 @@ export default class Menu extends Vue {
         // Menu RESERVATION
         pagesDuModule = [];
         pagesDuModule.push(new PageApplicative('menu_reservations', 'calendar-alt', 'reservation.rechercherReservations', ''));
-        pagesDuModule.push(new PageApplicative('menu_adminreservations', 'hotel', 'reservationParametres.listerChambres', ''));
+        pagesDuModule.push(new PageApplicative('menu_adminreservations', 'hotel', 'reservationParametres.listerChambres', '/reservation-admin'));
         tousLesModules.push(new ModuleApplicatif('menu_titre_reservation', 'person-booth', pagesDuModule));
         // Menu CONSOMMATION
         pagesDuModule = [];

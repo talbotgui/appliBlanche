@@ -35,6 +35,10 @@ const routeur = new Router({
             path: '/consommation-admin', name: 'consommation-admin',
             component: () => import(/* webpackChunkName: "login" */ './pages/reservation/page-adminconsommations/page-adminconsommations'),
         },
+        {
+            path: '/reservation-admin', name: 'reservation-admin',
+            component: () => import(/* webpackChunkName: "login" */ './pages/reservation/page-adminreservations/page-adminreservations'),
+        },
     ],
 });
 
