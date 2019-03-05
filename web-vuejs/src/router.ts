@@ -31,6 +31,10 @@ const routeur = new Router({
             path: '/administration-roles', name: 'administration-roles',
             component: () => import(/* webpackChunkName: "login" */ './pages/administration/page-roles/page-roles.vue'),
         },
+        {
+            path: '/consommation-admin', name: 'consommation-admin',
+            component: () => import(/* webpackChunkName: "login" */ './pages/reservation/page-adminconsommations/page-adminconsommations'),
+        },
     ],
 });
 
