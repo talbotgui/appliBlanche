@@ -1,0 +1,12 @@
+/* curseur et taille de tous les 'chip' */
+.chipReservation { flex: none!important; }
+.contenuChipReservation { cursor: pointer!important; }
+
+/* Sélection */
+.v-chip--selected { background-color: red; }
+
+/* Petit cadre à gauche dans les chip avec qtt et boutons */
+.quantiteDansChip { max-width: 40px; padding: 5px; cursor: pointer!important; }
+
+/* Petit trait séparant les divs qttEtBoutons et nomDuProduit */
+.nomProduit { border-left: solid thin grey; padding: 5px; cursor: pointer!important; }

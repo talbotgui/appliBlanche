@@ -40,7 +40,7 @@ export default class Menu extends Vue {
         tousLesModules.push(new ModuleApplicatif('menu_titre_reservation', 'person-booth', pagesDuModule));
         // Menu CONSOMMATION
         pagesDuModule = [];
-        pagesDuModule.push(new PageApplicative('menu_consommation', 'wine-bottle', 'reservation.rechercherConsommationsDuneReservation', ''));
+        pagesDuModule.push(new PageApplicative('menu_consommation', 'wine-bottle', 'reservation.rechercherConsommationsDuneReservation', '/consommation'));
         pagesDuModule.push(new PageApplicative('menu_adminconsommation', 'dolly', 'reservationParametres.listerProduits', '/consommation-admin'));
         tousLesModules.push(new ModuleApplicatif('menu_titre_consommation', 'concierge-bell', pagesDuModule));
         // Menu FACTURATION
