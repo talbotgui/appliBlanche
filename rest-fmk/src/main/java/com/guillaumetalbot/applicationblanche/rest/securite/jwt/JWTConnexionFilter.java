@@ -24,6 +24,7 @@ import org.springframework.security.web.authentication.AbstractAuthenticationPro
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.net.HttpHeaders;
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.Role;
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.Utilisateur;
 import com.guillaumetalbot.applicationblanche.rest.securite.UserDetailsServiceWrapper;
@@ -36,6 +37,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
  */
 public class JWTConnexionFilter extends AbstractAuthenticationProcessingFilter {
 
+	public static final String JWSTOKEN_KEY_IP_CLIENT = "ipClient";
 	public static final String JWSTOKEN_KEY_RESSOURCES_AUTORISEES = "ressourcesAutorisees";
 
 	private static final Logger LOG = LoggerFactory.getLogger(JWTConnexionFilter.class);
@@ -92,8 +94,14 @@ public class JWTConnexionFilter extends AbstractAuthenticationProcessingFilter {
 		// on charge les données de l'utilisateur
 		final String login = auth.getName();
 
+		// Lecture de l'IP
+		String ipClient = req.getHeader(HttpHeaders.X_FORWARDED_FOR);
+		if (ipClient == null) {
+			ipClient = req.getRemoteAddr();
+		}
+
 		// Log
-		LOG.debug("Connexion de {} réussie", login);
+		LOG.debug("Connexion de {} réussie (IP = {})", login, ipClient);
 
 		final Utilisateur utilisateur = this.securiteService.chargerUtilisateurAvecRolesEtRessourcesAutoriseesReadOnly(login);
 		final Collection<String> ressourcesAutorisees = new ArrayList<>();
@@ -112,7 +120,7 @@ public class JWTConnexionFilter extends AbstractAuthenticationProcessingFilter {
 				.setExpiration(new Date(System.currentTimeMillis() + this.parametresJwt.getExpirationTime()))//
 				.signWith(SignatureAlgorithm.HS512, this.parametresJwt.getSecret())//
 				.claim(JWSTOKEN_KEY_RESSOURCES_AUTORISEES, ressourcesAutorisees)//
-				.compact();
+				.claim(JWSTOKEN_KEY_IP_CLIENT, ipClient).compact();
 		res.addHeader(this.parametresJwt.getHeaderKey(), this.parametresJwt.getTokenPrefix() + " " + JWT);
 
 		// on notifie le service métier de la bonne connexion

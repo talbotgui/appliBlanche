@@ -19,6 +19,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
+import com.google.common.net.HttpHeaders;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
@@ -46,11 +48,17 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
 			throws IOException, ServletException {
 		final HttpServletRequest httpRequete = (HttpServletRequest) request;
 
+		// Lecture de l'IP
+		String ipClient = httpRequete.getHeader(HttpHeaders.X_FORWARDED_FOR);
+		if (ipClient == null) {
+			ipClient = httpRequete.getRemoteAddr();
+		}
+
 		// Récupération de la description de l'utilisateur connecté
 		String token = httpRequete.getHeader(this.parametresJwt.getHeaderKey());
 		if (token != null) {
 			token = token.replace(this.parametresJwt.getTokenPrefix(), "");
-			LOG.info("Requête {} avec un token JWT en entête", httpRequete.getServletPath());
+			LOG.info("Requête {} avec un token JWT en entête (IP = {})", httpRequete.getServletPath(), ipClient);
 
 			try {
 				// parse du token
@@ -58,9 +66,10 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
 				final String login = jws.getBody().getSubject();
 				final Collection<String> ressourcesAutorisees = jws.getBody().get(JWTConnexionFilter.JWSTOKEN_KEY_RESSOURCES_AUTORISEES,
 						ArrayList.class);
+				final String ipClientAlaConnexion = jws.getBody().get(JWTConnexionFilter.JWSTOKEN_KEY_IP_CLIENT, String.class);
 
-				// Si on a un login et que la ressource est autorisée
-				if (login != null) {
+				// Si on a un login, que l'IP est bonne et que la ressource est autorisée
+				if (login != null && ipClient.equals(ipClientAlaConnexion)) {
 					// Sauvegarde de cette information dans le contexte de la requête
 					final Authentication authentication = new AuthenticationToken(login, null, ressourcesAutorisees);
 					SecurityContextHolder.getContext().setAuthentication(authentication);

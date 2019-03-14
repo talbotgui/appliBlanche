@@ -22,7 +22,7 @@ public class AppExceptionHandler {
 
 	private static final Logger LOG = LoggerFactory.getLogger(AppExceptionHandler.class);
 
-	private static final String LOG_MESSAGE = "Erreur traitée sur la requête {}";
+	private static final String LOG_MESSAGE = "Erreur traitée sur la requête {}-{}";
 
 	private static final String LOG_MESSAGE_AVEC_MESSAGE_EXCEPTION = "Erreur traitée sur la requête {} : {}";
 
@@ -31,7 +31,7 @@ public class AppExceptionHandler {
 	public ResponseEntity<Object> creerReponsePourException(final HttpServletRequest req, final Exception e) {
 
 		// Log de l'erreur
-		LOG.info(LOG_MESSAGE, req.getRequestURI(), e);
+		LOG.info(LOG_MESSAGE, req.getMethod(), req.getRequestURI(), e);
 
 		// Renvoi de la réponse
 		return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -43,11 +43,11 @@ public class AppExceptionHandler {
 
 		// Log de l'erreur
 		if (ExceptionLevel.INFORMATION.equals(e.getExceptionId().getLevel())) {
-			LOG.info(LOG_MESSAGE_AVEC_MESSAGE_EXCEPTION, req.getRequestURI(), e.getMessage());
+			LOG.info(LOG_MESSAGE_AVEC_MESSAGE_EXCEPTION, req.getMethod(), req.getRequestURI(), e.getMessage());
 		} else if (ExceptionLevel.WARNING.equals(e.getExceptionId().getLevel())) {
-			LOG.warn(LOG_MESSAGE_AVEC_MESSAGE_EXCEPTION, req.getRequestURI(), e.getMessage());
+			LOG.warn(LOG_MESSAGE_AVEC_MESSAGE_EXCEPTION, req.getMethod(), req.getRequestURI(), e.getMessage());
 		} else {
-			LOG.error(LOG_MESSAGE, req.getRequestURI(), e);
+			LOG.error(LOG_MESSAGE, req.getMethod(), req.getRequestURI(), e);
 		}
 
 		// Transformation de l'exception en un objet transportable
@@ -81,7 +81,7 @@ public class AppExceptionHandler {
 			final MissingServletRequestParameterException e) {
 
 		// Log et statut de l'erreur
-		LOG.info(LOG_MESSAGE_AVEC_MESSAGE_EXCEPTION, req.getRequestURI(), e.getMessage());
+		LOG.info(LOG_MESSAGE_AVEC_MESSAGE_EXCEPTION, req.getMethod(), req.getRequestURI(), e.getMessage());
 
 		// Renvoi de la réponse
 		return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
