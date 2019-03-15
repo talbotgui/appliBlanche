@@ -43,6 +43,10 @@ const routeur = new Router({
             path: '/consommation', name: 'consommation',
             component: () => import(/* webpackChunkName: "login" */ './pages/reservation/page-consommations/page-consommations'),
         },
+        {
+            path: '/reservation', name: 'reservation',
+            component: () => import(/* webpackChunkName: "login" */ './pages/reservation/page-reservations/page-reservations'),
+        },
     ],
 });
 

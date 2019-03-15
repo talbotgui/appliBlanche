@@ -140,12 +140,6 @@ export class Produit {
         public prix: number) { }
 }
 
-/** Map<String, T> */
-export interface IStringToAnyMap<T> {
-    /** clef de type String et valeur paramétrée */
-    [key: string]: T;
-}
-
 /** facture */
 export class Facture {
     /** Montant total */

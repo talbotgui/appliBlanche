@@ -12,11 +12,15 @@ import router from '@/router';
 import store from '@/store';
 import '@/registerServiceWorker';
 import { I18nFormatter } from '@/services/utilitaire/i18nFormater';
+import { DateUtils } from './services/utilitaire/dateUtils';
 
 // Déclaration de filtre de mise en forme
 Vue.filter('enNombre', (value: number, nbDecimales: number = 0) => {
     if (!value) { return ''; }
     return value.toFixed(nbDecimales).toString();
+});
+Vue.filter('dateCourte', (value: Date) => {
+    return (new DateUtils()).formaterDateDDMM(value);
 });
 
 // i18n

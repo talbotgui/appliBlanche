@@ -1,0 +1,101 @@
+import { Component, Vue } from 'vue-property-decorator';
+import { Chambre, Formule, Option, Reservation } from '@/model/reservation-model';
+import { IStringToAnyMap } from '@/model/model';
+import { ReservationService } from '@/services/reservations/reservation.service';
+
+/** Page de gestion des reservations */
+@Component
+export default class CadreReservation extends Vue {
+
+    /** Liste des chambres */
+    public chambres: Chambre[] = [];
+    /** Liste des formules */
+    public formules: Formule[] = [];
+    /** Liste des options */
+    public options: Option[] = [];
+
+    /** Reservation dans le détail */
+    public reservationSelectionnee: Reservation = new Reservation('', new Date(), undefined, '', new Chambre('', ''), new Formule('', '', 0));
+    public creation: boolean = false;
+    /** Map des options utilisée dans les ecrans */
+    public optionsCalculeesPourLaReservationSelectionnee: IStringToAnyMap<boolean> = {};
+
+    /** Une dépendance */
+    private reservationService: ReservationService;
+
+    /** Constructeur avec création des dépendances */
+    constructor() {
+        super();
+        this.reservationService = new ReservationService();
+    }
+
+    /** A l'initialisation */
+    public mounted() {
+        this.reservationService.listerChambres().subscribe(
+            (reponse) => {
+                const chambres = reponse as Chambre[];
+                this.chambres = (chambres && chambres.length > 0) ? chambres : [];
+            });
+        this.reservationService.listerFormules().subscribe(
+            (reponse) => {
+                const formules = reponse as Formule[];
+                this.formules = (formules && formules.length > 0) ? formules : [];
+            });
+        this.reservationService.listerOptions().subscribe(
+            (reponse) => {
+                const options = reponse as Option[];
+                this.options = (options && options.length > 0) ? options : [];
+            });
+    }
+
+    public enregistrerReservationSelectionnee() {
+        if (this.reservationSelectionnee) {
+
+            // Application des options sélectionnées
+            this.reservationSelectionnee.options = [];
+            if (this.options) {
+                for (const o of this.options) {
+                    if (this.optionsCalculeesPourLaReservationSelectionnee[o.reference]) {
+                        this.reservationSelectionnee.options.push(o);
+                    }
+                }
+            }
+
+            // Sauvegarde
+            this.reservationService.sauvegarderReservation(this.reservationSelectionnee).subscribe(() => {
+                this.reservationSelectionnee = new Reservation('', new Date(), undefined, '', new Chambre('', ''), new Formule('', '', 0));
+                this.creation = false;
+                // this.busDeMessage.emit('');
+            });
+        }
+    }
+
+    public changerEtatEnCours() {
+        if (this.reservationSelectionnee) {
+            this.reservationService.changerEtatReservation(this.reservationSelectionnee.reference, 'EN_COURS').subscribe(() => {
+                this.annulerOuFermer();
+            });
+        }
+    }
+
+    /** Méthode appelée par le composant parent (pour ignorer la ligne suivante : @@angular:analyse:ignorerLigneSuivante@@) */
+    public selectionnerUneReservation(r: Reservation) {
+        this.reservationSelectionnee = r;
+        this.creation = false;
+        // Calcul de l'objet portant les options
+        this.optionsCalculeesPourLaReservationSelectionnee = {};
+        if (this.options && r && r.options) {
+            for (const o of this.options) {
+                const estSelectionnee = (r.options.findIndex((oSel) => o.reference === oSel.reference) >= 0);
+                this.optionsCalculeesPourLaReservationSelectionnee[o.reference] = estSelectionnee;
+            }
+        }
+    }
+
+    /** Annulation ou fermeture du formulaire */
+    public annulerOuFermer() {
+        this.reservationSelectionnee = new Reservation('', new Date(), undefined, '', new Chambre('', ''), new Formule('', '', 0));
+        this.creation = false;
+        // this.busDeMessage.emit('');
+    }
+}

@@ -2,7 +2,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import { Reservation, Produit, Consommation } from '@/model/reservation-model';
 import { ReservationService } from '@/services/reservations/reservation.service';
 
-/** Page de gestion des reservations */
+/** Page de gestion des consommations */
 @Component
 export default class PageConsommations extends Vue {
 
@@ -87,7 +87,9 @@ export default class PageConsommations extends Vue {
     }
 
     /** Chargement des reservations */
-    private chargerReservations() { this.reservationService.listerReservationsEnCours().subscribe((reservations) => this.reservations = reservations as Reservation[]); }
+    private chargerReservations() {
+        this.reservationService.listerReservationsEnCours().subscribe((reservations) => this.reservations = reservations as Reservation[]);
+    }
 
     /** Chargement des produits */
     private chargerProduits() { this.reservationService.listerProduits().subscribe((produits) => this.produits = produits as Produit[]); }

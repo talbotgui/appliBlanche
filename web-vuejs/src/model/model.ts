@@ -85,3 +85,9 @@ export class ModuleApplicatif {
      */
     constructor(public nom: string, public icone: string, public pages: PageApplicative[]) { }
 }
+
+/** Map<String, T> */
+export interface IStringToAnyMap<T> {
+    /** clef de type String et valeur paramétrée */
+    [key: string]: T;
+}
