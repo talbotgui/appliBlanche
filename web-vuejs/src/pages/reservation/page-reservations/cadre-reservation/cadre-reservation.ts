@@ -2,6 +2,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import { Chambre, Formule, Option, Reservation } from '@/model/reservation-model';
 import { IStringToAnyMap } from '@/model/model';
 import { ReservationService } from '@/services/reservations/reservation.service';
+import { MutationPayload } from 'vuex';
 
 /** Page de gestion des reservations */
 @Component
@@ -35,17 +36,27 @@ export default class CadreReservation extends Vue {
             (reponse) => {
                 const chambres = reponse as Chambre[];
                 this.chambres = (chambres && chambres.length > 0) ? chambres : [];
-            });
+            },
+        );
         this.reservationService.listerFormules().subscribe(
             (reponse) => {
                 const formules = reponse as Formule[];
                 this.formules = (formules && formules.length > 0) ? formules : [];
-            });
+            },
+        );
         this.reservationService.listerOptions().subscribe(
             (reponse) => {
                 const options = reponse as Option[];
                 this.options = (options && options.length > 0) ? options : [];
-            });
+            },
+        );
+
+        // A la sélection d'une réservation
+        this.$store.subscribe((mutation: MutationPayload, state: any) => {
+            if (mutation.type === 'definirReservationEnCoursDedition') {
+                this.selectionnerUneReservation(state.reservationEnCoursDedition);
+            }
+        });
     }
 
     public enregistrerReservationSelectionnee() {
@@ -65,7 +76,7 @@ export default class CadreReservation extends Vue {
             this.reservationService.sauvegarderReservation(this.reservationSelectionnee).subscribe(() => {
                 this.reservationSelectionnee = new Reservation('', new Date(), undefined, '', new Chambre('', ''), new Formule('', '', 0));
                 this.creation = false;
-                // this.busDeMessage.emit('');
+                this.$store.commit('retirerReservationEnCoursDedition');
             });
         }
     }
@@ -78,8 +89,15 @@ export default class CadreReservation extends Vue {
         }
     }
 
+    /** Annulation ou fermeture du formulaire */
+    public annulerOuFermer() {
+        this.reservationSelectionnee = new Reservation('', new Date(), undefined, '', new Chambre('', ''), new Formule('', '', 0));
+        this.creation = false;
+        this.$store.commit('retirerReservationEnCoursDedition');
+    }
+
     /** Méthode appelée par le composant parent (pour ignorer la ligne suivante : @@angular:analyse:ignorerLigneSuivante@@) */
-    public selectionnerUneReservation(r: Reservation) {
+    private selectionnerUneReservation(r: Reservation) {
         this.reservationSelectionnee = r;
         this.creation = false;
         // Calcul de l'objet portant les options
@@ -90,12 +108,5 @@ export default class CadreReservation extends Vue {
                 this.optionsCalculeesPourLaReservationSelectionnee[o.reference] = estSelectionnee;
             }
         }
-    }
-
-    /** Annulation ou fermeture du formulaire */
-    public annulerOuFermer() {
-        this.reservationSelectionnee = new Reservation('', new Date(), undefined, '', new Chambre('', ''), new Formule('', '', 0));
-        this.creation = false;
-        // this.busDeMessage.emit('');
     }
 }

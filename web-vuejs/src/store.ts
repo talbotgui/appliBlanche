@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 
 import { MessageErreur, Severite } from '@/model/erreur';
 import { Utilisateur } from '@/model/model';
+import { Reservation, Chambre, Formule } from './model/reservation-model';
 
 Vue.use(Vuex);
 
@@ -19,10 +20,12 @@ export default new Vuex.Store({
         tokenApi: (localStorage.getItem('JWT')) ? '' + localStorage.getItem('JWT') : '',
         // Utilisateur connecté
         utilisateur: null,
-        /// Flag indiquant que l'utilisateur s'est déconnecté
+        // Flag indiquant que l'utilisateur s'est déconnecté
         aDemandeLaDeconnexion: false,
-        /// Flag evitant l'appel REST pour valider le token
+        // Flag evitant l'appel REST pour valider le token
         tokenDejaValide: false,
+        // Reservation en cours d'édition
+        reservationEnCoursDedition: new Reservation('', new Date(), undefined, '', new Chambre('', ''), new Formule('', '', 0)),
     },
 
     // Getter donnant accès aux états
@@ -38,6 +41,13 @@ export default new Vuex.Store({
         },
         getTokenDejaValide(state, getter): boolean {
             return state.tokenDejaValide;
+        },
+        getReservationEnCoursDedition(state, getter): Reservation | undefined {
+            if (state.reservationEnCoursDedition.reference) {
+                return state.reservationEnCoursDedition;
+            } else {
+                return undefined;
+            }
         },
     },
 
@@ -68,6 +78,12 @@ export default new Vuex.Store({
         },
         demandeDeDeconnexion(state: any) {
             state.aDemandeLaDeconnexion = true;
+        },
+        definirReservationEnCoursDedition(state: any, reservation: Reservation) {
+            state.reservationEnCoursDedition = reservation;
+        },
+        retirerReservationEnCoursDedition(state: any) {
+            state.reservationEnCoursDedition = new Reservation('', new Date(), undefined, '', new Chambre('', ''), new Formule('', '', 0));
         },
     },
 

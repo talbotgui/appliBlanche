@@ -75,7 +75,7 @@ export default class CadreCalendrier extends Vue {
     /** Affichage du détail dans le formualaire */
     public afficherDetail(reservation: Reservation | undefined) {
         // Pour prévenir le composant parent qu'une réservation est sélectionnée
-        // this.busDeMessage.emit(reservation);
+        this.$store.commit('definirReservationEnCoursDedition', reservation);
     }
 
     /** Initialisation d'une nouvelle réservation */
@@ -85,7 +85,7 @@ export default class CadreCalendrier extends Vue {
         const fin = undefined;
         const reservation = new Reservation('', debut, fin, '', new Chambre('', ''), new Formule('', '', 0));
         reservation.nombrePersonnes = 2;
-        // this.busDeMessage.emit(reservation);
+        this.$store.commit('definirReservationEnCoursDedition', reservation);
     }
 
     /** Chargement de la liste des chambres, puis des réservations et calcul du tableau de données */
