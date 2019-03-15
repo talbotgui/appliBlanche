@@ -56,6 +56,8 @@ insert into LIBELLE (clef, libelle, langue) values ('calendrier_tooltip_moins','
 insert into LIBELLE (clef, libelle, langue) values ('calendrier_tooltip_plusPlus','Déplacer d''un mois dans l''avenir', 'fr');
 insert into LIBELLE (clef, libelle, langue) values ('calendrier_tooltip_moinsMoins','Déplacer d''un mois dans le passé', 'fr');
 insert into LIBELLE (clef, libelle, langue) values ('calendrier_tooltip_dateParDefaut','Déplacer à aujourd''hui', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('commmun_champ_obligatoire', 'Champ obligatoire', 'fr');
+insert into LIBELLE (clef, libelle, langue) values ('commmun_champ_obligatoire', 'Date required', 'en');
 -- Messages d'erreur génériques
 insert into LIBELLE (clef, libelle, langue) values ('erreur_connexion', 'Paramètres de connexion incorrects', 'fr');
 insert into LIBELLE (clef, libelle, langue) values ('erreur_aucuneConnexionInternet', 'Aucune connexion Internet disponible', 'fr');

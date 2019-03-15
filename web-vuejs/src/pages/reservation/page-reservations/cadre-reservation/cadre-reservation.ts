@@ -3,10 +3,14 @@ import { Chambre, Formule, Option, Reservation } from '@/model/reservation-model
 import { IStringToAnyMap } from '@/model/model';
 import { ReservationService } from '@/services/reservations/reservation.service';
 import { MutationPayload } from 'vuex';
+import DatePickerCalendarDto from '@/model/vuetifyDto';
 
 /** Page de gestion des reservations */
 @Component
 export default class CadreReservation extends Vue {
+
+    /** Flag indiquant l'état de validation du formulaire */
+    public valide: boolean = true;
 
     /** Liste des chambres */
     public chambres: Chambre[] = [];
@@ -20,6 +24,13 @@ export default class CadreReservation extends Vue {
     public creation: boolean = false;
     /** Map des options utilisée dans les ecrans */
     public optionsCalculeesPourLaReservationSelectionnee: IStringToAnyMap<boolean> = {};
+    /** Date selectionnée par l'utilisateur dans le datePicker */
+    public dateDebut: DatePickerCalendarDto = new DatePickerCalendarDto();
+    /** Date selectionnée par l'utilisateur dans le datePicker */
+    public dateFin: DatePickerCalendarDto = new DatePickerCalendarDto();
+
+    /** Regles de validation du formulaire */
+    public obligatoireRegles = [(v: any) => (!!v) || 'commmun_champ_obligatoire'];
 
     /** Une dépendance */
     private reservationService: ReservationService;
@@ -100,6 +111,10 @@ export default class CadreReservation extends Vue {
     private selectionnerUneReservation(r: Reservation) {
         this.reservationSelectionnee = r;
         this.creation = false;
+        this.dateDebut.date = r.dateDebut;
+        if (r.dateFin) {
+            this.dateFin.date = r.dateFin;
+        }
         // Calcul de l'objet portant les options
         this.optionsCalculeesPourLaReservationSelectionnee = {};
         if (this.options && r && r.options) {

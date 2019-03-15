@@ -4,6 +4,7 @@ import { Reservation, Chambre, Formule } from '@/model/reservation-model';
 import { ReservationService } from '@/services/reservations/reservation.service';
 import DatePickerCalendarDto from '@/model/vuetifyDto';
 import { DateUtils } from '@/services/utilitaire/dateUtils';
+import { MutationPayload } from 'vuex';
 
 /** Page de gestion des reservations */
 @Component
@@ -48,6 +49,12 @@ export default class CadreCalendrier extends Vue {
         // Initialisation des dates de filtrage (de J-3 à J+12)
         this.deplacerDateParDefaut();
 
+        // A la fin de l'édition d'une réservation, on recharge les données
+        this.$store.subscribe((mutation: MutationPayload, state: any) => {
+            if (mutation.type === 'retirerReservationEnCoursDedition') {
+                this.chargerDonnees();
+            }
+        });
     }
 
     /** revenir aux dates par défaut */
