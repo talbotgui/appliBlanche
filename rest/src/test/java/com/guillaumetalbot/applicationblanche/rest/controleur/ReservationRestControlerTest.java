@@ -223,13 +223,13 @@ public class ReservationRestControlerTest extends BaseTestClass {
 
 		// ARRANGE
 		final String refReservation = Entite.genererReference(Reservation.class, 1L);
-		Mockito.doNothing().when(this.reservationService).changeEtatReservation(Mockito.anyString(), Mockito.any(EtatReservation.class));
+		Mockito.doNothing().when(this.reservationService).changerEtatReservation(Mockito.anyString(), Mockito.any(EtatReservation.class));
 
 		// ACT
 		this.getREST().put(this.getURL() + "/v1/reservations/" + refReservation + "/etat?etat=EN_COURS", null);
 
 		// ASSERT
-		Mockito.verify(this.reservationService).changeEtatReservation(Mockito.anyString(), Mockito.any(EtatReservation.class));
+		Mockito.verify(this.reservationService).changerEtatReservation(Mockito.anyString(), Mockito.any(EtatReservation.class));
 		Mockito.verifyNoMoreInteractions(this.reservationService);
 	}
 

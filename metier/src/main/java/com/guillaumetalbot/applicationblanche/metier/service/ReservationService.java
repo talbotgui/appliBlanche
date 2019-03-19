@@ -12,7 +12,7 @@ public interface ReservationService {
 
 	Double calculerMontantTotalDuneReservation(String referenceReservation);
 
-	void changeEtatReservation(String referenceReservation, EtatReservation etat);
+	void changerEtatReservation(String referenceReservation, EtatReservation etat);
 
 	Reservation chargerReservation(String referenceReservation);
 

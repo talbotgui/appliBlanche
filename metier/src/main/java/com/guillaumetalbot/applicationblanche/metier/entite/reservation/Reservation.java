@@ -84,6 +84,10 @@ public class Reservation extends Entite {
 		this.options = new HashSet<>(options);
 	}
 
+	public void addOption(final Collection<Option> options) {
+		this.options.addAll(options);
+	}
+
 	/**
 	 * Calcul du montant déjà payé
 	 *

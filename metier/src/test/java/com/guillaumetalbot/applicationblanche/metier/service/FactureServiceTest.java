@@ -85,7 +85,7 @@ public class FactureServiceTest {
 		final LocalDate dateFin = LocalDate.now();
 		final String refReservation = this.reservationService
 				.sauvegarderReservation(new Reservation("client1", c, dateDebut, dateFin, f, toutesLesOptions));
-		this.reservationService.changeEtatReservation(refReservation, EtatReservation.EN_COURS);
+		this.reservationService.changerEtatReservation(refReservation, EtatReservation.EN_COURS);
 
 		final Reservation reservation = this.reservationService.chargerReservation(refReservation);
 		this.reservationService.sauvegarderPaiement(new Paiement(LocalDate.now(), 400.0, mdp, reservation));

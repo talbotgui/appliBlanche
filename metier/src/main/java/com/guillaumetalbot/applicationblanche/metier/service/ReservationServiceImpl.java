@@ -65,7 +65,7 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override
-	public void changeEtatReservation(final String referenceReservation, final EtatReservation etatDemande) {
+	public void changerEtatReservation(final String referenceReservation, final EtatReservation etatDemande) {
 		final Long idReservation = Entite.extraireIdentifiant(referenceReservation, Reservation.class);
 
 		// Chargement de la réservation

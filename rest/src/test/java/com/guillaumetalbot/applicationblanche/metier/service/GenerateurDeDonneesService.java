@@ -108,7 +108,7 @@ public class GenerateurDeDonneesService implements ApplicationListener<Applicati
 				// Creation de la réservation
 				final Reservation reservation = new Reservation(nomClient, c, debut, fin);
 				reservation.setFormule(laFormule);
-				reservation.getOptions().addAll(lesOptions);
+				reservation.addOption(lesOptions);
 				reservation.setNombrePersonnes((long) (1 + Math.random() * 2));
 
 				// Sauvegarde de la réservation
@@ -118,7 +118,7 @@ public class GenerateurDeDonneesService implements ApplicationListener<Applicati
 				if (debut.isBefore(LocalDate.now())) {
 
 					// Etat en cours
-					this.reservationService.changeEtatReservation(referenceReservation, EtatReservation.EN_COURS);
+					this.reservationService.changerEtatReservation(referenceReservation, EtatReservation.EN_COURS);
 
 					// Ajout de consommations
 					for (final Produit produit : lesProduits) {
@@ -163,8 +163,7 @@ public class GenerateurDeDonneesService implements ApplicationListener<Applicati
 	 * Le random est généré à partir de Math.random (qui renvoie entre 0.0 et 1.0) multiplié par le nombre d'option et tronqué à la partie entière
 	 * (donc de 0 à options.size()-1).
 	 *
-	 * @param options
-	 *            Les options disponibles
+	 * @param options Les options disponibles
 	 * @return Les options sélectionnnées
 	 */
 	private List<Option> selectionnerAleatoirementDesOptions(final List<Option> options) {
@@ -182,8 +181,7 @@ public class GenerateurDeDonneesService implements ApplicationListener<Applicati
 	 *
 	 * Le random est généré à partir de Math.random (qui renvoie entre 0.0 et 1.0) multiplié par le nombre d'option et tronqué à la partie entière
 	 *
-	 * @param produits
-	 *            Les produits disponibles
+	 * @param produits Les produits disponibles
 	 * @return Les produits sélectionnnées
 	 */
 	private List<Produit> selectionnerAleatoirementDesProduits(final List<Produit> produits) {

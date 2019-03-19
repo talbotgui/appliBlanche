@@ -165,7 +165,7 @@ public class ReservationParametresServiceTest {
 		final String refChambre = this.reservationParametresService.sauvegarderChambre(new Chambre("nomC"));
 		final String refFormule = this.reservationParametresService.sauvegarderFormule(new Formule("nom1", 2.6));
 		final String refResa = this.sauvegarderUneReservation("client", refChambre, -1, 2, refFormule);
-		this.reservationService.changeEtatReservation(refResa, EtatReservation.EN_COURS);
+		this.reservationService.changerEtatReservation(refResa, EtatReservation.EN_COURS);
 
 		final Reservation resa = new Reservation();
 		resa.setReference(refResa);

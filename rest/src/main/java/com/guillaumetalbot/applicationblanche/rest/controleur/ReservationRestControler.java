@@ -50,7 +50,7 @@ public class ReservationRestControler {
 	@ApiOperation(value = "Modifier l'état d'une réservation", notes = "avec vérification des règles de changement d'état")
 	public void changeEtatReservation(@PathVariable("referenceReservation") final String referenceReservation,
 			@RequestParam(name = "etat", required = true) final EtatReservation etat) {
-		this.reservationService.changeEtatReservation(referenceReservation, etat);
+		this.reservationService.changerEtatReservation(referenceReservation, etat);
 	}
 
 	@GetMapping("/reservations/{referenceReservation}")

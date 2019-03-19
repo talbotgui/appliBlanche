@@ -77,7 +77,7 @@ public class ReservationServiceTest {
 		final LocalDate dateFin = LocalDate.now().plus(deltaDateFin, ChronoUnit.DAYS);
 		final String reference = this.reservationService.sauvegarderReservation(new Reservation(client, c, dateDebut, dateFin, f));
 		if (statutEnCours) {
-			this.reservationService.changeEtatReservation(reference, EtatReservation.EN_COURS);
+			this.reservationService.changerEtatReservation(reference, EtatReservation.EN_COURS);
 		}
 		return reference;
 	}
@@ -251,7 +251,7 @@ public class ReservationServiceTest {
 		final String refReservation = this.sauvegarderUneReservation("client1", refChambre, 2, 4);
 
 		//
-		this.reservationService.changeEtatReservation(refReservation, EtatReservation.EN_COURS);
+		this.reservationService.changerEtatReservation(refReservation, EtatReservation.EN_COURS);
 
 		//
 		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from RESERVATION where etat_Courant=?",
@@ -267,7 +267,7 @@ public class ReservationServiceTest {
 
 		//
 		final Throwable thrown = Assertions.catchThrowable(() -> {
-			this.reservationService.changeEtatReservation(refReservation, EtatReservation.TERMINEE);
+			this.reservationService.changerEtatReservation(refReservation, EtatReservation.TERMINEE);
 		});
 
 		//
@@ -285,9 +285,9 @@ public class ReservationServiceTest {
 		final String refResa1Annulee = this.sauvegarderUneReservation("client1", refChambre1, -10, -8);
 		final String refResa2EnCours = this.sauvegarderUneReservation("client2", refChambre1, -8, -6);
 		this.sauvegarderUneReservation("client3", refChambre2, 0, 2);
-		this.reservationService.changeEtatReservation(refResa1Annulee, EtatReservation.EN_COURS);
-		this.reservationService.changeEtatReservation(refResa1Annulee, EtatReservation.ANNULEE);
-		this.reservationService.changeEtatReservation(refResa2EnCours, EtatReservation.EN_COURS);
+		this.reservationService.changerEtatReservation(refResa1Annulee, EtatReservation.EN_COURS);
+		this.reservationService.changerEtatReservation(refResa1Annulee, EtatReservation.ANNULEE);
+		this.reservationService.changerEtatReservation(refResa2EnCours, EtatReservation.EN_COURS);
 
 		//
 		final Collection<Reservation> reservations = this.reservationService.rechercherReservations(EtatReservation.EN_COURS, false);
@@ -306,9 +306,9 @@ public class ReservationServiceTest {
 		final String refResa1Annulee = this.sauvegarderUneReservation("client1", refChambre1, -10, -8);
 		final String refResa2EnCours = this.sauvegarderUneReservation("client2", refChambre1, -8, -6);
 		this.sauvegarderUneReservation("client3", refChambre2, 0, 2);
-		this.reservationService.changeEtatReservation(refResa1Annulee, EtatReservation.EN_COURS);
-		this.reservationService.changeEtatReservation(refResa1Annulee, EtatReservation.ANNULEE);
-		this.reservationService.changeEtatReservation(refResa2EnCours, EtatReservation.EN_COURS);
+		this.reservationService.changerEtatReservation(refResa1Annulee, EtatReservation.EN_COURS);
+		this.reservationService.changerEtatReservation(refResa1Annulee, EtatReservation.ANNULEE);
+		this.reservationService.changerEtatReservation(refResa2EnCours, EtatReservation.EN_COURS);
 
 		//
 		final Collection<Reservation> reservations = this.reservationService.rechercherReservations(EtatReservation.EN_COURS, true);
@@ -327,10 +327,10 @@ public class ReservationServiceTest {
 		final String refResa1Annulee = this.sauvegarderUneReservation("client1", refChambre1, -10, -8);
 		final String refResa2EnCours = this.sauvegarderUneReservation("client2", refChambre1, -8, -6);
 		this.sauvegarderUneReservation("client3", refChambre2, 0, 2);
-		this.reservationService.changeEtatReservation(refResa1Annulee, EtatReservation.EN_COURS);
-		this.reservationService.changeEtatReservation(refResa1Annulee, EtatReservation.ANNULEE);
-		this.reservationService.changeEtatReservation(refResa2EnCours, EtatReservation.EN_COURS);
-		this.reservationService.changeEtatReservation(refResa2EnCours, EtatReservation.FACTUREE);
+		this.reservationService.changerEtatReservation(refResa1Annulee, EtatReservation.EN_COURS);
+		this.reservationService.changerEtatReservation(refResa1Annulee, EtatReservation.ANNULEE);
+		this.reservationService.changerEtatReservation(refResa2EnCours, EtatReservation.EN_COURS);
+		this.reservationService.changerEtatReservation(refResa2EnCours, EtatReservation.FACTUREE);
 
 		//
 		final Collection<Reservation> reservations = this.reservationService.rechercherReservations(EtatReservation.FACTUREE, true);
@@ -346,7 +346,7 @@ public class ReservationServiceTest {
 		//
 		final String refChambre = this.reservationParametresService.sauvegarderChambre(new Chambre("nom1"));
 		final String refResa = this.sauvegarderUneReservation("client2", refChambre, -8, -6);
-		this.reservationService.changeEtatReservation(refResa, EtatReservation.EN_COURS);
+		this.reservationService.changerEtatReservation(refResa, EtatReservation.EN_COURS);
 
 		final Reservation reservation = new Reservation();
 		reservation.setReference(refResa);
