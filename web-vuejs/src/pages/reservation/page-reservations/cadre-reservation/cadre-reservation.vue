@@ -17,7 +17,7 @@
 					<template v-slot:activator="{ on }">
 						<v-text-field :label="$t('reservation_placeholder_dateDebut')" v-model="dateDebut.dateCourte" readonly v-on="on" :disabled="reservationSelectionnee.etatCourant==='TERMINEE'"></v-text-field>
 					</template>
-					<v-date-picker v-model="dateDebut.dateComplete" @input="dateDebut.datePick = false" :max="dateFin.dateComplete"></v-date-picker>
+					<v-date-picker :locale="$i18n.locale" v-model="dateDebut.dateComplete" @input="dateDebut.datePick = false" :max="dateFin.dateComplete"></v-date-picker>
 				</v-menu>
 			</v-flex>
 
@@ -27,7 +27,7 @@
 					<template v-slot:activator="{ on }">
 						<v-text-field :label="$t('reservation_placeholder_dateFin')" v-model="dateFin.dateCourte" readonly v-on="on" :disabled="reservationSelectionnee.etatCourant==='TERMINEE'"></v-text-field>
 					</template>
-					<v-date-picker v-model="dateFin.dateComplete" @input="dateFin.datePick = false" :min="dateDebut.dateComplete"></v-date-picker>
+					<v-date-picker :locale="$i18n.locale" v-model="dateFin.dateComplete" @input="dateFin.datePick = false" :min="dateDebut.dateComplete"></v-date-picker>
 				</v-menu>
 			</v-flex>
 
