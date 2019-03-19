@@ -12,28 +12,24 @@
 		<v-form v-model="valide" @keyup.native.enter="valide && enregistrerReservationSelectionnee()" v-on:submit.prevent>
 
 			<v-flex xs12 d-flex>
-				max
-				<!-- todo: [max]="reservationSelectionnee.dateFin" -->
 				<span class="libelleDatePicker" v-t="'reservation_placeholder_dateDebut'"></span>
 				<v-menu v-model="dateDebut.datePick" :close-on-content-click="false" :nudge-right="40" lazy transition="scale-transition" offset-y
 				        class="petitdatepicker" full-width min-width="100px">
 					<template v-slot:activator="{ on }">
 						<v-text-field v-model="dateDebut.dateCourte" readonly v-on="on" :disabled="reservationSelectionnee.etatCourant==='TERMINEE'"></v-text-field>
 					</template>
-					<v-date-picker v-model="dateDebut.dateComplete" @input="dateDebut.datePick = false"></v-date-picker>
+					<v-date-picker v-model="dateDebut.dateComplete" @input="dateDebut.datePick = false" :max="dateFin.dateComplete"></v-date-picker>
 				</v-menu>
 			</v-flex>
 
 			<v-flex xs12 d-flex>
-				min
-				<!-- todo: [min]="reservationSelectionnee.dateDebut"-->
 				<span class="libelleDatePicker" v-t="'reservation_placeholder_dateFin'"></span>
 				<v-menu v-model="dateFin.datePick" :close-on-content-click="false" :nudge-right="40" lazy transition="scale-transition" offset-y class="petitdatepicker"
 				        full-width min-width="100px">
 					<template v-slot:activator="{ on }">
 						<v-text-field v-model="dateFin.dateCourte" readonly v-on="on" :disabled="reservationSelectionnee.etatCourant==='TERMINEE'"></v-text-field>
 					</template>
-					<v-date-picker v-model="dateFin.dateComplete" @input="dateFin.datePick = false"></v-date-picker>
+					<v-date-picker v-model="dateFin.dateComplete" @input="dateFin.datePick = false" :min="dateDebut.dateComplete"></v-date-picker>
 				</v-menu>
 			</v-flex>
 
@@ -48,10 +44,9 @@
 			</v-flex>
 
 			<v-flex xs12 d-flex>
-				/prix/ €/nuit
-				<!--todo libellé des options -->
-				<v-select :items="formules" item-text="nom" item-value="reference" required v-model="reservationSelectionnee.formule.reference" name="formule"
-				          :label="$t('reservation_placeholder_formule')" :disabled="reservationSelectionnee.etatCourant==='TERMINEE'"></v-select>
+				<v-select :items="formules" :item-text="calculerLibelleFormule" item-value="reference" required v-model="reservationSelectionnee.formule.reference"
+				          name="formule" :label="$t('reservation_placeholder_formule')" :disabled="reservationSelectionnee.etatCourant==='TERMINEE'">
+				</v-select>
 			</v-flex>
 
 			<v-flex xs12 d-flex>
@@ -60,8 +55,8 @@
 			</v-flex>
 
 			<v-flex xs12 d-flex v-for="(o, index) of options" :key="o.reference">
-				<v-checkbox :name="'parNuit'+index" v-model="optionsCalculeesPourLaReservationSelectionnee[o.reference]" :disabled="reservationSelectionnee.etatCourant==='TERMINEE'">
-					:label="o.nom+' '+o.prix+' '+'€'+(o.parNuit?' par nuit':'')+(o.parPersonne?' par personne':'')"</v-checkbox>
+				<v-checkbox :name="'parNuit'+index" v-model="optionsCalculeesPourLaReservationSelectionnee[o.reference]" :disabled="reservationSelectionnee.etatCourant==='TERMINEE'"
+				            :label="o.nom + ' (' + o.prix + '€' + ((o.parNuit)?$t('commun_parNuit'):'') + ((o.parPersonne)?$t('commun_parPersonne'):'') + ')'"></v-checkbox>
 			</v-flex>
 
 			<v-flex xs12 d-flex>

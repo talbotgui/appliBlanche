@@ -107,6 +107,10 @@ export default class CadreReservation extends Vue {
         this.$store.commit('retirerReservationEnCoursDedition');
     }
 
+    public calculerLibelleFormule(f: Formule): string {
+        return f.nom + ' (' + f.prixParNuit + ' €)';
+    }
+
     /** Méthode appelée par le composant parent (pour ignorer la ligne suivante : @@angular:analyse:ignorerLigneSuivante@@) */
     private selectionnerUneReservation(r: Reservation) {
         this.reservationSelectionnee = r;
