@@ -12,29 +12,27 @@
 		<v-form v-model="valide" @keyup.native.enter="valide && enregistrerReservationSelectionnee()" v-on:submit.prevent>
 
 			<v-flex xs12 d-flex>
-				<span class="libelleDatePicker" v-t="'reservation_placeholder_dateDebut'"></span>
 				<v-menu v-model="dateDebut.datePick" :close-on-content-click="false" :nudge-right="40" lazy transition="scale-transition" offset-y
 				        class="petitdatepicker" full-width min-width="100px">
 					<template v-slot:activator="{ on }">
-						<v-text-field v-model="dateDebut.dateCourte" readonly v-on="on" :disabled="reservationSelectionnee.etatCourant==='TERMINEE'"></v-text-field>
+						<v-text-field :label="$t('reservation_placeholder_dateDebut')" v-model="dateDebut.dateCourte" readonly v-on="on" :disabled="reservationSelectionnee.etatCourant==='TERMINEE'"></v-text-field>
 					</template>
 					<v-date-picker v-model="dateDebut.dateComplete" @input="dateDebut.datePick = false" :max="dateFin.dateComplete"></v-date-picker>
 				</v-menu>
 			</v-flex>
 
 			<v-flex xs12 d-flex>
-				<span class="libelleDatePicker" v-t="'reservation_placeholder_dateFin'"></span>
 				<v-menu v-model="dateFin.datePick" :close-on-content-click="false" :nudge-right="40" lazy transition="scale-transition" offset-y class="petitdatepicker"
 				        full-width min-width="100px">
 					<template v-slot:activator="{ on }">
-						<v-text-field v-model="dateFin.dateCourte" readonly v-on="on" :disabled="reservationSelectionnee.etatCourant==='TERMINEE'"></v-text-field>
+						<v-text-field :label="$t('reservation_placeholder_dateFin')" v-model="dateFin.dateCourte" readonly v-on="on" :disabled="reservationSelectionnee.etatCourant==='TERMINEE'"></v-text-field>
 					</template>
 					<v-date-picker v-model="dateFin.dateComplete" @input="dateFin.datePick = false" :min="dateDebut.dateComplete"></v-date-picker>
 				</v-menu>
 			</v-flex>
 
 			<v-flex xs12 d-flex>
-				<v-text-field type="number" required v-model="reservationSelectionnee.client" name="client" :rules="obligatoireRegles" :label="$t('reservation_placeholder_client')"
+				<v-text-field required v-model="reservationSelectionnee.client" name="client" :rules="obligatoireRegles" :label="$t('reservation_placeholder_client')"
 				              :disabled="reservationSelectionnee.etatCourant==='TERMINEE'"></v-text-field>
 			</v-flex>
 

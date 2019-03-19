@@ -51,6 +51,7 @@ insert into LIBELLE (clef, libelle, langue) values ('commun_tooltip_supprimer', 
 insert into LIBELLE (clef, libelle, langue) values ('commun_tooltip_rechercher', 'Search', 'en');
 insert into LIBELLE (clef, libelle, langue) values ('commun_tooltip_annuler', 'Cancel', 'en');
 insert into LIBELLE (clef, libelle, langue) values ('commun_tooltip_valider', 'Validate', 'en');
+insert into LIBELLE (clef, libelle, langue) values ('commmun_champ_obligatoire', 'Date required', 'en');
 insert into LIBELLE (clef, libelle, langue) values ('calendrier_tooltip_plus','Move a week forward', 'en');
 insert into LIBELLE (clef, libelle, langue) values ('calendrier_tooltip_moins','Move a week backward', 'en');
 insert into LIBELLE (clef, libelle, langue) values ('calendrier_tooltip_plusPlus','Move a month forward', 'en');

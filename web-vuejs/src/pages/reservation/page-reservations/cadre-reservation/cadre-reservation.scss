@@ -1,0 +1,9 @@
+/** Pour réduire la taille des inputs de datepicker */
+.petitdatepicker .v-input__slot { margin-bottom: 0px; }
+.petitdatepicker .v-text-field { margin: 0px; padding: 0px; }
+
+/** Pour réduire la taille des checkbox */
+.v-input--selection-controls { margin-top: 0px; padding-top: 0px; }
+
+/** Pour réduire la taille générale du formulaire */
+.container.grid-list-xl .layout .flex { padding: 0px 12px; }
