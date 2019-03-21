@@ -7,15 +7,21 @@ export default class Pagination extends Vue {
 
     /** Listes alimentant les selectbox */
     public listeNbElementsParPage: number[] = [5, 10, 20, 50, 100];
-    public listeIndexesDePage: number[] = [];
+    public nbPagesMax: number = 0;
 
     /** Index courant de la page (réel + 1) */
-    get indexPageCourant() {
+    public get indexPageCourant() {
         if (this.page && this.page.number) {
             return this.page.number + 1;
         } else {
             return 1;
         }
+    }
+
+    /** Au changement d'index de page */
+    public set indexPageCourant(value: number) {
+        this.page.number = value - 1;
+        this.chargerDonnees(this.page);
     }
 
     /** Page de données */
@@ -32,13 +38,8 @@ export default class Pagination extends Vue {
         // Sauvegarde de la dernière page pour la passer dans l'évènement de rechargement
         this.page = p;
 
-        // Constutition des indexes de page pour la liste déroulante
-        const listeIndexes = [];
-        for (let i = 0; i < p.totalPages; i++) {
-            listeIndexes.push(i + 1);
-        }
-        this.listeIndexesDePage = listeIndexes;
-
+        // Sauvegarde du nombre de page max
+        this.nbPagesMax = p.totalPages;
     }
 
     /** Au changement du nombre d'élément par page */
@@ -48,14 +49,8 @@ export default class Pagination extends Vue {
         this.chargerDonnees(this.page);
     }
 
-    /** Au changement d'index de page */
-    public selectionnerIndexPage(pageNumber: number) {
-        this.page.number = pageNumber - 1;
-        this.chargerDonnees(this.page);
-    }
-
     /** Méthode appellée */
-    public chargerDonnees(page: Page<any>) {
+    private chargerDonnees(page: Page<any>) {
         this.$emit('rechargement', this.page);
     }
 }
