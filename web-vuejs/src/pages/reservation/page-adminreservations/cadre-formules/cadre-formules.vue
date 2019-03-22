@@ -41,8 +41,8 @@
 					              :rules="[(v) => (!!v && v >= 0) || $t('commmun_champ_obligatoire')]"></v-text-field>
 
 					<!-- Boutons -->
-					<v-btn @click="sauvegarder()" :disabled="!valide" v-t="'commun_tooltip_valider'"></v-btn>
-					<v-btn @click="annulerCreation()" v-t="'commun_tooltip_annuler'"></v-btn>
+					<v-btn @click="sauvegarder()" :disabled="!valide">$t('commun_tooltip_valider')</v-btn>
+					<v-btn @click="annulerCreation()">{{$t('commun_tooltip_annuler')}}</v-btn>
 				</div>
 			</v-form>
 		</v-flex>

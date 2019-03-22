@@ -58,8 +58,8 @@
 					<v-text-field type="number" required v-model="nouveauMoyenDePaiement.montantAssocie" name="montantAssocie" :label="$t('moyendepaiement_placeholder_montantAssocie')"></v-text-field>
 
 					<!-- Boutons -->
-					<v-btn @click="sauvegarder()" :disabled="!valide" v-t="'moyendepaiement_bouton_creer'"></v-btn>
-					<v-btn @click="annulerCreation()" v-t="'moyendepaiement_bouton_annuler'"></v-btn>
+					<v-btn @click="sauvegarder()" :disabled="!valide">{{$t('moyendepaiement_bouton_creer')}}</v-btn>
+					<v-btn @click="annulerCreation()">{{$t('moyendepaiement_bouton_annuler')}}</v-btn>
 				</div>
 			</v-form>
 		</v-flex>

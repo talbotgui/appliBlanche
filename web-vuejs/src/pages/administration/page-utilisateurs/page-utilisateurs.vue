@@ -63,8 +63,8 @@
 					              :rules="[(v) => (!!v && v.length > 5) || $t('utilisateur_placeholder_mdp_validation')]"></v-text-field>
 
 					<!-- Boutons -->
-					<v-btn @click="sauvegarderUtilisateur()" :disabled="!valide" v-t="'utilisateur_bouton_creer'"></v-btn>
-					<v-btn @click="annulerCreationUtilisateur()" v-t="'utilisateur_bouton_annuler'"></v-btn>
+					<v-btn @click="sauvegarderUtilisateur()" :disabled="!valide">{{$t('utilisateur_bouton_creer')}}</v-btn>
+					<v-btn @click="annulerCreationUtilisateur()">{{$t('utilisateur_bouton_annuler')}}</v-btn>
 				</div>
 			</v-form>
 		</v-flex>

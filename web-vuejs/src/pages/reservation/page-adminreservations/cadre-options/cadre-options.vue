@@ -45,8 +45,8 @@
 					<v-checkbox v-model="nouvelleOption.parPersonne" name="parPersonne" :label="$t('adminResa_placeholder_prixParPersonne')"></v-checkbox>
 
 					<!-- Boutons -->
-					<v-btn @click="sauvegarder()" :disabled="!valide" v-t="'commun_tooltip_valider'"></v-btn>
-					<v-btn @click="annulerCreation()" v-t="'commun_tooltip_annuler'"></v-btn>
+					<v-btn @click="sauvegarder()" :disabled="!valide">{{$t('commun_tooltip_valider')}}</v-btn>
+					<v-btn @click="annulerCreation()">{{$t('commun_tooltip_annuler')}}</v-btn>
 				</div>
 			</v-form>
 		</v-flex>

@@ -52,8 +52,8 @@
 					<v-text-field required v-model="elementSelectionne.nom" name="nom" :label="$t('role_placeholder_nom')" :rules="[(v) => (!!v) || $t('commmun_champ_obligatoire')]"></v-text-field>
 
 					<!-- Boutons -->
-					<v-btn @click="sauvegarder()" :disabled="!valide" v-t="'role_bouton_creer'"></v-btn>
-					<v-btn @click="annulerCreation()" v-t="'role_bouton_annuler'"></v-btn>
+					<v-btn @click="sauvegarder()" :disabled="!valide">{{$t('role_bouton_creer')}}</v-btn>
+					<v-btn @click="annulerCreation()">{{$t('role_bouton_annuler')}}</v-btn>
 				</div>
 			</v-form>
 		</v-flex>
