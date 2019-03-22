@@ -18,12 +18,16 @@ export default class DatePickerCalendarDto {
     private dateUtils: DateUtils = new DateUtils();
 }
 
+export class EnteteDatatable {
+    constructor(public text: string, public value: string, public align: string, public sortable: boolean) { }
+}
+
 /**
  * Classe utilitaire pour faciliter l'usage de DataTable.
  *
  * Coté html :
  *
- * <v-data-table :headers="entetes" :items="dtDto.lignesDuTableau" :loading="dtDto.chargementEnCours" class="elevation-1" :pagination.sync="dtDto.pagination"
+ * <v-data-table :headers="dtDto.entetes" :items="dtDto.lignesDuTableau" :loading="dtDto.chargementEnCours" class="elevation-1" :pagination.sync="dtDto.pagination"
  * :total-items="dtDto.nombreTotalElements" :rows-per-page-items="dtDto.listeOptionNombreElementsParPage" :must-sort="true">
  *
  * Coté TS :
@@ -31,7 +35,10 @@ export default class DatePickerCalendarDto {
  * // Pas de méthode 'mounted' chargeant les données. Ce sera fait à l'initialisation du tableau.
  *
  * // DTO contenant tous les éléments de pagination
- * public dtDto: PaginationDto<Ressource> = new PaginationDto(this.chargerDonnees);
+ * public dtDto: PaginationDto<Ressource> = new PaginationDto(
+ *   this.chargerDonnees,
+ *   [ new EnteteDatatable('Clef', 'clef', 'center', true), new EnteteDatatable('Description', 'description', 'center', false) ]
+ * );
  *
  * // A chaque modification du membre 'dtDto', prise en compte dans le DTO et appel à "chargerDonnees"
  * @Watch('dtDto.pagination')
@@ -69,7 +76,16 @@ export class PaginationDto<T> {
      * Constructeur
      * @param chargerDonneesCallback La méthode du controleur permettant le chargement des données
      */
-    public constructor(private chargerDonneesCallback: (p: Page<T>) => void) { }
+    public constructor(
+        private chargerDonneesCallback: (p: Page<T>) => void,
+        public entetes: EnteteDatatable[],
+        private triParDefaut: { colonne: string, ascendant: boolean },
+    ) {
+        if (triParDefaut && triParDefaut.colonne) {
+            this.pagination.sortBy = triParDefaut.colonne;
+            this.pagination.descending = !triParDefaut.ascendant;
+        }
+    }
 
     /** Méthode appelée par chargerDonneesCallback après le chargement des données */
     public sauvegarderPage(page: Page<T>) {
@@ -81,6 +97,7 @@ export class PaginationDto<T> {
 
     /** Méthode appelée au moindre changement dans le tri ou la pagination */
     public auChangementDePagination() {
+
         // Si la page n'a jamais été chargée (à l'arrivée sur la page), on charge la première page
         if (!this.page.content) {
             this.page.size = this.listeOptionNombreElementsParPage[0];
