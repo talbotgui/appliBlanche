@@ -1,15 +1,29 @@
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 
 import { Page } from '@/model/model';
 import { ElementMonitoring } from '@/model/administration-model';
 import { MonitoringService } from '@/services/administration/service-monitoring';
-import Pagination from '@/composants/composant-pagination/composant-pagination';
+import { PaginationDto, EnteteDatatable } from '@/model/vuetifyDto';
 
-@Component({ components: { Pagination } })
+@Component
 export default class PageAdministrationMonitoring extends Vue {
 
-    /** Page dont le contenu est affiché */
-    public page: Page<ElementMonitoring> = new Page(0, 0);
+    /** DTO contenant tous les éléments de pagination */
+    public dtDto: PaginationDto<ElementMonitoring> = new PaginationDto(
+        // Méthode de chargement des données
+        this.chargerDonnees,
+        // entêtes à utiliser
+        [
+            new EnteteDatatable('monitoring_entete_clef', 'clef', 'center', true),
+            new EnteteDatatable('monitoring_entete_nbAppels', 'nbAppels', 'center', true),
+            new EnteteDatatable('monitoring_entete_tempsCumule', 'tempsCumule', 'center', true),
+            new EnteteDatatable('monitoring_entete_tempsMoyen', 'tempsMoyen', 'center', true),
+            new EnteteDatatable('monitoring_entete_tempsMax', 'tempsMax', 'center', true),
+            new EnteteDatatable('monitoring_entete_tempsMin', 'tempsMin', 'center', true),
+        ],
+        // tri par défaut
+        { colonne: 'clef', ascendant: false },
+    );
 
     /** Une dépendance */
     private monitoringService: MonitoringService;
@@ -20,18 +34,16 @@ export default class PageAdministrationMonitoring extends Vue {
         this.monitoringService = new MonitoringService();
     }
 
-    /** Méthode appelée dès que le composant est chargé. */
-    public mounted() {
-        this.chargerDonnees(new Page(10, 0));
+    /** A chaque modification du membre 'pagination', prise en compte dans le DTO et appel à "chargerDonnees" */
+    @Watch('dtDto.pagination')
+    public auChangementDePagination(val: any, oldVal: any) {
+        this.dtDto.auChangementDePagination();
     }
 
     /** Chargement des données */
     public chargerDonnees(nouvellePage: Page<any>) {
         this.monitoringService.lireInformations(nouvellePage).subscribe((p) => {
-            // Sauvegarde de la page pour en afficher le contenu
-            this.page = p;
-            // Envoi de la page au composant de pagination pour prise en compte
-            (this.$refs.pagination as Pagination).prendreEnComptePage(p);
+            this.dtDto.sauvegarderPage(p);
         });
     }
 
@@ -39,5 +51,4 @@ export default class PageAdministrationMonitoring extends Vue {
     public exporterInformations() {
         this.monitoringService.exporterInformations();
     }
-
 }

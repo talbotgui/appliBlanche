@@ -7,30 +7,21 @@
 			<v-btn @click="exporterInformations()" v-t="'monitoring_bouton_export'"></v-btn>
 		</v-flex>
 		<v-flex xs12 d-flex>
-			<table>
-				<thead>
-					<tr>
-						<th v-t="'monitoring_entete_clef'"></th>
-						<th v-t="'monitoring_entete_nbAppels'"></th>
-						<th v-t="'monitoring_entete_tempsCumule'"></th>
-						<th v-t="'monitoring_entete_tempsMoyen'"></th>
-						<th v-t="'monitoring_entete_tempsMax'"></th>
-						<th v-t="'monitoring_entete_tempsMin'"></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr v-for="e in page.content" v-bind:key="e.clef">
-						<td>{{e.clef}}</td>
-						<td>{{e.nbAppels | enNombre}}</td>
-						<td>{{e.tempsCumule | enNombre}}</td>
-						<td>{{e.tempsMoyen | enNombre(2)}}</td>
-						<td>{{e.tempsMax | enNombre}}</td>
-						<td>{{e.tempsMin | enNombre}}</td>
-					</tr>
-				</tbody>
-			</table>
+			<v-data-table :headers="dtDto.entetes" :items="dtDto.lignesDuTableau" :loading="dtDto.chargementEnCours" :pagination.sync="dtDto.pagination"
+			              :total-items="dtDto.nombreTotalElements" :rows-per-page-items="dtDto.listeOptionNombreElementsParPage" :must-sort="true">
+				<template v-slot:no-data>Aucune donnée disponible</template>
+				<v-progress-linear v-slot:progress color="blue" indeterminate></v-progress-linear>
+				<template slot="headerCell" slot-scope="props"><span v-t="props.header.text"></span></template>
+				<template v-slot:items="ligne">
+					<td>{{ ligne.item.clef }}</td>
+					<td>{{ ligne.item.nbAppels | enNombre }}</td>
+					<td>{{ ligne.item.tempsCumule | enNombre }}</td>
+					<td>{{ ligne.item.tempsMoyen | enNombre(2) }}</td>
+					<td>{{ ligne.item.tempsMax | enNombre }}</td>
+					<td>{{ ligne.item.tempsMin | enNombre }}</td>
+				</template>
+			</v-data-table>
 		</v-flex>
-		<pagination ref="pagination" v-on:rechargement="chargerDonnees"></pagination>
 	</v-layout>
 </template>
 
