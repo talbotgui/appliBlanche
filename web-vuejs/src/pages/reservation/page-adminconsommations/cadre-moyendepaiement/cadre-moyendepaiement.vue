@@ -6,38 +6,42 @@
 		</v-flex>
 
 		<v-flex xs12 d-flex>
-			<table>
-				<thead>
-					<tr>
-						<th v-t="'moyendepaiement_entete_nom'"></th>
-						<th v-t="'moyendepaiement_entete_montantAssocie'"></th>
-						<th>
-							<span v-t="'commun_entete_actions'"></span>
-							<span>&nbsp;</span>
-							<v-tooltip bottom>
-								<template #activator="data"><em class="actionDansUnEntete fa fa-plus" @click="creer();"></em></template>
-								<span v-t="'commun_tooltip_ajouter'"></span>
-							</v-tooltip>
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr v-for="mdp in moyensDePaiement" v-bind:key="mdp.reference">
-						<td>{{mdp.nom}}</td>
-						<td>{{mdp.montantAssocie}}</td>
-						<td>
-							<v-tooltip bottom>
-								<template #activator="data"><em class="fa fa-edit" @click="selectionner(mdp)"></em></template>
-								<span v-t="'commun_tooltip_editer'"></span>
-							</v-tooltip>
-							<v-tooltip bottom>
-								<template #activator="data"><em class="fa fa-trash-alt" @click="supprimer(mdp)"></em></template>
-								<span v-t="'commun_tooltip_supprimer'"></span>
-							</v-tooltip>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+			<v-data-table :headers="entetes" :items="moyensDePaiement" :must-sort="true">
+
+				<template v-slot:no-data>Aucune donnée disponible</template>
+
+				<template slot="headerCell" slot-scope="props">
+					<span v-t="props.header.text"></span>
+
+					<!-- uniquement dans la colonne 'action' -->
+					<span v-if="props.header.value=='action'">&nbsp;</span>
+					<v-tooltip v-if="props.header.value=='action'" bottom>
+						<template v-slot:activator="{ on }">
+							<span v-on="on"><em class="actionDansUnEntete fa fa-plus" @click="creer();">&nbsp;</em></span>
+						</template>
+						<span v-t="'commun_tooltip_ajouter'"></span>
+					</v-tooltip>
+				</template>
+
+				<template v-slot:items="ligne">
+					<td>{{ ligne.item.nom }}</td>
+					<td>{{ ligne.item.montantAssocie }}</td>
+					<td>
+						<v-tooltip bottom>
+							<template v-slot:activator="{ on }">
+								<span v-on="on"><em class="actionDansUnEntete fa fa-edit" @click="selectionner(ligne.item);">&nbsp;</em></span>
+							</template>
+							<span v-t="'commun_tooltip_supprimer'"></span>
+						</v-tooltip>
+						<v-tooltip bottom>
+							<template v-slot:activator="{ on }">
+								<span v-on="on"><em class="actionDansUnEntete fa fa-trash-alt" @click="supprimer(ligne.item);">&nbsp;</em></span>
+							</template>
+							<span v-t="'commun_tooltip_supprimer'"></span>
+						</v-tooltip>
+					</td>
+				</template>
+			</v-data-table>
 		</v-flex>
 
 		<!-- Création ou édition -->

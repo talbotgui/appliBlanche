@@ -3,6 +3,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import { MoyenDePaiement } from '@/model/reservation-model';
 import { ReservationService } from '@/services/reservations/reservation.service';
 import AnimationUtils from '@/services/utilitaire/animationUtils';
+import { EnteteDatatable } from '@/model/vuetifyDto';
 
 @Component
 export default class CadreMoyendepaiement extends Vue {
@@ -12,6 +13,13 @@ export default class CadreMoyendepaiement extends Vue {
 
     /** Données du tableau */
     public moyensDePaiement: MoyenDePaiement[] = [];
+
+    /** Entêtes du tableau */
+    public entetes = [
+        new EnteteDatatable('moyendepaiement_entete_nom', 'nom', 'center', true),
+        new EnteteDatatable('moyendepaiement_entete_montantAssocie', 'montantAssocie', 'center', true),
+        new EnteteDatatable('commun_entete_actions', 'action', 'center', false),
+    ];
 
     /** Flag indiquant l'état de validation du formulaire */
     public valide: boolean = true;
