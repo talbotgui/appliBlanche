@@ -54,7 +54,7 @@
 					<h3 v-t="'moyendepaiement_formulaire_titre'"></h3>
 
 					<!-- Champs -->
-					<v-text-field required v-model="nouveauMoyenDePaiement.nom" name="nom" :rules="nomRegles" :label="$t('moyendepaiement_placeholder_nom')"></v-text-field>
+					<v-text-field required v-model="nouveauMoyenDePaiement.nom" name="nom" :label="$t('moyendepaiement_placeholder_nom')" :rules="[(v) => (!!v) || $t('moyendepaiement_placeholder_nom_validation')]"></v-text-field>
 					<v-text-field type="number" required v-model="nouveauMoyenDePaiement.montantAssocie" name="montantAssocie" :label="$t('moyendepaiement_placeholder_montantAssocie')"></v-text-field>
 
 					<!-- Boutons -->

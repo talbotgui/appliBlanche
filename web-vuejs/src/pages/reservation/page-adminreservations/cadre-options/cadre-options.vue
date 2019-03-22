@@ -39,8 +39,8 @@
 					<hr />
 
 					<!-- Champs -->
-					<v-text-field required v-model="nouvelleOption.nom" name="nom" :rules="nomRegles" :label="$t('adminResa_placeholder_nomOption')"></v-text-field>
-					<v-text-field type="number" required v-model="nouvelleOption.prix" name="prix" :rules="prixRegles" :label="$t('adminResa_placeholder_prix')"></v-text-field>
+					<v-text-field required v-model="nouvelleOption.nom" name="nom" :label="$t('adminResa_placeholder_nomOption')" :rules="[(v) => (!!v) || $t('commmun_champ_obligatoire')]"></v-text-field>
+					<v-text-field type="number" required v-model="nouvelleOption.prix" name="prix" :label="$t('adminResa_placeholder_prix')" :rules="[(v) => (!!v && v >= 0) || $t('commmun_champ_obligatoire')]"></v-text-field>
 					<v-checkbox v-model="nouvelleOption.parNuit" name="parNuit" :label="$t('adminResa_placeholder_prixParNuit')"></v-checkbox>
 					<v-checkbox v-model="nouvelleOption.parPersonne" name="parPersonne" :label="$t('adminResa_placeholder_prixParPersonne')"></v-checkbox>
 

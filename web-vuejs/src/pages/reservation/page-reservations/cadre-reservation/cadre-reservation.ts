@@ -29,9 +29,6 @@ export default class CadreReservation extends Vue {
     /** Date selectionnée par l'utilisateur dans le datePicker */
     public dateFin: DatePickerCalendarDto = new DatePickerCalendarDto();
 
-    /** Regles de validation du formulaire */
-    public obligatoireRegles = [(v: any) => (!!v) || 'commmun_champ_obligatoire'];
-
     /** Une dépendance */
     private reservationService: ReservationService;
 

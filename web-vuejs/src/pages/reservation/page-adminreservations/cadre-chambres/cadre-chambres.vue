@@ -36,7 +36,7 @@
 					<hr />
 
 					<!-- Champs -->
-					<v-text-field required v-model="nouvelleChambre.nom" name="nom" :rules="nomRegles" :label="$t('adminResa_placeholder_nomChambre')"></v-text-field>
+					<v-text-field required v-model="nouvelleChambre.nom" name="nom" :label="$t('adminResa_placeholder_nomChambre')" :rules="[(v) => (!!v) || $t('commmun_champ_obligatoire')]"></v-text-field>
 
 					<!-- Boutons -->
 					<v-btn @click="sauvegarder()" :disabled="!valide" v-t="'commun_tooltip_valider'"></v-btn>

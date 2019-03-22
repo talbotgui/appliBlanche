@@ -9,10 +9,6 @@ export default class PageLogin extends Vue {
     /** Flag indiquant l'état de validation du formulaire */
     public valid: boolean = true;
 
-    /** Regles de validation du formulaire */
-    public loginRegles = [(v: any) => !!v || 'utilisateur_placeholder_login_validation'];
-    public mdpRegles = [(v: any) => !!v || 'utilisateur_placeholder_mdp_validation'];
-
     /** Identifiant */
     public login: string = 'adminAsupprimer';
 

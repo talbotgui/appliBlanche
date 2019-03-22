@@ -32,9 +32,10 @@
 					<hr />
 
 					<!-- Champs -->
-					<v-text-field required v-model="nouveauProduit.nom" name="nom" :rules="nomRegles" :label="$t('adminConso_placeholder_nomProduit')"></v-text-field>
-					<v-select :items="couleursPossibles" required v-model="nouveauProduit.couleur" name="couleur" :rules="couleurRegles" :label="$t('adminConso_placeholder_couleurProduit')"></v-select>
-					<v-text-field type="number" required v-model="nouveauProduit.prix" name="prix" :rules="prixRegles" :label="$t('adminConso_placeholder_prix')"></v-text-field>
+					<v-text-field required v-model="nouveauProduit.nom" name="nom" :rules="[(v) => (!!v) || $t('commmun_champ_obligatoire')]" :label="$t('adminConso_placeholder_nomProduit')"></v-text-field>
+					<v-select :items="couleursPossibles" required v-model="nouveauProduit.couleur" name="couleur" :label="$t('adminConso_placeholder_couleurProduit')"
+					          :rules="[(v) => (!!v) || $t('commmun_champ_obligatoire')]"></v-select>
+					<v-text-field type="number" required v-model="nouveauProduit.prix" name="prix" :label="$t('adminConso_placeholder_prix')" :rules="[(v) => (!!v && v >= 0) || $t('commmun_champ_obligatoire')]"></v-text-field>
 
 					<!-- Boutons -->
 					<v-btn @click="sauvegarder()" :disabled="!valide" v-t="'moyendepaiement_bouton_creer'"></v-btn>

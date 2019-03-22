@@ -34,11 +34,6 @@ export default class CadreProduits extends Vue {
     /** Flag indiquant l'état de validation du formulaire */
     public valide: boolean = true;
 
-    /** Regles de validation du formulaire */
-    public nomRegles = [(v: any) => (!!v) || 'todo'];
-    public couleurRegles = [(v: any) => (!!v) || 'todo'];
-    public prixRegles = [(v: any) => (!!v && v >= 0) || 'todo'];
-
     /** Une dépendance */
     private reservationService: ReservationService;
 

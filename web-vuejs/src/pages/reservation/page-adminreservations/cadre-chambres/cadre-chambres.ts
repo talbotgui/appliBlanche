@@ -16,9 +16,6 @@ export default class CadreChambres extends Vue {
     /** Flag indiquant l'état de validation du formulaire */
     public valide: boolean = true;
 
-    /** Regles de validation du formulaire */
-    public nomRegles = [(v: any) => (!!v) || 'todo'];
-
     /** Une dépendance */
     private reservationService: ReservationService;
 

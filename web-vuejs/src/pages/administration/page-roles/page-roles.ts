@@ -30,9 +30,6 @@ export default class PageAdministrationRoles extends Vue {
     /** Flag indiquant l'état de validation du formulaire */
     public valide: boolean = true;
 
-    /** Regles de validation du formulaire */
-    public nomRegles = [(v: any) => (!!v) || 'role_placeholder_nom_validation'];
-
     /** Une dépendance */
     private roleService: RoleService;
 

@@ -36,8 +36,9 @@
 					<hr />
 
 					<!-- Champs -->
-					<v-text-field required v-model="nouvelleFormule.nom" name="nom" :rules="nomRegles" :label="$t('adminResa_placeholder_nomFormule')"></v-text-field>
-					<v-text-field type="number" required v-model="nouvelleFormule.prixParNuit" name="prixParNuit" :rules="prixParNuitRegles" :label="$t('adminResa_placeholder_prixParNuit')"></v-text-field>
+					<v-text-field required v-model="nouvelleFormule.nom" name="nom" :label="$t('adminResa_placeholder_nomFormule')" :rules="[(v) => (!!v) || $t('commmun_champ_obligatoire')]"></v-text-field>
+					<v-text-field type="number" required v-model="nouvelleFormule.prixParNuit" name="prixParNuit" :label="$t('adminResa_placeholder_prixParNuit')"
+					              :rules="[(v) => (!!v && v >= 0) || $t('commmun_champ_obligatoire')]"></v-text-field>
 
 					<!-- Boutons -->
 					<v-btn @click="sauvegarder()" :disabled="!valide" v-t="'commun_tooltip_valider'"></v-btn>

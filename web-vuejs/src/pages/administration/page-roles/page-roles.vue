@@ -49,7 +49,7 @@
 					<h3 v-t="'role_formulaire_titre'"></h3>
 
 					<!-- Champs -->
-					<v-text-field required v-model="elementSelectionne.nom" name="nom" :rules="nomRegles" :label="$t('role_placeholder_nom')"></v-text-field>
+					<v-text-field required v-model="elementSelectionne.nom" name="nom" :label="$t('role_placeholder_nom')" :rules="[(v) => (!!v) || $t('commmun_champ_obligatoire')]"></v-text-field>
 
 					<!-- Boutons -->
 					<v-btn @click="sauvegarder()" :disabled="!valide" v-t="'role_bouton_creer'"></v-btn>

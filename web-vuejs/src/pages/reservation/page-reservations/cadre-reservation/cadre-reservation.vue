@@ -32,7 +32,7 @@
 			</v-flex>
 
 			<v-flex xs12 d-flex>
-				<v-text-field required v-model="reservationSelectionnee.client" name="client" :rules="obligatoireRegles" :label="$t('reservation_placeholder_client')"
+				<v-text-field required v-model="reservationSelectionnee.client" name="client" :label="$t('reservation_placeholder_client')" :rules="[(v) => (!!v) || $t('commmun_champ_obligatoire')]"
 				              :disabled="reservationSelectionnee.etatCourant==='TERMINEE'"></v-text-field>
 			</v-flex>
 
@@ -48,7 +48,7 @@
 			</v-flex>
 
 			<v-flex xs12 d-flex>
-				<v-text-field type="number" required v-model="reservationSelectionnee.nombrePersonnes" name="nombrePersonnes" :rules="obligatoireRegles"
+				<v-text-field type="number" required v-model="reservationSelectionnee.nombrePersonnes" name="nombrePersonnes" :rules="[(v) => (!!v) || $t('commmun_champ_obligatoire')]"
 				              :label="$t('reservation_placeholder_nombrePersonnes')"></v-text-field>
 			</v-flex>
 
