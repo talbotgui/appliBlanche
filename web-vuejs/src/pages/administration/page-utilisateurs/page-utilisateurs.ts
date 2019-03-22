@@ -4,6 +4,7 @@ import { Role, Utilisateur, Page } from '@/model/model';
 import { RoleService } from '@/services/administration/service-role';
 import { UtilisateurService } from '@/services/administration/service-utilisateur';
 import AnimationUtils from '@/services/utilitaire/animationUtils';
+import { EnteteDatatable } from '@/model/vuetifyDto';
 
 @Component
 export default class PageAdministrationUtilisateurs extends Vue {
@@ -16,6 +17,13 @@ export default class PageAdministrationUtilisateurs extends Vue {
 
     /** DataSource du tableau (initialisé dans le onInit) */
     public utilisateurs: Utilisateur[] = [];
+
+    /** Entêtes du tableau */
+    public entetes = [
+        new EnteteDatatable('utilisateur_entete_identifiant', 'login', 'center', true),
+        new EnteteDatatable('utilisateur_entete_roles', 'roles', 'center', false),
+        new EnteteDatatable('commun_entete_actions', 'action', 'center', false),
+    ];
 
     /** Liste complète de tous les roles */
     public tousLesRoles: Role[] = [];

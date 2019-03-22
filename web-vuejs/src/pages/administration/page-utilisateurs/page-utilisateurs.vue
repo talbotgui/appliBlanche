@@ -4,42 +4,46 @@
 			<h3 v-t="'utilisateur_titre'"></h3>
 		</v-flex>
 		<v-flex xs12 d-flex>
-			<table>
-				<thead>
-					<tr>
-						<th v-t="'utilisateur_entete_identifiant'"></th>
-						<th v-t="'utilisateur_entete_roles'"></th>
-						<th>
-							<span v-t="'commun_entete_actions'"></span>
-							<span>&nbsp;</span>
-							<v-tooltip bottom>
-								<template #activator="data"><em class="actionDansUnEntete fa fa-plus" @click="creerUtilisateur();"></em></template>
-								<span v-t="'commun_tooltip_ajouter'"></span>
-							</v-tooltip>
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr v-for="u in utilisateurs" v-bind:key="u.reference">
-						<td>{{u.login}}</td>
-						<td>
-							<v-chip v-for="r in tousLesRoles" v-bind:key="r.nom" :selected="u.roles.indexOf(r.nom) !== -1" @click="ajouterRetirerRole(u, r, !(u.roles.indexOf(r.nom) !== -1))">
-								<span>{{r.nom}}</span>
-							</v-chip>
-						</td>
-						<td>
-							<v-tooltip bottom>
-								<template #activator="data"><em class="fa fa-edit" @click="selectionnerUtilisateur(u)"></em></template>
-								<span v-t="'commun_tooltip_editer'"></span>
-							</v-tooltip>
-							<v-tooltip bottom>
-								<template #activator="data"><em class="fa fa-trash-alt" @click="supprimerUtilisateur(u)"></em></template>
-								<span v-t="'commun_tooltip_supprimer'"></span>
-							</v-tooltip>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+			<v-data-table :headers="entetes" :items="utilisateurs" :must-sort="true">
+
+				<template v-slot:no-data>Aucune donnée disponible</template>
+
+				<template slot="headerCell" slot-scope="props">
+					<span v-t="props.header.text"></span>
+
+					<!-- uniquement dans la colonne 'action' -->
+					<span v-if="props.header.value=='action'">&nbsp;</span>
+					<v-tooltip v-if="props.header.value=='action'" bottom>
+						<template v-slot:activator="{ on }">
+							<span v-on="on"><em class="actionDansUnEntete fa fa-plus" @click="creerUtilisateur();">&nbsp;</em></span>
+						</template>
+						<span v-t="'commun_tooltip_ajouter'"></span>
+					</v-tooltip>
+				</template>
+
+				<template v-slot:items="ligne">
+					<td>{{ ligne.item.login }}</td>
+					<td>
+						<v-chip v-for="r in tousLesRoles" v-bind:key="r.nom" :selected="ligne.item.roles.indexOf(r.nom) !== -1" @click="ajouterRetirerRole(ligne.item, r, !(ligne.item.roles.indexOf(r.nom) !== -1))">
+							<span>{{r.nom}}</span>
+						</v-chip>
+					</td>
+					<td>
+						<v-tooltip bottom>
+							<template v-slot:activator="{ on }">
+								<span v-on="on"><em class="actionDansUnEntete fa fa-edit" @click="selectionnerUtilisateur(ligne.item);">&nbsp;</em></span>
+							</template>
+							<span v-t="'commun_tooltip_supprimer'"></span>
+						</v-tooltip>
+						<v-tooltip bottom>
+							<template v-slot:activator="{ on }">
+								<span v-on="on"><em class="actionDansUnEntete fa fa-trash-alt" @click="supprimerUtilisateur(ligne.item);">&nbsp;</em></span>
+							</template>
+							<span v-t="'commun_tooltip_supprimer'"></span>
+						</v-tooltip>
+					</td>
+				</template>
+			</v-data-table>
 		</v-flex>
 
 		<v-flex xs12 d-flex>
