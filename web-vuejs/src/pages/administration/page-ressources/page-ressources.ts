@@ -1,20 +1,15 @@
 import { Component, Vue, Watch } from 'vue-property-decorator';
 
 import { RessourceService } from '@/services/administration/service-ressource';
-import { Page, Ressource, Sort } from '@/model/model';
 import Pagination from '@/composants/composant-pagination/composant-pagination';
-import { Observable } from 'rxjs';
+import { PaginationDto } from '@/model/vuetifyDto';
+import { Ressource, Page } from '@/model/model';
 
 @Component({ components: { Pagination } })
 export default class PageAdministrationRessources extends Vue {
 
-    get lignesDuTableau() { return this.page.content; }
-    get nombreTotalElements() { return this.page.totalElements; }
-    get listeOptionNombreElementsParPage() { return [5, 6, 8, 10, 300]; }
-
-    public pagination: any = {
-        deep: true,
-    };
+    /** DTO contenant tous les éléments de pagination */
+    public pagination: PaginationDto<Ressource> = new PaginationDto(this.chargerDonnees);
 
     /** Flag indiquant le chargement en cours */
     public chargementEnCours = false;
@@ -27,9 +22,6 @@ export default class PageAdministrationRessources extends Vue {
         { text: 'Description', align: 'center', value: 'description', sortable: false },
     ];
 
-    /** Page de données */
-    private page: Page<Ressource> = new Page(0, 0);
-
     /** Une dépendance */
     private ressourcesService: RessourceService;
 
@@ -39,27 +31,10 @@ export default class PageAdministrationRessources extends Vue {
         this.ressourcesService = new RessourceService();
     }
 
-    @Watch('pagination')
+    /** A chaque modification du membre 'pagination', prise en compte dans le DTO et appel à "chargerDonnees" */
+    @Watch('pagination.pagination')
     public auChangementDePagination(val: any, oldVal: any) {
-        // Si la page n'a jamais été chargée (à l'arrivée sur la page), on ignore cet évènement
-        if (!this.page.content) {
-            return;
-        }
-
-        // Application des paramètres de pagination
-        this.page.number = this.pagination.page - 1;
-        this.page.size = this.pagination.rowsPerPage;
-
-        // Application des paramètres de tri
-        console.log(this.pagination.sortBy + '//' + this.pagination.descending);
-        this.page.sort = new Sort();
-        if (this.pagination.sortBy !== null) {
-            this.page.sort.sortOrder = (!!this.pagination.descending) ? 'asc' : 'desc';
-            this.page.sort.sortColonne = this.pagination.sortBy;
-        }
-
-        // Rechargement des données
-        this.chargerDonnees(this.page);
+        this.pagination.auChangementDePagination();
     }
 
     /** Méthode appelée dès que le composant est chargé. */
@@ -70,7 +45,7 @@ export default class PageAdministrationRessources extends Vue {
         this.chargementEnCours = true;
         this.ressourcesService.listerRessources(nouvellePage).subscribe((p) => {
             // Sauvegarde de la page pour en afficher le contenu
-            this.page = p;
+            this.pagination.sauvegarderPage(p);
             // Envoi de la page au composant de pagination pour prise en compte
             // (this.$refs.pagination as Pagination).prendreEnComptePage(p);
             // Fin du chargement
