@@ -1,11 +1,10 @@
 import { Component, Vue, Watch } from 'vue-property-decorator';
 
 import { RessourceService } from '@/services/administration/service-ressource';
-import Pagination from '@/composants/composant-pagination/composant-pagination';
 import { PaginationDto, EnteteDatatable } from '@/model/vuetifyDto';
 import { Ressource, Page } from '@/model/model';
 
-@Component({ components: { Pagination } })
+@Component
 export default class PageAdministrationRessources extends Vue {
 
     /** DTO contenant tous les éléments de pagination */
@@ -14,8 +13,8 @@ export default class PageAdministrationRessources extends Vue {
         this.chargerDonnees,
         // entêtes à utiliser
         [
-            new EnteteDatatable('Clef', 'clef', 'center', true),
-            new EnteteDatatable('Description', 'description', 'center', false),
+            new EnteteDatatable('ressource_entete_clef', 'clef', 'center', true),
+            new EnteteDatatable('ressource_entete_description', 'description', 'center', false),
         ],
         // tri par défaut
         { colonne: 'clef', ascendant: false },

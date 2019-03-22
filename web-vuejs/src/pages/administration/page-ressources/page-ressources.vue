@@ -8,6 +8,7 @@
 			              :total-items="dtDto.nombreTotalElements" :rows-per-page-items="dtDto.listeOptionNombreElementsParPage" :must-sort="true">
 				<template v-slot:no-data>Aucune donnée disponible</template>
 				<v-progress-linear v-slot:progress color="blue" indeterminate></v-progress-linear>
+				<template slot="headerCell" slot-scope="props"><span v-t="props.header.text"></span></template>
 				<template v-slot:items="ligne">
 					<td>{{ ligne.item.clef }}</td>
 					<td>{{ ligne.item.description }}</td>
