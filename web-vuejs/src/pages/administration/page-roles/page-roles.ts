@@ -1,11 +1,11 @@
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 
 import { Role, Page } from '@/model/model';
 import { RoleService } from '@/services/administration/service-role';
 import AnimationUtils from '@/services/utilitaire/animationUtils';
-import Pagination from '@/composants/composant-pagination/composant-pagination';
+import { PaginationDto, EnteteDatatable } from '@/model/vuetifyDto';
 
-@Component({ components: { Pagination } })
+@Component
 export default class PageAdministrationRoles extends Vue {
 
     /** Objet en cours d'édition */
@@ -14,8 +14,18 @@ export default class PageAdministrationRoles extends Vue {
     /** Flag permettant de savoir si c'est une création ou une modification (pour bloquer le login) */
     public creation: boolean = false;
 
-    /** Page de données */
-    public page: Page<Role> = new Page(0, 0);
+    /** DTO contenant tous les éléments de pagination */
+    public dtDto: PaginationDto<Role> = new PaginationDto(
+        // Méthode de chargement des données
+        this.chargerDonnees,
+        // entêtes à utiliser
+        [
+            new EnteteDatatable('role_entete_nom', 'nom', 'center', true),
+            new EnteteDatatable('commun_entete_actions', 'action', 'center', false),
+        ],
+        // tri par défaut
+        { colonne: 'nom', ascendant: false },
+    );
 
     /** Flag indiquant l'état de validation du formulaire */
     public valide: boolean = true;
@@ -32,18 +42,11 @@ export default class PageAdministrationRoles extends Vue {
         this.roleService = new RoleService();
     }
 
-    public mounted() {
-        // Reset du formulaire
-        this.annulerCreation();
-
-        // Initialisation des données
-        this.chargerDonnees(new Page(10, 0));
-    }
+    // Reset du formulaire
+    public mounted() { this.annulerCreation(); }
 
     /** On annule la creation en masquant le formulaire */
-    public annulerCreation() {
-        this.elementSelectionne = null;
-    }
+    public annulerCreation() { this.elementSelectionne = null; }
 
     /** Initialisation de l'objet pour accueillir les données du formulaire */
     public creer() {
@@ -58,7 +61,7 @@ export default class PageAdministrationRoles extends Vue {
             const elementAsauvegarder = new Role();
             elementAsauvegarder.nom = this.elementSelectionne.nom;
             this.roleService.sauvegarderRole(elementAsauvegarder).subscribe((retour) => {
-                this.chargerDonnees(this.page);
+                this.dtDto.forcerRechargement();
                 this.annulerCreation();
             });
         }
@@ -75,17 +78,20 @@ export default class PageAdministrationRoles extends Vue {
     public supprimer(element: Role) {
         this.roleService.supprimerRole(element)
             .subscribe((retour) => {
-                this.chargerDonnees(this.page);
+                this.dtDto.forcerRechargement();
                 this.annulerCreation();
             });
     }
 
+    /** A chaque modification du membre 'pagination', prise en compte dans le DTO et appel à "chargerDonnees" */
+    @Watch('dtDto.pagination')
+    public auChangementDePagination(val: any, oldVal: any) {
+        this.dtDto.auChangementDePagination();
+    }
+
     private chargerDonnees(nouvellePage: Page<any>) {
         this.roleService.listerRoles(nouvellePage).subscribe((p: any) => {
-            // Sauvegarde de la page pour en afficher le contenu
-            this.page = p;
-            // Envoi de la page au composant de pagination pour prise en compte
-            (this.$refs.pagination as Pagination).prendreEnComptePage(p);
+            this.dtDto.sauvegarderPage(p);
         });
     }
 

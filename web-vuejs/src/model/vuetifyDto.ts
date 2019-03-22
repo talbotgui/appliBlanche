@@ -27,8 +27,9 @@ export class EnteteDatatable {
  *
  * Coté html :
  *
- * <v-data-table :headers="dtDto.entetes" :items="dtDto.lignesDuTableau" :loading="dtDto.chargementEnCours" class="elevation-1" :pagination.sync="dtDto.pagination"
- * :total-items="dtDto.nombreTotalElements" :rows-per-page-items="dtDto.listeOptionNombreElementsParPage" :must-sort="true">
+ * <v-data-table :headers="dtDto.entetes" :items="dtDto.lignesDuTableau" :loading="dtDto.chargementEnCours" class="elevation-1"
+ * :pagination.sync="dtDto.pagination" :total-items="dtDto.nombreTotalElements" :rows-per-page-items="dtDto.listeOptionNombreElementsParPage"
+ * :must-sort="true">
  *
  * Coté TS :
  *
@@ -95,6 +96,12 @@ export class PaginationDto<T> {
         this.chargementEnCours = false;
     }
 
+    /** Méthode permettant de forcer un rechargement des données (après une sauvegarde par exemple) */
+    public forcerRechargement() {
+        this.chargementEnCours = true;
+        this.chargerDonneesCallback(this.pageCourante);
+    }
+
     /** Méthode appelée au moindre changement dans le tri ou la pagination */
     public auChangementDePagination() {
 
@@ -118,7 +125,6 @@ export class PaginationDto<T> {
         }
 
         // Appel à la méthode de chargement des données
-        this.chargementEnCours = true;
-        this.chargerDonneesCallback(this.pageCourante);
+        this.forcerRechargement();
     }
 }

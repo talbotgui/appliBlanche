@@ -4,35 +4,39 @@
 			<h3 v-t="'role_titre'"></h3>
 		</v-flex>
 		<v-flex xs12 d-flex>
-			<table>
-				<thead>
-					<tr>
-						<th v-t="'role_entete_nom'"></th>
-						<th>
-							<span v-t="'commun_entete_actions'"></span>
-							<span>&nbsp;</span>
-							<v-tooltip bottom>
-								<template #activator="data"><em class="actionDansUnEntete fa fa-plus" @click="creer();"></em></template>
-								<span v-t="'commun_tooltip_ajouter'"></span>
-							</v-tooltip>
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr v-for="r in page.content" v-bind:key="r.nom">
-						<td>{{r.nom}}</td>
-						<td>
-							<v-tooltip bottom>
-								<template #activator="data"><em class="fa fa-trash-alt" @click="supprimer(r)"></em></template>
-								<span v-t="'commun_tooltip_supprimer'"></span>
-							</v-tooltip>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</v-flex>
-		<v-flex xs12 d-flex>
-			<pagination ref="pagination" v-on:rechargement="chargerDonnees"></pagination>
+			<v-data-table :headers="dtDto.entetes" :items="dtDto.lignesDuTableau" :loading="dtDto.chargementEnCours" :pagination.sync="dtDto.pagination"
+			              :total-items="dtDto.nombreTotalElements" :rows-per-page-items="dtDto.listeOptionNombreElementsParPage" :must-sort="true">
+
+				<template v-slot:no-data>Aucune donnée disponible</template>
+
+				<v-progress-linear v-slot:progress color="blue" indeterminate></v-progress-linear>
+
+				<template slot="headerCell" slot-scope="props">
+					<span v-t="props.header.text"></span>
+
+					<!-- uniquement dans la colonne 'action' -->
+					<span v-if="props.header.value=='action'">&nbsp;</span>
+					<v-tooltip v-if="props.header.value=='action'" bottom>
+						<template v-slot:activator="{ on }">
+							<span v-on="on"><em class="actionDansUnEntete fa fa-plus" @click="creer();">&nbsp;</em></span>
+						</template>
+						<span v-t="'commun_tooltip_ajouter'"></span>
+					</v-tooltip>
+				</template>
+
+				<template v-slot:items="ligne">
+					<td>{{ ligne.item.nom }}</td>
+					<td>
+						<v-tooltip bottom>
+							<template v-slot:activator="{ on }">
+								<span v-on="on"><em class="actionDansUnEntete fa fa-trash-alt" @click="supprimer(ligne.item);">&nbsp;</em></span>
+							</template>
+							<span v-t="'commun_tooltip_supprimer'"></span>
+						</v-tooltip>
+					</td>
+				</template>
+
+			</v-data-table>
 		</v-flex>
 
 		<v-flex xs12 d-flex>
