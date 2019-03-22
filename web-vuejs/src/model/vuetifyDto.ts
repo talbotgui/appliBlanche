@@ -28,6 +28,8 @@ export default class DatePickerCalendarDto {
  *
  * Coté TS :
  *
+ * // Pas de méthode 'mounted' chargeant les données. Ce sera fait à l'initialisation du tableau.
+ *
  * // DTO contenant tous les éléments de pagination
  * public pagination: PaginationDto<Ressource> = new PaginationDto(this.chargerDonnees);
  *
@@ -79,20 +81,23 @@ export class PaginationDto<T> {
 
     /** Méthode appelée au moindre changement dans le tri ou la pagination */
     public auChangementDePagination() {
-        // Si la page n'a jamais été chargée (à l'arrivée sur la page), on ignore cet évènement
+        // Si la page n'a jamais été chargée (à l'arrivée sur la page), on charge la première page
         if (!this.page.content) {
-            return;
+            this.page.size = this.listeOptionNombreElementsParPage[0];
         }
 
-        // Application des paramètres de pagination
-        this.page.number = this.pagination.page - 1;
-        this.page.size = this.pagination.rowsPerPage;
+        // Sinon, on applique les données venant de datatable
+        else {
+            // Application des paramètres de pagination
+            this.page.number = this.pagination.page - 1;
+            this.page.size = this.pagination.rowsPerPage;
 
-        // Application des paramètres de tri
-        this.page.sort = new Sort();
-        if (this.pagination.sortBy !== null) {
-            this.page.sort.sortOrder = (!!this.pagination.descending) ? 'asc' : 'desc';
-            this.page.sort.sortColonne = this.pagination.sortBy;
+            // Application des paramètres de tri
+            this.page.sort = new Sort();
+            if (this.pagination.sortBy !== null) {
+                this.page.sort.sortOrder = (!!this.pagination.descending) ? 'asc' : 'desc';
+                this.page.sort.sortColonne = this.pagination.sortBy;
+            }
         }
 
         // Appel à la méthode de chargement des données

@@ -9,7 +9,7 @@ import { Ressource, Page } from '@/model/model';
 export default class PageAdministrationRessources extends Vue {
 
     /** DTO contenant tous les éléments de pagination */
-    public pagination: PaginationDto<Ressource> = new PaginationDto(this.chargerDonnees);
+    public dtDto: PaginationDto<Ressource> = new PaginationDto(this.chargerDonnees);
 
     /** Structure de la table à afficher */
     // text et align sont utilisés pour l'affichage
@@ -29,19 +29,15 @@ export default class PageAdministrationRessources extends Vue {
     }
 
     /** A chaque modification du membre 'pagination', prise en compte dans le DTO et appel à "chargerDonnees" */
-    @Watch('pagination.pagination')
+    @Watch('dtDto.pagination')
     public auChangementDePagination(val: any, oldVal: any) {
-        console.log('auChangementDePagination');
-        this.pagination.auChangementDePagination();
+        this.dtDto.auChangementDePagination();
     }
-
-    /** Méthode appelée dès que le composant est chargé. */
-    public mounted() { console.log('mounted'); this.chargerDonnees(new Page(10, 0)); }
 
     /** Chargement des données */
     public chargerDonnees(nouvellePage: Page<any>) {
         this.ressourcesService.listerRessources(nouvellePage).subscribe((p) => {
-            this.pagination.sauvegarderPage(p);
+            this.dtDto.sauvegarderPage(p);
         });
     }
 }
