@@ -4,8 +4,8 @@
 			<h3 v-t="'ressource_titre'"></h3>
 		</v-flex>
 		<v-flex xs12 d-flex>
-			<v-data-table :headers="entetes" :items="pagination.lignesDuTableau" :loading="chargementEnCours" class="elevation-1" :pagination.sync="pagination.pagination"
-			              :total-items="pagination.nombreTotalElements" :rows-per-page-items="pagination.listeOptionNombreElementsParPage"
+			<v-data-table :headers="entetes" :items="pagination.lignesDuTableau" :loading="pagination.chargementEnCours" class="elevation-1"
+			              :pagination.sync="pagination.pagination" :total-items="pagination.nombreTotalElements" :rows-per-page-items="pagination.listeOptionNombreElementsParPage"
 			              :must-sort="true">
 				<template v-slot:no-data>Aucune donnée disponible</template>
 				<v-progress-linear v-slot:progress color="blue" indeterminate></v-progress-linear>

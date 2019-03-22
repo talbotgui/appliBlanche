@@ -18,23 +18,66 @@ export default class DatePickerCalendarDto {
     private dateUtils: DateUtils = new DateUtils();
 }
 
+/**
+ * Classe utilitaire pour faciliter l'usage de DataTable.
+ *
+ * Coté html :
+ *
+ * <v-data-table :headers="entetes" :items="pagination.lignesDuTableau" :loading="pagination.chargementEnCours" class="elevation-1" :pagination.sync="pagination.pagination"
+ * :total-items="pagination.nombreTotalElements" :rows-per-page-items="pagination.listeOptionNombreElementsParPage" :must-sort="true">
+ *
+ * Coté TS :
+ *
+ * // DTO contenant tous les éléments de pagination
+ * public pagination: PaginationDto<Ressource> = new PaginationDto(this.chargerDonnees);
+ *
+ * // A chaque modification du membre 'pagination', prise en compte dans le DTO et appel à "chargerDonnees"
+ * @Watch('pagination.pagination')
+ * public auChangementDePagination(val: any, oldVal: any) { this.pagination.auChangementDePagination(); }
+ *
+ * // Méthode chargeant les données
+ * public chargerDonnees(nouvellePage: Page<any>) {
+ *   this.ressourcesService.listerRessources(nouvellePage).subscribe((p) => {
+ *     // Sauvegarde de la page pour en afficher le contenu
+ *     this.pagination.sauvegarderPage(p);
+ *   });
+ * }
+ */
 export class PaginationDto<T> {
 
     /** Objet utilisé par le composant DataTable pour stocker les informations de tri et de pagination */
     public pagination: any = { deep: true };
 
+    /** Flag indiquant le chargement en cours */
+    public chargementEnCours = false;
+
     /** Page de données */
     private page: Page<T> = new Page(0, 0);
 
+    /** GETTER pour obtenir les lignes dans le tableau */
     get lignesDuTableau() { return this.page.content; }
+    /** GETTER pour obtenir le nombre total d'éléments */
     get nombreTotalElements() { return this.page.totalElements; }
+    /** GETTER pour obtenir la liste des tailles de page possibles */
     get listeOptionNombreElementsParPage() { return [5, 6, 8, 10, 300]; }
+    /** GETTER pour obtenir la page courante */
     get pageCourante() { return this.page; }
 
+    /**
+     * Constructeur
+     * @param chargerDonneesCallback La méthode du controleur permettant le chargement des données
+     */
     public constructor(private chargerDonneesCallback: (p: Page<T>) => void) { }
 
-    public sauvegarderPage(page: Page<T>) { this.page = page; }
+    /** Méthode appelée par chargerDonneesCallback après le chargement des données */
+    public sauvegarderPage(page: Page<T>) {
+        // sauvegarde de la page
+        this.page = page;
+        // Fin du chargement
+        this.chargementEnCours = false;
+    }
 
+    /** Méthode appelée au moindre changement dans le tri ou la pagination */
     public auChangementDePagination() {
         // Si la page n'a jamais été chargée (à l'arrivée sur la page), on ignore cet évènement
         if (!this.page.content) {
@@ -53,6 +96,7 @@ export class PaginationDto<T> {
         }
 
         // Appel à la méthode de chargement des données
+        this.chargementEnCours = true;
         this.chargerDonneesCallback(this.pageCourante);
     }
 }
