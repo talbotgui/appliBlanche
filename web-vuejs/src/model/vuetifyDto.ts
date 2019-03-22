@@ -68,7 +68,7 @@ export class PaginationDto<T> {
     /** GETTER pour obtenir le nombre total d'éléments */
     get nombreTotalElements() { return this.page.totalElements; }
     /** GETTER pour obtenir la liste des tailles de page possibles */
-    get listeOptionNombreElementsParPage() { return [5, 6, 8, 10, 300]; }
+    get listeOptionNombreElementsParPage() { return [5, 10, 25, 50, 300]; }
     /** GETTER pour obtenir la page courante */
     get pageCourante() { return this.page; }
 
