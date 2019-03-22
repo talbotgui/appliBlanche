@@ -23,25 +23,25 @@ export default class DatePickerCalendarDto {
  *
  * Coté html :
  *
- * <v-data-table :headers="entetes" :items="pagination.lignesDuTableau" :loading="pagination.chargementEnCours" class="elevation-1" :pagination.sync="pagination.pagination"
- * :total-items="pagination.nombreTotalElements" :rows-per-page-items="pagination.listeOptionNombreElementsParPage" :must-sort="true">
+ * <v-data-table :headers="entetes" :items="dtDto.lignesDuTableau" :loading="dtDto.chargementEnCours" class="elevation-1" :pagination.sync="dtDto.pagination"
+ * :total-items="dtDto.nombreTotalElements" :rows-per-page-items="dtDto.listeOptionNombreElementsParPage" :must-sort="true">
  *
  * Coté TS :
  *
  * // Pas de méthode 'mounted' chargeant les données. Ce sera fait à l'initialisation du tableau.
  *
  * // DTO contenant tous les éléments de pagination
- * public pagination: PaginationDto<Ressource> = new PaginationDto(this.chargerDonnees);
+ * public dtDto: PaginationDto<Ressource> = new PaginationDto(this.chargerDonnees);
  *
- * // A chaque modification du membre 'pagination', prise en compte dans le DTO et appel à "chargerDonnees"
- * @Watch('pagination.pagination')
- * public auChangementDePagination(val: any, oldVal: any) { this.pagination.auChangementDePagination(); }
+ * // A chaque modification du membre 'dtDto', prise en compte dans le DTO et appel à "chargerDonnees"
+ * @Watch('dtDto.pagination')
+ * public auChangementDePagination(val: any, oldVal: any) { this.dtDto.auChangementDePagination(); }
  *
  * // Méthode chargeant les données
  * public chargerDonnees(nouvellePage: Page<any>) {
  *   this.ressourcesService.listerRessources(nouvellePage).subscribe((p) => {
  *     // Sauvegarde de la page pour en afficher le contenu
- *     this.pagination.sauvegarderPage(p);
+ *     this.dtDto.sauvegarderPage(p);
  *   });
  * }
  */
