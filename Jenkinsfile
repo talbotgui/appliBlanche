@@ -18,7 +18,6 @@ pipeline {
 
 		stage ('Build & Tests') {
 			agent any
-			environment { JAVA_HOME = '/usr/lib/jvm/jdk-11.0.2/' }
 			steps {
 				script { currentBuild.displayName = currentBuild.number + "-build" }
 				sh "mvn clean install"
@@ -28,7 +27,6 @@ pipeline {
 
 		stage ('Quality') {
 			agent any
-			environment { JAVA_HOME = '/usr/lib/jvm/jdk-11.0.2/' }
 			steps {
 				script { currentBuild.displayName = currentBuild.number + "-qualimétrie Maven" }
 				sh "mvn angular:analyse -pl web-angular"
@@ -47,7 +45,6 @@ pipeline {
 
 		stage ('Deploy Unix') {
 			agent any
-			environment { JAVA_HOME = '/usr/lib/jvm/jdk-11.0.2/' }
 			when { branch 'master' }
 			steps {
 				script {
@@ -76,7 +73,6 @@ pipeline {
 
 		stage ('Deploy GCloud') {
 			agent none
-			environment { JAVA_HOME = '/usr/lib/jvm/java-8-openjdk-amd64/' }
 			when { branch 'master' }
 			steps {
 				// Pour ne pas laisser trainer l'attente d'une saisie durant plus de 1 jour
