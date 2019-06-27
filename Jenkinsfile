@@ -20,7 +20,7 @@ pipeline {
 			agent any
 			steps {
 				script { currentBuild.displayName = currentBuild.number + "-build" }
-				sh "mvn clean install"
+				sh "mvn clean install --batch-mode"
 				junit '**/TEST-*Test.xml'
 			}
 		}
@@ -29,8 +29,8 @@ pipeline {
 			agent any
 			steps {
 				script { currentBuild.displayName = currentBuild.number + "-qualimétrie Maven" }
-				sh "mvn angular:analyse -pl web-angular"
-				sh "mvn clean install site -Pqualimetrie"
+				sh "mvn angular:analyse -pl web-angular --batch-mode"
+				sh "mvn clean install site -Pqualimetrie --batch-mode"
 				step([$class: 'FindBugsPublisher'])
 				step([$class: 'CheckStylePublisher'])
 				step([$class: 'PmdPublisher', canComputeNew: false, defaultEncoding: '', healthy: '', pattern: '**/pmd.xml', unHealthy: ''])
@@ -38,7 +38,7 @@ pipeline {
 				// see https://docs.sonarqube.org/display/SONAR/Analysis+Parameters
 				script { currentBuild.displayName = currentBuild.number + "-qualimétrie Sonar" }
 				withCredentials([string(credentialsId: 'sonarSecretKey', variable: 'SONAR_KEY')]) {
-					sh "mvn sonar:sonar -Dsonar.projectKey=ApplicationBlanche -Dsonar.organization=talbotgui-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${SONAR_KEY} -Dsonar.java.coveragePlugin=jacoco -Dsonar.coverage.exclusions=**/*.ts"
+					sh "mvn sonar:sonar -Dsonar.projectKey=ApplicationBlanche -Dsonar.organization=talbotgui-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${SONAR_KEY} -Dsonar.java.coveragePlugin=jacoco -Dsonar.coverage.exclusions=**/*.ts  --batch-mode"
 				}
 			}
 		}
@@ -51,7 +51,7 @@ pipeline {
 					currentBuild.displayName = currentBuild.number + "-déploiementUnix"
 
 					// Rebuild de tout pour ne plus avoir d'instrumentation
-					sh "mvn clean install -Dmaven.test.skip=true -Punix -pl !web-angular,!web-vuejs"
+					sh "mvn clean install -Dmaven.test.skip=true -Punix -pl !web-angular,!web-vuejs  --batch-mode"
 
 					// Déploiement sur le serveur Unix des APIs
 					sh "/var/lib/deployJava/stopApplicationBlanche.sh"
@@ -90,7 +90,7 @@ pipeline {
 								currentBuild.displayName = currentBuild.number + "-déploiementGcloud"
 
 								// Rebuild avec le profil gcloud et en Java8
-								sh "mvn clean install -Dmaven.test.skip -Pgcloud -Dmaven.compiler.source=8 -Dmaven.compiler.target=8 -pl !web-angular,!web-vuejs"
+								sh "mvn clean install -Dmaven.test.skip -Pgcloud -Dmaven.compiler.source=8 -Dmaven.compiler.target=8 -pl !web-angular,!web-vuejs  --batch-mode"
 
 								// Mise en place du fichier de configuration stocké dans Jenkins
 								withCredentials([file(credentialsId: 'APPLICATIONBLANCHE-GCLOUD-APP-PROPERTIES', variable: 'applicationblancheGcloudAppProperties')]) {
@@ -100,7 +100,7 @@ pipeline {
 								// Déploiement du back sur le could
 								sh "gcloud auth activate-service-account --key-file=/var/lib/deployJava/gcloud-applicationblanche.json"
 								sh "gcloud config set project applicationblanche"
-								sh "mvn appengine:deploy -Dmaven.test.skip=true -Pgcloud -f rest/pom.xml -Dmaven.compiler.source=8 -Dmaven.compiler.target=8"
+								sh "mvn appengine:deploy -Dmaven.test.skip=true -Pgcloud -f rest/pom.xml -Dmaven.compiler.source=8 -Dmaven.compiler.target=8 --batch-mode"
 								
 								// Déploiement du front sur le cloud
 								sh "gcloud app deploy web-angular/app.yaml -q --promote --stop-previous-version"
