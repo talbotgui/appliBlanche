@@ -103,7 +103,7 @@
 					</execution>
 					<!-- Téléchargement des dépendances NPM -->
 					<execution>
-						<id>npm install</id>
+						<id>npm ci</id>
 						<goals><goal>npm</goal></goals>
 						<phase>generate-resources</phase>
 						<configuration><arguments>install</arguments></configuration>
