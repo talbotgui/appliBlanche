@@ -10,19 +10,14 @@ import java.util.Collection;
 
 import javax.sql.DataSource;
 
-import org.assertj.core.api.Assertions;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.guillaumetalbot.applicationblanche.exception.BusinessException;
 import com.guillaumetalbot.applicationblanche.metier.application.SpringApplicationForTests;
@@ -36,9 +31,7 @@ import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Paiement
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Produit;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservation;
 
-@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = SpringApplicationForTests.class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ReservationServiceTest {
 	private static final Logger LOG = LoggerFactory.getLogger(ReservationServiceTest.class);
 
@@ -51,7 +44,7 @@ public class ReservationServiceTest {
 	@Autowired
 	private ReservationService reservationService;
 
-	@Before
+	@BeforeEach
 	public void before() throws IOException, URISyntaxException {
 		LOG.info("---------------------------------------------------------");
 
@@ -93,8 +86,8 @@ public class ReservationServiceTest {
 		final String ref = this.sauvegarderUneReservation(client, refChambre, -1, 2, false);
 
 		//
-		Assert.assertNotNull(ref);
-		Assert.assertEquals((Long) 1L,
+		Assertions.assertNotNull(ref);
+		Assertions.assertEquals((Long) 1L,
 				jdbc.queryForObject("select count(*) from RESERVATION where client=?", new Object[] { client.trim() }, Long.class));
 	}
 
@@ -105,14 +98,14 @@ public class ReservationServiceTest {
 		final String refChambre = Entite.genererReference(Chambre.class, 1L);
 
 		//
-		final Throwable thrown = Assertions.catchThrowable(() -> {
+		final Throwable thrown = org.assertj.core.api.Assertions.catchThrowable(() -> {
 			this.sauvegarderUneReservation("client", refChambre, -1, 2);
 		});
 
 		//
-		Assert.assertNotNull(thrown);
-		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_NON_EXISTANT));
-		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from CHAMBRE", Long.class));
+		Assertions.assertNotNull(thrown);
+		Assertions.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_NON_EXISTANT));
+		Assertions.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from CHAMBRE", Long.class));
 	}
 
 	@Test
@@ -122,14 +115,14 @@ public class ReservationServiceTest {
 		final String refChambre = Entite.genererReference(Chambre.class, 1L);
 
 		//
-		final Throwable thrown = Assertions.catchThrowable(() -> {
+		final Throwable thrown = org.assertj.core.api.Assertions.catchThrowable(() -> {
 			this.sauvegarderUneReservation("client", refChambre, -1, -1);
 		});
 
 		//
-		Assert.assertNotNull(thrown);
-		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.RESERVATION_DATES_INCOHERENTES));
-		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from CHAMBRE", Long.class));
+		Assertions.assertNotNull(thrown);
+		Assertions.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.RESERVATION_DATES_INCOHERENTES));
+		Assertions.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from CHAMBRE", Long.class));
 	}
 
 	@Test
@@ -143,7 +136,7 @@ public class ReservationServiceTest {
 		this.reservationService.supprimerReservation(ref);
 
 		//
-		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from RESERVATION", Long.class));
+		Assertions.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from RESERVATION", Long.class));
 	}
 
 	@Test
@@ -155,8 +148,8 @@ public class ReservationServiceTest {
 		final Collection<Reservation> reservations = this.reservationService.rechercherReservations(dateDebut, dateFin);
 
 		//
-		Assert.assertNotNull(reservations);
-		Assert.assertEquals(0, reservations.size());
+		Assertions.assertNotNull(reservations);
+		Assertions.assertEquals(0, reservations.size());
 	}
 
 	@Test
@@ -173,14 +166,14 @@ public class ReservationServiceTest {
 		this.reservationService.sauvegarderConsommation(new Consommation(resa, produit, 2.0, 1));
 
 		//
-		final Throwable thrown = Assertions.catchThrowable(() -> {
+		final Throwable thrown = org.assertj.core.api.Assertions.catchThrowable(() -> {
 			this.reservationService.supprimerReservation(refResa);
 		});
 
 		//
-		Assert.assertNotNull(thrown);
-		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.SUPPRESSION_IMPOSSIBLE_OBJETS_LIES));
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from RESERVATION", Long.class));
+		Assertions.assertNotNull(thrown);
+		Assertions.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.SUPPRESSION_IMPOSSIBLE_OBJETS_LIES));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from RESERVATION", Long.class));
 	}
 
 	@Test
@@ -200,8 +193,8 @@ public class ReservationServiceTest {
 		final Collection<Reservation> reservations = this.reservationService.rechercherReservations(dateDebut, dateFin);
 
 		//
-		Assert.assertNotNull(reservations);
-		Assert.assertEquals(4, reservations.size());
+		Assertions.assertNotNull(reservations);
+		Assertions.assertEquals(4, reservations.size());
 	}
 
 	@Test
@@ -221,8 +214,8 @@ public class ReservationServiceTest {
 		final Collection<Reservation> reservations = this.reservationService.rechercherReservations(dateDebut, dateFin);
 
 		//
-		Assert.assertNotNull(reservations);
-		Assert.assertEquals(4, reservations.size());
+		Assertions.assertNotNull(reservations);
+		Assertions.assertEquals(4, reservations.size());
 	}
 
 	@Test
@@ -233,14 +226,14 @@ public class ReservationServiceTest {
 		this.sauvegarderUneReservation("client1", refChambre, 2, 4);
 
 		//
-		final Throwable thrown = Assertions.catchThrowable(() -> {
+		final Throwable thrown = org.assertj.core.api.Assertions.catchThrowable(() -> {
 			this.sauvegarderUneReservation("client2", refChambre, 3, 8);
 		});
 
 		//
-		Assert.assertNotNull(thrown);
-		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.RESERVATION_DEJA_EXISTANTE));
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from CHAMBRE", Long.class));
+		Assertions.assertNotNull(thrown);
+		Assertions.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.RESERVATION_DEJA_EXISTANTE));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from CHAMBRE", Long.class));
 	}
 
 	@Test
@@ -254,7 +247,7 @@ public class ReservationServiceTest {
 		this.reservationService.changerEtatReservation(refReservation, EtatReservation.EN_COURS);
 
 		//
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from RESERVATION where etat_Courant=?",
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from RESERVATION where etat_Courant=?",
 				new Object[] { EtatReservation.EN_COURS.getNumero() }, Long.class));
 	}
 
@@ -266,14 +259,14 @@ public class ReservationServiceTest {
 		final String refReservation = this.sauvegarderUneReservation("client1", refChambre, 2, 4);
 
 		//
-		final Throwable thrown = Assertions.catchThrowable(() -> {
+		final Throwable thrown = org.assertj.core.api.Assertions.catchThrowable(() -> {
 			this.reservationService.changerEtatReservation(refReservation, EtatReservation.TERMINEE);
 		});
 
 		//
-		Assert.assertNotNull(thrown);
-		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.TRANSITION_ETAT_IMPOSSIBLE));
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from RESERVATION where etat_courant=?",
+		Assertions.assertNotNull(thrown);
+		Assertions.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.TRANSITION_ETAT_IMPOSSIBLE));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from RESERVATION where etat_courant=?",
 				new Object[] { EtatReservation.ENREGISTREE.getNumero() }, Long.class));
 	}
 
@@ -293,9 +286,9 @@ public class ReservationServiceTest {
 		final Collection<Reservation> reservations = this.reservationService.rechercherReservations(EtatReservation.EN_COURS, false);
 
 		//
-		Assert.assertNotNull(reservations);
-		Assert.assertEquals(1, reservations.size());
-		Assert.assertEquals(refResa2EnCours, reservations.iterator().next().getReference());
+		Assertions.assertNotNull(reservations);
+		Assertions.assertEquals(1, reservations.size());
+		Assertions.assertEquals(refResa2EnCours, reservations.iterator().next().getReference());
 	}
 
 	@Test
@@ -314,9 +307,9 @@ public class ReservationServiceTest {
 		final Collection<Reservation> reservations = this.reservationService.rechercherReservations(EtatReservation.EN_COURS, true);
 
 		//
-		Assert.assertNotNull(reservations);
-		Assert.assertEquals(1, reservations.size());
-		Assert.assertEquals(refResa2EnCours, reservations.iterator().next().getReference());
+		Assertions.assertNotNull(reservations);
+		Assertions.assertEquals(1, reservations.size());
+		Assertions.assertEquals(refResa2EnCours, reservations.iterator().next().getReference());
 	}
 
 	@Test
@@ -336,9 +329,9 @@ public class ReservationServiceTest {
 		final Collection<Reservation> reservations = this.reservationService.rechercherReservations(EtatReservation.FACTUREE, true);
 
 		//
-		Assert.assertNotNull(reservations);
-		Assert.assertEquals(1, reservations.size());
-		Assert.assertEquals(refResa2EnCours, reservations.iterator().next().getReference());
+		Assertions.assertNotNull(reservations);
+		Assertions.assertEquals(1, reservations.size());
+		Assertions.assertEquals(refResa2EnCours, reservations.iterator().next().getReference());
 	}
 
 	@Test
@@ -358,8 +351,8 @@ public class ReservationServiceTest {
 		final Double montantTotal = this.reservationService.calculerMontantTotalDuneReservation(refResa);
 
 		//
-		Assert.assertNotNull(montantTotal);
-		Assert.assertEquals((Double) 8.2, montantTotal);
+		Assertions.assertNotNull(montantTotal);
+		Assertions.assertEquals((Double) 8.2, montantTotal);
 	}
 
 	@Test
@@ -377,8 +370,8 @@ public class ReservationServiceTest {
 		final String ref = this.reservationService.sauvegarderConsommation(new Consommation(reservation, produit, null, 2));
 
 		//
-		Assert.assertNotNull(ref);
-		Assert.assertEquals((Long) 1L,
+		Assertions.assertNotNull(ref);
+		Assertions.assertEquals((Long) 1L,
 				jdbc.queryForObject("select count(*) from CONSOMMATION where prix_paye=?", new Object[] { prixProduit }, Long.class));
 	}
 
@@ -398,8 +391,8 @@ public class ReservationServiceTest {
 		final String ref = this.reservationService.sauvegarderConsommation(new Consommation(reservation, produit, prixAvecRemise, 2));
 
 		//
-		Assert.assertNotNull(ref);
-		Assert.assertEquals((Long) 1L,
+		Assertions.assertNotNull(ref);
+		Assertions.assertEquals((Long) 1L,
 				jdbc.queryForObject("select count(*) from CONSOMMATION where prix_paye=?", new Object[] { prixAvecRemise }, Long.class));
 	}
 
@@ -414,14 +407,14 @@ public class ReservationServiceTest {
 		produit.setReference(Entite.genererReference(Produit.class, 2L));
 
 		//
-		final Throwable thrown = Assertions.catchThrowable(() -> {
+		final Throwable thrown = org.assertj.core.api.Assertions.catchThrowable(() -> {
 			this.reservationService.sauvegarderConsommation(new Consommation(reservation, produit, null, 2));
 		});
 
 		//
-		Assert.assertNotNull(thrown);
-		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_NON_EXISTANT));
-		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from CONSOMMATION", Long.class));
+		Assertions.assertNotNull(thrown);
+		Assertions.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_NON_EXISTANT));
+		Assertions.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from CONSOMMATION", Long.class));
 	}
 
 	@Test
@@ -436,14 +429,14 @@ public class ReservationServiceTest {
 
 		//
 		//
-		final Throwable thrown = Assertions.catchThrowable(() -> {
+		final Throwable thrown = org.assertj.core.api.Assertions.catchThrowable(() -> {
 			this.reservationService.sauvegarderConsommation(new Consommation(reservation, produit, null, 2));
 		});
 
 		//
-		Assert.assertNotNull(thrown);
-		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_NON_EXISTANT));
-		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from CONSOMMATION", Long.class));
+		Assertions.assertNotNull(thrown);
+		Assertions.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_NON_EXISTANT));
+		Assertions.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from CONSOMMATION", Long.class));
 	}
 
 	@Test
@@ -463,8 +456,8 @@ public class ReservationServiceTest {
 		final Collection<Consommation> consommations = this.reservationService.rechercherConsommationsDuneReservation(reservation.getReference());
 
 		//
-		Assert.assertNotNull(consommations);
-		Assert.assertEquals(2, consommations.size());
+		Assertions.assertNotNull(consommations);
+		Assertions.assertEquals(2, consommations.size());
 	}
 
 	@Test
@@ -483,7 +476,7 @@ public class ReservationServiceTest {
 		this.reservationService.supprimerConsommation(reservation.getReference(), ref);
 
 		//
-		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from CONSOMMATION", Long.class));
+		Assertions.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from CONSOMMATION", Long.class));
 	}
 
 	@Test
@@ -498,14 +491,14 @@ public class ReservationServiceTest {
 		produit.setReference(this.reservationParametresService.sauvegarderProduit(new Produit("produit", prixProduit, "rouge")));
 
 		//
-		final Throwable thrown = Assertions.catchThrowable(() -> {
+		final Throwable thrown = org.assertj.core.api.Assertions.catchThrowable(() -> {
 			this.reservationService.sauvegarderConsommation(new Consommation(reservation, produit, null, 2));
 		});
 
 		//
-		Assert.assertNotNull(thrown);
-		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.RESERVATION_PAS_EN_COURS));
-		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from CONSOMMATION", Long.class));
+		Assertions.assertNotNull(thrown);
+		Assertions.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.RESERVATION_PAS_EN_COURS));
+		Assertions.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from CONSOMMATION", Long.class));
 	}
 
 	@Test
@@ -522,14 +515,14 @@ public class ReservationServiceTest {
 		final String mauvaiseReferenceResa = Entite.genererReference(Reservation.class, 99L);
 
 		//
-		final Throwable thrown = Assertions.catchThrowable(() -> {
+		final Throwable thrown = org.assertj.core.api.Assertions.catchThrowable(() -> {
 			this.reservationService.supprimerConsommation(mauvaiseReferenceResa, ref);
 		});
 
 		//
-		Assert.assertNotNull(thrown);
-		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_NON_EXISTANT));
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from CONSOMMATION", Long.class));
+		Assertions.assertNotNull(thrown);
+		Assertions.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_NON_EXISTANT));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from CONSOMMATION", Long.class));
 	}
 
 	@Test
@@ -549,10 +542,10 @@ public class ReservationServiceTest {
 		final String ref2 = this.reservationService.sauvegarderConsommation(new Consommation(reservation, produit, null, 1));
 
 		//
-		Assert.assertEquals(ref1, ref2);
-		Assert.assertEquals((Long) 1L,
+		Assertions.assertEquals(ref1, ref2);
+		Assertions.assertEquals((Long) 1L,
 				jdbc.queryForObject("select count(*) from CONSOMMATION where prix_paye=?", new Object[] { prixProduit }, Long.class));
-		Assert.assertEquals((Long) 2L, jdbc.queryForObject("select quantite from CONSOMMATION", new Object[] {}, Long.class));
+		Assertions.assertEquals((Long) 2L, jdbc.queryForObject("select quantite from CONSOMMATION", new Object[] {}, Long.class));
 	}
 
 	@Test
@@ -571,9 +564,9 @@ public class ReservationServiceTest {
 		this.reservationService.modifierQuantiteConsommation(reservation.getReference(), refConso, -1);
 
 		//
-		Assert.assertEquals((Long) 1L,
+		Assertions.assertEquals((Long) 1L,
 				jdbc.queryForObject("select count(*) from CONSOMMATION where prix_paye=?", new Object[] { prixProduit }, Long.class));
-		Assert.assertEquals((Long) 3L, jdbc.queryForObject("select quantite from CONSOMMATION", new Object[] {}, Long.class));
+		Assertions.assertEquals((Long) 3L, jdbc.queryForObject("select quantite from CONSOMMATION", new Object[] {}, Long.class));
 	}
 
 	@Test
@@ -593,7 +586,7 @@ public class ReservationServiceTest {
 		this.reservationService.modifierQuantiteConsommation(reservation.getReference(), refConso, -1);
 
 		//
-		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from CONSOMMATION", Long.class));
+		Assertions.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from CONSOMMATION", Long.class));
 	}
 
 	@Test
@@ -611,8 +604,8 @@ public class ReservationServiceTest {
 		final String refPaiement = this.reservationService.sauvegarderPaiement(paiement);
 
 		//
-		Assert.assertNotNull(refPaiement);
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from PAIEMENT", Long.class));
+		Assertions.assertNotNull(refPaiement);
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from PAIEMENT", Long.class));
 	}
 
 	@Test
@@ -632,8 +625,8 @@ public class ReservationServiceTest {
 		final String refPaiement = this.reservationService.sauvegarderPaiement(paiement2);
 
 		//
-		Assert.assertNotNull(refPaiement);
-		Assert.assertEquals((Long) 2L, jdbc.queryForObject("select count(*) from PAIEMENT", Long.class));
+		Assertions.assertNotNull(refPaiement);
+		Assertions.assertEquals((Long) 2L, jdbc.queryForObject("select count(*) from PAIEMENT", Long.class));
 	}
 
 	@Test
@@ -652,7 +645,7 @@ public class ReservationServiceTest {
 		this.reservationService.supprimerPaiement(refReservation, refP2);
 
 		//
-		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from PAIEMENT", Long.class));
+		Assertions.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from PAIEMENT", Long.class));
 	}
 
 	@Test
@@ -669,7 +662,7 @@ public class ReservationServiceTest {
 		final Collection<Paiement> paiements = this.reservationService.rechercherPaiementsDuneReservation(refReservation);
 
 		//
-		Assert.assertEquals(2, paiements.size());
+		Assertions.assertEquals(2, paiements.size());
 	}
 
 	@Test
@@ -685,14 +678,14 @@ public class ReservationServiceTest {
 		final String mauvaiseReservation = Entite.genererReference(Reservation.class, 999L);
 
 		//
-		final Throwable thrown = Assertions.catchThrowable(() -> {
+		final Throwable thrown = org.assertj.core.api.Assertions.catchThrowable(() -> {
 			this.reservationService.supprimerPaiement(mauvaiseReservation, refP1);
 		});
 
 		//
-		Assert.assertNotNull(thrown);
-		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_NON_EXISTANT));
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from PAIEMENT", Long.class));
+		Assertions.assertNotNull(thrown);
+		Assertions.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_NON_EXISTANT));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from PAIEMENT", Long.class));
 	}
 
 	@Test
@@ -708,14 +701,14 @@ public class ReservationServiceTest {
 		//
 		final Paiement paiement = new Paiement(LocalDate.now(), 102.2, mdp, reservation);
 
-		final Throwable thrown = Assertions.catchThrowable(() -> {
+		final Throwable thrown = org.assertj.core.api.Assertions.catchThrowable(() -> {
 			this.reservationService.sauvegarderPaiement(paiement);
 		});
 
 		//
-		Assert.assertNotNull(thrown);
-		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_NON_EXISTANT));
-		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from PAIEMENT", Long.class));
+		Assertions.assertNotNull(thrown);
+		Assertions.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_NON_EXISTANT));
+		Assertions.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from PAIEMENT", Long.class));
 	}
 
 	@Test
@@ -731,14 +724,14 @@ public class ReservationServiceTest {
 		//
 		final Paiement paiement = new Paiement(LocalDate.now(), null, mdp, reservation);
 
-		final Throwable thrown = Assertions.catchThrowable(() -> {
+		final Throwable thrown = org.assertj.core.api.Assertions.catchThrowable(() -> {
 			this.reservationService.sauvegarderPaiement(paiement);
 		});
 
 		//
-		Assert.assertNotNull(thrown);
-		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.ERREUR_AUCUN_MONTANT));
-		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from PAIEMENT", Long.class));
+		Assertions.assertNotNull(thrown);
+		Assertions.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.ERREUR_AUCUN_MONTANT));
+		Assertions.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from PAIEMENT", Long.class));
 	}
 
 }

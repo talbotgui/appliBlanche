@@ -14,19 +14,14 @@ import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
 
-import org.assertj.core.api.Assertions;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.guillaumetalbot.applicationblanche.exception.BusinessException;
 import com.guillaumetalbot.applicationblanche.metier.application.SpringApplicationForTests;
@@ -40,9 +35,7 @@ import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Paiement
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Produit;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservation;
 
-@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = SpringApplicationForTests.class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ReservationParametresServiceTest {
 	private static final Logger LOG = LoggerFactory.getLogger(ReservationParametresServiceTest.class);
 
@@ -55,7 +48,7 @@ public class ReservationParametresServiceTest {
 	@Autowired
 	private ReservationService reservationService;
 
-	@Before
+	@BeforeEach
 	public void before() throws IOException, URISyntaxException {
 		LOG.info("---------------------------------------------------------");
 
@@ -107,8 +100,8 @@ public class ReservationParametresServiceTest {
 		final String ref = this.reservationParametresService.sauvegarderProduit(new Produit("nom", 1.2, "rouge"));
 
 		//
-		Assert.assertNotNull(ref);
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from PRODUIT", Long.class));
+		Assertions.assertNotNull(ref);
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from PRODUIT", Long.class));
 	}
 
 	@Test
@@ -118,14 +111,14 @@ public class ReservationParametresServiceTest {
 		this.reservationParametresService.sauvegarderProduit(new Produit("nom", 1.2, "rouge"));
 
 		//
-		final Throwable thrown = Assertions.catchThrowable(() -> {
+		final Throwable thrown = org.assertj.core.api.Assertions.catchThrowable(() -> {
 			this.reservationParametresService.sauvegarderProduit(new Produit("nom", 1.2, "rouge"));
 		});
 
 		//
-		Assert.assertNotNull(thrown);
-		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_FONCTIONNELEMENT_EN_DOUBLE));
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from PRODUIT", Long.class));
+		Assertions.assertNotNull(thrown);
+		Assertions.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_FONCTIONNELEMENT_EN_DOUBLE));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from PRODUIT", Long.class));
 	}
 
 	@Test
@@ -140,8 +133,9 @@ public class ReservationParametresServiceTest {
 		final Collection<Produit> produits = this.reservationParametresService.listerProduits();
 
 		//
-		Assert.assertNotNull(produits);
-		Assertions.assertThat(produits.stream().map((p) -> p.getNom()).collect(Collectors.toList())).containsExactlyElementsOf(nomDesProduits);
+		Assertions.assertNotNull(produits);
+		org.assertj.core.api.Assertions.assertThat(produits.stream().map((p) -> p.getNom()).collect(Collectors.toList()))
+				.containsExactlyElementsOf(nomDesProduits);
 	}
 
 	@Test
@@ -154,7 +148,7 @@ public class ReservationParametresServiceTest {
 		this.reservationParametresService.supprimerProduit(ref);
 
 		//
-		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from PRODUIT", Long.class));
+		Assertions.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from PRODUIT", Long.class));
 	}
 
 	@Test
@@ -174,14 +168,14 @@ public class ReservationParametresServiceTest {
 		this.reservationService.sauvegarderConsommation(new Consommation(resa, produit, 2.0, 1));
 
 		//
-		final Throwable thrown = Assertions.catchThrowable(() -> {
+		final Throwable thrown = org.assertj.core.api.Assertions.catchThrowable(() -> {
 			this.reservationParametresService.supprimerProduit(refProduit);
 		});
 
 		//
-		Assert.assertNotNull(thrown);
-		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.SUPPRESSION_IMPOSSIBLE_OBJETS_LIES));
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from PRODUIT", Long.class));
+		Assertions.assertNotNull(thrown);
+		Assertions.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.SUPPRESSION_IMPOSSIBLE_OBJETS_LIES));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from PRODUIT", Long.class));
 	}
 
 	@Test
@@ -193,8 +187,8 @@ public class ReservationParametresServiceTest {
 		final String ref = this.reservationParametresService.sauvegarderChambre(new Chambre("nom1"));
 
 		//
-		Assert.assertNotNull(ref);
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from CHAMBRE", Long.class));
+		Assertions.assertNotNull(ref);
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from CHAMBRE", Long.class));
 	}
 
 	@Test
@@ -204,14 +198,14 @@ public class ReservationParametresServiceTest {
 		this.reservationParametresService.sauvegarderChambre(new Chambre("nom1"));
 
 		//
-		final Throwable thrown = Assertions.catchThrowable(() -> {
+		final Throwable thrown = org.assertj.core.api.Assertions.catchThrowable(() -> {
 			this.reservationParametresService.sauvegarderChambre(new Chambre("nom1"));
 		});
 
 		//
-		Assert.assertNotNull(thrown);
-		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_FONCTIONNELEMENT_EN_DOUBLE));
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from CHAMBRE", Long.class));
+		Assertions.assertNotNull(thrown);
+		Assertions.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_FONCTIONNELEMENT_EN_DOUBLE));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from CHAMBRE", Long.class));
 	}
 
 	@Test
@@ -226,8 +220,9 @@ public class ReservationParametresServiceTest {
 		final Collection<Chambre> chambres = this.reservationParametresService.listerChambres();
 
 		//
-		Assert.assertNotNull(chambres);
-		Assertions.assertThat(chambres.stream().map((c) -> c.getNom()).collect(Collectors.toList())).containsExactlyElementsOf(nomDesChambres);
+		Assertions.assertNotNull(chambres);
+		org.assertj.core.api.Assertions.assertThat(chambres.stream().map((c) -> c.getNom()).collect(Collectors.toList()))
+				.containsExactlyElementsOf(nomDesChambres);
 	}
 
 	@Test
@@ -240,7 +235,7 @@ public class ReservationParametresServiceTest {
 		this.reservationParametresService.supprimerChambre(refChambre);
 
 		//
-		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from CHAMBRE", Long.class));
+		Assertions.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from CHAMBRE", Long.class));
 	}
 
 	@Test
@@ -252,14 +247,14 @@ public class ReservationParametresServiceTest {
 		this.sauvegarderUneReservation("client", refChambre, -1, 2, refFormule);
 
 		//
-		final Throwable thrown = Assertions.catchThrowable(() -> {
+		final Throwable thrown = org.assertj.core.api.Assertions.catchThrowable(() -> {
 			this.reservationParametresService.supprimerChambre(refChambre);
 		});
 
 		//
-		Assert.assertNotNull(thrown);
-		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.SUPPRESSION_IMPOSSIBLE_OBJETS_LIES));
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from CHAMBRE", Long.class));
+		Assertions.assertNotNull(thrown);
+		Assertions.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.SUPPRESSION_IMPOSSIBLE_OBJETS_LIES));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from CHAMBRE", Long.class));
 	}
 
 	@Test
@@ -271,8 +266,8 @@ public class ReservationParametresServiceTest {
 		final String ref = this.reservationParametresService.sauvegarderFormule(new Formule("nom", 2.5));
 
 		//
-		Assert.assertNotNull(ref);
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from FORMULE", Long.class));
+		Assertions.assertNotNull(ref);
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from FORMULE", Long.class));
 	}
 
 	@Test
@@ -282,14 +277,14 @@ public class ReservationParametresServiceTest {
 		this.reservationParametresService.sauvegarderFormule(new Formule("nomF", 2.5));
 
 		//
-		final Throwable thrown = Assertions.catchThrowable(() -> {
+		final Throwable thrown = org.assertj.core.api.Assertions.catchThrowable(() -> {
 			this.reservationParametresService.sauvegarderFormule(new Formule("nomF", 2.6));
 		});
 
 		//
-		Assert.assertNotNull(thrown);
-		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_FONCTIONNELEMENT_EN_DOUBLE));
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from FORMULE", Long.class));
+		Assertions.assertNotNull(thrown);
+		Assertions.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_FONCTIONNELEMENT_EN_DOUBLE));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from FORMULE", Long.class));
 	}
 
 	@Test
@@ -304,8 +299,9 @@ public class ReservationParametresServiceTest {
 		final Collection<Formule> formules = this.reservationParametresService.listerFormules();
 
 		//
-		Assert.assertNotNull(formules);
-		Assertions.assertThat(formules.stream().map((p) -> p.getNom()).collect(Collectors.toList())).containsExactlyElementsOf(nomDesFormules);
+		Assertions.assertNotNull(formules);
+		org.assertj.core.api.Assertions.assertThat(formules.stream().map((p) -> p.getNom()).collect(Collectors.toList()))
+				.containsExactlyElementsOf(nomDesFormules);
 	}
 
 	@Test
@@ -318,7 +314,7 @@ public class ReservationParametresServiceTest {
 		this.reservationParametresService.supprimerFormule(ref);
 
 		//
-		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from FORMULE", Long.class));
+		Assertions.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from FORMULE", Long.class));
 	}
 
 	@Test
@@ -330,14 +326,14 @@ public class ReservationParametresServiceTest {
 		this.sauvegarderUneReservation("client", refChambre, -1, 2, refFormule);
 
 		//
-		final Throwable thrown = Assertions.catchThrowable(() -> {
+		final Throwable thrown = org.assertj.core.api.Assertions.catchThrowable(() -> {
 			this.reservationParametresService.supprimerFormule(refFormule);
 		});
 
 		//
-		Assert.assertNotNull(thrown);
-		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.SUPPRESSION_IMPOSSIBLE_OBJETS_LIES));
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from FORMULE", Long.class));
+		Assertions.assertNotNull(thrown);
+		Assertions.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.SUPPRESSION_IMPOSSIBLE_OBJETS_LIES));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from FORMULE", Long.class));
 	}
 
 	@Test
@@ -349,8 +345,8 @@ public class ReservationParametresServiceTest {
 		final String ref = this.reservationParametresService.sauvegarderOption(new Option("nom", 2.5, false, false));
 
 		//
-		Assert.assertNotNull(ref);
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from OPTION_RESERVATION", Long.class));
+		Assertions.assertNotNull(ref);
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from OPTION_RESERVATION", Long.class));
 	}
 
 	@Test
@@ -360,14 +356,14 @@ public class ReservationParametresServiceTest {
 		this.reservationParametresService.sauvegarderOption(new Option("nomO", 2.5, false, false));
 
 		//
-		final Throwable thrown = Assertions.catchThrowable(() -> {
+		final Throwable thrown = org.assertj.core.api.Assertions.catchThrowable(() -> {
 			this.reservationParametresService.sauvegarderOption(new Option("nomO", 2.6, true, true));
 		});
 
 		//
-		Assert.assertNotNull(thrown);
-		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_FONCTIONNELEMENT_EN_DOUBLE));
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from OPTION_RESERVATION", Long.class));
+		Assertions.assertNotNull(thrown);
+		Assertions.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_FONCTIONNELEMENT_EN_DOUBLE));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from OPTION_RESERVATION", Long.class));
 	}
 
 	@Test
@@ -382,8 +378,9 @@ public class ReservationParametresServiceTest {
 		final Collection<Option> options = this.reservationParametresService.listerOptions();
 
 		//
-		Assert.assertNotNull(options);
-		Assertions.assertThat(options.stream().map((o) -> o.getNom()).collect(Collectors.toList())).containsExactlyElementsOf(nomDesOptions);
+		Assertions.assertNotNull(options);
+		org.assertj.core.api.Assertions.assertThat(options.stream().map((o) -> o.getNom()).collect(Collectors.toList()))
+				.containsExactlyElementsOf(nomDesOptions);
 	}
 
 	@Test
@@ -396,7 +393,7 @@ public class ReservationParametresServiceTest {
 		this.reservationParametresService.supprimerOption(ref);
 
 		//
-		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from OPTION_RESERVATION", Long.class));
+		Assertions.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from OPTION_RESERVATION", Long.class));
 	}
 
 	@Test
@@ -409,14 +406,14 @@ public class ReservationParametresServiceTest {
 		this.sauvegarderUneReservation("client", refChambre, -1, 2, refFormule, refOption);
 
 		//
-		final Throwable thrown = Assertions.catchThrowable(() -> {
+		final Throwable thrown = org.assertj.core.api.Assertions.catchThrowable(() -> {
 			this.reservationParametresService.supprimerOption(refOption);
 		});
 
 		//
-		Assert.assertNotNull(thrown);
-		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.SUPPRESSION_IMPOSSIBLE_OBJETS_LIES));
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from OPTION_RESERVATION", Long.class));
+		Assertions.assertNotNull(thrown);
+		Assertions.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.SUPPRESSION_IMPOSSIBLE_OBJETS_LIES));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from OPTION_RESERVATION", Long.class));
 	}
 
 	@Test
@@ -428,8 +425,8 @@ public class ReservationParametresServiceTest {
 		final String ref = this.reservationParametresService.sauvegarderMoyenDePaiement(new MoyenDePaiement("nomMdp", 2.5));
 
 		//
-		Assert.assertNotNull(ref);
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from MOYEN_DE_PAIEMENT", Long.class));
+		Assertions.assertNotNull(ref);
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from MOYEN_DE_PAIEMENT", Long.class));
 	}
 
 	@Test
@@ -440,14 +437,14 @@ public class ReservationParametresServiceTest {
 		this.reservationParametresService.sauvegarderMoyenDePaiement(new MoyenDePaiement(nom, 2.5));
 
 		//
-		final Throwable thrown = Assertions.catchThrowable(() -> {
+		final Throwable thrown = org.assertj.core.api.Assertions.catchThrowable(() -> {
 			this.reservationParametresService.sauvegarderMoyenDePaiement(new MoyenDePaiement(nom, 2.6));
 		});
 
 		//
-		Assert.assertNotNull(thrown);
-		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_FONCTIONNELEMENT_EN_DOUBLE));
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from MOYEN_DE_PAIEMENT", Long.class));
+		Assertions.assertNotNull(thrown);
+		Assertions.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_FONCTIONNELEMENT_EN_DOUBLE));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from MOYEN_DE_PAIEMENT", Long.class));
 	}
 
 	@Test
@@ -462,8 +459,9 @@ public class ReservationParametresServiceTest {
 		final Collection<MoyenDePaiement> moyens = this.reservationParametresService.listerMoyensDePaiement();
 
 		//
-		Assert.assertNotNull(moyens);
-		Assertions.assertThat(moyens.stream().map((p) -> p.getNom()).collect(Collectors.toList())).containsExactlyElementsOf(nomDesFormules);
+		Assertions.assertNotNull(moyens);
+		org.assertj.core.api.Assertions.assertThat(moyens.stream().map((p) -> p.getNom()).collect(Collectors.toList()))
+				.containsExactlyElementsOf(nomDesFormules);
 	}
 
 	@Test
@@ -476,7 +474,7 @@ public class ReservationParametresServiceTest {
 		this.reservationParametresService.supprimerMoyenDePaiement(ref);
 
 		//
-		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from MOYEN_DE_PAIEMENT", Long.class));
+		Assertions.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from MOYEN_DE_PAIEMENT", Long.class));
 	}
 
 	@Test
@@ -494,14 +492,14 @@ public class ReservationParametresServiceTest {
 		this.reservationService.sauvegarderPaiement(new Paiement(LocalDate.now(), 1.0, mdp, reservation));
 
 		//
-		final Throwable thrown = Assertions.catchThrowable(() -> {
+		final Throwable thrown = org.assertj.core.api.Assertions.catchThrowable(() -> {
 			this.reservationParametresService.supprimerMoyenDePaiement(refMoyen);
 		});
 
 		//
-		Assert.assertNotNull(thrown);
-		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.SUPPRESSION_IMPOSSIBLE_OBJETS_LIES));
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from MOYEN_DE_PAIEMENT", Long.class));
+		Assertions.assertNotNull(thrown);
+		Assertions.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.SUPPRESSION_IMPOSSIBLE_OBJETS_LIES));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from MOYEN_DE_PAIEMENT", Long.class));
 	}
 
 }

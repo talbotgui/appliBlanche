@@ -10,19 +10,14 @@ import java.util.Collection;
 
 import javax.sql.DataSource;
 
-import org.assertj.core.api.Assertions;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.guillaumetalbot.applicationblanche.exception.BusinessException;
 import com.guillaumetalbot.applicationblanche.metier.application.SpringApplicationForTests;
@@ -36,9 +31,7 @@ import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Option;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Paiement;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservation;
 
-@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = SpringApplicationForTests.class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class FactureServiceTest {
 	private static final Logger LOG = LoggerFactory.getLogger(FactureServiceTest.class);
 
@@ -54,7 +47,7 @@ public class FactureServiceTest {
 	@Autowired
 	private ReservationService reservationService;
 
-	@Before
+	@BeforeEach
 	public void before() throws IOException, URISyntaxException {
 		LOG.info("---------------------------------------------------------");
 
@@ -103,13 +96,13 @@ public class FactureServiceTest {
 		final FactureDto factureDto = this.factureService.facturer(reservation.getReference());
 
 		//
-		Assert.assertNotNull(factureDto);
-		Assert.assertNotNull(factureDto.getPdf());
+		Assertions.assertNotNull(factureDto);
+		Assertions.assertNotNull(factureDto.getPdf());
 		// formule x nbNuit + options x facteur
 		// 200 x 3 + 100x3 + 10x6 + 1x2
-		Assert.assertEquals((Double) 962.0, factureDto.getMontantTotal());
-		Assert.assertEquals((Double) 363.0, factureDto.getMontantRestantDu());
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from FACTURE", Long.class));
+		Assertions.assertEquals((Double) 962.0, factureDto.getMontantTotal());
+		Assertions.assertEquals((Double) 363.0, factureDto.getMontantRestantDu());
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from FACTURE", Long.class));
 	}
 
 	@Test
@@ -126,11 +119,11 @@ public class FactureServiceTest {
 		final FactureDto secondeFactureDto = this.factureService.facturer(reservation.getReference());
 
 		//
-		Assert.assertNotNull(secondeFactureDto);
-		Assert.assertNotNull(secondeFactureDto.getPdf());
-		Assert.assertEquals((Double) 962.0, secondeFactureDto.getMontantTotal());
-		Assert.assertEquals((Double) 0.0, secondeFactureDto.getMontantRestantDu());
-		Assert.assertEquals((Long) 2L, jdbc.queryForObject("select count(*) from FACTURE", Long.class));
+		Assertions.assertNotNull(secondeFactureDto);
+		Assertions.assertNotNull(secondeFactureDto.getPdf());
+		Assertions.assertEquals((Double) 962.0, secondeFactureDto.getMontantTotal());
+		Assertions.assertEquals((Double) 0.0, secondeFactureDto.getMontantRestantDu());
+		Assertions.assertEquals((Long) 2L, jdbc.queryForObject("select count(*) from FACTURE", Long.class));
 	}
 
 	@Test
@@ -150,11 +143,11 @@ public class FactureServiceTest {
 		final FactureDto secondeFactureDto = this.factureService.facturer(reservation.getReference());
 
 		//
-		Assert.assertNotNull(secondeFactureDto);
-		Assert.assertNotNull(secondeFactureDto.getPdf());
-		Assert.assertEquals((Double) 962.0, secondeFactureDto.getMontantTotal());
-		Assert.assertEquals((Double) (0.0 - 1.0), secondeFactureDto.getMontantRestantDu());
-		Assert.assertEquals((Long) 3L, jdbc.queryForObject("select count(*) from FACTURE", Long.class));
+		Assertions.assertNotNull(secondeFactureDto);
+		Assertions.assertNotNull(secondeFactureDto.getPdf());
+		Assertions.assertEquals((Double) 962.0, secondeFactureDto.getMontantTotal());
+		Assertions.assertEquals((Double) (0.0 - 1.0), secondeFactureDto.getMontantRestantDu());
+		Assertions.assertEquals((Long) 3L, jdbc.queryForObject("select count(*) from FACTURE", Long.class));
 	}
 
 	@Test
@@ -164,13 +157,13 @@ public class FactureServiceTest {
 		final String referenceReservation = Entite.genererReference(Reservation.class, 1L);
 
 		//
-		final Throwable thrown = Assertions.catchThrowable(() -> {
+		final Throwable thrown = org.assertj.core.api.Assertions.catchThrowable(() -> {
 			this.factureService.facturer(referenceReservation);
 		});
 
 		//
-		Assert.assertNotNull(thrown);
-		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_NON_EXISTANT));
-		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from FACTURE", Long.class));
+		Assertions.assertNotNull(thrown);
+		Assertions.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_NON_EXISTANT));
+		Assertions.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from FACTURE", Long.class));
 	}
 }

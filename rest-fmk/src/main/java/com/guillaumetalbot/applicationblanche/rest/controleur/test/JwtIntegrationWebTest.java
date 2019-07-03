@@ -43,7 +43,7 @@ public abstract class JwtIntegrationWebTest extends MockedIntegrationWebTest {
 	private ParametresJwt parametresJwt;
 
 	/**
-	 * Ecrase la valeur du jeton JWT récupéré au login dans la methode @BeforeClass
+	 * Ecrase la valeur du jeton JWT récupéré au login dans la methode @BeforeEachClass
 	 */
 	protected void ecraseJetonJwtBidon() {
 		this.sauvegardeJetonJwt();
@@ -59,7 +59,7 @@ public abstract class JwtIntegrationWebTest extends MockedIntegrationWebTest {
 	}
 
 	/**
-	 * Ecrase la valeur du jeton JWT récupéré au login dans la methode @BeforeClass
+	 * Ecrase la valeur du jeton JWT récupéré au login dans la methode @BeforeEachClass
 	 */
 	protected void ecraseJetonJwtNull() {
 		this.sauvegardeJetonJwt();

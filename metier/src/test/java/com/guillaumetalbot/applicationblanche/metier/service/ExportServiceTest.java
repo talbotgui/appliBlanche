@@ -8,14 +8,10 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.Assert;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.google.common.io.Files;
 import com.guillaumetalbot.applicationblanche.metier.application.SpringApplicationForTests;
@@ -29,9 +25,7 @@ import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Paiement
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Produit;
 import com.guillaumetalbot.applicationblanche.metier.entite.reservation.Reservation;
 
-@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = SpringApplicationForTests.class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ExportServiceTest {
 
 	@Autowired
@@ -91,7 +85,7 @@ public class ExportServiceTest {
 		final byte[] flux = this.exportService.genererPdfFactureReservation(reservation, 1L);
 
 		//
-		Assert.assertNotNull(flux);
+		Assertions.assertNotNull(flux);
 		Files.write(flux, new File("target/test01CasSimple.pdf"));
 	}
 
@@ -104,7 +98,7 @@ public class ExportServiceTest {
 		final byte[] flux = this.exportService.genererPdfFactureReservation(reservation, 10012L);
 
 		//
-		Assert.assertNotNull(flux);
+		Assertions.assertNotNull(flux);
 		Files.write(flux, new File("target/test01CasRiche.pdf"));
 	}
 

@@ -12,8 +12,8 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
@@ -71,13 +71,13 @@ public class AbstractBatchIntegrationTest {
 		Files.copy(Paths.get(cheminDuFichierDansLesSources), Paths.get(cheminAttenduParLeBatch), StandardCopyOption.REPLACE_EXISTING);
 	}
 
-	@Before
+	@BeforeEach
 	public void nettoyerBaseDeDonnées() {
 		LOG.info("************************");
 		this.jdbcTemplate.batchUpdate("delete from CLIENT", "delete from ADRESSE");
 	}
 
-	@After
+	@AfterEach
 	public void nettoyerFichiersDeTest() throws IOException {
 		this.supprimerFichiers(Arrays.asList(CHEMIN_IMPORT_CSV_CLIENT, CHEMIN_IMPORT_XML_CLIENT, CHEMIN_IMPORT_JSON_CLIENT));
 	}

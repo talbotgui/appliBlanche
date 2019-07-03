@@ -11,7 +11,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		
 		<!-- Version de Spring à utiliser -->
-		<version.springBootDependencies>2.1.1.RELEASE</version.springBootDependencies>
+		<version.springBootDependencies>2.1.4.RELEASE</version.springBootDependencies>
 		
 		<!-- Version des plugins utilisés par maven:site -->
 		<version.jacoco>0.8.2</version.jacoco>

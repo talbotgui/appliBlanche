@@ -26,6 +26,7 @@
 		<version.jaxb>2.3.0</version.jaxb>
 		<version.querydsl>4.2.1</version.querydsl>
 		<version.javaxJson>1.1.2</version.javaxJson>
+		<version.junit>5.3.2</version.junit>
 
 		<dependency.locations.enabled>false</dependency.locations.enabled>
 	</properties>
@@ -94,7 +95,17 @@
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-starter-logging</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>junit</groupId>
+					<artifactId>junit</artifactId>
+				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>${version.junit}</version>
+			<scope>test</scope>
 		</dependency>
 
 		<!-- Performance monitoring -->

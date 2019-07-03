@@ -11,14 +11,9 @@ import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
 
-import org.assertj.core.api.Assertions;
-import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +21,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.guillaumetalbot.applicationblanche.exception.BusinessException;
 import com.guillaumetalbot.applicationblanche.metier.application.SpringApplicationForTests;
@@ -35,9 +29,7 @@ import com.guillaumetalbot.applicationblanche.metier.entite.securite.Ressource;
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.Role;
 import com.guillaumetalbot.applicationblanche.metier.entite.securite.Utilisateur;
 
-@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = SpringApplicationForTests.class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SecuriteServiceTest {
 	private static final Logger LOG = LoggerFactory.getLogger(SecuriteServiceTest.class);
 
@@ -47,7 +39,7 @@ public class SecuriteServiceTest {
 	@Autowired
 	private SecuriteService securiteService;
 
-	@Before
+	@BeforeEach
 	public void before() throws IOException, URISyntaxException {
 		LOG.info("---------------------------------------------------------");
 
@@ -70,8 +62,8 @@ public class SecuriteServiceTest {
 		this.securiteService.sauvegarderUtilisateur(login, mdp);
 
 		//
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from UTILISATEUR where login=?", new Object[] { login }, Long.class));
-		Assert.assertNotEquals(mdp, jdbc.queryForObject("select mdp from UTILISATEUR where login=?", new Object[] { login }, String.class));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from UTILISATEUR where login=?", new Object[] { login }, Long.class));
+		Assertions.assertNotEquals(mdp, jdbc.queryForObject("select mdp from UTILISATEUR where login=?", new Object[] { login }, String.class));
 	}
 
 	@Test
@@ -81,13 +73,13 @@ public class SecuriteServiceTest {
 		final String mdp = "unBonMdp";
 
 		//
-		final Throwable thrown = Assertions.catchThrowable(() -> {
+		final Throwable thrown = org.assertj.core.api.Assertions.catchThrowable(() -> {
 			this.securiteService.sauvegarderUtilisateur(login, mdp);
 		});
 
 		//
-		Assert.assertNotNull(thrown);
-		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.ERREUR_LOGIN_MDP));
+		Assertions.assertNotNull(thrown);
+		Assertions.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.ERREUR_LOGIN_MDP));
 	}
 
 	@Test
@@ -97,13 +89,13 @@ public class SecuriteServiceTest {
 		final String mdp = "un";
 
 		//
-		final Throwable thrown = Assertions.catchThrowable(() -> {
+		final Throwable thrown = org.assertj.core.api.Assertions.catchThrowable(() -> {
 			this.securiteService.sauvegarderUtilisateur(login, mdp);
 		});
 
 		//
-		Assert.assertNotNull(thrown);
-		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.ERREUR_LOGIN_MDP));
+		Assertions.assertNotNull(thrown);
+		Assertions.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.ERREUR_LOGIN_MDP));
 	}
 
 	@Test
@@ -119,8 +111,8 @@ public class SecuriteServiceTest {
 		this.securiteService.sauvegarderUtilisateur(login, mdp2);
 
 		//
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from UTILISATEUR where login=?", new Object[] { login }, Long.class));
-		Assert.assertNotEquals(mdp2, jdbc.queryForObject("select mdp from UTILISATEUR where login=?", new Object[] { login }, String.class));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from UTILISATEUR where login=?", new Object[] { login }, Long.class));
+		Assertions.assertNotEquals(mdp2, jdbc.queryForObject("select mdp from UTILISATEUR where login=?", new Object[] { login }, String.class));
 	}
 
 	@Test
@@ -135,7 +127,7 @@ public class SecuriteServiceTest {
 		this.securiteService.supprimerUtilisateur(login);
 
 		//
-		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from UTILISATEUR where login=?", new Object[] { login }, Long.class));
+		Assertions.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from UTILISATEUR where login=?", new Object[] { login }, Long.class));
 	}
 
 	@Test
@@ -150,7 +142,7 @@ public class SecuriteServiceTest {
 		final Collection<Utilisateur> liste = this.securiteService.listerUtilisateurs();
 
 		//
-		Assert.assertEquals(4, liste.size());
+		Assertions.assertEquals(4, liste.size());
 	}
 
 	@Test
@@ -164,8 +156,8 @@ public class SecuriteServiceTest {
 		final Utilisateur u = this.securiteService.chargerUtilisateurReadOnly(login);
 
 		//
-		Assert.assertEquals(login, u.getLogin());
-		Assert.assertNotEquals(mdp, u.getMdp());
+		Assertions.assertEquals(login, u.getLogin());
+		Assertions.assertNotEquals(mdp, u.getMdp());
 	}
 
 	@Test
@@ -194,12 +186,12 @@ public class SecuriteServiceTest {
 		final Utilisateur u = this.securiteService.chargerUtilisateurAvecRolesEtRessourcesAutoriseesReadOnly(login);
 
 		//
-		Assert.assertEquals(login, u.getLogin());
-		Assert.assertNotEquals(mdp, u.getMdp());
-		Assert.assertEquals(2, u.getRoles().size());
+		Assertions.assertEquals(login, u.getLogin());
+		Assertions.assertNotEquals(mdp, u.getMdp());
+		Assertions.assertEquals(2, u.getRoles().size());
 		final Iterator<Role> iterRoles = u.getRoles().iterator();
-		Assert.assertEquals(2, iterRoles.next().getRessourcesAutorisees().size());
-		Assert.assertEquals(2, iterRoles.next().getRessourcesAutorisees().size());
+		Assertions.assertEquals(2, iterRoles.next().getRessourcesAutorisees().size());
+		Assertions.assertEquals(2, iterRoles.next().getRessourcesAutorisees().size());
 	}
 
 	@Test
@@ -214,7 +206,7 @@ public class SecuriteServiceTest {
 		this.securiteService.reinitialiserMotDePasse(login);
 
 		//
-		Assert.assertNotEquals(mdpChiffre, this.securiteService.chargerUtilisateurReadOnly(login).getMdp());
+		Assertions.assertNotEquals(mdpChiffre, this.securiteService.chargerUtilisateurReadOnly(login).getMdp());
 	}
 
 	@Test
@@ -240,10 +232,10 @@ public class SecuriteServiceTest {
 		final Collection<UtilisateurAvecRolesEtAutorisations> liste = this.securiteService.listerUtilisateursAvecRolesEtAutorisations();
 
 		//
-		Assert.assertEquals(4, liste.size());
+		Assertions.assertEquals(4, liste.size());
 		for (final UtilisateurAvecRolesEtAutorisations u : liste) {
-			Assert.assertEquals(1, u.getRoles().size());
-			Assert.assertEquals(ressources.getTotalElements(), u.getRessources().size());
+			Assertions.assertEquals(1, u.getRoles().size());
+			Assertions.assertEquals(ressources.getTotalElements(), u.getRessources().size());
 		}
 
 	}
@@ -258,7 +250,7 @@ public class SecuriteServiceTest {
 		this.securiteService.sauvegarderRole(nomRole);
 
 		//
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from ROLE", new Object[] {}, Long.class));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from ROLE", new Object[] {}, Long.class));
 	}
 
 	@Test
@@ -269,14 +261,14 @@ public class SecuriteServiceTest {
 		this.securiteService.sauvegarderRole(nomRole);
 
 		//
-		final Throwable thrown = Assertions.catchThrowable(() -> {
+		final Throwable thrown = org.assertj.core.api.Assertions.catchThrowable(() -> {
 			this.securiteService.sauvegarderRole(nomRole);
 		});
 
 		//
-		Assert.assertNotNull(thrown);
-		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_DEJA_EXISTANT));
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from ROLE", new Object[] {}, Long.class));
+		Assertions.assertNotNull(thrown);
+		Assertions.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_DEJA_EXISTANT));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from ROLE", new Object[] {}, Long.class));
 	}
 
 	@Test
@@ -286,14 +278,14 @@ public class SecuriteServiceTest {
 		final String nomRole = "n";
 
 		//
-		final Throwable thrown = Assertions.catchThrowable(() -> {
+		final Throwable thrown = org.assertj.core.api.Assertions.catchThrowable(() -> {
 			this.securiteService.sauvegarderRole(nomRole);
 		});
 
 		//
-		Assert.assertNotNull(thrown);
-		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.ERREUR_ROLE_NOM));
-		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from ROLE", new Object[] {}, Long.class));
+		Assertions.assertNotNull(thrown);
+		Assertions.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.ERREUR_ROLE_NOM));
+		Assertions.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from ROLE", new Object[] {}, Long.class));
 	}
 
 	@Test
@@ -306,8 +298,8 @@ public class SecuriteServiceTest {
 		final Page<Role> roles = this.securiteService.listerRoles(new QPageRequest(0, 5));
 
 		//
-		Assert.assertNotNull(roles);
-		Assert.assertEquals(2, roles.getTotalElements());
+		Assertions.assertNotNull(roles);
+		Assertions.assertEquals(2, roles.getTotalElements());
 
 	}
 
@@ -323,14 +315,14 @@ public class SecuriteServiceTest {
 		this.securiteService.associerUtilisateurEtRole(login, nomRole);
 
 		//
-		final Throwable thrown = Assertions.catchThrowable(() -> {
+		final Throwable thrown = org.assertj.core.api.Assertions.catchThrowable(() -> {
 			this.securiteService.supprimerRole(nomRole);
 		});
 
 		//
-		Assert.assertNotNull(thrown);
-		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.SUPPRESSION_IMPOSSIBLE_OBJETS_LIES));
-		Assert.assertEquals((Long) 2L, jdbc.queryForObject("select count(*) from ROLE", Long.class));
+		Assertions.assertNotNull(thrown);
+		Assertions.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.SUPPRESSION_IMPOSSIBLE_OBJETS_LIES));
+		Assertions.assertEquals((Long) 2L, jdbc.queryForObject("select count(*) from ROLE", Long.class));
 	}
 
 	@Test
@@ -345,7 +337,7 @@ public class SecuriteServiceTest {
 		this.securiteService.supprimerRole(nomRole);
 
 		//
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from ROLE", Long.class));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from ROLE", Long.class));
 	}
 
 	@Test
@@ -362,7 +354,7 @@ public class SecuriteServiceTest {
 		this.securiteService.associerUtilisateurEtRole(login, nomRole);
 
 		//
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from LIEN_UTILISATEUR_ROLE", new Object[] {}, Long.class));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from LIEN_UTILISATEUR_ROLE", new Object[] {}, Long.class));
 	}
 
 	@Test
@@ -380,7 +372,7 @@ public class SecuriteServiceTest {
 		this.securiteService.associerUtilisateurEtRole(login, nomRole);
 
 		//
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from LIEN_UTILISATEUR_ROLE", new Object[] {}, Long.class));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from LIEN_UTILISATEUR_ROLE", new Object[] {}, Long.class));
 	}
 
 	@Test
@@ -394,14 +386,14 @@ public class SecuriteServiceTest {
 		this.securiteService.sauvegarderRole(nomRole);
 
 		//
-		final Throwable thrown = Assertions.catchThrowable(() -> {
+		final Throwable thrown = org.assertj.core.api.Assertions.catchThrowable(() -> {
 			this.securiteService.desassocierUtilisateurEtRole(login, nomRole);
 		});
 
 		//
-		Assert.assertNotNull(thrown);
-		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_NON_EXISTANT));
-		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from LIEN_UTILISATEUR_ROLE", new Object[] {}, Long.class));
+		Assertions.assertNotNull(thrown);
+		Assertions.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_NON_EXISTANT));
+		Assertions.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from LIEN_UTILISATEUR_ROLE", new Object[] {}, Long.class));
 	}
 
 	@Test
@@ -419,7 +411,7 @@ public class SecuriteServiceTest {
 		this.securiteService.desassocierUtilisateurEtRole(login, nomRole);
 
 		//
-		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from LIEN_UTILISATEUR_ROLE", new Object[] {}, Long.class));
+		Assertions.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from LIEN_UTILISATEUR_ROLE", new Object[] {}, Long.class));
 	}
 
 	@Test
@@ -434,10 +426,10 @@ public class SecuriteServiceTest {
 
 		//
 		final Utilisateur u = this.securiteService.chargerUtilisateurReadOnly(login);
-		Assert.assertNull(u.getPremierEchec());
-		Assert.assertNull(u.getSecondEchec());
-		Assert.assertNull(u.getTroisiemeEchec());
-		Assert.assertFalse(u.isVerrouille());
+		Assertions.assertNull(u.getPremierEchec());
+		Assertions.assertNull(u.getSecondEchec());
+		Assertions.assertNull(u.getTroisiemeEchec());
+		Assertions.assertFalse(u.isVerrouille());
 	}
 
 	@Test
@@ -452,10 +444,10 @@ public class SecuriteServiceTest {
 
 		//
 		final Utilisateur u = this.securiteService.chargerUtilisateurReadOnly(login);
-		Assert.assertNotNull(u.getPremierEchec());
-		Assert.assertNull(u.getSecondEchec());
-		Assert.assertNull(u.getTroisiemeEchec());
-		Assert.assertFalse(u.isVerrouille());
+		Assertions.assertNotNull(u.getPremierEchec());
+		Assertions.assertNull(u.getSecondEchec());
+		Assertions.assertNull(u.getTroisiemeEchec());
+		Assertions.assertFalse(u.isVerrouille());
 	}
 
 	@Test
@@ -472,10 +464,10 @@ public class SecuriteServiceTest {
 
 		//
 		final Utilisateur u = this.securiteService.chargerUtilisateurReadOnly(login);
-		Assert.assertNotNull(u.getPremierEchec());
-		Assert.assertNotNull(u.getSecondEchec());
-		Assert.assertNotNull(u.getTroisiemeEchec());
-		Assert.assertTrue(u.isVerrouille());
+		Assertions.assertNotNull(u.getPremierEchec());
+		Assertions.assertNotNull(u.getSecondEchec());
+		Assertions.assertNotNull(u.getTroisiemeEchec());
+		Assertions.assertTrue(u.isVerrouille());
 	}
 
 	@Test
@@ -493,10 +485,10 @@ public class SecuriteServiceTest {
 
 		//
 		final Utilisateur u = this.securiteService.chargerUtilisateurReadOnly(login);
-		Assert.assertNull(u.getPremierEchec());
-		Assert.assertNull(u.getSecondEchec());
-		Assert.assertNull(u.getTroisiemeEchec());
-		Assert.assertFalse(u.isVerrouille());
+		Assertions.assertNull(u.getPremierEchec());
+		Assertions.assertNull(u.getSecondEchec());
+		Assertions.assertNull(u.getTroisiemeEchec());
+		Assertions.assertFalse(u.isVerrouille());
 	}
 
 	@Test
@@ -514,10 +506,10 @@ public class SecuriteServiceTest {
 
 		//
 		final Utilisateur u = this.securiteService.chargerUtilisateurReadOnly(login);
-		Assert.assertNull(u.getPremierEchec());
-		Assert.assertNull(u.getSecondEchec());
-		Assert.assertNull(u.getTroisiemeEchec());
-		Assert.assertFalse(u.isVerrouille());
+		Assertions.assertNull(u.getPremierEchec());
+		Assertions.assertNull(u.getSecondEchec());
+		Assertions.assertNull(u.getTroisiemeEchec());
+		Assertions.assertFalse(u.isVerrouille());
 	}
 
 	@Test
@@ -526,13 +518,13 @@ public class SecuriteServiceTest {
 		final String login = "monLogin";
 
 		//
-		final Throwable t = Assertions.catchThrowable(() -> {
+		final Throwable t = org.assertj.core.api.Assertions.catchThrowable(() -> {
 			this.securiteService.deverrouillerUtilisateur(login);
 		});
 
 		//
-		Assert.assertNotNull(t);
-		Assert.assertTrue(BusinessException.equals((Exception) t, BusinessException.OBJET_NON_EXISTANT));
+		Assertions.assertNotNull(t);
+		Assertions.assertTrue(BusinessException.equals((Exception) t, BusinessException.OBJET_NON_EXISTANT));
 	}
 
 	@Test
@@ -548,7 +540,7 @@ public class SecuriteServiceTest {
 		this.securiteService.associerRoleEtRessource(nomRole, clefRessource1);
 
 		//
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from LIEN_ROLE_RESSOURCE", new Object[] {}, Long.class));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from LIEN_ROLE_RESSOURCE", new Object[] {}, Long.class));
 	}
 
 	@Test
@@ -565,7 +557,7 @@ public class SecuriteServiceTest {
 		this.securiteService.associerRoleEtRessource(nomRole, clefRessource1);
 
 		//
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from LIEN_ROLE_RESSOURCE", new Object[] {}, Long.class));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from LIEN_ROLE_RESSOURCE", new Object[] {}, Long.class));
 	}
 
 	@Test
@@ -578,14 +570,14 @@ public class SecuriteServiceTest {
 		jdbc.update("insert into RESSOURCE (CLEF, DESCRIPTION) values (?,?)", clefRessource1, "description");
 
 		//
-		final Throwable thrown = Assertions.catchThrowable(() -> {
+		final Throwable thrown = org.assertj.core.api.Assertions.catchThrowable(() -> {
 			this.securiteService.desassocierRoleEtRessource(nomRole, clefRessource1);
 		});
 
 		//
-		Assert.assertNotNull(thrown);
-		Assert.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_NON_EXISTANT));
-		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from LIEN_ROLE_RESSOURCE", new Object[] {}, Long.class));
+		Assertions.assertNotNull(thrown);
+		Assertions.assertTrue(BusinessException.equals((Exception) thrown, BusinessException.OBJET_NON_EXISTANT));
+		Assertions.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from LIEN_ROLE_RESSOURCE", new Object[] {}, Long.class));
 	}
 
 	@Test
@@ -602,7 +594,7 @@ public class SecuriteServiceTest {
 		this.securiteService.desassocierRoleEtRessource(nomRole, clefRessource1);
 
 		//
-		Assert.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from LIEN_ROLE_RESSOURCE", new Object[] {}, Long.class));
+		Assertions.assertEquals((Long) 0L, jdbc.queryForObject("select count(*) from LIEN_ROLE_RESSOURCE", new Object[] {}, Long.class));
 	}
 
 	@Test
@@ -618,7 +610,7 @@ public class SecuriteServiceTest {
 		final Page<Ressource> ressources = this.securiteService.listerRessources(new QPageRequest(1, 20));
 
 		//
-		Assert.assertEquals(4, ressources.getTotalElements());
+		Assertions.assertEquals(4, ressources.getTotalElements());
 	}
 
 	@Test
@@ -634,16 +626,16 @@ public class SecuriteServiceTest {
 		this.securiteService.initialiserOuCompleterConfigurationSecurite(ressources, login, login, role);
 
 		//
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from UTILISATEUR", new Object[] {}, Long.class));
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from ROLE", new Object[] {}, Long.class));
-		Assert.assertEquals((Long) 3L, jdbc.queryForObject("select count(*) from RESSOURCE", new Object[] {}, Long.class));
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from LIEN_UTILISATEUR_ROLE", new Object[] {}, Long.class));
-		Assert.assertEquals((Long) 3L, jdbc.queryForObject("select count(*) from LIEN_ROLE_RESSOURCE", new Object[] {}, Long.class));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from UTILISATEUR", new Object[] {}, Long.class));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from ROLE", new Object[] {}, Long.class));
+		Assertions.assertEquals((Long) 3L, jdbc.queryForObject("select count(*) from RESSOURCE", new Object[] {}, Long.class));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from LIEN_UTILISATEUR_ROLE", new Object[] {}, Long.class));
+		Assertions.assertEquals((Long) 3L, jdbc.queryForObject("select count(*) from LIEN_ROLE_RESSOURCE", new Object[] {}, Long.class));
 
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from UTILISATEUR where LOGIN=?", new Object[] { login }, Long.class));
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from ROLE where NOM=?", new Object[] { role }, Long.class));
-		Assert.assertThat(jdbc.queryForList("select CLEF from RESSOURCE", String.class), Matchers.containsInAnyOrder(clefs.toArray()));
-
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from UTILISATEUR where LOGIN=?", new Object[] { login }, Long.class));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from ROLE where NOM=?", new Object[] { role }, Long.class));
+		org.assertj.core.api.Assertions.assertThat(jdbc.queryForList("select CLEF from RESSOURCE", String.class))
+				.containsExactlyInAnyOrderElementsOf(clefs);
 	}
 
 	@Test
@@ -660,19 +652,20 @@ public class SecuriteServiceTest {
 		this.securiteService.initialiserOuCompleterConfigurationSecurite(ressources, login, login, role);
 
 		//
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from UTILISATEUR", new Object[] {}, Long.class));
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from ROLE", new Object[] {}, Long.class));
-		Assert.assertEquals((Long) 3L, jdbc.queryForObject("select count(*) from RESSOURCE", new Object[] {}, Long.class));
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from LIEN_UTILISATEUR_ROLE", new Object[] {}, Long.class));
-		Assert.assertEquals((Long) 3L, jdbc.queryForObject("select count(*) from LIEN_ROLE_RESSOURCE", new Object[] {}, Long.class));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from UTILISATEUR", new Object[] {}, Long.class));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from ROLE", new Object[] {}, Long.class));
+		Assertions.assertEquals((Long) 3L, jdbc.queryForObject("select count(*) from RESSOURCE", new Object[] {}, Long.class));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from LIEN_UTILISATEUR_ROLE", new Object[] {}, Long.class));
+		Assertions.assertEquals((Long) 3L, jdbc.queryForObject("select count(*) from LIEN_ROLE_RESSOURCE", new Object[] {}, Long.class));
 
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from UTILISATEUR where LOGIN=?", new Object[] { login }, Long.class));
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from ROLE where NOM=?", new Object[] { role }, Long.class));
-		Assert.assertThat(jdbc.queryForList("select CLEF from RESSOURCE", String.class), Matchers.containsInAnyOrder(clefs.toArray()));
-		Assert.assertThat(jdbc.queryForList("select UTILISATEUR_LOGIN from LIEN_UTILISATEUR_ROLE", String.class),
-				Matchers.containsInAnyOrder(new String[] { login }));
-		Assert.assertThat(jdbc.queryForList("select RESSOURCE_CLEF from LIEN_ROLE_RESSOURCE", String.class),
-				Matchers.containsInAnyOrder(clefs.toArray()));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from UTILISATEUR where LOGIN=?", new Object[] { login }, Long.class));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from ROLE where NOM=?", new Object[] { role }, Long.class));
+		org.assertj.core.api.Assertions.assertThat(jdbc.queryForList("select CLEF from RESSOURCE", String.class))
+				.containsExactlyInAnyOrderElementsOf(clefs);
+		org.assertj.core.api.Assertions.assertThat(jdbc.queryForList("select UTILISATEUR_LOGIN from LIEN_UTILISATEUR_ROLE", String.class))
+				.containsExactlyInAnyOrder(login);
+		org.assertj.core.api.Assertions.assertThat(jdbc.queryForList("select RESSOURCE_CLEF from LIEN_ROLE_RESSOURCE", String.class))
+				.containsExactlyInAnyOrderElementsOf(clefs);
 	}
 
 	@Test
@@ -690,19 +683,20 @@ public class SecuriteServiceTest {
 		this.securiteService.initialiserOuCompleterConfigurationSecurite(ressourcesModifiees, login, login, role);
 
 		//
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from UTILISATEUR", new Object[] {}, Long.class));
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from ROLE", new Object[] {}, Long.class));
-		Assert.assertEquals((Long) 3L, jdbc.queryForObject("select count(*) from RESSOURCE", new Object[] {}, Long.class));
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from LIEN_UTILISATEUR_ROLE", new Object[] {}, Long.class));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from UTILISATEUR", new Object[] {}, Long.class));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from ROLE", new Object[] {}, Long.class));
+		Assertions.assertEquals((Long) 3L, jdbc.queryForObject("select count(*) from RESSOURCE", new Object[] {}, Long.class));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from LIEN_UTILISATEUR_ROLE", new Object[] {}, Long.class));
 
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from UTILISATEUR where LOGIN=?", new Object[] { login }, Long.class));
-		Assert.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from ROLE where NOM=?", new Object[] { role }, Long.class));
-		Assert.assertThat(jdbc.queryForList("select CLEF from RESSOURCE", String.class), Matchers.containsInAnyOrder(clefsModifiees.toArray()));
-		Assert.assertThat(jdbc.queryForList("select UTILISATEUR_LOGIN from LIEN_UTILISATEUR_ROLE", String.class),
-				Matchers.containsInAnyOrder(new String[] { login }));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from UTILISATEUR where LOGIN=?", new Object[] { login }, Long.class));
+		Assertions.assertEquals((Long) 1L, jdbc.queryForObject("select count(*) from ROLE where NOM=?", new Object[] { role }, Long.class));
+		org.assertj.core.api.Assertions.assertThat(jdbc.queryForList("select CLEF from RESSOURCE", String.class))
+				.containsExactlyInAnyOrderElementsOf(clefsModifiees);
+		org.assertj.core.api.Assertions.assertThat(jdbc.queryForList("select UTILISATEUR_LOGIN from LIEN_UTILISATEUR_ROLE", String.class))
+				.containsExactlyInAnyOrder(login);
 		// Les ressources sont bien à jour. Mais un utilisateur existe déjà, les nouvelles ressources ne sont donc pas associée à un role d'office.
-		Assert.assertEquals((Long) 2L, jdbc.queryForObject("select count(*) from LIEN_ROLE_RESSOURCE", new Object[] {}, Long.class));
-		Assert.assertThat(jdbc.queryForList("select RESSOURCE_CLEF from LIEN_ROLE_RESSOURCE", String.class),
-				Matchers.containsInAnyOrder(new String[] { "r2", "r3" }));
+		Assertions.assertEquals((Long) 2L, jdbc.queryForObject("select count(*) from LIEN_ROLE_RESSOURCE", new Object[] {}, Long.class));
+		org.assertj.core.api.Assertions.assertThat(jdbc.queryForList("select RESSOURCE_CLEF from LIEN_ROLE_RESSOURCE", String.class))
+				.containsExactlyInAnyOrder("r2", "r3");
 	}
 }

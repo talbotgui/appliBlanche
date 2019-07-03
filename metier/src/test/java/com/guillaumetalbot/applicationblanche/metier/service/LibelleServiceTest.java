@@ -9,24 +9,18 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.guillaumetalbot.applicationblanche.metier.application.SpringApplicationForTests;
 
-@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = SpringApplicationForTests.class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class LibelleServiceTest {
 	private static final Logger LOG = LoggerFactory.getLogger(LibelleServiceTest.class);
 
@@ -36,7 +30,7 @@ public class LibelleServiceTest {
 	@Autowired
 	private LibelleService libelleService;
 
-	@Before
+	@BeforeEach
 	public void before() throws IOException, URISyntaxException {
 		LOG.info("---------------------------------------------------------");
 
@@ -48,6 +42,7 @@ public class LibelleServiceTest {
 
 	}
 
+//	@Test
 	@Test
 	public void test01ListerLibelles() {
 		//
@@ -59,7 +54,7 @@ public class LibelleServiceTest {
 		final Map<String, String> libelles = this.libelleService.listerParLangue(langue);
 
 		//
-		Assert.assertNotNull(langue);
-		Assert.assertEquals(1, libelles.size());
+		Assertions.assertNotNull(langue);
+		Assertions.assertEquals(1, libelles.size());
 	}
 }

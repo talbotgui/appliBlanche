@@ -3,12 +3,8 @@ package com.guillaumetalbot.applicationblanche.exception;
 import java.security.InvalidParameterException;
 
 import org.assertj.core.api.Assertions;
-import org.junit.Assert;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.Test;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class BaseExceptionTest {
 
 	@Test
@@ -20,7 +16,7 @@ public class BaseExceptionTest {
 		final Exception e = new BusinessException(BusinessException.ERREUR_LOGIN);
 
 		//
-		Assert.assertNotNull(e);
+		org.junit.jupiter.api.Assertions.assertNotNull(e);
 	}
 
 	@Test
@@ -34,8 +30,8 @@ public class BaseExceptionTest {
 		});
 
 		//
-		Assert.assertNotNull(t);
-		Assert.assertEquals(InvalidParameterException.class, t.getClass());
+		org.junit.jupiter.api.Assertions.assertNotNull(t);
+		org.junit.jupiter.api.Assertions.assertEquals(InvalidParameterException.class, t.getClass());
 	}
 
 	@Test
@@ -49,8 +45,8 @@ public class BaseExceptionTest {
 		});
 
 		//
-		Assert.assertNotNull(t);
-		Assert.assertEquals(InvalidParameterException.class, t.getClass());
+		org.junit.jupiter.api.Assertions.assertNotNull(t);
+		org.junit.jupiter.api.Assertions.assertEquals(InvalidParameterException.class, t.getClass());
 	}
 
 	@Test
@@ -64,8 +60,8 @@ public class BaseExceptionTest {
 		});
 
 		//
-		Assert.assertNotNull(t);
-		Assert.assertEquals(InvalidParameterException.class, t.getClass());
+		org.junit.jupiter.api.Assertions.assertNotNull(t);
+		org.junit.jupiter.api.Assertions.assertEquals(InvalidParameterException.class, t.getClass());
 	}
 
 	@Test
@@ -79,8 +75,8 @@ public class BaseExceptionTest {
 		});
 
 		//
-		Assert.assertNotNull(t);
-		Assert.assertEquals(InvalidParameterException.class, t.getClass());
+		org.junit.jupiter.api.Assertions.assertNotNull(t);
+		org.junit.jupiter.api.Assertions.assertEquals(InvalidParameterException.class, t.getClass());
 	}
 
 	@Test
@@ -92,7 +88,7 @@ public class BaseExceptionTest {
 		final Exception e = new BusinessException(BusinessException.OBJET_NON_EXISTANT, "1", "2");
 
 		//
-		Assert.assertNotNull(e);
+		org.junit.jupiter.api.Assertions.assertNotNull(e);
 	}
 
 	@Test
@@ -104,7 +100,7 @@ public class BaseExceptionTest {
 		final BusinessException e = new BusinessException(BusinessException.OBJET_NON_EXISTANT, "1", "2");
 
 		//
-		Assert.assertNotNull(e.toJson());
+		org.junit.jupiter.api.Assertions.assertNotNull(e.toJson());
 	}
 
 }

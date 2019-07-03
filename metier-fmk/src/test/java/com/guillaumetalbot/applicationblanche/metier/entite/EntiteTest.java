@@ -1,8 +1,7 @@
 package com.guillaumetalbot.applicationblanche.metier.entite;
 
 import org.assertj.core.api.Assertions;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.guillaumetalbot.applicationblanche.exception.BusinessException;
 
@@ -19,7 +18,7 @@ public class EntiteTest {
 		final Long idRetourne = Entite.extraireIdentifiant(reference, clazz);
 
 		//
-		Assert.assertEquals(id, idRetourne);
+		org.junit.jupiter.api.Assertions.assertEquals(id, idRetourne);
 	}
 
 	@Test
@@ -34,9 +33,9 @@ public class EntiteTest {
 		});
 
 		//
-		Assert.assertNotNull(thrown);
-		Assert.assertEquals(BusinessException.class, thrown.getClass());
-		Assert.assertTrue(BusinessException.equals((BusinessException) thrown, BusinessException.REFERENCE_NON_VALIDE));
+		org.junit.jupiter.api.Assertions.assertNotNull(thrown);
+		org.junit.jupiter.api.Assertions.assertEquals(BusinessException.class, thrown.getClass());
+		org.junit.jupiter.api.Assertions.assertTrue(BusinessException.equals((BusinessException) thrown, BusinessException.REFERENCE_NON_VALIDE));
 	}
 
 	@Test
@@ -53,9 +52,9 @@ public class EntiteTest {
 		});
 
 		//
-		Assert.assertNotNull(thrown);
-		Assert.assertEquals(BusinessException.class, thrown.getClass());
-		Assert.assertTrue(BusinessException.equals((BusinessException) thrown, BusinessException.REFERENCE_NON_VALIDE));
+		org.junit.jupiter.api.Assertions.assertNotNull(thrown);
+		org.junit.jupiter.api.Assertions.assertEquals(BusinessException.class, thrown.getClass());
+		org.junit.jupiter.api.Assertions.assertTrue(BusinessException.equals((BusinessException) thrown, BusinessException.REFERENCE_NON_VALIDE));
 	}
 
 	@Test
@@ -71,9 +70,9 @@ public class EntiteTest {
 		});
 
 		//
-		Assert.assertNotNull(thrown);
-		Assert.assertEquals(BusinessException.class, thrown.getClass());
-		Assert.assertTrue(BusinessException.equals((BusinessException) thrown, BusinessException.REFERENCE_NON_VALIDE));
+		org.junit.jupiter.api.Assertions.assertNotNull(thrown);
+		org.junit.jupiter.api.Assertions.assertEquals(BusinessException.class, thrown.getClass());
+		org.junit.jupiter.api.Assertions.assertTrue(BusinessException.equals((BusinessException) thrown, BusinessException.REFERENCE_NON_VALIDE));
 	}
 
 	@Test
@@ -89,9 +88,9 @@ public class EntiteTest {
 		});
 
 		//
-		Assert.assertNotNull(thrown);
-		Assert.assertEquals(BusinessException.class, thrown.getClass());
-		Assert.assertTrue(BusinessException.equals((BusinessException) thrown, BusinessException.REFERENCE_NON_VALIDE));
+		org.junit.jupiter.api.Assertions.assertNotNull(thrown);
+		org.junit.jupiter.api.Assertions.assertEquals(BusinessException.class, thrown.getClass());
+		org.junit.jupiter.api.Assertions.assertTrue(BusinessException.equals((BusinessException) thrown, BusinessException.REFERENCE_NON_VALIDE));
 	}
 
 	@Test
@@ -102,7 +101,7 @@ public class EntiteTest {
 		final Long id = Entite.extraireIdentifiant("", EntiteDeTest1.class);
 
 		//
-		Assert.assertNull(id);
+		org.junit.jupiter.api.Assertions.assertNull(id);
 	}
 
 	@Test
@@ -111,7 +110,7 @@ public class EntiteTest {
 		//
 		final String ref = Entite.genererReference(EntiteDeTest1.class, null);
 		//
-		Assert.assertNull(ref);
+		org.junit.jupiter.api.Assertions.assertNull(ref);
 	}
 
 	@Test
@@ -120,7 +119,7 @@ public class EntiteTest {
 		//
 		final String ref = Entite.genererReference(null, 1L);
 		//
-		Assert.assertNull(ref);
+		org.junit.jupiter.api.Assertions.assertNull(ref);
 	}
 
 	@Test
@@ -134,6 +133,6 @@ public class EntiteTest {
 		e.setReference(reference);
 
 		//
-		Assert.assertEquals(id, e.getId());
+		org.junit.jupiter.api.Assertions.assertEquals(id, e.getId());
 	}
 }

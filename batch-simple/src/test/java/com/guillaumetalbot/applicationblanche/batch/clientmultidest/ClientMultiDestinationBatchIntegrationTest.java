@@ -6,20 +6,17 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.guillaumetalbot.applicationblanche.batch.AbstractBatchIntegrationTest;
 import com.guillaumetalbot.applicationblanche.batch.BatchApplicationTest;
 
-@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = BatchApplicationTest.class)
 @TestPropertySource(locations = "classpath:application-test.properties")
 public class ClientMultiDestinationBatchIntegrationTest extends AbstractBatchIntegrationTest {
@@ -40,12 +37,12 @@ public class ClientMultiDestinationBatchIntegrationTest extends AbstractBatchInt
 		final JobExecution jobExecution = utilitaireJob.launchJob();
 
 		//
-		Assert.assertEquals(BatchStatus.COMPLETED, jobExecution.getStatus());
+		Assertions.assertEquals(BatchStatus.COMPLETED, jobExecution.getStatus());
 		int i = 0;
 		for (final String chemin : CHEMINS_EXPORT_CLIENT) {
 			final File fichier = new File(chemin);
-			Assert.assertTrue("Existance du fichier " + chemin, fichier.exists());
-			Assert.assertEquals(LONGUEUR_FICHIERS_EXPORTES.get(i).longValue(), fichier.length());
+			Assertions.assertTrue(fichier.exists(), "Existance du fichier " + chemin);
+			Assertions.assertEquals(LONGUEUR_FICHIERS_EXPORTES.get(i).longValue(), fichier.length());
 			i++;
 		}
 
